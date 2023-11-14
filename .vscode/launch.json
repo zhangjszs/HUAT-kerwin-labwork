@@ -1,0 +1,23 @@
+{
+  "configurations": [
+    {
+      "MIMode": "gdb",
+      "args": [],
+      "cwd": "${fileDirname}",
+      "env": {
+        "PATH": "E:\\vscode\\mgwin64\\gytx_x86_64-12.2.0-posix-seh\\mingw64\\bin;${env:PATH}"
+      },
+      "environment": [],
+      "externalConsole": false,
+      "internalConsosleOptions": "neverOpen",
+      "miDebuggerPath": "E:\\vscode\\mgwin64\\gytx_x86_64-12.2.0-posix-seh\\mingw64\\bin\\gdb.exe",
+      "name": "single file debug",
+      "preLaunchTask": "single file build",
+      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+      "request": "launch",
+      "stopAtEntry": false,
+      "type": "cppdbg"
+    }
+  ],
+  "version": "0.2.0"
+}
