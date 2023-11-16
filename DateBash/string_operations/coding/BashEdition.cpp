@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
+
 #define MAXSIZE 256 // 定义串允许的最大字符个数
+
 typedef struct
 {
     char string[MAXSIZE]; // MAXSIZE为串的最大长度
