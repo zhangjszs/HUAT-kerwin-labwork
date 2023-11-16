@@ -1,14 +1,15 @@
 {
-  "configurations": [
-    {
-      "compilerPath": "E:\\vscode\\mgwin64\\gytx_x86_64-12.2.0-posix-seh\\mingw64\\bin\\g++.exe",
-      "cppStandard": "c++23",
-      "includePath": [
-        "${{workspaceFolder}}/**"
-      ],
-      "intelliSenseMode": "windows-gcc-x64",
-      "name": "Win32"
-    }
-  ],
-  "version": 4
+    "configurations": [
+        {
+            "compilerPath": "E:\\vscode\\mgwin64\\gytx_x86_64-12.2.0-posix-seh\\mingw64\\bin\\g++.exe",
+            "cppStandard": "c++23",
+            "includePath": [
+                "${{workspaceFolder}}/**",
+                "E:/vscode/mgwin64/gytx_x86_64-12.2.0-posix-seh/mingw64/lib/gcc/x86_64-w64-mingw32/12.2.0/include/c++/bits"
+            ],
+            "intelliSenseMode": "windows-gcc-x64",
+            "name": "Win32"
+        }
+    ],
+    "version": 4
 }
