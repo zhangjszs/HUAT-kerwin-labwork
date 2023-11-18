@@ -1,9 +1,7 @@
+// 在顺序存储的基础上进行字符串长度计算，字符串的连接，字符串的替换，求子串运算。
 #include <stdio.h>
 #include <stdlib.h>
-#include <locale.h>
-
 #define MAXSIZE 256 // 定义串允许的最大字符个数
-
 typedef struct
 {
     char string[MAXSIZE]; // MAXSIZE为串的最大长度
@@ -46,13 +44,13 @@ SSTRING *str_rep(SSTRING *s1, SSTRING *s2, int pos)
 }
 
 SSTRING *str_con(SSTRING *s1, SSTRING *s2)
-{ // 将字符串S2连接到S1串的后面，两个串合并成一个串，放到S1串中
+{
     int i = s1->len, j = 0, k;
     for (k = 0; k < str_len(s2); k++)
     {
         s1->string[i] = s2->string[j]; // 通过循环，将S2串的元素逐一复制到S1串的后面，
-        i++;
-        j++; // 合并成一个串。
+        i++;                           // 合并成一个串。
+        j++;
     }
     s1->len = i;
     s1->string[i] = '\0';
@@ -60,13 +58,13 @@ SSTRING *str_con(SSTRING *s1, SSTRING *s2)
 }
 
 SSTRING *str_sub(SSTRING *sub, SSTRING *s, int pos, int len)
-{ // 将串Ｓ第pos个字符开始的长度为len的字符序列复制到串sub中
+{
     int i = pos - 1, j = 0, k;
     for (k = 1; k <= len; k++)
     {
         sub->string[j] = s->string[i]; // 逐一取出S串中从pos开始的元素，并复制到sub串中
-        i++;
-        j++; // 每复制完一个元素，sub串长度加1。
+        i++;                           // 每复制完一个元素，sub串长度加1。
+        j++;
     }
     sub->len = j;
     sub->string[j] = '\0';
@@ -74,11 +72,11 @@ SSTRING *str_sub(SSTRING *sub, SSTRING *s, int pos, int len)
 }
 
 void str_print(SSTRING *s)
-{ // 字符串输出显示
+{
     int i;
     for (i = 0; i < s->len; i++)
         printf("%c", s->string[i]); // 依次将串中的字符逐一输出到屏幕显示。
-    printf("\n");
+    printf("\n");  
 }
 
 void showmenu()
@@ -149,12 +147,17 @@ int main()
             scanf("%d%d", &position, &length);
             str_sub(&str, &str1, position, length);
             printf("子串为：");
-            str_print(&str);
+            puts(str.string);
             system("pause");
             system("cls");
             break;
         case 5:
+            exit(0);
             return 0;
+        default:
+            printf("输入错误，请重新输入！\n");
+            system("pause");
+            system("cls");
         }
     }
 }
