@@ -4,11 +4,13 @@
  * @Autor: kerwinz
  * @Date: 2023-11-14 12:20:07
  * @LastEditors: kerwinz
- * @LastEditTime: 2023-11-16 22:02:08
+ * @LastEditTime: 2023-11-21 10:54:22
  */
 #include <stdio.h>
 #include <ctype.h>
 #include <locale.h>
+#include <wctype.h>
+#include <wchar.h>
 
 #define UTF8_LEAD_1 0xE0 // UTF8中文字符第一个字节
 #define UTF8_LEAD_2 0x80 // UTF8中文字符后两个字节的前两位
@@ -18,6 +20,16 @@
 bool checkChinese(int ch)
 {
     return ch & 0x80;
+}
+
+bool isChinese1(int ch) {
+    return (ch >= 0x4E00 && ch <= 0x9FFF) ||
+           (ch >= 0x3400 && ch <= 0x4DBF) ||
+           (ch >= 0x20000 && ch <= 0x2A6DF);
+}
+
+bool isChinese2(int ch) {
+    return iswprint((wchar_t)ch) && !iswalpha((wchar_t)ch);
 }
 
 int detectEncoding(FILE *fp)
@@ -82,7 +94,7 @@ int main()
         {
             punctuations++;
         }
-        else if (checkChinese(ch))
+        else if (checkChinese(ch)||isChinese1(ch)||isChinese2(ch))
         {
             chinese_chars++;
             printf("%c", ch);

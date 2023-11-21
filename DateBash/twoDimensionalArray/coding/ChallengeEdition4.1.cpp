@@ -1,15 +1,8 @@
-/*
- * @Description: 
- * @Version: 2.0
- * @Autor: kerwinz
- * @Date: 2023-11-17 16:09:15
- * @LastEditors: kerwinz
- * @LastEditTime: 2023-11-17 16:23:58
- */
 #include <stdio.h>
 #include <string.h>
 
 void generateMagicSquare(int n) {
+    
     int magicSquare[n][n];
 
     // 使用memset函数进行初始化
