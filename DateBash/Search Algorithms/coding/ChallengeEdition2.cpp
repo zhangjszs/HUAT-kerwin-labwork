@@ -91,7 +91,8 @@ void initializeMatrix()
     // 对 OrderMatrix 进行排序
     for (int i = 0; i < ROWS; i++)
     {
-        std::sort(OrderMatrix.begin() + i * COLS, OrderMatrix.begin() + (i + 1) * COLS);
+        // std::sort(OrderMatrix.begin() + i * COLS, OrderMatrix.begin() + (i + 1) * COLS);
+        std::sort(OrderMatrix.begin(), OrderMatrix.end());
     }
 }
 
@@ -114,23 +115,24 @@ void sequentialSearch(int target)
 
 void binarySearch(int target)
 {
-    for (int i = 0; i < ROWS; i++)
-    {
+   
         int left = 0;
-        int right = COLS - 1;
+        int right = ROWS *COLS - 1;
 
         while (left <= right)
         {
             int mid = left + (right - left) / 2;
 
-            printMatrix(OrderMatrix, matrix[i * COLS + mid]);
+            printMatrix(OrderMatrix, matrix[mid]);
 
-            if (matrix[i * COLS + mid] == target)
+            if (matrix[mid] == target)
             {
-                std::cout << "Found " << target << " at (" << i << ", " << mid << ")" << std::endl;
+                int i = mid / COLS;
+                int j = mid % COLS;
+                std::cout << "Found " << target << " at (" << i << ", " << j << ")" << std::endl;
                 return;
             }
-            else if (matrix[i * COLS + mid] < target)
+            else if (matrix[mid] < target)
             {
                 left = mid + 1;
             }
@@ -138,7 +140,6 @@ void binarySearch(int target)
             {
                 right = mid - 1;
             }
-        }
     }
     std::cout << "Target element not found." << std::endl;
 }
@@ -151,7 +152,7 @@ int main()
     int searchNum = 0;
     std::cout << "Please input a number to search: ";
     std::cin >> searchNum;
-    // binarySearch(searchNum);
-    sequentialSearch(searchNum);
+    binarySearch(searchNum);
+    // sequentialSearch(searchNum);
     return 0;
 }
