@@ -105,7 +105,6 @@ int main()
         printf("产生的这批数据分别为:\n");
         print_data(DATA, num);
         printf("\n");
-        5
         printf("请输入你要查找的值:");
         scanf("%d", &KeyValue);
         
