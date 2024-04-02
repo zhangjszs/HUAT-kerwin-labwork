@@ -1,7 +1,7 @@
 {
   "options": {
     "env": {
-      "Path": "E:\\vscode\\mgwin64\\gytx_x86_64-12.2.0-posix-seh\\mingw64\\bin;${env:Path}"
+      "Path": "D:\\coding\\QT6\\Tools\\mingw1120_64\\bin;${env:Path}"
     }
   },
   "tasks": [
@@ -11,10 +11,9 @@
         "${file}",
         "-o",
         "${fileDirname}\\${fileBasenameNoExtension}.exe",
-        "-Wall",
         "-std=c++23"
       ],
-      "command": "E:\\vscode\\mgwin64\\gytx_x86_64-12.2.0-posix-seh\\mingw64\\bin\\g++.exe",
+      "command": "D:\\coding\\QT6\\Tools\\mingw1120_64\\bin\\g++.exe",
       "group": {
         "isDefault": true,
         "kind": "build"
@@ -39,7 +38,7 @@
       "options": {
         "cwd": "${fileDirname}",
         "env": {
-          "Path": "E:\\vscode\\mgwin64\\gytx_x86_64-12.2.0-posix-seh\\mingw64\\bin;${env:Path}"
+          "Path": "D:\\coding\\QT6\\Tools\\mingw1120_64\\bin;${env:Path}"
         }
       },
       "presentation": {

@@ -5,26 +5,18 @@
       "args": [],
       "cwd": "${fileDirname}",
       "env": {
-        "PATH": "E:\\vscode\\mgwin64\\gytx_x86_64-12.2.0-posix-seh\\mingw64\\bin;${env:PATH}"
+        "PATH": "D:\\coding\\QT6\\Tools\\mingw1120_64\\bin;${env:PATH}"
       },
       "environment": [],
-      "externalConsole": false,
+      "externalConsole": true,
       "internalConsosleOptions": "neverOpen",
-      "miDebuggerPath": "E:\\vscode\\mgwin64\\gytx_x86_64-12.2.0-posix-seh\\mingw64\\bin\\gdb.exe",
+      "miDebuggerPath": "D:\\coding\\QT6\\Tools\\mingw1120_64\\bin\\gdb.exe",
       "name": "single file debug",
       "preLaunchTask": "single file build",
       "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
       "request": "launch",
       "stopAtEntry": false,
       "type": "cppdbg"
-    },
-    {
-      "type": "cmake",
-      "request": "launch",
-      "name": "Debug portfile(s)",
-      "cmakeDebugType": "external",
-      "pipeName": "\\\\.\\pipe\\vcpkg_ext_portfile_dbg",
-      "preLaunchTask": "Debug vcpkg commands"
     }
   ],
   "version": "0.2.0"
