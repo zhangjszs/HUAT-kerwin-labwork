@@ -1,4 +1,31 @@
 *.exe
 *.log
 build/
-
+# Python bytecode files
+*.pyc
+*.pyo
+# OS generated files
+.DS_Store
+Thumbs.db
+# IDE generated files
+.idea/
+*.iml
+# Database files
+*.db
+# Local configuration files
+*.local/
+# Log files
+*.log
+# Compiled JavaScript files
+*.js
+# Dependency directories
+node_modules/
+*/node_modules
+# All .dll files
+*.dll
+# All .exe files
+*.exe
+# All .o files
+*.o
+# All .tmp files
+*.tmp
