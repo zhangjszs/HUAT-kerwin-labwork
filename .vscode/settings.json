@@ -57,7 +57,8 @@
         "stop_token": "cpp",
         "thread": "cpp",
         "iomanip": "cpp",
-        "unordered_set": "cpp"
+        "unordered_set": "cpp",
+        "stdio.h": "c"
     },
     "cSpell.words": [
         "csbi",
