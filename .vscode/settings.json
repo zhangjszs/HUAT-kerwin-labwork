@@ -58,7 +58,11 @@
         "thread": "cpp",
         "iomanip": "cpp",
         "unordered_set": "cpp",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "condition_variable": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "mutex": "cpp"
     },
     "cSpell.words": [
         "csbi",

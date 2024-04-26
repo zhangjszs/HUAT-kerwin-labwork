@@ -6,18 +6,37 @@ using namespace std;
 int matrixChainOrder(const vector<int>& dimensions) {
     int n = dimensions.size() - 1;
     vector<vector<int>> dp(n, vector<int>(n, 0));
+    vector<vector<int>> opt(n, vector<int>(n, 0));
 
     for (int l = 2; l <= n; l++) {
         for (int i = 1; i <= n - l + 1; i++) {
             int j = i + l - 1;
             dp[i-1][j-1] = INT_MAX;
             for (int k = i; k < j; k++) {
-                dp[i-1][j-1] = min(dp[i-1][j-1], dp[i-1][k-1] + dp[k][j-1] + dimensions[i-1] * dimensions[k] * dimensions[j]);
+                int cost = dp[i-1][k-1] + dp[k][j-1] + dimensions[i-1] * dimensions[k] * dimensions[j];
+                if (cost < dp[i-1][j-1]) {
+                    dp[i-1][j-1] = cost;
+                    opt[i-1][j-1] = k;
+                }
             }
         }
     }
 
+    cout << "Optimal Matrix Chain Order: ";
+    printOptimalParenthesis(opt, 1, n);
+    cout << endl;
     return dp[0][n-1];
+}
+
+void printOptimalParenthesis(const vector<vector<int>>& opt, int i, int j) {
+    if (i == j) {
+        cout << "A" << i;
+    } else {
+        cout << "(";
+        printOptimalParenthesis(opt, i, opt[i-1][j-1]);
+        printOptimalParenthesis(opt, opt[i-1][j-1] + 1, j);
+        cout << ")";
+    }
 }
 
 int main() {
