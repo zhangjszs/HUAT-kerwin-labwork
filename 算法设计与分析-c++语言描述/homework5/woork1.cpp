@@ -65,6 +65,7 @@ int main()
     }
 
     // 输出最短路径
+    cout << "计算机222 章崇文 202202296" << endl;
     cout << "最短路径: ";
     int curr = target;
     while (curr != -1)

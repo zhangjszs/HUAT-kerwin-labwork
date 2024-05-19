@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>首页</title>
+    <style>
+        body {
+            background-color: #f4f4f4; /* 设置背景颜色 */
+            font-family: 'Arial', sans-serif; /* 设置字体 */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h2 {
+            color: #333; /* 设置标题颜色 */
+            font-size: 2.5em; /* 设置标题大小 */
+        }
+        .btn-custom {
+            margin: 15px; /* 调整按钮边距 */
+            padding: 10px 20px; /* 调整按钮填充 */
+            border-radius: 5px; /* 按钮圆角 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* 添加阴影效果 */
+            transition: all 0.3s ease; /* 平滑过渡效果 */
+        }
+        .btn-custom:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 鼠标悬停时的阴影效果 */
+            transform: translateY(-2px); /* 鼠标悬停时上移 */
+        }
+    </style>
+</head>
+<body>
+
+<div class='container'>
+    <h2>欢迎来到书店商城</h2>
+    <!-- 购买历史书籍按钮 -->
+    <a href='history_books.jsp' class='btn btn-primary btn-custom'>购买历史书籍</a>
+    <!-- 购买计算机图书按钮 -->
+    <a href='computer_books.jsp' class='btn btn-success btn-custom'>购买计算机图书</a>
+</div>
+
+</body>
+</html>
