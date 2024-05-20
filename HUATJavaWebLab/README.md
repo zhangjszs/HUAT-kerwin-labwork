@@ -4,8 +4,8 @@
 2. tomcat 10.1.19
 3. jdk 21
 4. mysql 8.0
-5. maven 3.9
-6. 使用jakarta 10
+5. maven 3.9 阿里云镜像
+6. 使用jakarta EE 10
 ## 实验须知
 1. 每个实验都是独立的项目
 2. 每个实验的css美化都是不一样的
