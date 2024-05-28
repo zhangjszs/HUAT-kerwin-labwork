@@ -10,35 +10,49 @@
 </head>
 <body>
 <%
-    String account = request.getParameter("account"); // 更改变量名以匹配数据库字段
-    String password = request.getParameter("password"); // 密码同样需要处理，这里假设直接使用，实际应用中应加密存储
+    String account = request.getParameter("account");
+    String password = request.getParameter("password"); // 实际应用中密码应该加密存储
     String url = "jdbc:mysql://localhost:3306/javalab2";
 
     Connection con = null;
+    PreparedStatement checkStmt = null;
+    PreparedStatement insertStmt = null;
+
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         con = DriverManager.getConnection(url, "root", "123456");
 
-        String sql = "INSERT INTO accounts(account, password) VALUES (?, ?)"; // 调整SQL语句以匹配accounts表和字段
-        PreparedStatement psmt = con.prepareStatement(sql);
-        psmt.setString(1, account);
-        psmt.setString(2, password); // 实际应用中，密码应在此处进行加密处理
+        // 先检查账户是否已存在
+        String checkSql = "SELECT * FROM accounts WHERE account = ?";
+        checkStmt = con.prepareStatement(checkSql);
+        checkStmt.setString(1, account);
+        ResultSet rs = checkStmt.executeQuery();
 
-        int n = psmt.executeUpdate();
-        out.println("注册结果: ");
-        if (n > 0) {
-            out.println("恭喜，注册成功！");
+        if (rs.next()) {
+            out.println("该用户名已存在，请更换用户名重新注册。");
         } else {
-            out.println("注册失败，请重试。");
-        }
+            // 如果账户名不存在，执行插入操作
+            String insertSql = "INSERT INTO accounts(account, password) VALUES (?, ?)";
+            insertStmt = con.prepareStatement(insertSql);
+            insertStmt.setString(1, account);
+            insertStmt.setString(2, password); // 实际应用中密码应在存储前加密
 
+            int n = insertStmt.executeUpdate();
+            out.println("注册结果: ");
+            if (n > 0) {
+                out.println("恭喜，注册成功！");
+            } else {
+                out.println("注册失败，请重试。");
+            }
+        }
     } catch (Exception e) {
         out.println("注册过程中出现错误：" + e.getMessage());
     } finally {
-        if (con != null) try {
-            con.close();
-        } catch (Exception e) {
-        }
+        try {
+            if (checkStmt != null) checkStmt.close();
+            if (insertStmt != null) insertStmt.close();
+            if (con != null) con.close();
+        } catch (Exception e) {}
     }
 %>
 <br>
