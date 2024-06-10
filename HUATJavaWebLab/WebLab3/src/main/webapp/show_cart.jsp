@@ -46,15 +46,23 @@
         <th>书籍</th>
         <th>价格</th>
         <th>数量</th>
+        <th>操作</th>
     </tr>
     <c:forEach items="${cart}" var="book">
         <tr>
             <td>${book.name}</td>
             <td>${book.price}</td>
             <td>${book.quantity}</td>
+            <td>
+<%--                <form action="/delete-book" method="POST">--%>
+<%--                    <input type="hidden" name="bookId" value="${book.id}">--%>
+                    <button type="submit">删除</button>
+<%--                </form>--%>
+            </td>
         </tr>
     </c:forEach>
 </table>
-<p>总价: $<span id="totalPrice">${totalPrice}</span></p>
+<p>总价: $${totalPrice}</p>
+<a href="index.html" class="btn">返回商城</a>
 </body>
 </html>

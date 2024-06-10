@@ -9,7 +9,7 @@ public class Book {
     public Book(String name, double price) {
         this.name = name;
         this.price = price;
-        this.quantity = 1; // 默认数量为 1
+        this.quantity = 1;
     }
 
     public String getName() {

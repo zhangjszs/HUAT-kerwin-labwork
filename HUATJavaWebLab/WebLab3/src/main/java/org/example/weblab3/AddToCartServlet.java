@@ -54,9 +54,9 @@ public class AddToCartServlet extends HttpServlet {
         }
 
         // 根据页面标记重定向到对应的 JSP 页面
-        if (page != null && page.equals("history")) {
+        if ("history".equals(page)) {
             response.sendRedirect("history_books.jsp");
-        } else if (page != null && page.equals("computer")) {
+        } else if ("computer".equals(page)) {
             response.sendRedirect("computer_books.jsp");
         } else {
             response.sendRedirect("index.html");
