@@ -224,6 +224,33 @@ void Widget::AStar()
 void Widget::BFS()
 {
     emit updateTextEdit("点击BFS");
+    std::vector<std::vector<int>> maze(MAX_X, std::vector<int>(MAX_Y));
+    for (int i = 0; i < MAX_X; i++) {
+        for (int j = 0; j < MAX_Y; j++) {
+                if (Mainmap[i][j]->type == AType::Wall)
+            {
+                maze[i][j] =1;
+            }else{
+                maze[i][j] = 0;
+            }
+        }
+    }
+    MazeSolver solver;
+    std::pair<int, int> start = {startPoint.y(), startPoint.x()};
+    std::pair<int, int> end = {endPoint.y(), endPoint.x()};
+    std::vector<std::vector<std::pair<int, int>>> paths = solver.findPaths(maze, start, end);
+    for (size_t i = 0; i < paths.size(); ++i) {
+        std::stringstream ss;
+        for (size_t j = 0; j < paths[i].size(); ++j) {
+            ss << "(" << paths[i][j].first << ", " << paths[i][j].second << ")";
+            if (j < paths[i].size() - 1) {
+                ss << " -> ";
+            }
+        }
+        std::cout << "Path " << (i + 1) << ": " << ss.str() << std::endl;
+        // QString str = "Path " + QString::number(i + 1) + ": " + QString::fromStdString(ss.str());
+        // emit updateTextEdit(str);
+    }
 }
 
 //DFS

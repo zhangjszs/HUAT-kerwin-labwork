@@ -58,7 +58,7 @@ APoint* CAstar::findWay(APoint* beginPoint, APoint* endPoint, vector<vector<APoi
                         cost = 1.0;
                     } else if (abs(i) == 1 && abs(j) == 1) {
                         // 如果是对角线移动，则移动代价为1.4
-                        cost = 1.4;
+                        cost = 14;
                     }
 
                     if (neighbor->type != AType::Wall && find(closedSet.begin(), closedSet.end(), neighbor) == closedSet.end()) {
