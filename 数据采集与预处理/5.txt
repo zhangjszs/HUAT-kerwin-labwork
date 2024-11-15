@@ -1,0 +1,806 @@
+使用urllib库发送GET请求，获取指定URL的网页内容，并打印出网页的标题。
+import urllib.request
+from bs4 import BeautifulSoup
+def get_page_title(url):
+try:
+# 发送GET请求，获取网页内容
+response = urllib.request.urlopen(url)
+html = response.read()
+# 使用BeautifulSoup解析网页内容
+soup = BeautifulSoup(html, 'html.parser')
+# 获取网页标题
+title = soup.title.string
+# 打印网页标题
+print("网页标题:", title)
+except Exception as e:
+print("发生异常:", str(e))
+# 测试
+url = "https://www.example.com" # 替换为你要获取标题的网页URL
+get_page_title(url)
+使用urllib3库发送GET请求，获取指定URL的JSON数据，并解析其中的内容。
+import urllib3
+import json
+def get_json_data(url):
+try:
+# 创建一个连接池管理器
+http = urllib3.PoolManager()
+# 发送GET请求，获取JSON数据
+response = http.request('GET', url)
+# 将JSON数据解析为Python对象
+data = json.loads(response.data.decode('utf-8'))
+# 解析JSON数据中的内容
+# 假设JSON数据的结构为 {"name": "John", "age": 25}
+name = data["name"]
+age = data["age"]
+# 打印解析后的内容
+print("姓名:", name)
+print("年龄:", age)
+except Exception as e:
+print("发生异常:", str(e))
+# 测试
+url = "https://www.example.com/api/data" # 替换为你要获取JSON数据的URL
+get_json_data(url)
+使用requests库发送POST请求，向指定URL提交表单数据，并获取服务器返回的JSON数据。
+import requests
+import json
+def send_post_request(url, data):
+try:
+# 发送POST请求，提交表单数据
+response = requests.post(url, data=data)
+# 获取服务器返回的JSON数据
+json_data = response.json()
+# 解析JSON数据中的内容
+# 假设JSON数据的结构为 {"name": "John", "age": 25}
+name = json_data["name"]
+age = json_data["age"]
+# 打印解析后的内容
+print("姓名:", name)
+print("年龄:", age)
+except Exception as e:
+print("发生异常:", str(e))
+# 测试
+url = "https://www.example.com/api/submit" # 替换为你要发送POST请求的URL
+data = {'username': 'john', 'password': 'secret'} # 替换为你要提交的表单数据
+send_post_request(url, data)
+编写为 requests 的timeout 参数设定等待秒数。
+#time_out.py
+import requests
+from requests.exceptions import ReadTimeout,ConnectTimeout
+try:
+response - requests.get("http://www,baidu.com", timeout=0.5)
+print(response.status_code)
+except ReadTimeout or ConnectTimeout
+print(‘Timeout’)
+根据以下HTML片段，使用BeautifulSoup库解析给定网页的HTML代码，并找到所有<a>标签中的链接文本和对应的URL，并将它们存储在字典中。
+from bs4 import BeautifulSoup
+def parse_html(html):
+try:
+# 使用BeautifulSoup解析HTML
+soup = BeautifulSoup(html, 'html.parser')
+# 创建一个空字典来存储链接文本和URL
+links_dict = {}
+# 查找所有<a>标签
+links = soup.find_all('a')
+# 遍历每个<a>标签
+for link in links:
+# 获取链接文本和URL
+text = link.get_text()
+url = link.get('href')
+# 将链接文本和URL存储在字典中
+links_dict[text] = url
+# 打印链接文本和URL字典
+print("链接文本和URL字典:")
+for text, url in links_dict.items():
+print(text, ":", url)
+except Exception as e:
+print("发生异常:", str(e))
+# 测试
+html = '''
+<html>
+<head>
+<title>示例网页</title>
+</head>
+<body>
+<h1>欢迎来到示例网页</h1>
+<a href="https://www.example.com">链接1</a>
+<a href="https://www.example.com/page2">链接2</a>
+<a href="https://www.example.com/page3">链接3</a>
+</body>
+</html>
+'''
+parse_html(html)
+使用BeautifulSoup库解析给定网页的HTML代码，并找到所有段落中的文本内容，并统计每个单词出现的次数。
+from bs4 import BeautifulSoup
+from bs4.element import NavigableString
+import re
+from collections import Counter
+
+def parse_html(html):
+try:
+# 使用BeautifulSoup解析HTML
+soup = BeautifulSoup(html, 'html.parser')
+
+# 获取所有段落
+paragraphs = soup.find_all('p')
+
+# 创建一个空列表来存储所有文本内容
+text_list = []
+
+# 遍历每个段落
+for paragraph in paragraphs:
+# 遍历段落中的每个子节点
+for child in paragraph.children:
+# 判断子节点是否为NavigableString类型
+if isinstance(child, NavigableString):
+# 使用正则表达式提取文本内容，并将其添加到列表中
+text = re.sub(r'\s+', ' ', child.string.strip())
+if text:
+text_list.append(text)
+
+# 统计每个单词出现的次数
+word_counts = Counter()
+for text in text_list:
+words = text.split()
+word_counts.update(words)
+
+# 打印每个单词出现的次数
+print("单词出现次数:")
+for word, count in word_counts.items():
+print(word, ":", count)
+
+except Exception as e:
+print("发生异常:", str(e))
+
+# 测试
+html = '''
+<html>
+<head>
+<title>示例网页</title>
+</head>
+<body>
+<h1>欢迎来到示例网页</h1>
+<p>这是第一个段落。</p>
+<p>这是第二个段落，包含一些文本内容。</p>
+</body>
+</html>
+'''
+parse_html(html)
+使用BeautifulSoup库解析给定网页的HTML代码，并找到所有图片标签<img>中的图片链接，并将它们存储在列表中。
+from bs4 import BeautifulSoup
+
+def parse_html(html):
+try:
+# 使用BeautifulSoup解析HTML
+soup = BeautifulSoup(html, 'html.parser')
+
+# 创建一个空列表来存储图片链接
+image_links = []
+
+# 查找所有<img>标签
+images = soup.find_all('img')
+
+# 遍历每个<img>标签
+for image in images:
+# 获取图片链接
+link = image.get('src')
+
+# 将图片链接添加到列表中
+image_links.append(link)
+
+# 打印图片链接列表
+print("图片链接列表:")
+for link in image_links:
+print(link)
+
+except Exception as e:
+print("发生异常:", str(e))
+
+# 测试
+html = '''
+<html>
+<head>
+<title>示例网页</title>
+</head>
+<body>
+<h1>欢迎来到示例网页</h1>
+<img src="https://www.example.com/image1.jpg" alt="Image 1">
+<img src="https://www.example.com/image2.jpg" alt="Image 2">
+<img src="https://www.example.com/image3.jpg" alt="Image 3">
+</body>
+</html>
+'''
+parse_html(html)
+使用BeautifulSoup库解析给定网页的HTML代码，并找到所有注释标签<!-- -->中的注释内容，并将它们存储在列表中。
+rom bs4 import BeautifulSoup
+from bs4 import Comment
+
+def parse_html(html):
+try:
+# 使用BeautifulSoup解析HTML
+soup = BeautifulSoup(html, 'html.parser')
+
+# 创建一个空列表来存储注释内容
+comments_list = []
+
+# 查找所有注释标签
+comments = soup.find_all(string=lambda text: isinstance(text, Comment))
+
+# 遍历每个注释标签
+for comment in comments:
+# 将注释内容添加到列表中
+comments_list.append(comment)
+
+# 打印注释内容列表
+print("注释内容列表:")
+for comment in comments_list:
+print(comment)
+
+except Exception as e:
+print("发生异常:", str(e))
+
+# 测试
+html = '''
+<html>
+<head>
+<title>示例网页</title>
+</head>
+<body>
+<h1>欢迎来到示例网页</h1>
+<!-- 这是一个注释 -->
+<p>这是一个段落。</p>
+<!-- 这是另一个注释 -->
+</body>
+</html>
+'''
+parse_html(html)
+编写一个函数 extract-paragraphs(html)，该函数使用BeautifulSoup库解析给定的HTML源码，并返回该页面中所有段落的文本内容。
+from bs4 import BeautifulSoup
+
+def extract_title(html):
+soup = BeautifulSoup(html, 'html.parser')
+title_tag = soup.find('title')
+if title_tag:
+return title_tag.string.strip()
+else:
+return None
+
+html = '''
+<html>
+<head>
+<title>这是页面标题</title>
+</head>
+<body>
+<p>这是页面正文</p>
+</body>
+</html>
+'''
+
+title = extract_title(html)
+print(title)
+编写一个函数 extract-image-links(html)，该函数使用BeautifulSoup库解析给定的HTML源码，并返回该页面中所有图片的链接。
+from bs4 import BeautifulSoup
+def extract_image_links(html):
+soup = BeautifulSoup(html, 'html.parser')
+image_links = []
+for img in soup.find_all('img'):
+image_links.append(img['src'])
+return image_links
+html = '''
+<html>
+<head>
+<title>页面标题</title>
+</head>
+<body>
+<img src="image1.jpg" alt="Image 1">
+<img src="image2.jpg" alt="Image 2">
+<img src="image3.jpg" alt="Image 3">
+</body>
+</html>
+'''
+image_links = extract_image_links(html)
+print(image_links)
+编写一个函数 extract-table-data(html)，该函数使用BeautifulSoup库解析给定的HTML源码，并返回该页面中表格的数据。
+正确答案：
+from bs4 import BeautifulSoup
+
+def extract_table_data(html):
+soup = BeautifulSoup(html, 'html.parser')
+table_data = []
+table_tags = soup.find_all('table')
+for table_tag in table_tags:
+rows = table_tag.find_all('tr')
+for row in rows:
+cells = row.find_all(['th', 'td'])
+row_data = []
+for cell in cells:
+row_data.append(cell.get_text())
+table_data.append(row_data)
+return table_data
+
+html = '''
+<html>
+<head>
+<title>页面标题</title>
+</head>
+<body>
+<table>
+<tr>
+<th>姓名</th>
+<th>年龄</th>
+<th>性别</th>
+</tr>
+<tr>
+<td>张三</td>
+<td>25</td>
+<td>男</td>
+</tr>
+<tr>
+<td>李四</td>
+<td>30</td>
+<td>女</td>
+</tr>
+</table>
+</body>
+</html>
+'''
+
+table_data = extract_table_data(html)
+print(table_data)
+使用Python编写一个Kafka生产者，将一组消息发送到指定的Kafka主题。
+from kafka import KafkaProducer
+
+def send_messages(bootstrap_servers, topic, messages):
+producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
+for message in messages:
+producer.send(topic, message.encode('utf-8'))
+producer.flush()
+
+bootstrap_servers = 'localhost:9092'
+topic = 'my_topic'
+messages = ['message1', 'message2', 'message3']
+
+send_messages(bootstrap_servers, topic, messages)
+使用Python编写一个Kafka消费者，从指定的Kafka主题中接收消息并打印出来。
+from kafka import KafkaConsumer
+
+def consume_messages(bootstrap_servers, topic):
+consumer = KafkaConsumer(bootstrap_servers=bootstrap_servers, auto_offset_reset='earliest')
+consumer.subscribe([topic])
+for message in consumer:
+print(message.value.decode('utf-8'))
+
+bootstrap_servers = 'localhost:9092'
+topic = 'my_topic'
+
+consume_messages(bootstrap_servers, topic)
+使用Python编写一个Kafka消费者，从指定的Kafka主题中接收消息并将其保存到文件中。
+from kafka import KafkaConsumer
+
+def consume_messages(bootstrap_servers, topic, output_file):
+consumer = KafkaConsumer(bootstrap_servers=bootstrap_servers, auto_offset_reset='earliest')
+consumer.subscribe([topic])
+with open(output_file, 'w') as file:
+for message in consumer:
+file.write(message.value.decode('utf-8') + '\n')
+
+bootstrap_servers = 'localhost:9092'
+topic = 'my_topic'
+output_file = 'output.txt'
+
+consume_messages(bootstrap_servers, topic, output_file)
+使用Python编写一个Kafka消费者，从指定的Kafka主题中接收消息并计算消息的总数。
+from kafka import KafkaConsumer
+
+def count_messages(bootstrap_servers, topic):
+consumer = KafkaConsumer(bootstrap_servers=bootstrap_servers, auto_offset_reset='earliest')
+consumer.subscribe([topic])
+count = 0
+for _ in consumer:
+count += 1
+return count
+
+bootstrap_servers = 'localhost:9092'
+topic = 'my_topic'
+
+message_count = count_messages(bootstrap_servers, topic)
+print('Total messages:', message_count)
+使用Python编写一个Kafka消费者，从指定的Kafka主题中接收消息并计算每个消息的长度。
+from kafka import KafkaConsumer
+
+def calculate_message_lengths(bootstrap_servers, topic):
+consumer = KafkaConsumer(bootstrap_servers=bootstrap_servers, auto_offset_reset='earliest')
+consumer.subscribe([topic])
+for message in consumer:
+print('Message:', message.value.decode('utf-8'))
+print('Length:', len(message.value))
+
+bootstrap_servers = 'localhost:9092'
+topic = 'my_topic'
+
+calculate_message_lengths(bootstrap_servers, topic)
+使用Python编写一个Kafka消费者，从指定的Kafka主题中接收消息并将消息转换为大写后打印出来。
+from kafka import KafkaConsumer
+
+def consume_messages(bootstrap_servers, topic):
+consumer = KafkaConsumer(bootstrap_servers=bootstrap_servers, auto_offset_reset='earliest')
+consumer.subscribe([topic])
+for message in consumer:
+print(message.value.decode('utf-8').upper())
+
+bootstrap_servers = 'localhost:9092'
+topic = 'my_topic'
+
+consume_messages(bootstrap_servers, topic)
+使用Kafka生产者将数据从MySQL数据库中读取，并发送到Kafka消息队列。
+# 导入必要的库
+from kafka import KafkaProducer
+import mysql.connector
+
+# 连接到MySQL数据库
+conn = mysql.connector.connect(
+host="localhost",
+user="your_username",
+password="your_password",
+database="your_database"
+)
+
+# 创建Kafka生产者
+producer = KafkaProducer(bootstrap_servers='localhost:9092')
+
+# 从MySQL数据库读取数据并发送到Kafka
+cursor = conn.cursor()
+cursor.execute("SELECT * FROM your_table")
+rows = cursor.fetchall()
+for row in rows:
+message = str(row) # 将数据转换为字符串
+producer.send('your_topic', value=message.encode('utf-8'))
+
+# 关闭连接
+cursor.close()
+conn.close()
+producer.close()
+编写一个简单的Flume配置文件，用于从指定目录(如“/data/logs”)中采集日志文件，并将它们发送到Kafka的指定topic(如“logs”)。
+<configuration>
+<sources>
+<source name="mysource">
+<exec>
+<command>tail -F /data/logs/*.log</command>
+</exec>
+</source>
+</sources>
+<channels>
+<channel name="mychannel">
+<type>memory</type>
+<capacity>10000</capacity>
+</channel>
+</channels>
+<sinks>
+<sink name="mysink">
+<type>org.apache.flume.sink.kafka.KafkaSink</type>
+<kafka.bootstrap.servers>localhost:9092</kafka.bootstrap.servers>
+<kafka.topic>logs</kafka.topic>
+</sink>
+</sinks>
+<routes>
+<route name="mymiddleware">
+<source>mysource</source>
+<sink>mysink</sink>
+</route>
+</routes>
+<service>
+<role>processor</role>
+<name>mymiddleware</name>
+</service>
+</configuration>
+用Kafka消费者从Kafka消息队列中读取数据，并将其写入MySQL数据库。
+# 导入必要的库
+from kafka import KafkaConsumer
+import mysql.connector
+
+# 连接到MySQL数据库
+conn = mysql.connector.connect(
+host="localhost",
+user="your_username",
+password="your_password",
+database="your_database"
+)
+
+# 创建Kafka消费者
+consumer = KafkaConsumer('your_topic', bootstrap_servers='localhost:9092')
+
+# 将Kafka消息写入MySQL数据库
+cursor = conn.cursor()
+for message in consumer:
+data = message.value.decode('utf-8') # 解码消息
+# 在此处执行插入数据的SQL语句，例如:
+# cursor.execute("INSERT INTO your_table (column1, column2) VALUES (%s, %s)", (data[0], data[1]))
+conn.commit()
+
+# 关闭连接
+cursor.close()
+conn.close()
+consumer.close()
+写出Flume采集MySQL数据到HDFS的配置信息。
+#设置三大组件
+agent1.channels = ch1
+agent1.sinks = HDFS
+agent1.sources = sql-source
+#设置Source组件
+agent1.sources.sql-source.type = org.keedio.flume.source.SQLSource
+agent1.sources.sql-source.hibernate.connection.url = jdbc:mysql://localhost:3306/school
+agent1.sources.sql-source.hibernate.connection.user = root #数据库用户名
+agent1.sources.sql-source.hibernate.connection.password = 123456 #数据库密码
+agent1.sources.sql-source.hibernate.connection.autocommit = true
+agent1.sources.sql-source.table = student #数据库中的表名称
+agent1.sources.sql-source.run.query.delay=5000
+agent1.sources.sql-source.status.file.path = C:/apache-flume-1.9.0-bin/
+agent1.sources.sql-source.status.file.name = sql-source.status
+
+#设置Sink组件
+agent1.sinks.HDFS.type = hdfs
+agent1.sinks.HDFS.hdfs.path = hdfs://localhost:9000/flume/mysql
+agent1.sinks.HDFS.hdfs.fileType = DataStream
+agent1.sinks.HDFS.hdfs.writeFormat = Text
+agent1.sinks.HDFS.hdfs.rollSize = 268435456
+agent1.sinks.HDFS.hdfs.rollInterval = 0
+agent1.sinks.HDFS.hdfs.rollCount = 0
+#设置Channel
+agent1.channels.ch1.type = memory
+#把Source和Sink绑定到Channel
+agent1.sinks.HDFS.channel = ch1
+agent1.sources.sql-source.channels = ch1
+创建一个包含整数值的一维数组，从1到10。
+import numpy as np
+arr = np.arange(1, 11)
+print(arr)
+创建一个从8到20，包含整数值的一维数组。
+import numpy as np
+arr = np.arange(8, 21)
+print(arr)
+创建一个形状为(3, 4)的二维数组，填充随机整数值。
+import numpy as np
+# 创建一个形状为(3, 4)的二维数组
+arr = np.random.randint(0, 10, size=(3, 4))
+print(arr)
+创建一个形状为(9，11)的二维数组，填充随机整数值。
+import numpy as np
+# 创建一个形状为(9, 11)的二维数组
+arr = np.random.randint(0, 100, size=(9, 11))
+print(arr)
+创建一个形状为(2, 3, 4)的三维数组，填充全为1的值。
+import numpy as np
+# 创建一个形状为(2, 3, 4)的三维数组，并填充全为1的值
+arr = np.ones((2, 3, 4))
+print(arr)
+创建一个形状为(5, 5)的二维数组，填充对角线上的值为1，其余值为0。
+import numpy as np
+
+arr = np.eye(5)
+print(arr)
+使用切片操作，从数组arr中提取第2到第5个元素(包括第5个元素)。
+arr = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+result = arr[1:5]
+使用布尔索引，从数组arr中选择所有大于5的元素。
+arr = np.array([3, 8, 2, 6, 9, 4, 7, 1, 5])
+result = arr[arr > 5]
+使用整数数组索引，从数组arr中选择索引为[1, 3, 5]的元素。
+arr = np.array([10, 20, 30, 40, 50, 60])
+indices = [1, 3, 5]
+result = arr[indices]
+将数组arr1和arr2相加，并将结果保存在result中。
+arr1 = np.array([1, 2, 3])
+arr2 = np.array([4, 5, 6])
+result = arr1 + arr2
+将数组arr1和arr2进行逐元素的乘法运算，并将结果保存在result中。
+arr1 = np.array([1, 2, 3])
+arr2 = np.array([4, 5, 6])
+result = arr1 * arr2
+计算数组arr的平均值，并将结果保存在result中。
+arr = np.array([1, 2, 3, 4, 5])
+result = np.mean(arr)
+计算数组arr的标准差，并将结果保存在result中。
+arr = np.array([1, 2, 3, 4, 5])
+result = np.std(arr)
+创建一个Series对象，包含以下数据:[1, 2, 3, 4, 5]，并将其赋值给变量series。然后，将series中的每个元素都平方，并将结果保存在新的Series对象中。
+import pandas as pd
+
+series = pd.Series([1, 2, 3, 4, 5])
+
+result = series ** 2
+print(result)
+创建一个Series对象，包含以下数据:[1.5, 2.3, 3.7, 4.1, 5.9]，并将其赋值给变量data。
+import pandas as pd
+data = pd.Series([1.5, 2.3, 3.7, 4.1, 5.9])
+创建一个Series对象，包含以下数据:[10, 20, 30, 40, 50]，将其索引设置为['A', 'B', 'C', 'D', 'E']，并将其赋值给变量series。
+import pandas as pd
+
+series = pd.Series([10, 20, 30, 40, 50], index=['A', 'B', 'C', 'D', 'E'])
+编写一个函数 extract-title(html)，该函数使用BeautifulSoup库解析给定的HTML源码，并返回该页面的标题。
+from bs4 import BeautifulSoup
+def extract_title(html):
+soup = BeautifulSoup(html, 'html.parser')
+title = soup.title.string
+return title
+使用Python编写一个Kafka消费者，从指定的Kafka主题中接收消息并将消息转换为小写后保存到文件中。
+from kafka import KafkaConsumer
+
+def consume_messages(bootstrap_servers, topic, output_file):
+consumer = KafkaConsumer(bootstrap_servers=bootstrap_servers, auto_offset_reset='earliest')
+consumer.subscribe([topic])
+with open(output_file, 'w') as file:
+for message in consumer:
+file.write(message.value.decode('utf-8').lower() + '\n')
+
+bootstrap_servers = 'localhost:9092'
+topic = 'my_topic'
+output_file = 'output.txt'
+
+consume_messages(bootstrap_servers, topic, output_file)
+试写出Flume读取文件里的数据最后输出到控制台的配置信息。
+在Flume安装目录的conf子目录下，新建一个名称为example.conf的配置文件，该文件的内容如下:
+# 设置Agent上的各个组件名称
+a1.sources = r1
+a1.sinks = k1
+a1.channels = c1
+# 配置Source
+a1.sources.r1.type = spooldir
+a1.sources.r1.spooldir= C:/mylogs/
+# 配置Sink
+a1.sinks.k1.type = logger
+# 配置Channel
+a1.channels.c1.type = memory
+a1.channels.c1.capacity = 1000
+a1.channels.c1.transactionCapacity = 100
+# 把Source和Sink绑定到Channel上
+a1.sources.r1.channels = c1
+a1.sinks.k1.channel = c1
+试写出Flume采集文件到HDFS的配置信息
+#定义三大组件的名称
+agent1.sources = source1
+agent1.sinks = sink1
+agent1.channels = channel1
+# 配置Source组件
+agent1.sources.source1.type = exec
+agent1.sources.source1.command = tail -F C:/mylogs/log1.txt
+agent1.sources.source1.channels = channel1
+
+# 配置Sink组件
+agent1.sinks.sink1.type = hdfs
+agent1.sinks.sink1.hdfs.path =hdfs://localhost:9000/weblog/%y-%m-%d/%H-%M
+agent1.sinks.sink1.hdfs.filePrefix = access_log
+agent1.sinks.sink1.hdfs.maxOpenFiles = 5000
+agent1.sinks.sink1.hdfs.batchSize= 100
+agent1.sinks.sink1.hdfs.fileType = DataStream
+agent1.sinks.sink1.hdfs.writeFormat =Text
+agent1.sinks.sink1.hdfs.rollSize = 102400
+agent1.sinks.sink1.hdfs.rollCount = 1000000
+agent1.sinks.sink1.hdfs.rollInterval = 60
+#agent1.sinks.sink1.hdfs.round = true
+#agent1.sinks.sink1.hdfs.roundValue = 10
+#agent1.sinks.sink1.hdfs.roundUnit = minute
+agent1.sinks.sink1.hdfs.useLocalTimeStamp = true
+
+# 配置Channel组件
+agent1.channels.channel1.type = memory
+agent1.channels.channel1.keep-alive = 120
+agent1.channels.channel1.capacity = 500000
+agent1.channels.channel1.transactionCapacity = 600
+# 把Source和Sink绑定到Channel
+agent1.sources.source1.channels = channel1
+agent1.sinks.sink1.channel = channel1
+创建一个形状为(4, 4)的二维数组，填充随机浮点数值
+import numpy as np
+
+arr = np.random.rand(4, 4)
+print(arr)
+使用切片操作，从二维数组arr中提取第2行到第4行(包括第4行)
+arr = np.array([[1, 2, 3],
+[4, 5, 6],
+[7, 8, 9],
+[10, 11, 12]])
+result = arr[1:4, :]
+计算数组arr的标准差，并将结果保存在result中。
+arr = np.array([1, 2, 3, 4, 5])
+result = np.cumsum(arr)
+创建两个Series对象，分别包含以下数据:[1, 2, 3, 4, 5] 和 [10, 20, 30, 40, 50]，并将它们分别赋值给变量series1和series2。然后，将这两个Series对象相加，并将结果保存在变量result中。
+import pandas as pd
+
+series1 = pd.Series([1, 2, 3, 4, 5])
+series2 = pd.Series([10, 20, 30, 40, 50])
+
+result = series1 + series2
+print(result)
+创建一个Series对象，包含以下数据:[1, 2, 3, 4, 5]，并将其赋值给变量series。然后，计算series中的所有元素的平均值。
+import pandas as pd
+series = pd.Series([1, 2, 3, 4, 5])
+average = series.mean()
+print(average)
+假设有一个DataFrame对象df，其中包含两列"Category"和"Value"，请编写代码计算每个"Category"的平均值。
+df.groupby("Category")["Value"].mean()
+假设有一个DataFrame对象df，其中包含三列"Category"、"Subcategory"和"Value"，请编写代码计算每个"Category"和"Subcategory"组合的总和。
+df.groupby(["Category", "Subcategory"])["Value"].sum()
+试写出Flume集成Kafka的配置信息。
+在Flume的安装目录的conf子目录下创建一个配置文件kafka.conf，内容如下:
+# Name the components on this agent
+a1.sources = r1
+a1.sinks = k1
+a1.channels = c1
+
+# source
+a1.sources.r1.type = netcat
+a1.sources.r1.bind = localhost
+a1.sources.r1.port = 44444
+
+# sink
+a1.sinks.k1.type = org.apache.flume.sink.kafka.KafkaSink
+a1.sinks.k1.kafka.topic = test
+a1.sinks.k1.kafka.bootstrap.servers = localhost:9092
+a1.sinks.k1.kafka.flumeBatchSize = 20
+a1.sinks.k1.kafka.producer.acks = 1
+a1.sinks.k1.kafka.producer.linger.ms = 1
+a1.sinks.k1.kafka.producer.compression.type = snappy
+
+# channel
+a1.channels.c1.type = memory
+a1.channels.c1.capacity = 1000
+a1.channels.c1.transactionCapacity = 100
+
+# Bind the source and sink to the channel
+a1.sources.r1.channels = c1
+a1.sinks.k1.channel = c1
+试写出使⽤ Flume采集目录到HDFS的配置信息。
+# 定义三大组件的名称
+agent1.sources = source1
+agent1.sinks = sinkl
+agentl.channels = channel1
+
+#配置Source
+agentl.sources.sourcel.type = spooldir
+agent1.sources,sourcel.spoolDir = C:/mylogs/
+agentl.sources.sourcel.fileHeader = false
+#配置 sink
+agent1.sinks.sinkl.type = hdfs
+agentl.sinks.sink1.hdfs.path =hdfs://localhost:9000/weblog/%y-%m-%d/
+agent1.sinks.sinkl.hdfs,filePrefix = access_log
+agentl.sinks.sinkl.hdfs.maxOpenFiles = 5000
+agentl.sinks.sinkl.hdfs.batchsize= 100
+agentl.sinks.sinkl.hdfs.fileType = DataStream
+agent1.sinks.sinkl.hdfs.writeFormat =Text
+agentl.sinks.sinkl.hdfs.rollsize = 102400
+agent1.sinks.sinkl.hdfs.rollCount = 1000000
+agentl.sinks.sink1.hdfs.rollInterval = 60
+agent1.sinks.sinkl.hdfs.useLocalTimeStamp = true
+# 配置 Channel
+agent1.channels.channel1.type = memory
+agent1.channels.channell.keep-alive = 120
+agent1.channels.channel1.capacity = 500000
+agent1.channels.channell.transactionCapacity = 600
+
+agent1.sources.sourcel .channels = channel1
+agentl.sinks.sinkl.channel = channel1
+编写一个函数 extract-elements-by-class(html, class_name)，该函数使用BeautifulSoup库解析给定的HTML源码，并返回该页面中具有指定CSS类名的元素。
+from bs4 import BeautifulSoup
+
+def extract_elements_by_class(html, class_name):
+    soup = BeautifulSoup(html, 'html.parser')
+    elements = soup.find_all(class_=class_name)
+return elements
+
+html = '''
+<html>
+<head>
+<title>页面标题</title>
+</head>
+<body>
+<div>
+  <h1>标题</h1>
+  <p>内容1</p>
+  <p>内容2</p>
+</div>
+</body>
+</html>
+'''
+
+elements = extract_elements_by_class(html, "content")
+for element in elements:
+  print(element.get_text())
