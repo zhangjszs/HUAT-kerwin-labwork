@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/loginActivity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="left"
+        android:text="@string/txt1"
+        android:layout_marginBottom="5dp" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/username"
+        android:singleLine="true"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="10dp"
+        android:layout_below="@id/loginActivity" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        android:singleLine="true"
+        android:inputType="textPassword"
+        android:layout_marginBottom="5dp"
+        android:paddingLeft="10dp"
+        android:layout_below="@id/username" />
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn2"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/password" />
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn1"
+        android:layout_toLeftOf="@id/btn2"
+        android:layout_below="@id/password" />
+
+</RelativeLayout>

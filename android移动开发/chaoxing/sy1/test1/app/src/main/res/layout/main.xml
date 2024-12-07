@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- 用户名 -->
+    <EditText
+        android:id="@+id/et_username"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="请输入用户名"
+        android:padding="10dp" />
+
+    <!-- 密码 -->
+    <EditText
+        android:id="@+id/et_password"
+        android:hint="请输入密码"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:inputType="textPassword"
+        android:padding="10dp" />
+
+    <!-- 性别 -->
+    <RadioGroup
+        android:id="@+id/rg_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <RadioButton
+            android:id="@+id/rb_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="男" />
+
+        <RadioButton
+            android:id="@+id/rb_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="女" />
+    </RadioGroup>
+
+    <!-- 爱好 -->
+    <CheckBox
+        android:id="@+id/cb_reading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="体育" />
+
+    <CheckBox
+        android:id="@+id/cb_traveling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="音乐" />
+
+    <CheckBox
+        android:id="@+id/cb_sports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="美术" />
+
+    <!-- 提交按钮 -->
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提交"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">test2</string>
+    <string name="txt1">登录</string>
+    <string name="username">请输入用户名</string>
+    <string name="password">请输入密码</string>
+    <string name="btn1">登录</string>
+    <string name="btn2">取消</string>
+</resources>

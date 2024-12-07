@@ -1,0 +1,29 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <!-- 坐标轴 -->
+    <line x1="50" y1="250" x2="350" y2="250" stroke="black" stroke-width="2"/>
+    <line x1="50" y1="50" x2="50" y2="250" stroke="black" stroke-width="2"/>
+    
+    <!-- 坐标轴标签 -->
+    <text x="180" y="280" text-anchor="middle" font-size="14">平均队列长度(avg)</text>
+    <text x="30" y="150" text-anchor="middle" font-size="14" transform="rotate(-90,30,150)">丢包率(pb)</text>
+    
+    <!-- 关键点标记 -->
+    <text x="120" y="265" text-anchor="middle" font-size="12">minth</text>
+    <text x="280" y="265" text-anchor="middle" font-size="12">maxth</text>
+    <text x="40" y="60" text-anchor="middle" font-size="12">maxp</text>
+    
+    <!-- ARED曲线 -->
+    <path d="M50,250 L120,250 L200,150 L280,100 L350,100" 
+          stroke="blue" 
+          stroke-width="2" 
+          fill="none"/>
+    
+    <!-- 虚线参考线 -->
+    <line x1="120" y1="50" x2="120" y2="250" stroke="gray" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="280" y1="50" x2="280" y2="250" stroke="gray" stroke-width="1" stroke-dasharray="5,5"/>
+    
+    <!-- 区域标注 -->
+    <text x="85" y="240" fill="green" font-size="14">无丢包区域</text>
+    <text x="200" y="180" fill="blue" font-size="14">线性增长区域</text>
+    <text x="315" y="90" fill="red" font-size="14">最大丢包区域</text>
+</svg>
