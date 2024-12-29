@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 透明度的变换 -->
+    <alpha
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:duration="5000" />
+
+    <!-- 尺寸的变换，interpolator表示变换的速度变化模式-->
+    <scale
+        android:interpolator= "@android:anim/accelerate_decelerate_interpolator"
+        android:fromXScale="0.0"
+        android:toXScale="1.0"
+        android:fromYScale="0.0"
+        android:toYScale="1.0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:fillAfter="false"
+        android:duration="9000"/>
+
+    <!-- 位置的变换 -->
+    <translate
+        android:fromXDelta="30"
+        android:toXDelta="0"
+        android:fromYDelta="30"
+        android:toYDelta="0"
+        android:duration="10000" />
+
+    <!-- 旋转变换 -->
+    <rotate
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator"
+        android:fromDegrees="0"
+        android:toDegrees="+360"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:duration="10000"/>
+</set>
