@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="UserName:" />
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:ems="10"
+            >
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvPasswd"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Password:" />
+        <EditText
+            android:id="@+id/etPasswd"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPassword"
+             />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="16dp">
+        <Button
+            android:id="@+id/btnGet"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="GET" />
+        <Button
+            android:id="@+id/btnPost"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="POST" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/responseText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:text="Response will appear here..."
+        android:gravity="center"/>
+</LinearLayout>

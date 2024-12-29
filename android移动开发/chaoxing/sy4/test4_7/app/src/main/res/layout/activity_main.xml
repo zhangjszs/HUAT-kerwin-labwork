@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >										<!--添加一个垂直的线性布局 -->
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="215dp" />										<!--添加一个SurfaceView用于播放视频 -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >										<!--添加一个线性布局 -->
+        <Button
+            android:id="@+id/play2_Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="播放"
+            />									<!--添加一个按钮 -->
+        <Button
+            android:id="@+id/pause2_Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂停"
+            /> 									<!--添加一个按钮 -->
+    </LinearLayout>
+</LinearLayout>
