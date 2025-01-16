@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- 打卡按钮 -->
+    <Button
+        android:id="@+id/recordButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打卡"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"/>
+
+    <!-- 显示记录按钮 -->
+    <Button
+        android:id="@+id/showRecordsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="显示记录"
+        android:layout_below="@id/recordButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <!-- 显示打卡记录的TextView -->
+    <TextView
+        android:id="@+id/recordsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打卡记录将显示在这里"
+        android:layout_below="@id/showRecordsButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:textSize="18sp"/>
+</RelativeLayout>
