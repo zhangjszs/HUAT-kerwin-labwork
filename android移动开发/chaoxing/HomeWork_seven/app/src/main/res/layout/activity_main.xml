@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 输入矩形坐标 -->
+    <EditText
+        android:id="@+id/rectInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="输入矩形坐标 (left, top, right, bottom)"
+        android:inputType="number"/>
+
+    <!-- 输入圆坐标和半径 -->
+    <EditText
+        android:id="@+id/circleInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="输入圆坐标和半径 (cx, cy, radius)"
+        android:inputType="number"/>
+
+    <!-- 输入直线坐标 -->
+    <EditText
+        android:id="@+id/lineInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="输入直线坐标 (startX, startY, endX, endY)"
+        android:inputType="number"/>
+
+    <!-- 绘制按钮 -->
+    <Button
+        android:id="@+id/drawButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="绘制"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"/>
+
+    <!-- 自定义绘图视图 -->
+    <com.example.homeworkseven.DrawingView
+        android:id="@+id/drawingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/white"/>
+</LinearLayout>

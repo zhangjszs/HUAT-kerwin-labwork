@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 应用程序清单文件，定义应用的组件和配置 -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.company">
+
+    <application
+        android:requestLegacyExternalStorage="true"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <!-- 搜索界面的活动 -->
+        <activity android:name=".SearchActivity"></activity>
+        <!-- 管理界面的活动 -->
+        <activity android:name=".GuanliActivity" />
+        <!-- 登录界面的活动 -->
+        <activity android:name=".GloginActivity" />
+        <!-- 注册界面的活动 -->
+        <activity android:name=".RegisterActivity" />
+        <!-- 介绍界面的活动 -->
+        <activity android:name=".IntroductionActivity" />
+        <!-- 新闻界面的活动 -->
+        <activity android:name=".NewsActivity" />
+        <!-- 主界面的活动 -->
+        <activity android:name=".FirstActivity" />
+        <!-- 签到界面的活动 -->
+        <activity android:name=".QiandaoActivity" />
+
+        <activity android:name=".LoginActivity">
+            <!-- 定义该活动为应用的主入口点 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+    <!-- 读取外部存储权限，添加 maxSdkVersion 可限制权限有效范围 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
+    <!-- 写入外部存储权限，添加 maxSdkVersion 可限制权限有效范围 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
+    <!-- 管理外部存储权限 -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+</manifest>

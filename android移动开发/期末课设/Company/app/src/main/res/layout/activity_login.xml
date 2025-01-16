@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+这里把整个Activity_login的布局设置成相对布局，
+因为相对布局比较灵活，想咋放咋放
+看代码，上来就是三个 xmlns，xml这仨字母认识，ns这俩字母是namespace的缩写
+正是有了这些namespace的声明，才能在不同的xml中使用相同的id名，
+而不会造成使用时的冲突
+-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_loginactivity_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="请输入用户名"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/et_loginactivity_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="请输入密码"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/bt_loginactivity_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="登录" />
+
+        <Button
+            android:id="@+id/bt_loginactivity_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="注册" />
+
+        <Button
+            android:id="@+id/bt_loginactivityGl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="管理员登录" />
+    </LinearLayout>
+</RelativeLayout>

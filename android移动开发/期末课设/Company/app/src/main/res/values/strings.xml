@@ -1,0 +1,14 @@
+<resources>
+    <!-- 应用名称 -->
+    <string name="app_name">Kerwin_Company</string>
+
+    <!-- 公司介绍 -->
+    <string name="company_introduction">
+        未来科技有限公司，创办于2023年10月，公司坐落于中国北京中关村科技园区。我们专注于人工智能、大数据和云计算领域，致力于为客户提供创新的技术解决方案。\n\n
+        我们的使命是推动科技进步，通过不断的研究与开发，为社会带来更加智能和便捷的生活。我们的团队由一群充满激情和创造力的工程师、设计师和市场专家组成，他们共同致力于实现公司的愿景。\n\n
+        未来科技有限公司秉承开放、合作、创新的企业文化，我们期待与全球伙伴携手合作，共同探索科技的未来。
+    </string>
+    <!-- 签到状态 -->
+    <string name="date_signed_in">今日已签到：%1$s</string>
+    <string name="date_not_signed">今天日期：%1$s</string>
+</resources>
