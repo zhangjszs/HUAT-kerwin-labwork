@@ -1,31 +1,174 @@
-*.exe
-*.log
-build/
-# Python bytecode files
-*.pyc
-*.pyo
-# OS generated files
+############################################
+# Global / OS
+############################################
 .DS_Store
 Thumbs.db
-# IDE generated files
+Desktop.ini
+ehthumbs.db
+
+############################################
+# Logs / Temp
+############################################
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.orig
+~$*
+
+############################################
+# Build / Binary Artifacts
+############################################
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.obj
+*.a
+*.la
+*.lib
+*.ilk
+*.pdb
+*.idb
+*.class
+*.jar
+*.war
+*.ear
+*.out
+*.app
+*.iso
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.zip
+*.rar
+
+############################################
+# C / C++ / Tooling
+############################################
+build/
+Build/
+dist/
+bin/
+obj/
+Debug/
+Release/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+compile_commands.json
+*.gcno
+*.gcda
+*.gcov
+
+############################################
+# Qt / MOC / qmake
+############################################
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+*.pro.user
+*.qbs.user*
+*.qmlc
+*.jsc
+
+############################################
+# Python
+############################################
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+############################################
+# Notebooks
+############################################
+.ipynb_checkpoints/
+
+############################################
+# Node / Web
+############################################
+node_modules/
+*/node_modules/
+*.tsbuildinfo
+dist/
+coverage/
+.parcel-cache/
+.vite/
+.next/
+out/
+
+# (注意) 不忽略源代码 .js / .ts / .css / .html 文件，若需忽略构建产物请使用 dist/ 或 build/ 目录匹配。
+
+############################################
+# Java / JVM
+############################################
+.gradle/
+build/
+.project
+.classpath
+.settings/
 .idea/
 *.iml
-# Database files
+
+############################################
+# VS Code / IDE
+############################################
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.idea/
+
+############################################
+# Local / Secrets / Config overrides
+*.local
+*.local.*
+.env
+.env.*
+!env.example
+
+############################################
+# Databases / Data caches
 *.db
-# Local configuration files
-*.local/
-# Log files
-*.log
-# Compiled JavaScript files
-*.js
-# Dependency directories
-node_modules/
-*/node_modules
-# All .dll files
-*.dll
-# All .exe files
-*.exe
-# All .o files
-*.o
-# All .tmp files
-*.tmp
+*.sqlite
+*.sqlite3
+*.mdb
+*.log.db
+
+############################################
+# Misc project specific
+catboost_info/
+catboost_info/**
+
+############################################
+# Documents (keep originals in repo only if needed)
+~$*.docx
+~$*.pptx
+
+############################################
+# Ignore crash / profile dumps
+core.*
+*.stackdump
+
+############################################
+# Archives already covered but ensure patterns
+*.gz
+*.bz2
+*.xz
+
+############################################
+# End
+############################################
