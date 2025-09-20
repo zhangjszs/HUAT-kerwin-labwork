@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>目录 - Formula Student Driverless</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap');
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Noto Sans SC', sans-serif;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background-color: #F5F5F5;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .header {
+        background-color: #C8102E;
+        color: white;
+        padding: 1.5rem 2rem;
+        text-align: center;
+      }
+      
+      .title {
+        font-size: 36px;
+        font-weight: bold;
+      }
+      
+      .content {
+        flex: 1;
+        padding: 2rem;
+        display: flex;
+        justify-content: center;
+      }
+      
+      .toc {
+        width: 80%;
+        max-width: 800px;
+      }
+      
+      .toc-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+      }
+      
+      .toc-item:hover {
+        background-color: rgba(200, 16, 46, 0.1);
+        transform: translateX(10px);
+      }
+      
+      .toc-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 1.5rem;
+        background-color: #003366;
+        color: white;
+        border-radius: 50%;
+      }
+      
+      .toc-text {
+        font-size: 24px;
+      }
+      
+      .footer {
+        padding: 1rem 2rem;
+        text-align: center;
+        font-size: 14px;
+        color: #333333;
+        border-top: 1px solid #DDDDDD;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">目录</h1>
+      </div>
+      
+      <div class="content">
+        <div class="toc">
+          <div class="toc-item">
+            <div class="toc-icon">
+              <i class="fas fa-flag"></i>
+            </div>
+            <div class="toc-text">项目背景与挑战</div>
+          </div>
+          
+          <div class="toc-item">
+            <div class="toc-icon">
+              <i class="fas fa-sitemap"></i>
+            </div>
+            <div class="toc-text">系统总体架构</div>
+          </div>
+          
+          <div class="toc-item">
+            <div class="toc-icon">
+              <i class="fas fa-eye"></i>
+            </div>
+            <div class="toc-text">核心模块 I：环境感知</div>
+          </div>
+          
+          <div class="toc-item">
+            <div class="toc-icon">
+              <i class="fas fa-map-marked-alt"></i>
+            </div>
+            <div class="toc-text">核心模块 II：状态估计与建图</div>
+          </div>
+          
+          <div class="toc-item">
+            <div class="toc-icon">
+              <i class="fas fa-route"></i>
+            </div>
+            <div class="toc-text">核心模块 III：规划与控制</div>
+          </div>
+          
+          <div class="toc-item">
+            <div class="toc-icon">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <div class="toc-text">仿真系统平台设计与实现</div>
+          </div>
+          
+          <div class="toc-item">
+            <div class="toc-icon">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <div class="toc-text">成果展示与未来展望</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        东风HUAT无人驾驶车队 | 2025年7月
+      </div>
+    </div>
+  </body>
+</html>
+

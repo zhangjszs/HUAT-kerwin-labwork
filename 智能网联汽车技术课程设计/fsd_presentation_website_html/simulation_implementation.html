@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>核心实现 - Formula Student Driverless</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap");
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans SC", sans-serif;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background-color: #F5F5F5;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .header {
+        background-color: #C8102E;
+        color: white;
+        padding: 1rem 2rem;
+      }
+      
+      .title {
+        font-size: 36px;
+        font-weight: bold;
+      }
+      
+      .content {
+        flex: 1;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .implementation-features {
+        display: flex;
+        gap: 1.5rem;
+      }
+      
+      .feature-card {
+        flex: 1;
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .feature-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #003366;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .feature-title i {
+        margin-right: 0.5rem;
+      }
+      
+      .feature-list {
+        list-style-type: none;
+        padding: 0;
+      }
+      
+      .feature-item {
+        margin-bottom: 0.5rem;
+        padding-left: 1.5rem;
+        position: relative;
+        font-size: 16px;
+      }
+      
+      .feature-item:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 6px;
+        height: 6px;
+        background-color: #C8102E;
+        border-radius: 50%;
+      }
+      
+      .simulation-view {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .simulation-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #003366;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .simulation-title i {
+        margin-right: 0.5rem;
+      }
+      
+      .simulation-content {
+        display: flex;
+        gap: 1.5rem;
+      }
+      
+      .simulation-image-container {
+        flex: 3;
+        position: relative;
+      }
+      
+      .simulation-image {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+      
+      .annotation {
+        position: absolute;
+        font-size: 14px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        border: 1px solid #C8102E;
+      }
+      
+      .annotation-line {
+        position: absolute;
+        border-left: 2px dashed #C8102E;
+        z-index: 1;
+      }
+      
+      .simulation-legend {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .legend-item {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+      }
+      
+      .legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        margin-right: 0.5rem;
+      }
+      
+      .footer {
+        padding: 0.5rem 2rem;
+        text-align: center;
+        font-size: 14px;
+        color: #333333;
+        border-top: 1px solid #DDDDDD;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">核心实现：打造贴近实车的定制化仿真环境</h1>
+      </div>
+      
+      <div class="content">
+        <div class="implementation-features">
+          <div class="feature-card">
+            <div class="feature-title">
+              <i class="fas fa-car"></i> 车辆模型导入
+            </div>
+            <ul class="feature-list">
+              <li class="feature-item"><strong>STL模型转换</strong>：将SolidWorks设计的赛车模型转换为URDF格式</li>
+              <li class="feature-item"><strong>动力学参数</strong>：配置与实车一致的质量、惯量、摩擦系数等参数</li>
+              <li class="feature-item"><strong>车辆尺寸</strong>：精确还原实车轴距、轮距、重心高度等关键尺寸</li>
+              <li class="feature-item"><strong>驱动系统</strong>：模拟电机特性曲线，实现真实的加速性能</li>
+            </ul>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-title">
+              <i class="fas fa-satellite-dish"></i> 传感器模拟
+            </div>
+            <ul class="feature-list">
+              <li class="feature-item"><strong>LiDAR模型</strong>：模拟16线激光雷达，添加高斯噪声模拟测量误差</li>
+              <li class="feature-item"><strong>相机模型</strong>：模拟视场角、分辨率、畸变等参数，生成仿真图像</li>
+              <li class="feature-item"><strong>IMU模型</strong>：添加随机游走和白噪声，模拟真实IMU特性</li>
+              <li class="feature-item"><strong>传感器延时</strong>：模拟各传感器的采样频率和处理延迟</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="simulation-view">
+          <div class="simulation-title">
+            <i class="fas fa-desktop"></i> Rviz仿真可视化
+          </div>
+          <div class="simulation-content">
+            <div class="simulation-image-container">
+              <img src="/home/ubuntu/fsd_presentation/images/simulation_implementation.webp" alt="Rviz仿真效果" class="simulation-image">
+              
+              <!-- 标注线和标签 -->
+              <div class="annotation" style="top: 50px; left: 100px;">车辆模型</div>
+              <div class="annotation-line" style="top: 70px; left: 110px; height: 30px;"></div>
+              
+              <div class="annotation" style="top: 50px; left: 300px;">锥桶检测</div>
+              <div class="annotation-line" style="top: 70px; left: 310px; height: 50px;"></div>
+              
+              <div class="annotation" style="top: 200px; left: 100px;">规划轨迹</div>
+              <div class="annotation-line" style="top: 150px; left: 110px; height: 50px;"></div>
+              
+              <div class="annotation" style="top: 200px; left: 300px;">赛道地图</div>
+              <div class="annotation-line" style="top: 150px; left: 310px; height: 70px;"></div>
+            </div>
+            
+            <div class="simulation-legend">
+              <div class="legend-item">
+                <div class="legend-color" style="background-color: #1890FF;"></div>
+                <div>车辆模型</div>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background-color: #FA8C16;"></div>
+                <div>内侧锥桶</div>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background-color: #52C41A;"></div>
+                <div>外侧锥桶</div>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background-color: #F5222D;"></div>
+                <div>规划轨迹</div>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background-color: #722ED1;"></div>
+                <div>激光点云</div>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background-color: #13C2C2;"></div>
+                <div>车辆状态</div>
+              </div>
+              <div class="legend-item" style="margin-top: 1rem;">
+                <strong>全栈闭环仿真</strong>
+              </div>
+              <div class="legend-item">
+                感知 → 定位 → 规划 → 控制
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        东风HUAT无人驾驶车队 | 2025年7月
+      </div>
+    </div>
+  </body>
+</html>
+

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>核心模块I - 环境感知 - Formula Student Driverless</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap");
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans SC", sans-serif;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background-color: #F5F5F5;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .header {
+        background-color: #C8102E;
+        color: white;
+        padding: 1.5rem 2rem;
+      }
+      
+      .title {
+        font-size: 36px;
+        font-weight: bold;
+      }
+      
+      .content {
+        flex: 1;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .sensors-container {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .sensor-section {
+        flex: 1;
+        background-color: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .sensor-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #003366;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .sensor-title i {
+        margin-right: 0.5rem;
+      }
+      
+      .sensor-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+      }
+      
+      .sensor-details {
+        list-style-type: none;
+        padding: 0;
+      }
+      
+      .sensor-detail-item {
+        margin-bottom: 0.5rem;
+        padding-left: 1.5rem;
+        position: relative;
+        font-size: 16px;
+      }
+      
+      .sensor-detail-item:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 6px;
+        height: 6px;
+        background-color: #C8102E;
+        border-radius: 50%;
+      }
+      
+      .fusion-section {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .fusion-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #003366;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .fusion-title i {
+        margin-right: 0.5rem;
+      }
+      
+      .fusion-content {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+      
+      .fusion-text {
+        flex: 1;
+        font-size: 18px;
+        line-height: 1.5;
+      }
+      
+      .fusion-diagram {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .footer {
+        padding: 1rem 2rem;
+        text-align: center;
+        font-size: 14px;
+        color: #333333;
+        border-top: 1px solid #DDDDDD;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">核心模块 I - 环境感知：看懂赛道</h1>
+      </div>
+      
+      <div class="content">
+        <div class="sensors-container">
+          <div class="sensor-section">
+            <div class="sensor-title">
+              <i class="fas fa-laser-pointer"></i> LiDAR 点云处理
+            </div>
+            <img src="/home/ubuntu/fsd_presentation/images/lidar.jpg" alt="LiDAR点云识别效果" class="sensor-image">
+            <ul class="sensor-details">
+              <li class="sensor-detail-item"><strong>地面分割</strong>：基于RANSAC算法提取地面点云</li>
+              <li class="sensor-detail-item"><strong>聚类算法</strong>：欧式聚类提取锥桶点云</li>
+              <li class="sensor-detail-item"><strong>特点</strong>：精确的3D位置信息，不受光照影响</li>
+            </ul>
+          </div>
+          
+          <div class="sensor-section">
+            <div class="sensor-title">
+              <i class="fas fa-camera"></i> 摄像头视觉检测
+            </div>
+            <img src="/home/ubuntu/fsd_presentation/images/yolo.jpg" alt="YOLO检测效果" class="sensor-image">
+            <ul class="sensor-details">
+              <li class="sensor-detail-item"><strong>检测算法</strong>：YOLOv8实时目标检测</li>
+              <li class="sensor-detail-item"><strong>分类能力</strong>：区分蓝色/黄色/橙色锥桶</li>
+              <li class="sensor-detail-item"><strong>特点</strong>：丰富的颜色信息，高分辨率图像</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="fusion-section">
+          <div class="fusion-title">
+            <i class="fas fa-code-branch"></i> 多传感器融合
+          </div>
+          <div class="fusion-content">
+            <div class="fusion-text">
+              通过结合LiDAR的精确3D位置信息和摄像头的丰富颜色分类能力，我们实现了更加鲁棒的锥桶检测系统。融合算法基于时间同步和空间校准，能够在各种复杂环境下保持高精度的感知能力。
+            </div>
+            <div class="fusion-diagram" id="fusion-diagram"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        东风HUAT无人驾驶车队 | 2025年7月
+      </div>
+    </div>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 创建传感器融合示意图
+        const svg = d3.select("#fusion-diagram")
+          .append("svg")
+          .attr("width", 300)
+          .attr("height", 150);
+        
+        // 绘制LiDAR节点
+        svg.append("circle")
+          .attr("cx", 50)
+          .attr("cy", 50)
+          .attr("r", 30)
+          .attr("fill", "#E6F7FF")
+          .attr("stroke", "#1890FF")
+          .attr("stroke-width", 2);
+        
+        svg.append("text")
+          .attr("x", 50)
+          .attr("y", 55)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "12px")
+          .attr("font-weight", "bold")
+          .text("LiDAR");
+        
+        // 绘制Camera节点
+        svg.append("circle")
+          .attr("cx", 50)
+          .attr("cy", 120)
+          .attr("r", 30)
+          .attr("fill", "#FFF7E6")
+          .attr("stroke", "#FA8C16")
+          .attr("stroke-width", 2);
+        
+        svg.append("text")
+          .attr("x", 50)
+          .attr("y", 125)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "12px")
+          .attr("font-weight", "bold")
+          .text("Camera");
+        
+        // 绘制融合节点
+        svg.append("circle")
+          .attr("cx", 200)
+          .attr("cy", 85)
+          .attr("r", 40)
+          .attr("fill", "#F6FFED")
+          .attr("stroke", "#52C41A")
+          .attr("stroke-width", 2);
+        
+        svg.append("text")
+          .attr("x", 200)
+          .attr("y", 85)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "14px")
+          .attr("font-weight", "bold")
+          .text("融合感知");
+        
+        svg.append("text")
+          .attr("x", 200)
+          .attr("y", 105)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "12px")
+          .text("高精度 + 高鲁棒性");
+        
+        // 绘制连接线
+        svg.append("line")
+          .attr("x1", 80)
+          .attr("y1", 50)
+          .attr("x2", 160)
+          .attr("y2", 85)
+          .attr("stroke", "#1890FF")
+          .attr("stroke-width", 2)
+          .attr("marker-end", "url(#arrowhead)");
+        
+        svg.append("line")
+          .attr("x1", 80)
+          .attr("y1", 120)
+          .attr("x2", 160)
+          .attr("y2", 85)
+          .attr("stroke", "#FA8C16")
+          .attr("stroke-width", 2)
+          .attr("marker-end", "url(#arrowhead)");
+        
+        // 添加箭头标记
+        svg.append("defs").append("marker")
+          .attr("id", "arrowhead")
+          .attr("viewBox", "0 -5 10 10")
+          .attr("refX", 8)
+          .attr("refY", 0)
+          .attr("markerWidth", 6)
+          .attr("markerHeight", 6)
+          .attr("orient", "auto")
+          .append("path")
+          .attr("d", "M0,-5L10,0L0,5")
+          .attr("fill", "#333333");
+      });
+    </script>
+  </body>
+</html>
+

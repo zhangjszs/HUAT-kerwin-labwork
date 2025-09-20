@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>核心概念 —— 窗口部件 (Widgets) - 9.html (自动比例)</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            /* Font from this specific HTML */
+            background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%);
+            /* Consistent page background */
+        }
+
+        .slide {
+            /* Responsive scaling with aspect ratio, merging with this file's specific background */
+            width: 1280px;
+            /* Intended design width */
+            max-width: 90vw;
+            /* Scale down to fit 90% of viewport width */
+            aspect-ratio: 16 / 9;
+            /* Maintain 16:9 aspect ratio */
+            height: auto;
+            /* Height is auto based on width and aspect-ratio */
+
+            margin-left: auto;
+            /* Center the block horizontally */
+            margin-right: auto;
+            margin-top: max(3vh, 20px);
+            /* Space at the top */
+            margin-bottom: calc(max(3vh, 20px) + 70px);
+            /* Space at bottom, plus 70px clearance for fixed nav bar */
+
+            position: relative;
+            background-color: white;
+            /* Specific background from this file */
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+        }
+
+        .header-accent {
+            height: 5px;
+            background: linear-gradient(90deg, #41cd52, #1a73e8);
+        }
+
+        .qt-green {
+            color: #41cd52;
+        }
+
+        .qt-blue {
+            color: #1a73e8;
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            /* Base font size */
+            font-weight: bold;
+            color: #1a73e8;
+        }
+
+        .widget-grid {
+            display: grid;
+            gap: 10px;
+            /* Base gap for smallest screens */
+            grid-template-columns: 1fr;
+            /* Default to 1 column */
+        }
+
+        @media (min-width: 640px) {
+
+            /* sm breakpoint */
+            .widget-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+
+            /* lg breakpoint */
+            .widget-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+        }
+
+        .widget-card {
+            background: white;
+            border-radius: 6px;
+            /* Slightly less radius */
+            transition: all 0.2s ease-in-out;
+            /* Smoother transition */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            /* Softer shadow */
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #e5e7eb;
+            /* Subtle border */
+            display: flex;
+            flex-direction: column;
+            /* Ensure footer is at bottom */
+        }
+
+        .widget-card:hover {
+            transform: translateY(-4px);
+            /* Less aggressive hover */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-color: #41cd52;
+        }
+
+        .widget-header {
+            padding: 8px 10px;
+            /* Adjusted padding */
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-bottom: 2px solid #41cd52;
+            font-weight: bold;
+            font-size: 0.8rem;
+            /* Adjusted font size */
+        }
+
+        .widget-img {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70px;
+            /* Adjusted height */
+            padding: 6px;
+            /* Adjusted padding */
+            background: #f8f9fa;
+            position: relative;
+            flex-grow: 1;
+            /* Allow image area to take space */
+            min-height: 70px;
+            /* Ensure it doesn't collapse */
+        }
+
+        .widget-img img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .widget-info {
+            padding: 8px 10px;
+            /* Adjusted padding */
+            font-size: 0.75rem;
+            /* Adjusted font size */
+        }
+
+        .widget-icon {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(65, 205, 82, 0.85);
+            /* Slightly more opaque */
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            /* Adjusted size */
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            /* Adjusted size */
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #f0fdf4, #f0f9ff);
+            border-left: 4px solid #41cd52;
+        }
+
+        /* Navigation Styles */
+        .navigation-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 15px;
+            background-color: rgba(50, 50, 50, 0.9);
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navigation-controls a {
+            color: #f0f0f0;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navigation-controls a:hover {
+            background-color: #41cd52;
+            color: white;
+        }
+
+        .navigation-controls .arrow {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide">
+        <div class="header-accent"></div>
+
+        <div class="flex justify-between items-center px-6 md:px-10 py-3 md:py-4">
+            <div class="text-base md:text-lg font-bold text-gray-600">4. 核心概念 —— 窗口部件 (Widgets)</div>
+            <div class="flex items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Qt_logo_neon_2022.svg/1200px-Qt_logo_neon_2022.svg.png"
+                    alt="Qt Logo" class="h-6 md:h-8">
+            </div>
+        </div>
+
+        <div class="px-6 md:px-10 py-1 md:py-2">
+            <h1 class="slide-title mb-3 md:mb-4 text-3xl md:text-4xl">核心概念 —— <span class="qt-green">窗口部件</span>
+                (Widgets)</h1>
+
+            <div class="definition-box p-3 md:p-4 rounded-r-lg mb-4 md:mb-6">
+                <div class="flex items-start">
+                    <div class="mr-3 md:mr-4 text-3xl md:text-4xl qt-green">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg md:text-xl font-bold mb-1 md:mb-2 qt-blue">定义</h2>
+                        <p class="text-xs md:text-sm text-gray-700">
+                            Widgets 是构成 GUI 界面的<span class="font-bold">基本元素</span>，是用户界面的构建块，用户可以与之交互。
+                            Qt Widgets 模块提供了一套基于 C++ 的 UI 元素，从基本的按钮到复杂的对话框。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-2 md:mt-3 text-center">
+                    <img src="https://doc.qt.io/qt-6/images/windows-style.png" alt="Qt Widget Gallery"
+                        class="inline-block h-24 md:h-32 rounded shadow">
+                </div>
+            </div>
+
+            <div class="widget-grid">
+                <div class="widget-card">
+                    <div class="widget-header flex items-center text-xs md:text-sm">
+                        <i class="fas fa-window-maximize mr-2 qt-blue"></i>QMainWindow
+                    </div>
+                    <div class="widget-img"><img src="https://doc.qt.io/qt-6/images/mainwindowlayout.png"
+                            alt="QMainWindow">
+                        <div class="widget-icon"><i class="fas fa-star"></i></div>
+                    </div>
+                    <div class="widget-info text-xxs md:text-xs">
+                        <p class="text-gray-700">主窗口，提供菜单栏、工具栏、状态栏等标准窗口框架</p>
+                    </div>
+                </div>
+
+                <div class="widget-card">
+                    <div class="widget-header flex items-center text-xs md:text-sm">
+                        <i class="fas fa-square mr-2 qt-blue"></i>QWidget
+                    </div>
+                    <div class="widget-img"><img src="https://doc.qt.io/qt-6/images/parent-child-widgets.png"
+                            alt="QWidget">
+                        <div class="widget-icon"><i class="fas fa-star"></i></div>
+                    </div>
+                    <div class="widget-info text-xxs md:text-xs">
+                        <p class="text-gray-700">所有用户界面对象的基类，可作为容器</p>
+                    </div>
+                </div>
+
+                <div class="widget-card">
+                    <div class="widget-header flex items-center text-xs md:text-sm">
+                        <i class="fas fa-tag mr-2 qt-blue"></i>QLabel
+                    </div>
+                    <div class="widget-img bg-white flex justify-center items-center">
+                        <div class="border border-gray-300 rounded px-2 py-1 text-xs md:text-sm">这是一个标签</div>
+                    </div>
+                    <div class="widget-info text-xxs md:text-xs">
+                        <p class="text-gray-700">显示文本或图片，不可编辑</p>
+                    </div>
+                </div>
+
+                <div class="widget-card">
+                    <div class="widget-header flex items-center text-xs md:text-sm">
+                        <i class="fas fa-hand-pointer mr-2 qt-blue"></i> <span>QPushButton</span>
+                    </div>
+                    <div class="widget-img bg-white flex justify-center items-center">
+                        <button
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 md:py-2 md:px-4 rounded text-xs md:text-sm">按钮</button>
+                    </div>
+                    <div class="widget-info text-xxs md:text-xs">
+                        <p class="text-gray-700">可点击的按钮，触发动作</p>
+                    </div>
+                </div>
+
+                <div class="widget-card">
+                    <div class="widget-header flex items-center text-xs md:text-sm">
+                        <i class="fas fa-edit mr-2 qt-blue"></i>QLineEdit
+                    </div>
+                    <div class="widget-img bg-white flex justify-center items-center">
+                        <input type="text"
+                            class="border border-gray-300 rounded px-2 py-1 md:px-3 md:py-2 text-xs md:text-sm"
+                            placeholder="单行文本输入">
+                    </div>
+                    <div class="widget-info text-xxs md:text-xs">
+                        <p class="text-gray-700">单行文本输入框，用于用户输入</p>
+                    </div>
+                </div>
+
+                <div class="widget-card">
+                    <div class="widget-header flex items-center text-xs md:text-sm">
+                        <i class="fas fa-paragraph mr-2 qt-blue"></i>QTextEdit
+                    </div>
+                    <div class="widget-img bg-white flex justify-center items-center">
+                        <textarea class="border border-gray-300 rounded w-full h-full p-1 md:p-2 text-xxs md:text-xs"
+                            placeholder="多行文本编辑器..."></textarea>
+                    </div>
+                    <div class="widget-info text-xxs md:text-xs">
+                        <p class="text-gray-700">多行文本编辑器，支持富文本</p>
+                    </div>
+                </div>
+
+                <div class="widget-card">
+                    <div class="widget-header flex items-center text-xs md:text-sm">
+                        <i class="fas fa-check-square mr-2 qt-blue"></i>QCheckBox
+                    </div>
+                    <div class="widget-img bg-white flex justify-start items-center p-2 md:p-4">
+                        <div class="flex items-center text-xs md:text-sm">
+                            <input type="checkbox" class="mr-1 md:mr-2" checked>
+                            <label>复选框选项</label>
+                        </div>
+                    </div>
+                    <div class="widget-info text-xxs md:text-xs">
+                        <p class="text-gray-700">复选框，可多选</p>
+                    </div>
+                </div>
+
+                <div class="widget-card">
+                    <div class="widget-header flex items-center text-xs md:text-sm">
+                        <i class="fas fa-dot-circle mr-2 qt-blue"></i>QRadioButton
+                    </div>
+                    <div
+                        class="widget-img bg-white flex flex-col justify-center items-start p-2 md:p-4 text-xs md:text-sm">
+                        <div class="flex items-center mb-1">
+                            <input type="radio" name="radio_demo" class="mr-1 md:mr-2" checked>
+                            <label>选项一</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" name="radio_demo" class="mr-1 md:mr-2">
+                            <label>选项二</label>
+                        </div>
+                    </div>
+                    <div class="widget-info text-xxs md:text-xs">
+                        <p class="text-gray-700">单选按钮，同组中只能选一个</p>
+                    </div>
+                </div>
+
+                <div class="widget-card">
+                    <div class="widget-header flex items-center text-xs md:text-sm">
+                        <i class="fas fa-caret-square-down mr-2 qt-blue"></i>QComboBox
+                    </div>
+                    <div class="widget-img bg-white flex justify-center items-center">
+                        <select
+                            class="border border-gray-300 rounded px-2 py-1 md:px-3 md:py-2 w-full text-xs md:text-sm">
+                            <option>选项 1</option>
+                            <option>选项 2</option>
+                            <option>选项 3</option>
+                        </select>
+                    </div>
+                    <div class="widget-info text-xxs md:text-xs">
+                        <p class="text-gray-700">下拉列表框，在有限空间显示多个选项</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 md:mt-6 p-2 md:p-3 bg-gray-50 rounded-lg">
+                <h3 class="font-bold mb-1 md:mb-2 qt-blue text-sm md:text-base">集合类控件：</h3>
+                <div class="flex items-start justify-around text-center">
+                    <div>
+                        <div class="bg-white p-1 md:p-2 rounded shadow-sm mb-1 inline-block"><i
+                                class="fas fa-list text-xl md:text-2xl qt-green"></i></div>
+                        <div class="text-xs md:text-sm font-bold">QListWidget</div>
+                        <div class="text-xxs md:text-xs text-gray-600">列表控件</div>
+                    </div>
+                    <div>
+                        <div class="bg-white p-1 md:p-2 rounded shadow-sm mb-1 inline-block"><i
+                                class="fas fa-table text-xl md:text-2xl qt-green"></i></div>
+                        <div class="text-xs md:text-sm font-bold">QTableWidget</div>
+                        <div class="text-xxs md:text-xs text-gray-600">表格控件</div>
+                    </div>
+                    <div>
+                        <div class="bg-white p-1 md:p-2 rounded shadow-sm mb-1 inline-block"><i
+                                class="fas fa-sitemap text-xl md:text-2xl qt-green"></i></div>
+                        <div class="text-xs md:text-sm font-bold">QTreeWidget</div>
+                        <div class="text-xxs md:text-xs text-gray-600">树形控件</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation-controls">
+        <a href="8.html"><span class="arrow">&larr;</span> 上一页</a>
+        <a href="10.html">下一页 <span class="arrow">&rarr;</span></a>
+    </div>
+</body>
+
+</html>

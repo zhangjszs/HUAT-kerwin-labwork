@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汇报大纲 - 2.html (自动比例)</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            /* Original font */
+            background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%);
+            /* Consistent background */
+        }
+
+        .slide {
+            /* Responsive scaling with aspect ratio */
+            width: 1280px;
+            /* Intended design width */
+            max-width: 90vw;
+            /* Scale down to fit 90% of viewport width */
+            aspect-ratio: 16 / 9;
+            /* Maintain 16:9 aspect ratio */
+            height: auto;
+            /* Height is auto based on width and aspect-ratio */
+
+            margin-left: auto;
+            /* Center the block horizontally */
+            margin-right: auto;
+            margin-top: max(3vh, 20px);
+            /* Space at the top */
+            margin-bottom: calc(max(3vh, 20px) + 70px);
+            /* Space at bottom, plus 70px clearance for fixed nav bar */
+
+            position: relative;
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            /* Optional */
+        }
+
+        .slide-bg {
+            /* This seems to be an internal background layer, ensure it scales with parent */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            z-index: -2;
+            /* Keep it behind other content */
+        }
+
+        .qt-accent {
+            color: #41cd52;
+        }
+
+        .qt-secondary {
+            color: #1a73e8;
+        }
+
+        .outline-item {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .outline-item:hover {
+            transform: translateX(10px);
+            border-left: 4px solid #41cd52;
+        }
+
+        .outline-number {
+            background: linear-gradient(135deg, #41cd52 0%, #217a5a 100%);
+            color: white;
+            width: 36px;
+            /* Consider if these fixed sizes are okay or need to be responsive */
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            /* Prevent shrinking if in a flex container */
+        }
+
+        .decoration {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.05;
+            z-index: -1;
+        }
+
+        /* Navigation Styles */
+        .navigation-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 15px;
+            background-color: rgba(50, 50, 50, 0.9);
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navigation-controls a {
+            color: #f0f0f0;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navigation-controls a:hover {
+            background-color: #41cd52;
+            color: white;
+        }
+
+        .navigation-controls .arrow {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide">
+        <div class="slide-bg"></div>
+
+        <div class="decoration"
+            style="width: 400px; height: 400px; right: -200px; bottom: -200px; background: linear-gradient(135deg, #41cd52 0%, #217a5a 100%);">
+        </div>
+        <div class="decoration"
+            style="width: 300px; height: 300px; left: -150px; top: -150px; background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);">
+        </div>
+
+        <div class="pt-8 md:pt-16 px-10 md:px-20">
+            <div class="flex items-center mb-6 md:mb-8">
+                <div
+                    class="w-2 md:w-3 h-12 md:h-16 bg-gradient-to-b from-blue-500 to-green-500 rounded-full mr-4 md:mr-6">
+                </div>
+                <h1 class="text-3xl md:text-5xl font-bold text-gray-800">汇报大纲</h1>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 text-sm md:text-base">
+                <div class="md:col-span-6 space-y-3 md:space-y-4">
+                    <div class="outline-item p-3 md:p-4 bg-white rounded-lg shadow-sm flex items-center">
+                        <div class="outline-number mr-3 md:mr-4 text-base md:text-lg">1</div>
+                        <div class="flex-grow">
+                            <h3 class="text-lg md:text-xl font-bold qt-secondary">Qt 概览</h3>
+                            <p class="text-gray-600 mt-1 text-xs md:text-sm">它是什么？为什么选择它？</p>
+                        </div>
+                        <i class="fas fa-info-circle ml-auto text-xl md:text-2xl qt-accent"></i>
+                    </div>
+
+                    <div class="outline-item p-3 md:p-4 bg-white rounded-lg shadow-sm flex items-center">
+                        <div class="outline-number mr-3 md:mr-4 text-base md:text-lg">2</div>
+                        <div class="flex-grow">
+                            <h3 class="text-lg md:text-xl font-bold qt-secondary">Qt 安装指南</h3>
+                            <p class="text-gray-600 mt-1 text-xs md:text-sm">一步步搭建开发环境</p>
+                        </div>
+                        <i class="fas fa-download ml-auto text-xl md:text-2xl qt-accent"></i>
+                    </div>
+
+                    <div class="outline-item p-3 md:p-4 bg-white rounded-lg shadow-sm flex items-center">
+                        <div class="outline-number mr-3 md:mr-4 text-base md:text-lg">3</div>
+                        <div class="flex-grow">
+                            <h3 class="text-lg md:text-xl font-bold qt-secondary">Qt Creator IDE</h3>
+                            <p class="text-gray-600 mt-1 text-xs md:text-sm">您的得力助手</p>
+                        </div>
+                        <i class="fas fa-laptop-code ml-auto text-xl md:text-2xl qt-accent"></i>
+                    </div>
+
+                    <div class="outline-item p-3 md:p-4 bg-white rounded-lg shadow-sm flex items-center">
+                        <div class="outline-number mr-3 md:mr-4 text-base md:text-lg">4</div>
+                        <div class="flex-grow">
+                            <h3 class="text-lg md:text-xl font-bold qt-secondary">核心概念</h3>
+                            <p class="text-gray-600 mt-1 text-xs md:text-sm">信号与槽、窗口部件与布局</p>
+                        </div>
+                        <i class="fas fa-puzzle-piece ml-auto text-xl md:text-2xl qt-accent"></i>
+                    </div>
+                </div>
+
+                <div class="md:col-span-6 space-y-3 md:space-y-4">
+                    <div class="outline-item p-3 md:p-4 bg-white rounded-lg shadow-sm flex items-center">
+                        <div class="outline-number mr-3 md:mr-4 text-base md:text-lg">5</div>
+                        <div class="flex-grow">
+                            <h3 class="text-lg md:text-xl font-bold qt-secondary">实战演练</h3>
+                            <p class="text-gray-600 mt-1 text-xs md:text-sm">从零开始打造一个计算器</p>
+                        </div>
+                        <i class="fas fa-calculator ml-auto text-xl md:text-2xl qt-accent"></i>
+                    </div>
+
+                    <div class="outline-item p-3 md:p-4 bg-white rounded-lg shadow-sm flex items-center">
+                        <div class="outline-number mr-3 md:mr-4 text-base md:text-lg">6</div>
+                        <div class="flex-grow">
+                            <h3 class="text-lg md:text-xl font-bold qt-secondary">Qt 在嵌入式系统中的应用</h3>
+                            <p class="text-gray-600 mt-1 text-xs md:text-sm">嵌入式开发优势与案例</p>
+                        </div>
+                        <i class="fas fa-microchip ml-auto text-xl md:text-2xl qt-accent"></i>
+                    </div>
+
+                    <div class="outline-item p-3 md:p-4 bg-white rounded-lg shadow-sm flex items-center">
+                        <div class="outline-number mr-3 md:mr-4 text-base md:text-lg">7</div>
+                        <div class="flex-grow">
+                            <h3 class="text-lg md:text-xl font-bold qt-secondary">总结与展望</h3>
+                            <p class="text-gray-600 mt-1 text-xs md:text-sm">Qt 开发的未来方向</p>
+                        </div>
+                        <i class="fas fa-chart-line ml-auto text-xl md:text-2xl qt-accent"></i>
+                    </div>
+
+                    <div class="outline-item p-3 md:p-4 bg-white rounded-lg shadow-sm flex items-center">
+                        <div class="outline-number mr-3 md:mr-4 text-base md:text-lg">8</div>
+                        <div class="flex-grow">
+                            <h3 class="text-lg md:text-xl font-bold qt-secondary">Q&A</h3>
+                            <p class="text-gray-600 mt-1 text-xs md:text-sm">提问与解答</p>
+                        </div>
+                        <i class="fas fa-question-circle ml-auto text-xl md:text-2xl qt-accent"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="absolute bottom-4 md:bottom-8 right-4 md:right-8">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Qt_logo_neon_2022.svg/1200px-Qt_logo_neon_2022.svg.png"
+                alt="Qt Logo" class="h-8 md:h-10">
+        </div>
+    </div>
+
+    <div class="navigation-controls">
+        <a href="1.html"><span class="arrow">&larr;</span> 上一页</a>
+        <a href="3.html">下一页 <span class="arrow">&rarr;</span></a>
+    </div>
+</body>
+
+</html>

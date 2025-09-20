@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qt跨平台应用开发框架 - 1.html (自动比例)</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%);
+            /* Slightly adjusted background for better contrast */
+        }
+
+        .slide {
+            /* Responsive scaling with aspect ratio */
+            width: 1280px;
+            /* Intended design width */
+            max-width: 90vw;
+            /* Scale down to fit 90% of viewport width */
+            aspect-ratio: 16 / 9;
+            /* Maintain 16:9 aspect ratio */
+            height: auto;
+            /* Height is auto based on width and aspect-ratio */
+
+            margin-left: auto;
+            /* Center the block horizontally */
+            margin-right: auto;
+            margin-top: max(3vh, 20px);
+            /* Space at the top */
+            margin-bottom: calc(max(3vh, 20px) + 70px);
+            /* Space at bottom, plus 70px clearance for fixed nav bar */
+
+            position: relative;
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            /* Slightly more pronounced shadow */
+            border-radius: 8px;
+            /* Optional: slightly rounded corners for the slide */
+        }
+
+        .qt-gradient {
+            background: linear-gradient(135deg, #41cd52 0%, #217a5a 100%);
+        }
+
+        .title {
+            font-size: 3.5rem;
+            /* Consider using responsive font sizes (e.g., vw) if needed */
+            font-weight: 700;
+            background: linear-gradient(90deg, #41cd52, #006325);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 2rem;
+            /* Consider responsive font sizes */
+            color: #1a73e8;
+        }
+
+        .team-member {
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        .date {
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        .qt-overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            opacity: 0.05;
+            z-index: 0;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Qt_logo_neon_2022.svg/1200px-Qt_logo_neon_2022.svg.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: right center;
+        }
+
+        .decoration-circle {
+            position: absolute;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        /* Navigation Styles */
+        .navigation-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 15px;
+            background-color: rgba(50, 50, 50, 0.9);
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+
+        .navigation-controls a {
+            color: #f0f0f0;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navigation-controls a:hover {
+            background-color: #41cd52;
+            color: white;
+        }
+
+        .navigation-controls .arrow {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide flex flex-col items-center justify-center p-10 md:p-16 relative">
+        <div class="qt-overlay"></div>
+        <div class="decoration-circle qt-gradient"
+            style="width: 300px; height: 300px; left: -150px; bottom: -150px; opacity: 0.1;"></div>
+        <div class="decoration-circle"
+            style="width: 200px; height: 200px; right: -100px; top: -100px; opacity: 0.05; background: #1a73e8;"></div>
+
+        <div class="z-10 flex flex-col items-center justify-center w-full h-full">
+            <div class="mb-8 md:mb-12 flex justify-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Qt_logo_neon_2022.svg/1200px-Qt_logo_neon_2022.svg.png"
+                    alt="Qt Logo" class="h-24 md:h-32">
+            </div>
+
+            <div class="text-center mb-10 md:mb-16">
+                <h1 class="title text-4xl md:text-5xl lg:text-6xl mb-4 md:mb-6">Qt 跨平台应用开发框架</h1>
+                <h2 class="subtitle text-2xl md:text-3xl mb-2">—— 安装、使用与实践</h2>
+            </div>
+
+            <div class="flex items-center justify-center mb-10 md:mb-16">
+                <i class="fas fa-microchip text-blue-500 mr-3 text-2xl md:text-3xl"></i>
+                <p class="subtitle text-xl md:text-2xl lg:text-3xl">嵌入式系统与原理小组汇报</p>
+            </div>
+
+            <div class="team-member mb-6 text-center">
+                <p class="mb-2 text-gray-600 text-lg md:text-xl">小组成员：章崇文 吴佳伟 武松 李炎 蔡冰 廖海清</p>
+            </div>
+
+            <div class="date text-center">
+                <p class="flex items-center justify-center text-lg md:text-xl">
+                    <i class="far fa-calendar-alt text-blue-500 mr-2"></i>
+                    2025年5月
+                </p>
+            </div>
+
+            <div class="absolute bottom-8 right-8 w-1/5 md:w-1/4 max-w-xs">
+                <img src="https://developex.com/wp-content/uploads/2024/06/qtembed2.jpg" alt="嵌入式Qt应用示例"
+                    class="w-full rounded-lg shadow-lg">
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation-controls">
+        <a href="2.html">下一页 <span class="arrow">&rarr;</span></a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,143 @@
+// calculator.cpp
+#include "calculator.h"
+#include <QGridLayout>
+#include <QDebug>
+
+Calculator::Calculator(QWidget *parent) : QDialog(parent) {
+    display = new QLineEdit("0");
+    display->setReadOnly(true);
+    display->setAlignment(Qt::AlignRight);
+    display->setMaxLength(30);
+    expression = "";
+    newNumber = true;
+
+    QGridLayout *mainLayout = new QGridLayout;
+    mainLayout->setSizeConstraint(QLayout::SetFixedSize);
+    mainLayout->addWidget(display, 0, 0, 1, 5);
+
+    QString buttons[5][5] = {
+        {"7", "8", "9", "/", "C"},
+        {"4", "5", "6", "*", "("},
+        {"1", "2", "3", "-", ")"},
+        {"0", ".", "=", "+", ""},
+        {" ", " ", " ", " ", " "}
+    };
+
+    for (int row = 0; row < 4; ++row) {
+        for (int col = 0; col < 5; ++col) {
+            if (buttons[row][col].isEmpty()) continue;
+            
+            QPushButton *button = createButton(buttons[row][col], SLOT(digitClicked()));
+            
+            if (buttons[row][col] == "+" || buttons[row][col] == "-" ||
+                buttons[row][col] == "*" || buttons[row][col] == "/") {
+                connect(button, SIGNAL(clicked()), this, SLOT(operatorClicked()));
+            } else if (buttons[row][col] == "=") {
+                connect(button, SIGNAL(clicked()), this, SLOT(equalClicked()));
+            } else if (buttons[row][col] == "C") {
+                connect(button, SIGNAL(clicked()), this, SLOT(clearClicked()));
+            }
+
+            mainLayout->addWidget(button, row + 1, col);
+        }
+    }
+
+    setLayout(mainLayout);
+    setWindowTitle("Calculator");
+}
+
+QPushButton* Calculator::createButton(const QString &text, const char *member) {
+    QPushButton *button = new QPushButton(text);
+    button->setMinimumSize(50, 50);
+    if (text == "C") button->setStyleSheet("background-color: #ff6666;");
+    if (text == "=") button->setStyleSheet("background-color: #66ccff;");
+    if ((text >= "0" && text <= "9") || text == ".")
+        connect(button, SIGNAL(clicked()), this, member);
+    return button;
+}
+
+bool Calculator::lastCharIsOperator() {
+    if (expression.isEmpty()) return false;
+    QChar last = expression.at(expression.size()-1);
+    return (last == '+' || last == '-' || last == '*' || last == '/');
+}
+
+void Calculator::digitClicked() {
+    QPushButton *clickedButton = qobject_cast<QPushButton *>(sender());
+    QString value = clickedButton->text();
+
+    if (newNumber) {
+        expression.clear();
+        newNumber = false;
+        if (value == ".") expression = "0";
+    }
+
+    if (value == ".") {
+        if (expression.contains('.') && !lastCharIsOperator()) return;
+    }
+
+    expression += value;
+    display->setText(expression);
+}
+
+void Calculator::operatorClicked() {
+    QPushButton *clickedButton = qobject_cast<QPushButton *>(sender());
+    QString op = clickedButton->text();
+
+    if (expression.isEmpty()) {
+        if (op == "-") expression = "0";  // 允许负数
+        else return;
+    }
+
+    if (lastCharIsOperator()) {
+        expression.chop(1);  // 替换前一个运算符
+    }
+
+    expression += op;
+    newNumber = false;
+    display->setText(expression);
+}
+
+// calculator.cpp 文件部分修改
+void Calculator::equalClicked() {
+    if (expression.isEmpty()) return;
+
+    // 处理最后字符是运算符的情况
+    if (lastCharIsOperator()) expression.chop(1);
+
+    // 简单表达式解析（按输入顺序计算）
+    QStringList numbers = expression.split(QRegExp("[+\\-*/]"), QString::SkipEmptyParts);
+    QStringList ops = expression.split(QRegExp("[0-9.]+"), QString::SkipEmptyParts);
+
+    if (numbers.size() < 1 || ops.size() != numbers.size()-1) {
+        display->setText("Error");
+        return;
+    }
+
+    double result = numbers[0].toDouble();
+    for (int i = 1; i < numbers.size(); ++i) {
+        QString op = ops[i-1];
+        double num = numbers[i].toDouble();
+
+        if (op == "+") result += num;
+        else if (op == "-") result -= num;
+        else if (op == "*") result *= num;
+        else if (op == "/") {
+            if (num == 0) {
+                display->setText("Error");
+                return;
+            }
+            result /= num;
+        }
+    }
+
+    expression = QString::number(result, 'g', 12);
+    display->setText(expression);
+    newNumber = true;
+}
+
+void Calculator::clearClicked() {
+    expression.clear();
+    display->setText("0");
+    newNumber = true;
+}

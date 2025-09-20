@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>核心模块II - 状态估计与建图 - Formula Student Driverless</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap");
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans SC", sans-serif;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background-color: #F5F5F5;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .header {
+        background-color: #C8102E;
+        color: white;
+        padding: 1.5rem 2rem;
+      }
+      
+      .title {
+        font-size: 36px;
+        font-weight: bold;
+      }
+      
+      .content {
+        flex: 1;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      
+      .section {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .section-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #003366;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .section-title i {
+        margin-right: 0.5rem;
+      }
+      
+      .localization-content {
+        display: flex;
+        gap: 2rem;
+      }
+      
+      .localization-text {
+        flex: 1;
+      }
+      
+      .localization-diagram {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .sensor-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      
+      .sensor-item {
+        background-color: #F0F5FF;
+        border: 1px solid #ADC6FF;
+        border-radius: 4px;
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+      }
+      
+      .sensor-item i {
+        margin-right: 0.5rem;
+        color: #003366;
+      }
+      
+      .feature-list {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 1rem;
+      }
+      
+      .feature-item {
+        margin-bottom: 0.5rem;
+        padding-left: 1.5rem;
+        position: relative;
+        font-size: 16px;
+      }
+      
+      .feature-item:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 6px;
+        height: 6px;
+        background-color: #C8102E;
+        border-radius: 50%;
+      }
+      
+      .mapping-content {
+        display: flex;
+        gap: 2rem;
+      }
+      
+      .mapping-text {
+        flex: 1;
+      }
+      
+      .mapping-visualization {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .mapping-gif {
+        width: 100%;
+        max-width: 400px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .footer {
+        padding: 1rem 2rem;
+        text-align: center;
+        font-size: 14px;
+        color: #333333;
+        border-top: 1px solid #DDDDDD;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">核心模块 II - 状态估计与建图：我在哪？赛道长什么样？</h1>
+      </div>
+      
+      <div class="content">
+        <div class="section">
+          <div class="section-title">
+            <i class="fas fa-location-arrow"></i> 多传感器融合定位
+          </div>
+          <div class="localization-content">
+            <div class="localization-text">
+              <p>基于扩展卡尔曼滤波（EKF）的多传感器融合定位系统，实现厘米级精度的车辆位姿估计。</p>
+              <div class="sensor-list">
+                <div class="sensor-item">
+                  <i class="fas fa-compass"></i> IMU
+                </div>
+                <div class="sensor-item">
+                  <i class="fas fa-satellite"></i> GPS
+                </div>
+                <div class="sensor-item">
+                  <i class="fas fa-tachometer-alt"></i> 轮速计
+                </div>
+                <div class="sensor-item">
+                  <i class="fas fa-ruler"></i> 编码器
+                </div>
+              </div>
+              <ul class="feature-list">
+                <li class="feature-item"><strong>高精度</strong>：厘米级定位精度，毫秒级响应时间</li>
+                <li class="feature-item"><strong>鲁棒性</strong>：多传感器互补，抵抗单传感器失效</li>
+                <li class="feature-item"><strong>自适应</strong>：动态调整传感器权重，适应不同场景</li>
+              </ul>
+            </div>
+            <div class="localization-diagram" id="localization-diagram"></div>
+          </div>
+        </div>
+        
+        <div class="section">
+          <div class="section-title">
+            <i class="fas fa-map"></i> 实时赛道建图
+          </div>
+          <div class="mapping-content">
+            <div class="mapping-text">
+              <p>基于SLAM（同步定位与地图构建）思想，利用感知到的锥桶作为路标，实时构建赛道地图。</p>
+              <ul class="feature-list">
+                <li class="feature-item"><strong>增量式建图</strong>：车辆行驶过程中不断更新地图</li>
+                <li class="feature-item"><strong>锥桶分类</strong>：区分内外侧锥桶，构建赛道边界</li>
+                <li class="feature-item"><strong>地图优化</strong>：基于图优化方法消除累积误差</li>
+                <li class="feature-item"><strong>实时性能</strong>：10Hz更新频率，满足高速行驶需求</li>
+              </ul>
+            </div>
+            <div class="mapping-visualization">
+              <img src="/home/ubuntu/fsd_presentation/images/slam.gif" alt="SLAM建图过程" class="mapping-gif">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        东风HUAT无人驾驶车队 | 2025年7月
+      </div>
+    </div>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 创建定位系统示意图
+        const svg = d3.select("#localization-diagram")
+          .append("svg")
+          .attr("width", 400)
+          .attr("height", 250);
+        
+        // 绘制中心EKF节点
+        svg.append("ellipse")
+          .attr("cx", 200)
+          .attr("cy", 125)
+          .attr("rx", 60)
+          .attr("ry", 40)
+          .attr("fill", "#E6F7FF")
+          .attr("stroke", "#1890FF")
+          .attr("stroke-width", 2);
+        
+        svg.append("text")
+          .attr("x", 200)
+          .attr("y", 120)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "16px")
+          .attr("font-weight", "bold")
+          .text("EKF");
+        
+        svg.append("text")
+          .attr("x", 200)
+          .attr("y", 140)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "12px")
+          .text("状态估计");
+        
+        // 绘制传感器节点
+        const sensors = [
+          { name: "IMU", x: 80, y: 50, color: "#FA8C16" },
+          { name: "GPS", x: 320, y: 50, color: "#52C41A" },
+          { name: "轮速计", x: 80, y: 200, color: "#722ED1" },
+          { name: "编码器", x: 320, y: 200, color: "#F5222D" }
+        ];
+        
+        sensors.forEach(sensor => {
+          // 绘制传感器节点
+          svg.append("circle")
+            .attr("cx", sensor.x)
+            .attr("cy", sensor.y)
+            .attr("r", 25)
+            .attr("fill", `${sensor.color}20`)
+            .attr("stroke", sensor.color)
+            .attr("stroke-width", 2);
+          
+          svg.append("text")
+            .attr("x", sensor.x)
+            .attr("y", sensor.y + 5)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "12px")
+            .attr("font-weight", "bold")
+            .text(sensor.name);
+          
+          // 绘制连接线
+          svg.append("line")
+            .attr("x1", sensor.x)
+            .attr("y1", sensor.y)
+            .attr("x2", 200)
+            .attr("y2", 125)
+            .attr("stroke", sensor.color)
+            .attr("stroke-width", 2)
+            .attr("stroke-dasharray", "4,4");
+        });
+        
+        // 绘制输出节点
+        svg.append("rect")
+          .attr("x", 170)
+          .attr("y", 200)
+          .attr("width", 60)
+          .attr("height", 30)
+          .attr("rx", 5)
+          .attr("ry", 5)
+          .attr("fill", "#F6FFED")
+          .attr("stroke", "#52C41A")
+          .attr("stroke-width", 2);
+        
+        svg.append("text")
+          .attr("x", 200)
+          .attr("y", 220)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "12px")
+          .text("位姿输出");
+        
+        // 绘制输出箭头
+        svg.append("line")
+          .attr("x1", 200)
+          .attr("y1", 165)
+          .attr("x2", 200)
+          .attr("y2", 195)
+          .attr("stroke", "#52C41A")
+          .attr("stroke-width", 2)
+          .attr("marker-end", "url(#arrowhead)");
+        
+        // 添加箭头标记
+        svg.append("defs").append("marker")
+          .attr("id", "arrowhead")
+          .attr("viewBox", "0 -5 10 10")
+          .attr("refX", 8)
+          .attr("refY", 0)
+          .attr("markerWidth", 6)
+          .attr("markerHeight", 6)
+          .attr("orient", "auto")
+          .append("path")
+          .attr("d", "M0,-5L10,0L0,5")
+          .attr("fill", "#333333");
+      });
+    </script>
+  </body>
+</html>
+

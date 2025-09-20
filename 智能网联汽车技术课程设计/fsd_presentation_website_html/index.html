@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula Student Driverless - 自动驾驶算法系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap");
+
+        body {
+            font-family: "Noto Sans SC", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F5F5F5;
+        }
+
+        .header {
+            background-color: #C8102E;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .slide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .slide-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .slide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: #C8102E;
+        }
+
+        .slide-number {
+            background-color: #C8102E;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .slide-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .navigation {
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            background-color: #003366;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-button:hover {
+            background-color: #C8102E;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .current-slide {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            display: none;
+        }
+
+        .slide-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            display: none;
+            gap: 10px;
+        }
+
+        .control-button {
+            background-color: #C8102E;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .control-button:hover {
+            background-color: #003366;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            z-index: 1001;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1 class="main-title">Formula Student Driverless</h1>
+        <p class="subtitle">自动驾驶算法系统解析</p>
+        <p class="team-name">东风HUAT无人驾驶车队</p>
+    </div>
+
+    <div class="container">
+        <div class="navigation">
+            <a href="#" class="nav-button" onclick="startPresentation()">
+                <i class="fas fa-play"></i>
+                开始演示
+            </a>
+            <a href="#" class="nav-button" onclick="showSlide(\'cover\')">
+                <i class="fas fa-home"></i>
+                封面
+            </a>
+            <a href="#" class="nav-button" onclick="showSlide(\'contents\')">
+                <i class="fas fa-list"></i>
+                目录
+            </a>
+        </div>
+
+        <div class="slide-grid">
+            <div class="slide-card" onclick="showSlide(\'cover\')">
+                <div class="slide-number">1</div>
+                <div class="slide-title">封面页</div>
+                <div class="slide-description">Formula Student Driverless - 自动驾驶算法系统解析</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'contents\')">
+                <div class="slide-number">2</div>
+                <div class="slide-title">目录</div>
+                <div class="slide-description">演示文稿内容目录，列出所有章节</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'background\')">
+                <div class="slide-number">3</div>
+                <div class="slide-title">项目背景与挑战</div>
+                <div class="slide-description">介绍FSD赛事的目标、规则，以及无人驾驶算法面临的核心挑战</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'architecture\')">
+                <div class="slide-number">4</div>
+                <div class="slide-title">系统总体架构</div>
+                <div class="slide-description">展示系统软硬件整体框架图，描述从传感器输入到执行器输出的完整闭环</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'perception\')">
+                <div class="slide-number">5</div>
+                <div class="slide-title">核心模块 I - 环境感知</div>
+                <div class="slide-description">介绍环境感知模块，包括LiDAR点云处理和摄像头视觉检测算法</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'mapping\')">
+                <div class="slide-number">6</div>
+                <div class="slide-title">核心模块 II - 状态估计与建图</div>
+                <div class="slide-description">介绍定位和建图模块，基于多传感器融合的精确位姿估计和实时赛道地图构建</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'planning\')">
+                <div class="slide-number">7</div>
+                <div class="slide-title">核心模块 III - 规划与控制</div>
+                <div class="slide-description">介绍路径规划和车辆控制模块，包括全局路径生成和局部轨迹规划</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'simulation_background\')">
+                <div class="slide-number">8</div>
+                <div class="slide-title">仿真平台：背景与技术栈</div>
+                <div class="slide-description">介绍仿真平台的必要性和核心技术栈，包括ROS、Gazebo、Rviz等工具</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'simulation_exploration\')">
+                <div class="slide-number">9</div>
+                <div class="slide-title">方案探索</div>
+                <div class="slide-description">介绍仿真系统的两种方案：自研方案和基于FSSIM开源平台的二次开发方案</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'simulation_implementation\')">
+                <div class="slide-number">10</div>
+                <div class="slide-title">核心实现</div>
+                <div class="slide-description">介绍仿真环境的核心实现，包括模型导入、传感器模拟和全栈闭环仿真</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'simulation_results\')">
+                <div class="slide-number">11</div>
+                <div class="slide-title">仿真成果</div>
+                <div class="slide-description">展示仿真成果，包括灵活的赛道编辑能力和不同比赛项目的仿真测试情况</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'achievements\')">
+                <div class="slide-number">12</div>
+                <div class="slide-title">成果展示</div>
+                <div class="slide-description">展示项目成果，包括核心性能指标和比赛成绩</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'conclusion\')">
+                <div class="slide-number">13</div>
+                <div class="slide-title">总结与展望</div>
+                <div class="slide-description">总结项目成果，分析挑战与不足，展望未来发展方向</div>
+            </div>
+
+            <div class="slide-card" onclick="showSlide(\'qa\')">
+                <div class="slide-number">14</div>
+                <div class="slide-title">感谢聆听 & Q&A</div>
+                <div class="slide-description">致谢页面，包含团队信息、联系方式和GitHub仓库地址</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 东风HUAT无人驾驶车队 | Formula Student Driverless</p>
+        <p>项目开源代码：github.com/bitfsd/fsd_algorithm</p>
+    </div>
+
+    <!-- 幻灯片显示区域 -->
+    <div class="current-slide" id="currentSlide">
+        <iframe id="slideFrame" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+
+    <!-- 幻灯片控制按钮 -->
+    <div class="slide-controls" id="slideControls">
+        <button class="control-button" onclick="previousSlide()">
+            <i class="fas fa-chevron-left"></i> 上一页
+        </button>
+        <button class="control-button" onclick="nextSlide()">
+            下一页 <i class="fas fa-chevron-right"></i>
+        </button>
+        <button class="control-button" onclick="closeSlide()">
+            <i class="fas fa-times"></i> 关闭
+        </button>
+    </div>
+
+    <!-- 幻灯片计数器 -->
+    <div class="slide-counter" id="slideCounter">
+        <span id="currentSlideNumber">1</span> / <span id="totalSlides">14</span>
+    </div>
+
+    <script>
+        const slides = [
+        \'cover\', \'contents\', \'background\', \'architecture\', \'perception\', 
+        \'mapping\', \'planning\', \'simulation_background\', \'simulation_exploration\', 
+        \'simulation_implementation\', \'simulation_results\', \'achievements\', 
+        \'conclusion\', \'qa\'
+        ];
+
+        let currentSlideIndex = 0;
+
+        function showSlide(slideId) {
+            const slideFrame = document.getElementById(\'slideFrame\');
+            const currentSlideDiv = document.getElementById(\'currentSlide\');
+            const slideControls = document.getElementById(\'slideControls\');
+            const slideCounter = document.getElementById(\'slideCounter\');
+            
+            slideFrame.src = slideId + \'.html\';
+            currentSlideDiv.style.display = \'block\';
+            slideControls.style.display = \'flex\';
+            slideCounter.style.display = \'block\';
+            
+            currentSlideIndex = slides.indexOf(slideId);
+            updateSlideCounter();
+
+            // 禁用页面滚动
+            document.body.style.overflow = \'hidden\';
+        }
+
+        function closeSlide() {
+            const currentSlideDiv = document.getElementById(\'currentSlide\');
+            const slideControls = document.getElementById(\'slideControls\');
+            const slideCounter = document.getElementById(\'slideCounter\');
+            
+            currentSlideDiv.style.display = \'none\';
+            slideControls.style.display = \'none\';
+            slideCounter.style.display = \'none\';
+
+            // 恢复页面滚动
+            document.body.style.overflow = \'auto\';
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < slides.length - 1) {
+                currentSlideIndex++;
+                showSlide(slides[currentSlideIndex]);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                showSlide(slides[currentSlideIndex]);
+            }
+        }
+
+        function startPresentation() {
+            showSlide(slides[0]);
+        }
+
+        function updateSlideCounter() {
+            document.getElementById(\'currentSlideNumber\').textContent = currentSlideIndex + 1;
+            document.getElementById(\'totalSlides\').textContent = slides.length;
+        }
+
+        // 键盘导航
+        document.addEventListener(\'keydown\', function(event) {
+            const currentSlideDiv = document.getElementById(\'currentSlide\');
+            if (currentSlideDiv.style.display === \'block\') {
+        switch (event.key) {
+            case \'ArrowRight\':
+            case \' \':
+                nextSlide();
+                break;
+            case \'ArrowLeft\':
+                previousSlide();
+                break;
+            case \'Escape\':
+                closeSlide();
+                break;
+        }
+            }
+        });
+    </script>
+</body>
+
+</html>

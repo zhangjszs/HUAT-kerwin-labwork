@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>核心模块III - 规划与控制 - Formula Student Driverless</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap");
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans SC", sans-serif;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background-color: #F5F5F5;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .header {
+        background-color: #C8102E;
+        color: white;
+        padding: 1.5rem 2rem;
+      }
+      
+      .title {
+        font-size: 36px;
+        font-weight: bold;
+      }
+      
+      .content {
+        flex: 1;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      
+      .section {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .section-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #003366;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .section-title i {
+        margin-right: 0.5rem;
+      }
+      
+      .planning-content {
+        display: flex;
+        gap: 2rem;
+      }
+      
+      .planning-text {
+        flex: 1;
+      }
+      
+      .planning-visualization {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .control-content {
+        display: flex;
+        gap: 2rem;
+      }
+      
+      .control-text {
+        flex: 1;
+      }
+      
+      .control-visualization {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .feature-list {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 1rem;
+      }
+      
+      .feature-item {
+        margin-bottom: 0.5rem;
+        padding-left: 1.5rem;
+        position: relative;
+        font-size: 16px;
+      }
+      
+      .feature-item:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 6px;
+        height: 6px;
+        background-color: #C8102E;
+        border-radius: 50%;
+      }
+      
+      .algorithm-tag {
+        display: inline-block;
+        background-color: #F0F5FF;
+        border: 1px solid #ADC6FF;
+        border-radius: 4px;
+        padding: 0.2rem 0.5rem;
+        margin-right: 0.5rem;
+        font-size: 14px;
+      }
+      
+      .footer {
+        padding: 1rem 2rem;
+        text-align: center;
+        font-size: 14px;
+        color: #333333;
+        border-top: 1px solid #DDDDDD;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">核心模块 III - 规划与控制：如何跑得又快又稳？</h1>
+      </div>
+      
+      <div class="content">
+        <div class="section">
+          <div class="section-title">
+            <i class="fas fa-route"></i> 路径规划
+          </div>
+          <div class="planning-content">
+            <div class="planning-text">
+              <p><strong>全局路径规划</strong>：基于地图生成最优赛道中心线</p>
+              <ul class="feature-list">
+                <li class="feature-item">
+                  <span class="algorithm-tag">Delaunay三角剖分</span>
+                  基于内外锥桶构建赛道边界，生成最优中心线
+                </li>
+                <li class="feature-item">
+                  <span class="algorithm-tag">曲线平滑</span>
+                  使用三次样条插值确保路径平滑连续
+                </li>
+                <li class="feature-item">
+                  <span class="algorithm-tag">赛线优化</span>
+                  考虑车辆动力学特性，生成最优竞速路径
+                </li>
+              </ul>
+              
+              <p><strong>局部轨迹规划</strong>：实时生成可执行路径</p>
+              <ul class="feature-list">
+                <li class="feature-item">
+                  <span class="algorithm-tag">MPC</span>
+                  模型预测控制，预测未来轨迹并优化控制输入
+                </li>
+                <li class="feature-item">
+                  <span class="algorithm-tag">TEB</span>
+                  时间弹性带算法，平衡速度与安全性
+                </li>
+              </ul>
+            </div>
+            <div class="planning-visualization" id="planning-visualization"></div>
+          </div>
+        </div>
+        
+        <div class="section">
+          <div class="section-title">
+            <i class="fas fa-gamepad"></i> 车辆控制
+          </div>
+          <div class="control-content">
+            <div class="control-text">
+              <p><strong>横向控制</strong>：精确跟踪规划轨迹</p>
+              <ul class="feature-list">
+                <li class="feature-item">
+                  <span class="algorithm-tag">Pure Pursuit</span>
+                  前视跟踪算法，适应性强，计算简单
+                </li>
+                <li class="feature-item">
+                  <span class="algorithm-tag">Stanley</span>
+                  结合横向误差和航向误差，精度更高
+                </li>
+              </ul>
+              
+              <p><strong>纵向控制</strong>：精确控制速度</p>
+              <ul class="feature-list">
+                <li class="feature-item">
+                  <span class="algorithm-tag">PID</span>
+                  比例-积分-微分控制器，分别控制油门和刹车
+                </li>
+                <li class="feature-item">
+                  <span class="algorithm-tag">前馈控制</span>
+                  结合道路曲率，提前调整速度
+                </li>
+              </ul>
+            </div>
+            <div class="control-visualization" id="control-visualization"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        东风HUAT无人驾驶车队 | 2025年7月
+      </div>
+    </div>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 创建路径规划可视化
+        const planningCanvas = document.createElement("canvas");
+        planningCanvas.id = "planningChart";
+        planningCanvas.width = 400;
+        planningCanvas.height = 250;
+        document.getElementById("planning-visualization").appendChild(planningCanvas);
+        
+        const planningCtx = document.getElementById("planningChart").getContext("2d");
+        const planningChart = new Chart(planningCtx, {
+          type: "scatter",
+          data: {
+            datasets: [
+              {
+                label: "内侧锥桶",
+                data: [
+                  {x: 50, y: 50}, {x: 70, y: 60}, {x: 100, y: 70}, 
+                  {x: 150, y: 80}, {x: 200, y: 70}, {x: 250, y: 50},
+                  {x: 300, y: 70}, {x: 350, y: 100}, {x: 370, y: 150},
+                  {x: 350, y: 200}, {x: 300, y: 220}, {x: 250, y: 200},
+                  {x: 200, y: 180}, {x: 150, y: 150}, {x: 100, y: 120},
+                  {x: 70, y: 90}, {x: 50, y: 50}
+                ],
+                backgroundColor: "#FA8C16",
+                pointRadius: 6,
+                pointStyle: "triangle"
+              },
+              {
+                label: "外侧锥桶",
+                data: [
+                  {x: 20, y: 20}, {x: 50, y: 30}, {x: 100, y: 40}, 
+                  {x: 150, y: 50}, {x: 200, y: 40}, {x: 270, y: 20},
+                  {x: 320, y: 40}, {x: 380, y: 80}, {x: 400, y: 150},
+                  {x: 380, y: 220}, {x: 320, y: 250}, {x: 270, y: 230},
+                  {x: 200, y: 210}, {x: 150, y: 180}, {x: 100, y: 150},
+                  {x: 50, y: 100}, {x: 20, y: 20}
+                ],
+                backgroundColor: "#1890FF",
+                pointRadius: 6,
+                pointStyle: "triangle"
+              },
+              {
+                label: "全局路径",
+                data: [
+                  {x: 35, y: 35}, {x: 60, y: 45}, {x: 100, y: 55}, 
+                  {x: 150, y: 65}, {x: 200, y: 55}, {x: 260, y: 35},
+                  {x: 310, y: 55}, {x: 365, y: 90}, {x: 385, y: 150},
+                  {x: 365, y: 210}, {x: 310, y: 235}, {x: 260, y: 215},
+                  {x: 200, y: 195}, {x: 150, y: 165}, {x: 100, y: 135},
+                  {x: 60, y: 95}, {x: 35, y: 35}
+                ],
+                backgroundColor: "#52C41A",
+                borderColor: "#52C41A",
+                pointRadius: 0,
+                showLine: true,
+                fill: false,
+                tension: 0.4
+              },
+              {
+                label: "局部轨迹",
+                data: [
+                  {x: 150, y: 165}, {x: 140, y: 155}, {x: 130, y: 145}, 
+                  {x: 120, y: 140}, {x: 110, y: 135}, {x: 100, y: 135}
+                ],
+                backgroundColor: "#F5222D",
+                borderColor: "#F5222D",
+                borderWidth: 3,
+                pointRadius: 0,
+                showLine: true,
+                fill: false
+              },
+              {
+                label: "车辆位置",
+                data: [{x: 150, y: 165}],
+                backgroundColor: "#722ED1",
+                pointRadius: 8,
+                pointStyle: "rect"
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                type: "linear",
+                position: "bottom",
+                min: 0,
+                max: 400,
+                grid: {
+                  display: false
+                },
+                ticks: {
+                  display: false
+                }
+              },
+              y: {
+                min: 0,
+                max: 250,
+                grid: {
+                  display: false
+                },
+                ticks: {
+                  display: false
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                position: "bottom"
+              },
+              title: {
+                display: true,
+                text: "赛道路径规划可视化"
+              }
+            }
+          }
+        });
+        
+        // 创建车辆控制可视化
+        const controlCanvas = document.createElement("canvas");
+        controlCanvas.id = "controlChart";
+        controlCanvas.width = 400;
+        controlCanvas.height = 250;
+        document.getElementById("control-visualization").appendChild(controlCanvas);
+        
+        const controlCtx = document.getElementById("controlChart").getContext("2d");
+        const controlChart = new Chart(controlCtx, {
+          type: "line",
+          data: {
+            labels: ["0s", "0.5s", "1.0s", "1.5s", "2.0s", "2.5s", "3.0s", "3.5s", "4.0s", "4.5s", "5.0s"],
+            datasets: [
+              {
+                label: "横向误差 (m)",
+                data: [0.2, 0.15, 0.1, 0.05, 0, -0.05, -0.1, -0.05, 0, 0.05, 0.1],
+                borderColor: "#1890FF",
+                backgroundColor: "rgba(24, 144, 255, 0.2)",
+                fill: true,
+                tension: 0.4
+              },
+              {
+                label: "转向角 (rad)",
+                data: [0.1, 0.08, 0.05, 0.02, 0, -0.02, -0.05, -0.02, 0, 0.02, 0.05],
+                borderColor: "#722ED1",
+                backgroundColor: "rgba(114, 46, 209, 0.2)",
+                fill: true,
+                tension: 0.4
+              },
+              {
+                label: "速度 (m/s)",
+                data: [8, 9, 10, 11, 12, 12, 11, 10, 9, 8, 7],
+                borderColor: "#52C41A",
+                backgroundColor: "rgba(82, 196, 26, 0.2)",
+                fill: true,
+                tension: 0.4
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                grid: {
+                  color: "rgba(200, 200, 200, 0.2)"
+                }
+              },
+              x: {
+                grid: {
+                  display: false
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                position: "bottom"
+              },
+              title: {
+                display: true,
+                text: "车辆控制性能"
+              }
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
+

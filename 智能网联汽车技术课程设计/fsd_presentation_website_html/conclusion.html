@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>总结与展望 - Formula Student Driverless</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap');
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Noto Sans SC', sans-serif;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background-color: #F5F5F5;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      
+      .header {
+        background-color: #C8102E;
+        color: white;
+        padding: 1rem 2rem;
+        z-index: 1;
+      }
+      
+      .title {
+        font-size: 36px;
+        font-weight: bold;
+      }
+      
+      .content {
+        flex: 1;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        z-index: 1;
+      }
+      
+      .main-content {
+        display: flex;
+        gap: 1.5rem;
+      }
+      
+      .summary-section {
+        flex: 1;
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .future-section {
+        flex: 1;
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .section-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #003366;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .section-title i {
+        margin-right: 0.5rem;
+      }
+      
+      .item-list {
+        list-style-type: none;
+        padding: 0;
+      }
+      
+      .item {
+        margin-bottom: 0.75rem;
+        padding-left: 1.5rem;
+        position: relative;
+        font-size: 16px;
+      }
+      
+      .item:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 6px;
+        height: 6px;
+        background-color: #C8102E;
+        border-radius: 50%;
+      }
+      
+      .roadmap {
+        margin-top: 1rem;
+      }
+      
+      .roadmap-item {
+        display: flex;
+        margin-bottom: 0.75rem;
+      }
+      
+      .roadmap-year {
+        width: 60px;
+        font-weight: bold;
+        color: #003366;
+      }
+      
+      .roadmap-content {
+        flex: 1;
+        padding-left: 0.5rem;
+        border-left: 2px solid #C8102E;
+      }
+      
+      .team-section {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      
+      .team-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #003366;
+        margin-bottom: 0.5rem;
+      }
+      
+      .team-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+      }
+      
+      .team-text {
+        flex: 2;
+        text-align: left;
+      }
+      
+      .team-links {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .team-link {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        background-color: #F9F9F9;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+      }
+      
+      .team-link:hover {
+        background-color: #F0F5FF;
+        transform: translateX(5px);
+      }
+      
+      .team-link i {
+        margin-right: 0.5rem;
+        color: #1890FF;
+      }
+      
+      .footer {
+        padding: 0.5rem 2rem;
+        text-align: center;
+        font-size: 14px;
+        color: #333333;
+        border-top: 1px solid #DDDDDD;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">总结与展望</h1>
+      </div>
+      
+      <div class="content">
+        <div class="main-content">
+          <div class="summary-section">
+            <div class="section-title">
+              <i class="fas fa-check-circle"></i> 工作总结
+            </div>
+            <ul class="item-list">
+              <li class="item"><strong>算法全栈</strong>：成功实现从感知、定位、规划到控制的完整自动驾驶算法链路</li>
+              <li class="item"><strong>仿真平台</strong>：构建了高度还原实车特性的仿真环境，大幅提升了算法开发效率</li>
+              <li class="item"><strong>实车验证</strong>：算法在实车上成功运行，实现了高速自主循迹</li>
+              <li class="item"><strong>开源贡献</strong>：向社区贡献了改进的FSSIM仿真平台和算法组件</li>
+            </ul>
+            
+            <div class="section-title" style="margin-top: 1rem;">
+              <i class="fas fa-exclamation-triangle"></i> 挑战与不足
+            </div>
+            <ul class="item-list">
+              <li class="item"><strong>仿真-实车差异</strong>：算法导入过程中出现大量问题，需要进一步优化迁移流程</li>
+              <li class="item"><strong>极端场景</strong>：在复杂光照和恶劣天气条件下的鲁棒性有待提高</li>
+              <li class="item"><strong>计算资源</strong>：车载计算平台的算力限制了更复杂算法的部署</li>
+            </ul>
+          </div>
+          
+          <div class="future-section">
+            <div class="section-title">
+              <i class="fas fa-rocket"></i> 未来展望
+            </div>
+            <ul class="item-list">
+              <li class="item"><strong>算法优化</strong>：引入深度学习方法，提升感知和决策能力</li>
+              <li class="item"><strong>无缝迁移</strong>：完善仿真-实车的自动化迁移流程，减少手动调参</li>
+              <li class="item"><strong>数字孪生</strong>：实现实车与仿真平台的实时交互，支持混合现实测试</li>
+              <li class="item"><strong>多车协同</strong>：探索多车编队和协同决策算法</li>
+            </ul>
+            
+            <div class="section-title" style="margin-top: 1rem;">
+              <i class="fas fa-map"></i> 发展路线图
+            </div>
+            <div class="roadmap">
+              <div class="roadmap-item">
+                <div class="roadmap-year">2025</div>
+                <div class="roadmap-content">完善数字孪生系统，实现仿真-实车双向数据流</div>
+              </div>
+              <div class="roadmap-item">
+                <div class="roadmap-year">2026</div>
+                <div class="roadmap-content">引入端到端深度学习方法，提升极端场景适应能力</div>
+              </div>
+              <div class="roadmap-item">
+                <div class="roadmap-year">2027</div>
+                <div class="roadmap-content">实现多车协同系统，探索编队控制算法</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="team-section">
+          <div class="team-title">团队合作与感谢</div>
+          <div class="team-content">
+            <div class="team-text">
+              <p>感谢北京理工大学无人驾驶方程式赛车队全体成员的辛勤付出，以及学校和各赞助单位的大力支持。我们将继续秉承"求真务实、勇于创新"的精神，在自动驾驶技术领域不断探索和突破。</p>
+            </div>
+            <div class="team-links">
+              <div class="team-link">
+                <i class="fab fa-github"></i>
+                <div>github.com/bitfsd/fsd_algorithm</div>
+              </div>
+              <div class="team-link">
+                <i class="fas fa-globe"></i>
+                <div>bitfsd.bit.edu.cn</div>
+              </div>
+              <div class="team-link">
+                <i class="fas fa-envelope"></i>
+                <div>bitfsd@bit.edu.cn</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        东风HUAT无人驾驶车队 | 2025年7月
+      </div>
+    </div>
+  </body>
+</html>
+

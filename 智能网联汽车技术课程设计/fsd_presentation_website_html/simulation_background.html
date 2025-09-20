@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仿真平台：背景与技术栈 - Formula Student Driverless</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap");
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans SC", sans-serif;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background-color: #F5F5F5;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .header {
+        background-color: #C8102E;
+        color: white;
+        padding: 1rem 2rem;
+      }
+      
+      .title {
+        font-size: 36px;
+        font-weight: bold;
+      }
+      
+      .content {
+        flex: 1;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .main-content {
+        display: flex;
+        gap: 1.5rem;
+      }
+      
+      .left-column {
+        flex: 1;
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .right-column {
+        flex: 1;
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .section-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #003366;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .section-title i {
+        margin-right: 0.5rem;
+      }
+      
+      .challenge-list {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 0.5rem;
+      }
+      
+      .challenge-item {
+        margin-bottom: 0.5rem;
+        padding-left: 1.5rem;
+        position: relative;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .challenge-item:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 10px;
+        width: 6px;
+        height: 6px;
+        background-color: #C8102E;
+        border-radius: 50%;
+      }
+      
+      .tech-stack {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-top: 0.5rem;
+      }
+      
+      .tech-item {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        border-radius: 8px;
+        background-color: #F9F9F9;
+      }
+      
+      .tech-logo {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        margin-right: 0.5rem;
+      }
+      
+      .tech-info {
+        flex: 1;
+      }
+      
+      .tech-name {
+        font-weight: bold;
+        font-size: 16px;
+      }
+      
+      .preview-section {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .preview-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+      
+      .footer {
+        padding: 0.5rem 2rem;
+        text-align: center;
+        font-size: 14px;
+        color: #333333;
+        border-top: 1px solid #DDDDDD;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">仿真平台：背景与技术栈</h1>
+      </div>
+      
+      <div class="content">
+        <div class="main-content">
+          <div class="left-column">
+            <div class="section-title">
+              <i class="fas fa-question-circle"></i> 为什么需要仿真平台？
+            </div>
+            <p>实车测试面临的痛点：</p>
+            <ul class="challenge-list">
+              <li class="challenge-item"><strong>场地限制</strong>：专业测试场地稀缺，预约困难</li>
+              <li class="challenge-item"><strong>天气影响</strong>：雨雪天气无法进行户外测试</li>
+              <li class="challenge-item"><strong>效率问题</strong>：调试周期长，迭代速度慢</li>
+            </ul>
+            
+            <div class="section-title" style="margin-top: 1rem;">
+              <i class="fas fa-lightbulb"></i> 仿真平台的价值
+            </div>
+            <ul class="challenge-list">
+              <li class="challenge-item"><strong>快速迭代</strong>：算法开发与测试并行进行</li>
+              <li class="challenge-item"><strong>场景丰富</strong>：可模拟各种赛道和环境条件</li>
+              <li class="challenge-item"><strong>零风险</strong>：避免实车测试的安全隐患</li>
+            </ul>
+          </div>
+          
+          <div class="right-column">
+            <div class="section-title">
+              <i class="fas fa-tools"></i> 核心技术栈
+            </div>
+            <div class="tech-stack">
+              <div class="tech-item">
+                <img src="/home/ubuntu/fsd_presentation/images/ros_logo.png" alt="ROS Logo" class="tech-logo">
+                <div class="tech-info">
+                  <div class="tech-name">ROS</div>
+                  <div>机器人操作系统</div>
+                </div>
+              </div>
+              
+              <div class="tech-item">
+                <img src="/home/ubuntu/fsd_presentation/images/gazebo_logo.png" alt="Gazebo Logo" class="tech-logo">
+                <div class="tech-info">
+                  <div class="tech-name">Gazebo</div>
+                  <div>3D动力学仿真器</div>
+                </div>
+              </div>
+              
+              <div class="tech-item">
+                <img src="/home/ubuntu/fsd_presentation/images/rviz_logo.png" alt="Rviz Logo" class="tech-logo">
+                <div class="tech-info">
+                  <div class="tech-name">Rviz</div>
+                  <div>3D可视化工具</div>
+                </div>
+              </div>
+              
+              <div class="tech-item">
+                <div class="tech-logo" style="display: flex; justify-content: center; align-items: center; font-weight: bold; color: #003366;">URDF</div>
+                <div class="tech-info">
+                  <div class="tech-name">URDF</div>
+                  <div>机器人描述格式</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="section-title" style="margin-top: 1rem;">
+              <i class="fas fa-cogs"></i> 仿真系统架构
+            </div>
+            <ul class="challenge-list">
+              <li class="challenge-item"><strong>物理仿真</strong>：车辆动力学、传感器模型</li>
+              <li class="challenge-item"><strong>环境模拟</strong>：赛道、锥桶、地形</li>
+              <li class="challenge-item"><strong>算法接口</strong>：与实车代码保持一致的API</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="preview-section">
+          <div class="section-title">
+            <i class="fas fa-desktop"></i> 仿真平台效果预览
+          </div>
+          <img src="/home/ubuntu/fsd_presentation/images/simulation.webp" alt="仿真平台效果预览" class="preview-image">
+        </div>
+      </div>
+      
+      <div class="footer">
+        东风HUAT无人驾驶车队 | 2025年7月
+      </div>
+    </div>
+  </body>
+</html>
+

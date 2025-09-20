@@ -1,42 +1,106 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <math.h>
-#include <process.h>
-#include <conio.h>
 #include <time.h>
+
+// 常量定义
 #define MAXNAME 30
 #define MAXDAY 20
 #define MAXID 20
-typedef long long ll;
+#define TRUE 1
+#define FALSE 0
+
+// 全局变量
 struct Node *list = NULL; // 使用全局链表
 int Nowyear, Nowmonth, Nowday;
 int monthday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-void welcome()
+
+// 索赔信息结构体
+struct ClimeData
+{
+	char ServiceStationName[MAXNAME]; // 服务站名称
+	char id[MAXID];					  // 索赔编号
+	int ClaimAmount;				  // 索赔金额
+	char ClaimTime[MAXDAY];			  // 索赔日期
+	char CarVIN[MAXID];				  // 底盘号
+	char Reviewer[MAXNAME];			  // 审核人
+};
+
+// 链表节点结构体
+struct Node
+{
+	struct ClimeData data;
+	struct Node *next;
+};
+
+// 函数声明
+void welcome(void);
+void makeMenu(void);
+void keyDown(void);
+void getNowTime(void);
+
+// 链表操作函数
+struct Node *createHead(void);
+struct Node *createNode(struct ClimeData data);
+void insertNodeByHead(struct Node *headNode, struct ClimeData data);
+void insertNodeByTail(struct Node *headNode, struct ClimeData data);
+void deleteNodeByClimeID(struct Node *headNode, char *DataId);
+
+// 查找函数
+struct Node *searchByCarVIN(struct Node *headNode, char *CarVIN);
+struct Node *searchByCarID(struct Node *headNode, char *ID);
+struct Node *checkRepeatID(struct Node *headNode, char *ID);
+void searchAndPrintByCarVIN(struct Node *headNode, char *CarVIN);
+
+// 数据处理函数
+void bubbleSortList(struct Node *headNode);
+void printList(struct Node *headNode);
+
+// 验证函数
+int checkID(char *ID);
+int checkTrueTime(char *time);
+int IsLeapYear(int year);
+
+// 统计函数
+int statisticalAmountByName(struct Node *headNode, char *name);
+int statisticalAmountByReviewer(struct Node *headNode, char *name);
+int statisticalAmountByTime(struct Node *headNode, char *Time);
+
+// 文件操作函数
+void saveInfoFile(const char *fileName, struct Node *headNode);
+void readInfoFile(const char *fileName, struct Node *headNode);
+
+// 辅助函数
+void substr(char dest[], char src[], int pos, int length);
+
+// 内存管理函数
+void freeList(struct Node *headNode);
+void welcome(void)
 {
 	system("color F0");
-	printf("\n\n\n\n\t\t ********************************************************************\n");
+	printf("\n\n\n\n");
 	printf("\t\t ********************************************************************\n");
 	printf("\t\t ********************************************************************\n");
-	printf("\t\t **  \t\t\t\t\t\t\t\t   **\n");
-	printf("\t\t **  \t\t\t\t\t\t\t\t   **\n");
-	printf("\t\t **   欢   迎   使   用   汽   车   索   赔   管   理   系   统 !  ** \n");
-	printf("\t\t **  \t\t\t\t\t\t\t\t   **\n");
-	printf("\t\t **  \t\t\t\t\t\t\t\t   **\n");
-	printf("\t\t **  \t\t\t\t\t\t\t\t   **\n");
-	printf("\t\t **  \t\t\t\t\t\t\t\t   **\n");
-	printf("\t\t **  \t\t\t\t\t\t\t\t   **\n");
-	printf("\t\t **   制   作   人：章崇文       指   导   教   ；史旅华 齐心      **\n");
-	printf("\t\t **   学校 湖北汽车工业学院      班级 计算机 222                   **\n");
+	printf("\t\t ********************************************************************\n");
+	printf("\t\t **                                                               **\n");
+	printf("\t\t **                                                               **\n");
+	printf("\t\t **   欢   迎   使   用   汽   车   索   赔   管   理   系   统 !  **\n");
+	printf("\t\t **                                                               **\n");
+	printf("\t\t **                                                               **\n");
+	printf("\t\t **                                                               **\n");
+	printf("\t\t **                                                               **\n");
+	printf("\t\t **                                                               **\n");
+	printf("\t\t **   制   作   人：章崇文       指   导   教   师：史旅华 齐心     **\n");
+	printf("\t\t **   学校 湖北汽车工业学院      班级 计算机 222                  **\n");
 	printf("\t\t ********************************************************************\n");
 	printf("\t\t *************   请   按   ENTER   键   进   入   系   统************\n");
 	printf("\t\t ********************************************************************\n");
-	fflush(stdin);
-	getchar();
+
+	while (getchar() != '\n')
+		; // 清空输入缓冲区
 	system("cls");
-	return;
 }
-void makeMenu() // 菜单界面
+void makeMenu(void) // 菜单界面
 {
 	printf("\n\n\t\t--------------------成 功 进 入 系 统 !--------------------\n");
 	printf("\t\t--------------------【以 下 是 菜 单：】--------------------\n");
@@ -50,50 +114,50 @@ void makeMenu() // 菜单界面
 	printf("\t\t---------------        8.0退出该程序         ---------------\n");
 	printf("\t\t------------------------------------------------------------\n");
 	printf("\t\t----如有问题到 https://www.cnblogs.com/jszs0013/进行留言----\n");
-	return;
 }
-// 索赔信息的设定
-struct ClimeData
-{
-	char ServiceStationName[MAXNAME]; // 服务站名称
-	char id[MAXID];					  // 索赔编号
-	int ClaimAmount;				  // 索赔金额
-	char ClaimTime[MAXDAY];			  // 索赔日期
-	char CarVIN[MAXID];				  // 底盘号
-	char Reviewer[MAXNAME];			  // 审核人
-};
-// 主要数据链表的设定
-struct Node
-{
-	struct ClimeData data;
-	struct Node *next;
-};
-struct Node *createHead()
+// 欢迎界面
+struct Node *createHead(void)
 {
 	struct Node *headNode = (struct Node *)malloc(sizeof(struct Node)); // 动态内存申请
+	if (headNode == NULL)
+	{
+		printf("内存分配失败！\n");
+		exit(1);
+	}
 	headNode->next = NULL;
 	return headNode;
-};
+}
 // 创建节点为数据做准备
 struct Node *createNode(struct ClimeData data)
 {
 	struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+	if (newNode == NULL)
+	{
+		printf("内存分配失败！\n");
+		exit(1);
+	}
 	newNode->data = data;
 	newNode->next = NULL;
 	return newNode;
 }
 // 插入数据 使用表头法插入
-void insertNodeBYHead(struct Node *headNode, struct ClimeData data)
+void insertNodeByHead(struct Node *headNode, struct ClimeData data)
 {
+	if (headNode == NULL)
+		return;
+
 	struct Node *newNode = createNode(data);
 	newNode->next = headNode->next;
 	headNode->next = newNode;
 }
 // 插入数据 使用表尾法
-void insertNodeBYTail(struct Node *headNode, struct ClimeData data)
+void insertNodeByTail(struct Node *headNode, struct ClimeData data)
 {
+	if (headNode == NULL)
+		return;
+
 	struct Node *pMove = headNode;
-	while (pMove != NULL)
+	while (pMove->next != NULL) // 修复：原来的条件会导致空指针访问
 	{
 		pMove = pMove->next;
 	}
@@ -101,41 +165,61 @@ void insertNodeBYTail(struct Node *headNode, struct ClimeData data)
 	pMove->next = newNode;
 }
 // 指定位置删除，给定索赔编号，删除索赔信息
-void deleteNodeBYClimeID(struct Node *headNode, char *DataId)
+void deleteNodeByClimeID(struct Node *headNode, char *DataId)
 {
-	struct Node *posLeftNode = NULL;
+	if (headNode == NULL || headNode->next == NULL)
+	{
+		printf("链表为空或没有数据节点!\n");
+		return;
+	}
+
+	struct Node *posLeftNode = headNode; // 修复：从头节点开始
 	struct Node *posNode = headNode->next;
-	while (posNode != NULL && strcmp(posNode->data.id, DataId)) // 比较id
+
+	while (posNode != NULL && strcmp(posNode->data.id, DataId) != 0) // 修复：添加!=0
 	{
 		posLeftNode = posNode;
-		posNode = posLeftNode->next;
+		posNode = posNode->next; // 修复：应该是posNode->next
 	}
+
 	// 讨论查找结果
 	if (posNode == NULL)
+	{
+		printf("未找到指定编号的索赔信息!\n");
 		return;
+	}
 	else
 	{
 		printf("删除成功！\n");
 		posLeftNode->next = posNode->next;
 		free(posNode);
-		posNode = NULL;
 	}
 }
 // 用底盘号查找
 struct Node *searchByCarVIN(struct Node *headNode, char *CarVIN)
 {
+	if (headNode == NULL)
+		return NULL;
+
 	struct Node *posNode = headNode->next;
-	while (posNode != NULL && strcmp(posNode->data.CarVIN, CarVIN))
+	while (posNode != NULL && strcmp(posNode->data.CarVIN, CarVIN) != 0)
 	{
 		posNode = posNode->next;
 	}
 	return posNode;
 }
 // 通过底盘号查历史
-void searchAndprintfBYCarVIN(struct Node *headNode, char *CarVIN)
+void searchAndPrintByCarVIN(struct Node *headNode, char *CarVIN)
 {
+	if (headNode == NULL)
+	{
+		printf("链表为空!\n");
+		return;
+	}
 
 	struct Node *posNode = headNode->next;
+	int found = 0;
+
 	for (; posNode != NULL; posNode = posNode->next)
 	{
 		if (strcmp(posNode->data.CarVIN, CarVIN) == 0)
@@ -146,23 +230,36 @@ void searchAndprintfBYCarVIN(struct Node *headNode, char *CarVIN)
 			printf("索赔金额: %d\n", posNode->data.ClaimAmount);
 			printf("底盘号: %s\n", posNode->data.CarVIN);
 			printf("审核人: %s\n", posNode->data.Reviewer);
+			found = 1;
 		}
+	}
+
+	if (!found)
+	{
+		printf("未找到该底盘号的索赔记录!\n");
 	}
 }
 // 用编号查找
 struct Node *searchByCarID(struct Node *headNode, char *ID)
 {
+	if (headNode == NULL)
+		return NULL;
+
 	struct Node *posNode = headNode->next;
-	while (posNode != NULL && strcmp(posNode->data.id, ID))
+	while (posNode != NULL && strcmp(posNode->data.id, ID) != 0)
 	{
 		posNode = posNode->next;
 	}
 	return posNode;
 }
+
 struct Node *checkRepeatID(struct Node *headNode, char *ID) // 判断编号是否重复
 {
+	if (headNode == NULL)
+		return NULL;
+
 	struct Node *posNode = headNode->next;
-	while (posNode != NULL && strcmp(posNode->data.id, ID))
+	while (posNode != NULL && strcmp(posNode->data.id, ID) != 0)
 	{
 		posNode = posNode->next;
 	}
@@ -205,51 +302,87 @@ int IsLeapYear(int year) // 判断年份是否是润年
 	else
 		return 0;
 }
-void Nowtime() // 通过函数得到当前时间
+void getNowTime(void) // 通过函数得到当前时间
 {
 	time_t timep;
 	time(&timep);
 	struct tm *p;
-	p = gmtime(&timep);
+	p = localtime(&timep); // 修复：使用localtime而不是gmtime
 	Nowyear = (1900 + p->tm_year);
 	Nowmonth = 1 + p->tm_mon;
 	Nowday = p->tm_mday;
-	// printf("%d-%d-%d",Nowyear,Nowmonth,Nowday);
 }
 int checkTrueTime(char *time) // 判断时间合法性
 {
-	int flagyear = 0, flagmonth = 0, flagday = 0, trueflag = 0;
+	if (time == NULL || strlen(time) != 10)
+	{
+		return FALSE;
+	}
+
+	// 检查格式是否为 yyyy-mm-dd
+	if (time[4] != '-' || time[7] != '-')
+	{
+		return FALSE;
+	}
+
 	char ID[15];
-	strcpy(ID, time);
-	printf("%s", ID);
+	strncpy(ID, time, 14); // 安全复制
+	ID[14] = '\0';
+
 	char syear[10], smonth[10], sday[10];
 	substr(syear, ID, 0, 4);
 	substr(smonth, ID, 5, 2);
 	substr(sday, ID, 8, 2);
+
 	int putyear = atoi(syear);
 	int putmonth = atoi(smonth);
 	int putday = atoi(sday);
-	if (IsLeapYear(putyear))
-		monthday[2] = 29;
-	if (putyear <= Nowyear && putyear > 0)
+
+	// 检查年份有效性
+	if (putyear <= 0 || putyear > Nowyear)
 	{
-		flagyear = 1;
-		if (putmonth <= Nowmonth && putmonth > 0)
-			flagmonth = 1;
-		if (putday < monthday[putmonth] && putday > 0)
-			flagday = 1;
+		return FALSE;
 	}
-	if (flagday && flagmonth && flagyear)
-		trueflag = 1;
-	/*else
+
+	// 检查月份有效性
+	if (putmonth <= 0 || putmonth > 12)
 	{
-		printf("输入的日期不合法，请输入合法日期 例yyyy-mm-dd\n");
-	}*/
-	return trueflag;
+		return FALSE;
+	}
+
+	// 更新闰年天数
+	if (IsLeapYear(putyear))
+	{
+		monthday[2] = 29;
+	}
+	else
+	{
+		monthday[2] = 28;
+	}
+
+	// 检查日期有效性
+	if (putday <= 0 || putday > monthday[putmonth])
+	{
+		return FALSE;
+	}
+
+	// 检查是否不晚于当前日期
+	if (putyear == Nowyear)
+	{
+		if (putmonth > Nowmonth || (putmonth == Nowmonth && putday > Nowday))
+		{
+			return FALSE;
+		}
+	}
+
+	return TRUE;
 }
 // 通过服务站统计金额
-int StatisticalAmountByName(struct Node *headNode, char *name)
+int statisticalAmountByName(struct Node *headNode, char *name)
 {
+	if (headNode == NULL || name == NULL)
+		return 0;
+
 	int amount = 0;
 	struct Node *posNode = headNode->next;
 	while (posNode != NULL)
@@ -262,9 +395,13 @@ int StatisticalAmountByName(struct Node *headNode, char *name)
 	}
 	return amount;
 }
+
 // 通过审核员统计金额
-int StatisticalAmountByReviewer(struct Node *headNode, char *name)
+int statisticalAmountByReviewer(struct Node *headNode, char *name)
 {
+	if (headNode == NULL || name == NULL)
+		return 0;
+
 	int amount = 0;
 	struct Node *posNode = headNode->next;
 	while (posNode != NULL)
@@ -277,9 +414,13 @@ int StatisticalAmountByReviewer(struct Node *headNode, char *name)
 	}
 	return amount;
 }
+
 // 通过时间统计金额
-int StatisticalAmountByTime(struct Node *headNode, char *Time)
+int statisticalAmountByTime(struct Node *headNode, char *Time)
 {
+	if (headNode == NULL || Time == NULL)
+		return 0;
+
 	int amount = 0;
 	struct Node *posNode = headNode->next;
 	while (posNode != NULL)
@@ -293,53 +434,111 @@ int StatisticalAmountByTime(struct Node *headNode, char *Time)
 	return amount;
 }
 // 文件操作 写入文件
-// 写入文件
 void saveInfoFile(const char *fileName, struct Node *headNode)
 {
-	FILE *fp = fopen(fileName, "w+");
+	if (fileName == NULL || headNode == NULL)
+	{
+		printf("保存文件失败：参数无效!\n");
+		return;
+	}
+
+	FILE *fp = fopen(fileName, "w");
+	if (fp == NULL)
+	{
+		printf("无法创建或打开文件 %s!\n", fileName);
+		return;
+	}
+
 	struct Node *pMove = headNode->next;
-	fprintf(fp, "服务站名称\t索赔编号\t索赔日期\t索赔金额\t底盘号\t审核人\t\n");
+	fprintf(fp, "服务站名称\t索赔编号\t索赔日期\t索赔金额\t底盘号\t审核人\n");
+
 	while (pMove != NULL)
 	{
-		fprintf(fp, "%s\t%s\t%s\t%d\t%s\t%s\t\n", pMove->data.ServiceStationName, pMove->data.id, pMove->data.ClaimTime, pMove->data.ClaimAmount,
-				pMove->data.CarVIN, pMove->data.Reviewer);
+		fprintf(fp, "%s\t%s\t%s\t%d\t%s\t%s\n",
+				pMove->data.ServiceStationName,
+				pMove->data.id,
+				pMove->data.ClaimTime,
+				pMove->data.ClaimAmount,
+				pMove->data.CarVIN,
+				pMove->data.Reviewer);
 		pMove = pMove->next;
 	}
+
 	fclose(fp);
+	printf("数据已成功保存到文件 %s\n", fileName);
 }
 // 文件读操作
 void readInfoFile(const char *fileName, struct Node *headNode)
 {
+	if (fileName == NULL || headNode == NULL)
+	{
+		printf("读取文件失败：参数无效!\n");
+		return;
+	}
+
 	FILE *fp = fopen(fileName, "r");
-	if (fp == NULL) // 文件不纯在就创建文件
+	if (fp == NULL) // 文件不存在就创建文件
 	{
-		fp = fopen(fileName, "w+");
+		printf("文件 %s 不存在，将创建新文件。\n", fileName);
+		fp = fopen(fileName, "w");
+		if (fp != NULL)
+		{
+			fprintf(fp, "服务站名称\t索赔编号\t索赔日期\t索赔金额\t底盘号\t审核人\n");
+			fclose(fp);
+		}
+		return;
 	}
+
 	struct ClimeData tempData;
-	fscanf(fp, "%*[^\n]");
-	while (
-		(fscanf(fp, "%s\t", tempData.ServiceStationName) != EOF) && (fscanf(fp, "%s\t", tempData.id) != EOF) &&
-		(fscanf(fp, "%s\t", tempData.ClaimTime) != EOF) && (fscanf(fp, "%d", &tempData.ClaimAmount)) &&
-		(fscanf(fp, "%s\t", tempData.CarVIN) != EOF) && (fscanf(fp, "%s\n", tempData.Reviewer)))
+	char line[256];
+
+	// 跳过标题行
+	if (fgets(line, sizeof(line), fp) == NULL)
 	{
-		insertNodeBYHead(list, tempData);
+		fclose(fp);
+		return;
 	}
+
+	// 读取数据行
+	while (fscanf(fp, "%29s\t%19s\t%19s\t%d\t%19s\t%29s",
+				  tempData.ServiceStationName,
+				  tempData.id,
+				  tempData.ClaimTime,
+				  &tempData.ClaimAmount,
+				  tempData.CarVIN,
+				  tempData.Reviewer) == 6)
+	{
+		insertNodeByHead(headNode, tempData);
+	}
+
 	fclose(fp);
+	printf("成功从文件 %s 读取数据。\n", fileName);
 }
 // 打印索赔信息
-void printfList(struct Node *headNode)
+void printList(struct Node *headNode)
 {
+	if (headNode == NULL || headNode->next == NULL)
+	{
+		printf("暂无索赔信息!\n");
+		return;
+	}
+
 	struct Node *pMove = headNode->next;
-	printf("以下是现在储存的信息");
+	printf("\n=== 以下是现在储存的信息 ===\n");
+	int count = 1;
+
 	while (pMove != NULL)
 	{
-		printf("\n服务站名称: %s\n", pMove->data.ServiceStationName);
+		printf("\n--- 记录 %d ---\n", count++);
+		printf("服务站名称: %s\n", pMove->data.ServiceStationName);
 		printf("索赔编号: %s\n", pMove->data.id);
 		printf("索赔日期: %s\n", pMove->data.ClaimTime);
-		printf("索赔金额: %d\n", pMove->data.ClaimAmount);
+		printf("索赔金额: %d 元\n", pMove->data.ClaimAmount);
 		printf("底盘号: %s\n", pMove->data.CarVIN);
 		printf("审核人: %s\n", pMove->data.Reviewer);
+		pMove = pMove->next;
 	}
+	printf("\n=== 共显示 %d 条记录 ===\n", count - 1);
 }
 // 用户交互界面
 void keyDown()
@@ -384,7 +583,7 @@ void keyDown()
 		if (result != NULL)
 		{
 			printf("查询成功以下是历史信息\n");
-			searchAndprintfBYCarVIN(list, tempData.CarVIN);
+			searchAndPrintByCarVIN(list, tempData.CarVIN);
 		}
 		else
 		{
@@ -460,7 +659,7 @@ void keyDown()
 		printf("----------删除索赔信息----------\n");
 		printf("请输入要删除的索赔信息的编号：\n");
 		scanf("%s", tempData.id);
-		deleteNodeBYClimeID(list, tempData.id);
+		deleteNodeByClimeID(list, tempData.id);
 		saveInfoFile("ClimeData.txt", list);
 		break;
 	case 6:
@@ -490,7 +689,7 @@ void keyDown()
 		printf("\n审核人: ");
 		scanf("%s", tempData.Reviewer);
 		printf("\n添加完毕");
-		insertNodeBYHead(list, tempData);
+		insertNodeByHead(list, tempData);
 		saveInfoFile("ClimeData.txt", list);
 		break;
 	case 7:
@@ -503,13 +702,13 @@ void keyDown()
 		case 1:
 			printf("请输入服务站名\n");
 			scanf("%s", tempData.ServiceStationName);
-			money = StatisticalAmountByName(list, tempData.ServiceStationName);
+			money = statisticalAmountByName(list, tempData.ServiceStationName);
 			printf("这是统计后的数字：%d\n", money);
 			break;
 		case 2:
 			printf("请输入审核员名字\n");
 			scanf("%s", tempData.Reviewer);
-			money = StatisticalAmountByReviewer(list, tempData.Reviewer);
+			money = statisticalAmountByReviewer(list, tempData.Reviewer);
 			printf("这是统计后的数字：%d\n", money);
 			break;
 		case 3:
@@ -519,7 +718,7 @@ void keyDown()
 				printf("输入的日期不合法，请输入合法日期 例yyyy-mm-dd\n");
 			else
 			{
-				money = StatisticalAmountByTime(list, tempData.ClaimTime);
+				money = statisticalAmountByTime(list, tempData.ClaimTime);
 				printf("这是统计后的数字：%d\n", money);
 			}
 			break;
@@ -540,11 +739,23 @@ void keyDown()
 	}
 }
 // 主函数
-int main()
+int main(void)
 {
 	welcome();
+
+	// 初始化当前时间
+	getNowTime();
+
+	// 创建链表头
 	list = createHead();
-	readInfoFile("ClimeData.txt", list); // 读入数据
+	if (list == NULL)
+	{
+		printf("程序初始化失败！\n");
+		return -1;
+	}
+
+	// 读入数据
+	readInfoFile("ClimeData.txt", list);
 
 	while (1)
 	{
@@ -553,6 +764,26 @@ int main()
 		system("pause");
 		system("cls");
 	}
-	system("pause");
+
+	// 释放内存（虽然程序退出时系统会自动释放，但这是好习惯）
+	freeList(list);
+
 	return 0;
+}
+
+// 释放链表内存
+void freeList(struct Node *headNode)
+{
+	if (headNode == NULL)
+		return;
+
+	struct Node *current = headNode;
+	struct Node *next;
+
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current);
+		current = next;
+	}
 }
