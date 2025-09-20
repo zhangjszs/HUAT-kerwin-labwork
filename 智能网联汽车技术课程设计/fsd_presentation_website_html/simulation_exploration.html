@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>方案探索 - Formula Student Driverless</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap");
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans SC", sans-serif;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background-color: #F5F5F5;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .header {
+        background-color: #C8102E;
+        color: white;
+        padding: 1rem 2rem;
+      }
+      
+      .title {
+        font-size: 36px;
+        font-weight: bold;
+      }
+      
+      .content {
+        flex: 1;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .comparison-container {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      .approach {
+        flex: 1;
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .approach-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+      
+      .approach-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 0.5rem;
+      }
+      
+      .approach-badge.attempt {
+        background-color: #FFF7E6;
+        color: #FA8C16;
+      }
+      
+      .approach-badge.selected {
+        background-color: #F6FFED;
+        color: #52C41A;
+      }
+      
+      .approach-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #003366;
+      }
+      
+      .approach-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .approach-description {
+        margin-bottom: 1rem;
+      }
+      
+      .feature-list {
+        list-style-type: none;
+        padding: 0;
+      }
+      
+      .feature-item {
+        margin-bottom: 0.5rem;
+        padding-left: 1.5rem;
+        position: relative;
+        font-size: 16px;
+      }
+      
+      .feature-item:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 8px;
+        width: 6px;
+        height: 6px;
+        background-color: #C8102E;
+        border-radius: 50%;
+      }
+      
+      .approach-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-top: auto;
+      }
+      
+      .decision-section {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .decision-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #003366;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .decision-title i {
+        margin-right: 0.5rem;
+      }
+      
+      .decision-content {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+      
+      .decision-text {
+        flex: 2;
+      }
+      
+      .decision-chart {
+        flex: 1;
+        height: 150px;
+      }
+      
+      .footer {
+        padding: 0.5rem 2rem;
+        text-align: center;
+        font-size: 14px;
+        color: #333333;
+        border-top: 1px solid #DDDDDD;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">方案探索：如何从零构建仿真系统？</h1>
+      </div>
+      
+      <div class="content">
+        <div class="comparison-container">
+          <div class="approach">
+            <div class="approach-header">
+              <div class="approach-badge attempt">方案一</div>
+              <div class="approach-title">自研仿真系统</div>
+            </div>
+            <div class="approach-content">
+              <div class="approach-description">
+                基于ROS-Gazebo + SolidWorks的完全自研方案
+              </div>
+              <ul class="feature-list">
+                <li class="feature-item"><strong>技术路线</strong>：SolidWorks建模 → URDF转换 → Gazebo仿真</li>
+                <li class="feature-item"><strong>优势</strong>：完全自主可控，高度定制化</li>
+                <li class="feature-item"><strong>挑战</strong>：URDF建模工程量巨大，传感器模型复杂</li>
+                <li class="feature-item"><strong>结果</strong>：因开发周期长且人力有限而放弃</li>
+              </ul>
+              <div style="margin-top: auto; text-align: center;">
+                <div style="width: 100%; height: 180px; background-color: #F0F0F0; border-radius: 4px; display: flex; justify-content: center; align-items: center;">
+                  <div style="font-size: 16px; color: #666;">自研方案示意图</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="approach">
+            <div class="approach-header">
+              <div class="approach-badge selected">方案二</div>
+              <div class="approach-title">基于FSSIM二次开发</div>
+            </div>
+            <div class="approach-content">
+              <div class="approach-description">
+                基于北理工FSSIM开源平台进行二次开发的方案
+              </div>
+              <ul class="feature-list">
+                <li class="feature-item"><strong>技术路线</strong>：FSSIM平台 → 参数调整 → 功能扩展</li>
+                <li class="feature-item"><strong>优势</strong>：开发周期短，已有成熟框架支持</li>
+                <li class="feature-item"><strong>改进</strong>：定制车辆参数，增加传感器噪声模型</li>
+                <li class="feature-item"><strong>结果</strong>：成功实现全栈仿真，满足开发需求</li>
+              </ul>
+              <div style="margin-top: auto; text-align: center;">
+                <div style="width: 100%; height: 180px; background-color: #F0F0F0; border-radius: 4px; display: flex; justify-content: center; align-items: center;">
+                  <div style="font-size: 16px; color: #666;">FSSIM平台示意图</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="decision-section">
+          <div class="decision-title">
+            <i class="fas fa-balance-scale"></i> 方案对比与最终决策
+          </div>
+          <div class="decision-content">
+            <div class="decision-text">
+              <p>经过综合评估，我们选择了<strong>方案二（基于FSSIM二次开发）</strong>作为最终实施方案。该方案在保证仿真效果的同时，大幅缩短了开发周期，使团队能够将更多精力投入到算法开发中。同时，我们对FSSIM平台进行了多项改进，使其更贴近实车特性，提高了仿真的真实性和有效性。</p>
+            </div>
+            <div class="decision-chart" id="comparison-chart"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        东风HUAT无人驾驶车队 | 2025年7月
+      </div>
+    </div>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // 创建方案对比图表
+        const comparisonCanvas = document.createElement("canvas");
+        comparisonCanvas.id = "comparisonChart";
+        document.getElementById("comparison-chart").appendChild(comparisonCanvas);
+        
+        const comparisonCtx = document.getElementById("comparisonChart").getContext("2d");
+        const comparisonChart = new Chart(comparisonCtx, {
+          type: "radar",
+          data: {
+            labels: ["开发周期", "定制化程度", "实现难度", "仿真效果", "可扩展性"],
+            datasets: [
+              {
+                label: "方案一（自研）",
+                data: [1, 5, 1, 4, 4],
+                backgroundColor: "rgba(250, 140, 22, 0.2)",
+                borderColor: "#FA8C16",
+                pointBackgroundColor: "#FA8C16",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "#FA8C16"
+              },
+              {
+                label: "方案二（FSSIM）",
+                data: [5, 3, 4, 4, 3],
+                backgroundColor: "rgba(82, 196, 26, 0.2)",
+                borderColor: "#52C41A",
+                pointBackgroundColor: "#52C41A",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "#52C41A"
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                min: 0,
+                max: 5,
+                ticks: {
+                  display: false
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  boxWidth: 10
+                }
+              }
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
+

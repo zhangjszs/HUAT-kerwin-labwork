@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qt 安装指南 —— 环境变量配置 - 7.html (自动比例)</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            /* Font from this specific HTML */
+            background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%);
+            /* Consistent page background */
+        }
+
+        .slide {
+            /* Responsive scaling with aspect ratio, merging with this file's specific background */
+            width: 1280px;
+            /* Intended design width */
+            max-width: 90vw;
+            /* Scale down to fit 90% of viewport width */
+            aspect-ratio: 16 / 9;
+            /* Maintain 16:9 aspect ratio */
+            height: auto;
+            /* Height is auto based on width and aspect-ratio */
+
+            margin-left: auto;
+            /* Center the block horizontally */
+            margin-right: auto;
+            margin-top: max(3vh, 20px);
+            /* Space at the top */
+            margin-bottom: calc(max(3vh, 20px) + 70px);
+            /* Space at bottom, plus 70px clearance for fixed nav bar */
+
+            position: relative;
+            background: linear-gradient(to right, #f8f9fa, #ffffff);
+            /* Specific background from this file */
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+        }
+
+        .header-accent {
+            height: 5px;
+            background: linear-gradient(90deg, #41cd52, #1a73e8);
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            /* Base font size */
+            font-weight: bold;
+            color: #1a73e8;
+        }
+
+        .qt-green {
+            color: #41cd52;
+        }
+
+        .qt-blue {
+            color: #1a73e8;
+        }
+
+        .code-block {
+            background-color: #2d3436;
+            /* Darker background for code */
+            color: #f1f2f6;
+            /* Light text for dark background */
+            border-left: 4px solid #41cd52;
+            font-family: 'Courier New', monospace;
+            padding: 0.75rem;
+            overflow-x: auto;
+            border-radius: 0 4px 4px 0;
+            /* Rounded corners except left */
+            font-size: 0.8rem;
+            /* Slightly smaller base font for code */
+        }
+
+        .code-block p {
+            margin-bottom: 0.25rem;
+            color: #b0bec5;
+            /* Lighter color for comments/descriptions inside code block */
+        }
+
+        .code-block code {
+            color: #80cbc4;
+            /* Teal for code itself */
+        }
+
+        .path-highlight {
+            background-color: rgba(224, 247, 250, 0.7);
+            /* Lighter blue highlight */
+            border: 1px dashed #26c6da;
+            /* Cyan border */
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            /* Consistent with code block */
+        }
+
+        .info-box {
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+            /* Subtle border */
+        }
+
+        .info-box:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .terminal {
+            background-color: #2d3436;
+            border-radius: 8px;
+            color: #f1f2f6;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            /* Base size for terminal text */
+        }
+
+        .terminal-header {
+            background-color: #636e72;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            padding: 0.5rem;
+        }
+
+        .terminal-dots {
+            display: inline-block;
+            width: 10px;
+            /* Smaller dots */
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .terminal-body {
+            padding: 0.75rem 1rem;
+            /* Adjusted padding */
+        }
+
+        .terminal-success {
+            color: #41cd52;
+        }
+
+        .screenshot-container {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .screenshot-container:hover {
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Navigation Styles */
+        .navigation-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 15px;
+            background-color: rgba(50, 50, 50, 0.9);
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navigation-controls a {
+            color: #f0f0f0;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navigation-controls a:hover {
+            background-color: #41cd52;
+            color: white;
+        }
+
+        .navigation-controls .arrow {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide">
+        <div class="header-accent"></div>
+
+        <div class="flex justify-between items-center px-6 md:px-10 py-3 md:py-4">
+            <div class="text-base md:text-lg font-bold text-gray-600">2. Qt 安装指南 —— 环境变量配置</div>
+            <div class="flex items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Qt_logo_neon_2022.svg/1200px-Qt_logo_neon_2022.svg.png"
+                    alt="Qt Logo" class="h-6 md:h-8">
+            </div>
+        </div>
+
+        <div class="px-6 md:px-10 py-1 md:py-2">
+            <h1 class="slide-title mb-3 md:mb-5 text-3xl md:text-4xl">Qt 安装指南 —— <span class="qt-green">环境变量配置</span>
+            </h1>
+
+            <div class="flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8">
+                <div class="w-full md:w-1/2 space-y-3 md:space-y-4">
+                    <div class="info-box bg-white p-3 md:p-4">
+                        <h2 class="text-lg md:text-xl font-bold mb-2 flex items-center">
+                            <i class="fas fa-bullseye qt-blue mr-2 md:mr-3"></i> 配置目的
+                        </h2>
+                        <p class="text-xs md:text-sm text-gray-700">确保在命令行中可以直接访问 Qt 的工具链：</p>
+                        <ul class="list-disc pl-6 md:pl-8 text-xs md:text-sm text-gray-700 mt-1 md:mt-2 space-y-1">
+                            <li><code>qmake</code> - Qt项目构建工具</li>
+                            <li><code>mingw32-make</code> - MinGW版本的Make工具</li>
+                            <li><code>g++</code> - C++编译器</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box bg-white p-3 md:p-4">
+                        <h2 class="text-lg md:text-xl font-bold mb-2 flex items-center">
+                            <i class="fab fa-windows qt-blue mr-2 md:mr-3"></i> Windows 配置
+                        </h2>
+                        <p class="text-xs md:text-sm text-gray-700 mb-2">需要添加两个路径到系统的 <span
+                                class="font-bold">Path</span> 环境变量：</p>
+
+                        <div class="ml-2 md:ml-4 mb-2 md:mb-3">
+                            <p class="mb-1 text-xs md:text-sm"><span class="font-bold">1. Qt 可执行文件目录：</span></p>
+                            <div class="path-highlight text-xxs md:text-xs">
+                                &lt;Qt安装目录&gt;\&lt;版本号&gt;\mingw_XX\bin
+                            </div>
+                            <p class="text-gray-500 text-xxs md:text-xs mt-1">例如：<code>C:\Qt\6.5.3\mingw_64\bin</code>
+                            </p>
+                        </div>
+
+                        <div class="ml-2 md:ml-4">
+                            <p class="mb-1 text-xs md:text-sm"><span class="font-bold">2. MinGW 编译器目录：</span></p>
+                            <div class="path-highlight text-xxs md:text-xs">
+                                &lt;Qt安装目录&gt;\Tools\mingwXXX_XX\bin
+                            </div>
+                            <p class="text-gray-500 text-xxs md:text-xs mt-1">
+                                例如：<code>C:\Qt\Tools\mingw1120_64\bin</code></p>
+                        </div>
+
+                        <div class="mt-2 md:mt-3 text-xxs md:text-xs text-gray-600 bg-yellow-50 p-2 rounded">
+                            <i class="fas fa-exclamation-circle text-yellow-500 mr-1"></i>
+                            <span class="font-bold">注意：</span> 请根据实际安装路径和版本号进行修改
+                        </div>
+                    </div>
+
+                    <div class="info-box bg-white p-3 md:p-4">
+                        <h2 class="text-lg md:text-xl font-bold mb-2 flex items-center">
+                            <i class="fab fa-linux mr-2 qt-blue"></i>
+                            <i class="fab fa-apple mr-2 qt-blue"></i>
+                            Linux/macOS 配置
+                        </h2>
+                        <p class="text-xs md:text-sm text-gray-700 mb-2">通常安装脚本会自动处理，或者手动修改配置文件：</p>
+
+                        <div class="code-block mb-2 text-xxs md:text-xs">
+                            <p><strong>Linux:</strong> 在 <code>~/.bashrc</code> 或 <code>~/.zshrc</code> 添加：</p>
+                            <code>export PATH="$HOME/Qt/版本号/gcc_64/bin:$PATH"</code>
+                        </div>
+
+                        <div class="code-block text-xxs md:text-xs">
+                            <p><strong>macOS:</strong> 在 <code>~/.zshrc</code> 添加：</p>
+                            <code>export PATH="$HOME/Qt/版本号/macos/bin:$PATH"</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/2 mt-4 md:mt-0 space-y-3 md:space-y-4">
+                    <div class="screenshot-container bg-white">
+                        <div class="bg-gray-100 p-2 border-b">
+                            <span class="font-semibold text-gray-800 text-xs md:text-sm">Windows 环境变量配置</span>
+                        </div>
+                        <img src="https://www.architectryan.com/static/42eb044d39582f04f1f213e17e4fcb30/32056/edit_path_variable.png"
+                            alt="Windows环境变量配置" class="w-full">
+                        <div class="p-2 bg-gray-50 text-gray-500 text-xxs md:text-xs border-t">
+                            <i class="fas fa-arrow-up text-green-600"></i> 点击"新建"添加Qt和MinGW的bin目录路径
+                        </div>
+                    </div>
+
+                    <div class="info-box bg-white p-3 md:p-4">
+                        <h2 class="text-lg md:text-xl font-bold mb-2 md:mb-3 flex items-center">
+                            <i class="fas fa-check-circle qt-green mr-2 md:mr-3"></i> 验证配置
+                        </h2>
+                        <p class="text-xs md:text-sm text-gray-700 mb-2 md:mb-3">安装完成后，打开命令行/终端，输入以下命令检验：</p>
+
+                        <div class="terminal mb-3 md:mb-4 text-xxs md:text-xs">
+                            <div class="terminal-header">
+                                <span class="terminal-dots" style="background-color: #ff5f57;"></span>
+                                <span class="terminal-dots" style="background-color: #febc2e;"></span>
+                                <span class="terminal-dots" style="background-color: #28c840;"></span>
+                                <span class="text-white text-xxs md:text-xs ml-1 md:ml-2">命令提示符</span>
+                            </div>
+                            <div class="terminal-body">
+                                <p class="mb-1">C:\Users\user> <span class="text-yellow-300">qmake -v</span></p>
+                                <p class="mb-2 terminal-success">QMake version 3.1<br>Using Qt version 6.5.3 in
+                                    C:/Qt/6.5.3/mingw_64/lib</p>
+
+                                <p class="mb-1">C:\Users\user> <span class="text-yellow-300">g++ --version</span></p>
+                                <p class="terminal-success">g++ (GCC) 11.2.0<br>Copyright (C) 2021 Free Software
+                                    Foundation, Inc.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 p-2 md:p-3 rounded-lg border border-green-100">
+                            <div class="flex">
+                                <div class="flex-shrink-0 pt-0.5">
+                                    <i class="fas fa-lightbulb text-green-600 text-sm md:text-base"></i>
+                                </div>
+                                <div class="ml-2 md:ml-3">
+                                    <p class="text-green-700 text-xs md:text-sm">
+                                        <span class="font-bold">成功指标：</span> 如果能显示版本信息，则表示环境变量配置成功！
+                                    </p>
+                                    <p class="text-green-600 text-xxs md:text-xs mt-1">
+                                        这意味着您可以在任何目录下使用Qt和MinGW的命令行工具。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation-controls">
+        <a href="6.html"><span class="arrow">&larr;</span> 上一页</a>
+        <a href="8.html">下一页 <span class="arrow">&rarr;</span></a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qt 概览 —— 为什么选择它？ - 4.html (自动比例)</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            /* Font from this specific HTML */
+            background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%);
+            /* Consistent page background */
+        }
+
+        .slide {
+            /* Responsive scaling with aspect ratio, merging with this file's specific background */
+            width: 1280px;
+            /* Intended design width */
+            max-width: 90vw;
+            /* Scale down to fit 90% of viewport width */
+            aspect-ratio: 16 / 9;
+            /* Maintain 16:9 aspect ratio */
+            height: auto;
+            /* Height is auto based on width and aspect-ratio */
+
+            margin-left: auto;
+            /* Center the block horizontally */
+            margin-right: auto;
+            margin-top: max(3vh, 20px);
+            /* Space at the top */
+            margin-bottom: calc(max(3vh, 20px) + 70px);
+            /* Space at bottom, plus 70px clearance for fixed nav bar */
+
+            position: relative;
+            background: linear-gradient(to bottom right, #f8f9fa 0%, #e9ecef 100%);
+            /* Specific background from this file */
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+        }
+
+        .header-accent {
+            height: 5px;
+            background: linear-gradient(90deg, #41cd52, #1a73e8);
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            /* Base font size, consider Tailwind responsive text utilities if needed */
+            font-weight: bold;
+            color: #1a73e8;
+        }
+
+        .qt-green {
+            color: #41cd52;
+        }
+
+        .qt-blue {
+            color: #1a73e8;
+        }
+
+        .advantage-card {
+            background-color: white;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            /* For better internal alignment */
+            flex-direction: column;
+            /* Stack icon/title and text */
+        }
+
+        .advantage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .advantage-icon {
+            font-size: 2rem;
+            color: #41cd52;
+        }
+
+        .advantage-title {
+            font-weight: bold;
+            color: #1a73e8;
+        }
+
+        .embedded-section {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .embedded-icon {
+            font-size: 1.5rem;
+            color: #41cd52;
+            margin-right: 0.5rem;
+        }
+
+        .key-point {
+            display: inline-block;
+            background: linear-gradient(90deg, #41cd52, #2ba84a);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Navigation Styles */
+        .navigation-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 15px;
+            background-color: rgba(50, 50, 50, 0.9);
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navigation-controls a {
+            color: #f0f0f0;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navigation-controls a:hover {
+            background-color: #41cd52;
+            color: white;
+        }
+
+        .navigation-controls .arrow {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slide">
+        <div class="header-accent"></div>
+
+        <div class="flex justify-between items-center px-6 md:px-10 py-3 md:py-4">
+            <div class="text-base md:text-lg font-bold text-gray-600">1. Qt 概览 —— 为什么选择它？</div>
+            <div class="flex items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Qt_logo_neon_2022.svg/1200px-Qt_logo_neon_2022.svg.png"
+                    alt="Qt Logo" class="h-6 md:h-8">
+            </div>
+        </div>
+
+        <div class="px-6 md:px-10">
+            <h1 class="slide-title mb-4 md:mb-6 text-3xl md:text-4xl">Qt 概览 —— <span class="qt-green">为什么</span>选择它？
+            </h1>
+
+            <div class="flex flex-col md:flex-row">
+                <div class="w-full md:w-1/2 md:pr-4">
+                    <h2 class="text-xl md:text-2xl font-bold mb-3 md:mb-4 qt-blue">通用优势</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                        <div class="advantage-card p-3 md:p-4">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-bolt advantage-icon"></i>
+                                <h3 class="ml-2 md:ml-3 text-base md:text-lg advantage-title">开发效率高</h3>
+                            </div>
+                            <p class="text-xs md:text-sm text-gray-700">丰富的 API 和 Qt Creator IDE</p>
+                            <p class="text-xs md:text-sm text-gray-700">可视化设计工具</p>
+                        </div>
+
+                        <div class="advantage-card p-3 md:p-4">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-tachometer-alt advantage-icon"></i>
+                                <h3 class="ml-2 md:ml-3 text-base md:text-lg advantage-title">高性能</h3>
+                            </div>
+                            <p class="text-xs md:text-sm text-gray-700">基于 C++ 的接近原生性能</p>
+                            <p class="text-xs md:text-sm text-gray-700">资源敏感型应用友好</p>
+                        </div>
+
+                        <div class="advantage-card p-3 md:p-4">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-paint-brush advantage-icon"></i>
+                                <h3 class="ml-2 md:ml-3 text-base md:text-lg advantage-title">美观的 UI</h3>
+                            </div>
+                            <p class="text-xs md:text-sm text-gray-700">现代化、响应式用户界面</p>
+                            <p class="text-xs md:text-sm text-gray-700">Widgets 和 QML 双重选择</p>
+                        </div>
+
+                        <div class="advantage-card p-3 md:p-4">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-users advantage-icon"></i>
+                                <h3 class="ml-2 md:ml-3 text-base md:text-lg advantage-title">社区支持</h3>
+                            </div>
+                            <p class="text-xs md:text-sm text-gray-700">庞大的开发者社区</p>
+                            <p class="text-xs md:text-sm text-gray-700">丰富的文档和教程资源</p>
+                        </div>
+
+                        <div class="advantage-card p-3 md:p-4 sm:col-span-2">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-file-contract advantage-icon"></i>
+                                <h3 class="ml-2 md:ml-3 text-base md:text-lg advantage-title">灵活许可</h3>
+                            </div>
+                            <p class="text-xs md:text-sm text-gray-700">开源 (LGPL, GPL) 和商业许可双选</p>
+                            <p class="text-xs md:text-sm text-gray-700">适应不同项目需求和预算</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/2 mt-6 md:mt-0 md:pl-4">
+                    <h2 class="text-xl md:text-2xl font-bold mb-3 md:mb-4 qt-blue">嵌入式领域的优势</h2>
+                    <div class="embedded-section p-4 md:p-5 mb-4">
+                        <div class="mb-3 md:mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-microchip embedded-icon"></i>
+                                <span class="text-lg md:text-xl font-bold qt-green">Qt for Device Creation</span>
+                            </div>
+                            <p class="ml-8 text-xs md:text-sm text-gray-700">为嵌入式设备优化的软件栈</p>
+                            <p class="ml-8 text-xs md:text-sm text-gray-700">Boot to Qt — 快速启动的嵌入式平台</p>
+                        </div>
+
+                        <div class="mb-3 md:mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-microprocessor embedded-icon"></i>
+                                <span class="text-lg md:text-xl font-bold qt-green">硬件平台支持</span>
+                            </div>
+                            <p class="ml-8 text-xs md:text-sm text-gray-700">多种处理器架构 (ARM, x86 等)</p>
+                            <p class="ml-8 text-xs md:text-sm text-gray-700">各类嵌入式开发板支持</p>
+                        </div>
+
+                        <div class="mb-3 md:mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-cogs embedded-icon"></i>
+                                <span class="text-lg md:text-xl font-bold qt-green">嵌入式优化</span>
+                            </div>
+                            <p class="ml-8 text-xs md:text-sm text-gray-700">Qt Lite — 可配置、轻量级部署</p>
+                            <p class="ml-8 text-xs md:text-sm text-gray-700">触摸屏、低功耗设备友好</p>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center">
+                                <i class="fas fa-industry embedded-icon"></i>
+                                <span class="text-lg md:text-xl font-bold qt-green">应用领域</span>
+                            </div>
+                            <div class="ml-8 flex flex-wrap mt-2 gap-1 md:gap-2">
+                                <span class="key-point text-xxs md:text-xs">车载信息娱乐系统</span>
+                                <span class="key-point text-xxs md:text-xs">工业控制面板</span>
+                                <span class="key-point text-xxs md:text-xs">医疗设备界面</span>
+                                <span class="key-point text-xxs md:text-xs">智能家居</span>
+                                <span class="key-point text-xxs md:text-xs">航空航天</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 md:gap-4">
+                        <div>
+                            <img src="https://developex.com/wp-content/uploads/2024/06/qtembed2.jpg" alt="Qt嵌入式应用"
+                                class="w-full h-32 md:h-40 object-cover rounded-lg shadow">
+                            <p class="text-center text-xs md:text-sm mt-1 text-gray-600">车载信息娱乐系统</p>
+                        </div>
+                        <div>
+                            <img src="https://www.qt.io/hs-fs/hubfs/Qt%20for%20MCUs-2.png?width=850&name=Qt%20for%20MCUs-2.png"
+                                alt="Qt MCU应用" class="w-full h-32 md:h-40 object-cover rounded-lg shadow">
+                            <p class="text-center text-xs md:text-sm mt-1 text-gray-600">Qt for MCUs 应用</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation-controls">
+        <a href="3.html"><span class="arrow">&larr;</span> 上一页</a>
+        <a href="5.html">下一页 <span class="arrow">&rarr;</span></a>
+    </div>
+</body>
+
+</html>

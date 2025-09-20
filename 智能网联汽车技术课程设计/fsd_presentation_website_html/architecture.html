@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统总体架构 - Formula Student Driverless</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap");
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans SC", sans-serif;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background-color: #F5F5F5;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .header {
+        background-color: #C8102E;
+        color: white;
+        padding: 1.5rem 2rem;
+      }
+      
+      .title {
+        font-size: 36px;
+        font-weight: bold;
+      }
+      
+      .content {
+        flex: 1;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .architecture-container {
+        width: 90%;
+        height: 500px;
+        position: relative;
+      }
+      
+      .footer {
+        padding: 1rem 2rem;
+        text-align: center;
+        font-size: 14px;
+        color: #333333;
+        border-top: 1px solid #DDDDDD;
+      }
+      
+      .module {
+        position: absolute;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .module-title {
+        font-size: 18px;
+        margin-bottom: 0.5rem;
+      }
+      
+      .module-desc {
+        font-size: 14px;
+        font-weight: normal;
+      }
+      
+      .sensor {
+        background-color: #E6F7FF;
+        border: 2px solid #1890FF;
+        width: 180px;
+        top: 20px;
+        left: 50px;
+      }
+      
+      .perception {
+        background-color: #FFF7E6;
+        border: 2px solid #FA8C16;
+        width: 180px;
+        top: 20px;
+        right: 50px;
+      }
+      
+      .mapping {
+        background-color: #F6FFED;
+        border: 2px solid #52C41A;
+        width: 180px;
+        top: 180px;
+        right: 50px;
+      }
+      
+      .planning {
+        background-color: #FFF1F0;
+        border: 2px solid #F5222D;
+        width: 180px;
+        top: 340px;
+        right: 50px;
+      }
+      
+      .control {
+        background-color: #F9F0FF;
+        border: 2px solid #722ED1;
+        width: 180px;
+        top: 340px;
+        left: 50px;
+      }
+      
+      .actuator {
+        background-color: #E6FFFB;
+        border: 2px solid #13C2C2;
+        width: 180px;
+        top: 180px;
+        left: 50px;
+      }
+      
+      .arrow {
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">系统总体架构</h1>
+      </div>
+      
+      <div class="content">
+        <div class="architecture-container" id="architecture-diagram"></div>
+      </div>
+      
+      <div class="footer">
+        东风HUAT无人驾驶车队 | 2025年7月
+      </div>
+    </div>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const svg = d3.select("#architecture-diagram")
+          .append("svg")
+          .attr("width", "100%")
+          .attr("height", "100%");
+        
+        // 定义模块
+        const modules = [
+          { id: "sensors", name: "传感器输入", desc: "LiDAR, Camera, IMU, GPS, 轮速计", x: 100, y: 50, width: 180, height: 80, color: "#1890FF" },
+          { id: "perception", name: "环境感知", desc: "锥桶检测与分类", x: 700, y: 50, width: 180, height: 80, color: "#FA8C16" },
+          { id: "mapping", name: "状态估计与建图", desc: "位姿估计与赛道地图构建", x: 700, y: 200, width: 180, height: 80, color: "#52C41A" },
+          { id: "planning", name: "路径规划", desc: "全局路径与局部轨迹规划", x: 700, y: 350, width: 180, height: 80, color: "#F5222D" },
+          { id: "control", name: "车辆控制", desc: "横向与纵向控制", x: 100, y: 350, width: 180, height: 80, color: "#722ED1" },
+          { id: "actuators", name: "执行器输出", desc: "转向、油门、刹车", x: 100, y: 200, width: 180, height: 80, color: "#13C2C2" }
+        ];
+        
+        // 绘制模块
+        const moduleGroups = svg.selectAll(".module-group")
+          .data(modules)
+          .enter()
+          .append("g")
+          .attr("class", "module-group");
+        
+        moduleGroups.append("rect")
+          .attr("x", d => d.x)
+          .attr("y", d => d.y)
+          .attr("width", d => d.width)
+          .attr("height", d => d.height)
+          .attr("rx", 8)
+          .attr("ry", 8)
+          .attr("fill", d => `${d.color}20`)
+          .attr("stroke", d => d.color)
+          .attr("stroke-width", 2);
+        
+        moduleGroups.append("text")
+          .attr("x", d => d.x + d.width / 2)
+          .attr("y", d => d.y + 25)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "16px")
+          .attr("font-weight", "bold")
+          .text(d => d.name);
+        
+        moduleGroups.append("text")
+          .attr("x", d => d.x + d.width / 2)
+          .attr("y", d => d.y + 50)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "12px")
+          .text(d => d.desc);
+        
+        // 定义连接线
+        const connections = [
+          { source: "sensors", target: "perception", label: "原始数据" },
+          { source: "perception", target: "mapping", label: "锥桶位置" },
+          { source: "mapping", target: "planning", label: "位姿与地图" },
+          { source: "planning", target: "control", label: "目标轨迹" },
+          { source: "control", target: "actuators", label: "控制指令" },
+          { source: "actuators", target: "sensors", label: "状态反馈" }
+        ];
+        
+        // 创建箭头标记
+        svg.append("defs").append("marker")
+          .attr("id", "arrowhead")
+          .attr("viewBox", "0 -5 10 10")
+          .attr("refX", 8)
+          .attr("refY", 0)
+          .attr("markerWidth", 6)
+          .attr("markerHeight", 6)
+          .attr("orient", "auto")
+          .append("path")
+          .attr("d", "M0,-5L10,0L0,5")
+          .attr("fill", "#333333");
+        
+        // 绘制连接线和标签
+        connections.forEach(conn => {
+          const source = modules.find(m => m.id === conn.source);
+          const target = modules.find(m => m.id === conn.target);
+          
+          let sourceX, sourceY, targetX, targetY;
+          
+          // 确定连接线的起点和终点
+          if (source.x < target.x) { // 从左到右
+            sourceX = source.x + source.width;
+            sourceY = source.y + source.height / 2;
+            targetX = target.x;
+            targetY = target.y + target.height / 2;
+          } else if (source.x > target.x) { // 从右到左
+            sourceX = source.x;
+            sourceY = source.y + source.height / 2;
+            targetX = target.x + target.width;
+            targetY = target.y + target.height / 2;
+          } else if (source.y < target.y) { // 从上到下
+            sourceX = source.x + source.width / 2;
+            sourceY = source.y + source.height;
+            targetX = target.x + target.width / 2;
+            targetY = target.y;
+          } else { // 从下到上
+            sourceX = source.x + source.width / 2;
+            sourceY = source.y;
+            targetX = target.x + target.width / 2;
+            targetY = target.y + target.height;
+          }
+          
+          // 计算中点用于放置标签
+          const midX = (sourceX + targetX) / 2;
+          const midY = (sourceY + targetY) / 2;
+          
+          // 绘制连接线
+          svg.append("line")
+            .attr("x1", sourceX)
+            .attr("y1", sourceY)
+            .attr("x2", targetX)
+            .attr("y2", targetY)
+            .attr("stroke", "#333333")
+            .attr("stroke-width", 2)
+            .attr("marker-end", "url(#arrowhead)");
+          
+          // 绘制标签背景
+          svg.append("rect")
+            .attr("x", midX - 40)
+            .attr("y", midY - 10)
+            .attr("width", 80)
+            .attr("height", 20)
+            .attr("fill", "white")
+            .attr("rx", 4)
+            .attr("ry", 4);
+          
+          // 绘制标签文字
+          svg.append("text")
+            .attr("x", midX)
+            .attr("y", midY + 5)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "12px")
+            .text(conn.label);
+        });
+        
+        // 添加系统标题
+        svg.append("text")
+          .attr("x", 400)
+          .attr("y", 25)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "20px")
+          .attr("font-weight", "bold")
+          .text("自动驾驶算法系统闭环");
+      });
+    </script>
+  </body>
+</html>
+

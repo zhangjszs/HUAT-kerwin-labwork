@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目背景与挑战 - Formula Student Driverless</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap");
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Noto Sans SC", sans-serif;
+      }
+      
+      .slide-container {
+        width: 1280px;
+        min-height: 720px;
+        background-color: #F5F5F5;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .header {
+        background-color: #C8102E;
+        color: white;
+        padding: 1rem 2rem;
+      }
+      
+      .title {
+        font-size: 36px;
+        font-weight: bold;
+      }
+      
+      .content {
+        flex: 1;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .main-content {
+        display: flex;
+        gap: 1.5rem;
+      }
+      
+      .left-column {
+        flex: 1;
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .right-column {
+        flex: 1;
+        background-color: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .section-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #003366;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .section-title i {
+        margin-right: 0.5rem;
+      }
+      
+      .challenge-list {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 0.5rem;
+      }
+      
+      .challenge-item {
+        margin-bottom: 0.5rem;
+        padding-left: 1.5rem;
+        position: relative;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .challenge-item:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 10px;
+        width: 6px;
+        height: 6px;
+        background-color: #C8102E;
+        border-radius: 50%;
+      }
+      
+      .image-placeholder {
+        width: 100%;
+        height: 200px;
+        background-color: #F0F0F0;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #666;
+        font-size: 18px;
+      }
+      
+      .footer {
+        padding: 0.5rem 2rem;
+        text-align: center;
+        font-size: 14px;
+        color: #333333;
+        border-top: 1px solid #DDDDDD;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slide-container">
+      <div class="header">
+        <h1 class="title">项目背景与挑战</h1>
+      </div>
+      
+      <div class="content">
+        <div class="main-content">
+          <div class="left-column">
+            <div class="section-title">
+              <i class="fas fa-flag-checkered"></i> Formula Student Driverless 赛事
+            </div>
+            <ul class="challenge-list">
+              <li class="challenge-item"><strong>目标</strong>：培养未来自动驾驶工程师，推动技术创新</li>
+              <li class="challenge-item"><strong>规则</strong>：赛车需在无人驾驶模式下完成直线加速、八字环绕、高速循迹等项目</li>
+              <li class="challenge-item"><strong>挑战</strong>：高精度感知、鲁棒决策、实时控制</li>
+            </ul>
+            
+            <div class="section-title" style="margin-top: 1rem;">
+              <i class="fas fa-car-crash"></i> 无人驾驶算法核心挑战
+            </div>
+            <ul class="challenge-list">
+              <li class="challenge-item"><strong>复杂环境感知</strong>：如何在高速运动中准确识别锥桶、赛道边界？</li>
+              <li class="challenge-item"><strong>高动态定位</strong>：如何在GPS信号不佳或无GPS环境下实现厘米级定位？</li>
+              <li class="challenge-item"><strong>实时路径规划</strong>：如何在毫秒级时间内生成安全、高效的行驶轨迹？</li>
+              <li class="challenge-item"><strong>极限车辆控制</strong>：如何在高附着力极限下保持车辆稳定，实现快速过弯？</li>
+            </ul>
+          </div>
+          
+          <div class="right-column">
+            <div class="section-title">
+              <i class="fas fa-image"></i> 赛事场景预览
+            </div>
+            <div class="image-placeholder">
+              <img src="/home/ubuntu/fsd_presentation/images/competition_scene.webp" alt="赛事场景预览" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+            </div>
+            
+            <div class="section-title" style="margin-top: 1rem;">
+              <i class="fas fa-robot"></i> 自动驾驶赛车特写
+            </div>
+            <div class="image-placeholder">
+              <img src="/home/ubuntu/fsd_presentation/images/race_car_close_up.webp" alt="自动驾驶赛车特写" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        东风HUAT无人驾驶车队 | 2025年7月
+      </div>
+    </div>
+  </body>
+</html>
+

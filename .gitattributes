@@ -1,3 +1,61 @@
+# ================= Line Endings Normalization =================
+# 所有声明为 text 的文件在仓库内存储为 LF，checkout 到 Win 可转 CRLF（若 core.autocrlf=true）
+* text=auto eol=lf
+
+# ================= Source Code =================
+*.c      text eol=lf
+*.h      text eol=lf
+*.cpp    text eol=lf
+*.hpp    text eol=lf
+*.cc     text eol=lf
+Makefile text eol=lf
+CMakeLists.txt text eol=lf
+# Scripts
+*.sh     text eol=lf
+*.py     text eol=lf
+*.ps1    text eol=crlf
+*.bat    text eol=crlf
+# Web / Data / Config
+*.html   text eol=lf
+*.css    text eol=lf
+*.js     text eol=lf
+*.json   text eol=lf
+*.md     text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.tsv    text eol=lf
+*.csv    text eol=lf
+*.ipynb  text eol=lf
+# ================= Binary (no EOL conversion) =================
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.bmp    binary
+*.ico    binary
+*.pdf    binary
+*.zip    binary
+*.7z     binary
+*.rar    binary
+*.doc    binary
+*.docx   binary
+*.ppt    binary
+*.pptx   binary
+*.xls    binary
+*.xlsx   binary
+*.bin    binary
+*.dll    binary
+*.exe    binary
+*.mp3    binary
+*.mp4    binary
+*.avi    binary
+*.mov    binary
+# CatBoost / model artifacts
+catboost_info/** binary
+# ================= Overrides / Special =================
+# 如果有不希望被转换的文本文件，可添加：
+# path/to/file.ext -text
+# End of .gitattributes
 *.zip filter=lfs diff=lfs merge=lfs -text
 *.7z filter=lfs diff=lfs merge=lfs -text
 *.rar filter=lfs diff=lfs merge=lfs -text
