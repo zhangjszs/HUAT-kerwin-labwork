@@ -4,53 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Qt Framework 嵌入式系统汇报 - Qt 概览">
+    <meta name="keywords" content="Qt, 嵌入式系统, Qt概览">
+    <meta name="author" content="嵌入式系统小组">
     <title>Qt 概览 —— 它是什么？ - 3.html (自动比例)</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="assets/libs/tailwind.min.css" as="style">
+    <link rel="preload" href="assets/libs/fontawesome.min.css" as="style">
+    <link rel="stylesheet" href="assets/libs/tailwind.min.css">
+    <link rel="stylesheet" href="assets/libs/fontawesome.min.css">
+    <link rel="dns-prefetch" href="https://upload.wikimedia.org">
+    <link rel="dns-prefetch" href="https://www.integrasources.com">
+    <link rel="stylesheet" href="assets/css/common.css">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            /* Font from this specific HTML */
-            background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%);
-            /* Consistent page background */
-        }
-
+        /* 页面特定样式 */
         .slide {
-            /* Responsive scaling with aspect ratio, merging with this file's specific background */
-            width: 1280px;
-            /* Intended design width */
-            max-width: 90vw;
-            /* Scale down to fit 90% of viewport width */
-            aspect-ratio: 16 / 9;
-            /* Maintain 16:9 aspect ratio */
-            height: auto;
-            /* Height is auto based on width and aspect-ratio */
-
-            margin-left: auto;
-            /* Center the block horizontally */
-            margin-right: auto;
-            margin-top: max(3vh, 20px);
-            /* Space at the top */
-            margin-bottom: calc(max(3vh, 20px) + 70px);
-            /* Space at bottom, plus 70px clearance for fixed nav bar */
-
-            position: relative;
             background: linear-gradient(to right, #ffffff 0%, #f8f9fa 100%);
-            /* Specific background from this file */
-            overflow: hidden;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-            border-radius: 8px;
-        }
-
-        .header-accent {
-            height: 5px;
-            background: linear-gradient(90deg, #41cd52, #1a73e8);
         }
 
         .slide-title {
-            /* Consider if font sizes should be responsive, e.g., using vw or Tailwind's responsive text sizes */
             font-size: 2.5rem;
             font-weight: bold;
             color: #1a73e8;
@@ -64,9 +36,7 @@
             padding: 1rem;
             transition: all 0.3s ease;
             display: flex;
-            /* Added for better internal alignment */
             flex-direction: column;
-            /* Stack icon/title and text */
         }
 
         .feature-card:hover {
@@ -76,55 +46,8 @@
 
         .feature-icon {
             font-size: 1.8rem;
-            /* This will scale with text if parent font-size is responsive */
             color: #41cd52;
             margin-right: 1rem;
-        }
-
-        .qt-green {
-            color: #41cd52;
-        }
-
-        .qt-blue {
-            color: #1a73e8;
-        }
-
-        /* Navigation Styles */
-        .navigation-controls {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 15px;
-            background-color: rgba(50, 50, 50, 0.9);
-            border-radius: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .navigation-controls a {
-            color: #f0f0f0;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 500;
-            padding: 8px 18px;
-            border-radius: 20px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .navigation-controls a:hover {
-            background-color: #41cd52;
-            color: white;
-        }
-
-        .navigation-controls .arrow {
-            font-size: 1.2rem;
         }
     </style>
 </head>
@@ -136,8 +59,9 @@
         <div class="flex justify-between items-center px-6 md:px-10 py-3 md:py-4">
             <div class="text-base md:text-lg font-bold text-gray-600">1. Qt 概览 —— 它是什么？</div>
             <div class="flex items-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Qt_logo_neon_2022.svg/1200px-Qt_logo_neon_2022.svg.png"
-                    alt="Qt Logo" class="h-6 md:h-8">
+                <img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Qt_logo_neon_2022.svg/1200px-Qt_logo_neon_2022.svg.png"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3C/svg%3E"
+                    alt="Qt Logo" class="h-6 md:h-8" loading="lazy">
             </div>
         </div>
 
@@ -214,8 +138,10 @@
             </div>
 
             <div class="w-full md:w-1/2 mt-6 md:mt-0 flex flex-col items-center justify-center md:pl-4">
-                <img src="https://www.integrasources.com/media/files/7712be98-414f-4f42-a941-6d4117f3bf21.png"
-                    alt="Qt Framework Architecture" class="w-full max-w-md md:max-w-lg rounded-lg shadow-lg">
+                <img data-src="https://www.integrasources.com/media/files/7712be98-414f-4f42-a941-6d4117f3bf21.png"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3C/svg%3E"
+                    alt="Qt Framework Architecture" class="w-full max-w-md md:max-w-lg rounded-lg shadow-lg"
+                    loading="lazy">
                 <p class="text-center mt-3 md:mt-4 text-gray-600 text-sm md:text-base">Qt 框架架构与跨平台特性</p>
 
                 <div class="mt-4 md:mt-6 flex justify-center flex-wrap gap-2">
@@ -252,6 +178,9 @@
         <a href="2.html"><span class="arrow">&larr;</span> 上一页</a>
         <a href="4.html">下一页 <span class="arrow">&rarr;</span></a>
     </div>
+
+    <script src="assets/js/lazyload.js"></script>`n
+    <script src="assets/js/common.js"></script>
 </body>
 
 </html>

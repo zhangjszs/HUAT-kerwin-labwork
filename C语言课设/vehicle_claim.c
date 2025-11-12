@@ -1,3 +1,4 @@
+#include "vehicle_claim.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -106,7 +107,7 @@ void makeMenu(void) // 菜单界面
 	printf("\t\t--------------------【以 下 是 菜 单：】--------------------\n");
 	printf("\t\t---------------        1.0读取课设要求       ---------------\n");
 	printf("\t\t---------------        2.0查询索赔信息       ---------------\n");
-	printf("\t\t---------------        3.0查询车辆索赔历史   ---------------\n");
+	printf("\t\t---------------        3.0查询车辆历史索赔   ---------------\n");
 	printf("\t\t---------------        4.0修改索赔信息       ---------------\n");
 	printf("\t\t---------------        5.0删除索赔信息       ---------------\n");
 	printf("\t\t---------------        6.0添加索赔信息       ---------------\n");
@@ -576,7 +577,7 @@ void keyDown()
 		}
 		break;
 	case 3:
-		printf("----------查询车辆索赔历史----------\n");
+		printf("----------查询车辆历史索赔----------\n");
 		printf("请输入车底盘号\n");
 		scanf("%s", tempData.CarVIN);
 		result = searchByCarVIN(list, tempData.CarVIN);
