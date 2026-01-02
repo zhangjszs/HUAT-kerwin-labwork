@@ -2,6 +2,19 @@
 #include <vector>
 #include <unordered_map>
 
+/*
+ * @Author: kerwin-win zhangjszs@foxmail.com
+ * @Date: 2024-04-02
+ * @LastEditors: kerwin-win zhangjszs@foxmail.com
+ * @LastEditTime: 2024-04-02
+ * @FilePath: \HUAT-kerwin-labwork\算法设计与分析-c++语言描述\experiment4\labwork4.cpp
+ * @Description: 图着色问题的回溯搜索，枚举合法的着色方案并计数
+ *
+ * 算法：回溯（backtracking）枚举
+ * 时间复杂度：指数级，取决于顶点数和颜色数
+ * 空间复杂度：O(n)
+ */
+
 using namespace std;
 
 unordered_map<int, vector<int>> adjList;
@@ -24,6 +37,15 @@ char getColorCode(int color)
 }
 
 // 判断当前点的着色是否合法
+/**
+ * @brief 检查给定节点着色是否合法（与邻居颜色不冲突）
+ *
+ * @param colors 当前顶点颜色数组
+ * @param node 当前检查的节点
+ * @param color 尝试的颜色
+ * @return true 合法
+ * @return false 不合法
+ */
 bool isValidColoring(vector<int> &colors, int node, int color)
 {
     for (int neighbor : adjList[node])
@@ -35,6 +57,12 @@ bool isValidColoring(vector<int> &colors, int node, int color)
 }
 
 // 回溯函数
+/**
+ * @brief 回溯枚举所有合法着色方案
+ *
+ * @param node 当前处理的节点索引
+ * @param colors 顶点颜色数组（0 表示未着色）
+ */
 void backtrack(int node, vector<int> &colors)
 {
     if (node == colors.size())

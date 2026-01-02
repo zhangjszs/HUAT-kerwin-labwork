@@ -14,6 +14,15 @@
 
 using namespace std;
 
+/**
+ * @brief 递归判断字符数组表示的字符串是否为回文
+ *
+ * @param str 字符数组（以 '\0' 结尾）
+ * @param left 左索引
+ * @param right 右索引
+ * @return true 是回文
+ * @return false 否
+ */
 bool isPalindrome(char str[], int left, int right)
 {
     // 如果左指针大于右指针,说明已经遍历完整个字符串,是回文

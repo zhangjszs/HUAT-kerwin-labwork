@@ -1,6 +1,19 @@
 #include <iostream>
 #include <vector>
 
+/*
+ * @Author: kerwin-win zhangjszs@foxmail.com
+ * @Date: 2024-04-02
+ * @LastEditors: kerwin-win zhangjszs@foxmail.com
+ * @LastEditTime: 2024-04-02
+ * @FilePath: \HUAT-kerwin-labwork\算法设计与分析-c++语言描述\homework4\work2.cpp
+ * @Description: 矩阵链乘最优括号化的 DP 实现，输出最优括号方式及最小代价
+ *
+ * 算法：动态规划
+ * 时间复杂度：O(n^3)
+ * 空间复杂度：O(n^2)
+ */
+
 using namespace std;
 
 int matrixChainOrder(const vector<int>& dimensions) {
@@ -28,6 +41,13 @@ int matrixChainOrder(const vector<int>& dimensions) {
     return dp[0][n-1];
 }
 
+/**
+ * @brief 递归打印最优括号化方式
+ *
+ * @param opt 记录最优分割点的矩阵
+ * @param i 左边界（1-based）
+ * @param j 右边界（1-based）
+ */
 void printOptimalParenthesis(const vector<vector<int>>& opt, int i, int j) {
     if (i == j) {
         cout << "A" << i;

@@ -1,5 +1,11 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.18（将整数按十进制拆位并显示）
+; @Notes: 使用 DIV 循环拆位并输出 ASCII
+; ------------------------------------------------------------------
 DATAS SEGMENT
-    ;�˴��������ݶδ���
     v1    DB 123
 DATAS ENDS
 

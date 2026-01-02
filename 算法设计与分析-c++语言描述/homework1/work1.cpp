@@ -16,7 +16,14 @@
 #include <string>
 using namespace std;
 
-// 检查字符x是否出现在字符串s中
+/**
+ * @brief 检查字符 x 是否出现在字符串 s 中（递归实现）
+ *
+ * @param s 待检查的字符串
+ * @param x 要查找的字符
+ * @return true 找到
+ * @return false 未找到
+ */
 bool checkCharacter(const string &s, char x)
 {
     // 如果字符串为空，则表示字符未找到
@@ -33,7 +40,13 @@ bool checkCharacter(const string &s, char x)
     return checkCharacter(s.substr(1), x);
 }
 
-// 计算字符x在字符串s中出现的次数
+/**
+ * @brief 递归计算字符 x 在字符串 s 中出现的次数
+ *
+ * @param s 待检查的字符串
+ * @param x 要统计的字符
+ * @return int 出现次数
+ */
 int countCharacter(const string &s, char x)
 {
     // 如果字符串为空，则出现次数为0
@@ -47,7 +60,15 @@ int countCharacter(const string &s, char x)
     return count + countCharacter(s.substr(1), x);
 }
 
-// 删除字符串s中的所有字符x
+/**
+ * @brief 删除字符串 s 开头连续的字符 x（递归实现）
+ *
+ * 说明：此实现假设每次调用只处理开头位置，当开头不是 x 或字符串为空时结束。
+ * 若要删除所有位置的 x，可用不同策略（例如构建新字符串）。
+ *
+ * @param s 待处理的字符串，按引用传入会被修改
+ * @param x 要删除的字符
+ */
 // void removeCharacter(string& s, char x) {
 //     // 如果字符串为空，则结束递归
 //     if (s.empty()) {

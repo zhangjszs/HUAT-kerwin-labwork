@@ -1,5 +1,11 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.15（带条件跳转的累加示例）
+; @Notes: 保持原实现，仅添加注释
+; ------------------------------------------------------------------
 DATAS SEGMENT
-    ;�˴��������ݶδ���
     sum   db 0H
     n     db 5H
 DATAS ENDS

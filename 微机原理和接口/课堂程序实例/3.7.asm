@@ -1,5 +1,12 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.7（算术与进位、BCD/ASCII 调整、乘除等示例）
+; @Notes: 保留原寄存器与数据定义
+; ------------------------------------------------------------------
 DATAS SEGMENT
-      ;�˴��������ݶδ���
+      ; 数据段
       var0   db 0ABH
       var1   db 0A8H
       var2   db 0A9H
@@ -23,7 +30,7 @@ DATAS SEGMENT
       varDD1 dd 0A1A2A3A4H
       varDD2 dd 0B9B83936H
       varDD3 dd 0H
-    
+
 DATAS ENDS
 
 STACKS SEGMENT

@@ -1,9 +1,15 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.3（数据访问与寻址模式示例）
+; @Notes: 保持原实现，仅添加注释
+; ------------------------------------------------------------------
 DATAS SEGMENT
-      ;�˴��������ݶδ���
       one   DB 41H
       two   DB 42H
             DB 43H,44H,45H,46H,47H,48H,49H,4AH,4BH,4CH,4DH,4EH,4FH
-            DB 15 DUP (?)
+            DB 15 DUP (? )
             DB 25 DUP(07H)
       table db 01H,02H,03H,04H,05H,06H,07H,08H,09H
       index db 0H

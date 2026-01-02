@@ -1,14 +1,15 @@
 /*
  * @Author: kerwin-win zhangjszs@foxmail.com
- * @Date: 2024-04-02 13:13:59
+ * @Date: 2024-04-02
  * @LastEditors: kerwin-win zhangjszs@foxmail.com
- * @LastEditTime: 2024-04-02 22:37:35
- * @FilePath: \HUAT-kerwin-labwork\算法设计与分析-c++语言描述\homework1\work3.cpp
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @LastEditTime: 2024-04-02
+ * @FilePath: \HUAT-kerwin-labwork\算法设计与分析-c++语言描述\homework1\work4.cpp
+ * @Description: 使用分治法求平面点集中最近点对（最近对问题）
+ *
+ * 算法：分治（近似 O(n log n)）
+ * 时间复杂度：O(n log n)
+ * 空间复杂度：O(n)
  */
-/*
-给定n个点，其坐标为 ( xi，yi ) ( 0£i£n-1 ) ，要求使用分治策略求解，设计算法并调试运行，算出其中距离最近的两个点，
-输出这两个点的坐标及他们之间的距离，并分析算法的时间复杂度。（25分）*/
 #include <iostream>
 #include <algorithm>
 
@@ -21,6 +22,13 @@ struct Point
     int x, y;
 };
 
+/**
+ * @brief 分治法求最近点对距离（递归实现）
+ *
+ * @param points 点数组（假设按 x 坐标已排序，或在调用前排序）
+ * @param n 点的个数
+ * @return double 最近点对的距离
+ */
 double closestPair(Point points[], int n)
 {
     // 如果只有 1 个点,则返回无穷大

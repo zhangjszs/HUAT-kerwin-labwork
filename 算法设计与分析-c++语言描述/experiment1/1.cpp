@@ -4,13 +4,25 @@
  * @LastEditors: kerwin-win zhangjszs@foxmail.com
  * @LastEditTime: 2024-04-14 12:13:42
  * @FilePath: \HUAT-kerwin-labwork\算法设计与分析-c++语言描述\experiment1\1.cpp
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Description: 循环赛日程表生成算法
+ *
+ * 算法：分治法生成n个选手循环赛日程表
+ * 时间复杂度：O(n^2)
+ * 空间复杂度：O(n^2)
  */
+
 #include <iostream>
 #include <vector>
+#include <cassert>
 
 using namespace std;
 
+/**
+ * @brief 打印比赛日程表
+ *
+ * @param schedule 日程表矩阵
+ * @param n 选手数量
+ */
 void printSchedule(const vector<vector<int>>& schedule, int n) {
     cout << "比赛日程表：" << endl;
     cout << "       ";
@@ -28,7 +40,20 @@ void printSchedule(const vector<vector<int>>& schedule, int n) {
     }
 }
 
+/**
+ * @brief 递归生成比赛日程表
+ *
+ * 使用分治法将问题分解为子问题
+ *
+ * @param schedule 日程表矩阵
+ * @param n 当前子问题规模
+ * @param i 行起始索引
+ * @param j 列起始索引
+ * @param start 起始天数
+ */
 void generateSchedule(vector<vector<int>>& schedule, int n, int i, int j, int start) {
+    assert(n > 0 && (n & (n - 1)) == 0); // 确保n是2的幂
+
     if (n == 2) {
         schedule[i][j] = start;
         schedule[i][j + 1] = start + 1;
@@ -56,6 +81,12 @@ int main() {
     int k;
     cout << "比赛选手个数为 n (n = 2^k)，请输入参数 k (k > 0): ";
     cin >> k;
+
+    if (k <= 0) {
+        cerr << "错误：k必须大于0" << endl;
+        return 1;
+    }
+
     int n = 1 << k; // 计算 n = 2^k
 
     vector<vector<int>> schedule(n + 1, vector<int>(n + 1, 0));

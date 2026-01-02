@@ -1,5 +1,12 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3_13Fun（演示调用/返回和函数模拟）
+; @Notes: 使用 AL/DL 等寄存器传参，保留原实现
+; ------------------------------------------------------------------
 DATAS SEGMENT
-    ;�˴��������ݶδ���
+    ; 数据段
     var1  db 04H
     var2  db 02H
     var3  db ?

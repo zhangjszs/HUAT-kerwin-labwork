@@ -1,3 +1,10 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 实验 6.1（采集-回放示例，访问 ADC/DAC/8253/8255 设备端口）
+; @Notes: 示例展示端口读写与延时子程序，保留原实现
+; ------------------------------------------------------------------
 DATA SEGMENT
        IMPORT  EQU 0E080H-280H
        IO0809A EQU IMPORT+29AH                                                         ;AD0809的地址

@@ -1,5 +1,11 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.16（累加求和示例）
+; @Notes: 使用 LOOP 循环累加 1..n 的和
+; ------------------------------------------------------------------
 DATAS SEGMENT
-    ;�˴��������ݶδ���
     sum   db 0H
     n     db 5H
 DATAS ENDS

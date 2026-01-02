@@ -1,10 +1,16 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.17（数组遍历与位测试示例）
+; @Notes: 统计数组中满足条件的元素个数并保存在 p1/p2
+; ------------------------------------------------------------------
 DATAS SEGMENT
-    ;�˴��������ݶδ���
     array db 1H,2H,3H,4H,5H,6H,7H,8H,9H,10H
 len=$-array
     p1    db 0H
     p2    db 0H
-    
+
 DATAS ENDS
 
 STACKS SEGMENT
