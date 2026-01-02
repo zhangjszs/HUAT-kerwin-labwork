@@ -1,5 +1,11 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.18_3（将 16 进制数转换为 ASCII 字符串并显示）
+; @Notes: 使用循环与位操作生成字符串
+; ------------------------------------------------------------------
 DATAS SEGMENT
-    ;�˴��������ݶδ���
     v1      DW 4678H
     datastr DB 10 dup(?)
 DATAS ENDS

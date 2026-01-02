@@ -1,3 +1,16 @@
+/*
+ * @Author: kerwin-win zhangjszs@foxmail.com
+ * @Date: 2024-04-02
+ * @LastEditors: kerwin-win zhangjszs@foxmail.com
+ * @LastEditTime: 2024-04-02
+ * @FilePath: \HUAT-kerwin-labwork\算法设计与分析-c++语言描述\homework3\work2.cpp
+ * @Description: 作业调度问题的贪心实现（按收益排序并安排到最近可用槽）
+ *
+ * 算法：贪心（按收益排序）
+ * 时间复杂度：O(n^2)（简单实现）
+ * 空间复杂度：O(n)
+ */
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -9,10 +22,19 @@ struct Job {
     int deadline;
 };
 
+// 比较函数：按收益降序
 bool cmpProfit(const Job& a, const Job& b) {
     return a.profit > b.profit;
 }
 
+/**
+ * @brief 贪心安排作业以最大化总收益
+ *
+ * @param n 作业数
+ * @param profits 每个作业的收益
+ * @param deadlines 每个作业的截止时间（1-based）
+ * @return int 最大可获得的总收益
+ */
 int greedySolution(int n, const vector<int>& profits, const vector<int>& deadlines) {
     vector<Job> jobs(n);
     for (int i = 0; i < n; i++) {

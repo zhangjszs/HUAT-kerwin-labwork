@@ -1,18 +1,24 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.4（数据表示、常量与字符串演示）
+; @Notes: 保持原实现，仅添加注释
+; ------------------------------------------------------------------
 DATAS SEGMENT
-    ;�˴��������ݶδ���
     x     db  10
     y     db  10H
     z     db  10B
     xx    dw  1010
     yy    dw  1010H
     zz    dw  1010B
-    
+
     str1  DB  'abcdefg','$'
 COUNT= $-str1
     LEN   EQU 5
     PI    EQU 3.4
     t     dw  LEN
-    
+
 DATAS ENDS
 
 STACKS SEGMENT

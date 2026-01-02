@@ -1,3 +1,16 @@
+/*
+ * @Author: kerwin-win zhangjszs@foxmail.com
+ * @Date: 2024-04-02
+ * @LastEditors: kerwin-win zhangjszs@foxmail.com
+ * @LastEditTime: 2024-04-02
+ * @FilePath: \HUAT-kerwin-labwork\算法设计与分析-c++语言描述\homework5\work2.cpp
+ * @Description: 通过回溯枚举满足边长和为14的三角形边长组合并检查三角形不等式
+ *
+ * 算法：穷举 + 约束过滤
+ * 时间复杂度：O(n^2)
+ * 空间复杂度：O(n)
+ */
+
 #include <iostream>
 #include <vector>
 
@@ -5,9 +18,10 @@ using namespace std;
 
 vector<vector<int>> result;
 
+// 检查并保存满足条件的三角形三边组合
 void backtrack(int x1, int x2, int x3)
 {
-    // 检查显式约束
+    // 显式约束：三边和为14
     if (x1 + x2 + x3 != 14)
     {
         return;
@@ -17,16 +31,16 @@ void backtrack(int x1, int x2, int x3)
         return;
     }
 
-    // 检查隐式约束
+    // 隐式约束：三角形不等式
     if (x1 + x2 <= x3 || x1 + x3 <= x2 || x2 + x3 <= x1)
     {
         return;
     }
 
-    // 将该三角形添加到结果中
     result.push_back({x1, x2, x3});
 }
 
+// 枚举所有可能的 (x1,x2) 并由和推导出 x3
 void solve()
 {
     for (int i = 1; i <= 13; i++)

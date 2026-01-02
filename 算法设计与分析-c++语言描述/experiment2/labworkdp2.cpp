@@ -2,6 +2,19 @@
 #include <fstream>
 #include <algorithm>
 
+/*
+ * @Author: kerwin-win zhangjszs@foxmail.com
+ * @Date: 2024-04-02
+ * @LastEditors: kerwin-win zhangjszs@foxmail.com
+ * @LastEditTime: 2024-04-02
+ * @FilePath: \HUAT-kerwin-labwork\算法设计与分析-c++语言描述\experiment2\labworkdp2.cpp
+ * @Description: 区间调度 / 活动选择问题的贪心实现，读取 input.txt 并选择不冲突的活动集合
+ *
+ * 算法：按结束时间排序后贪心选择
+ * 时间复杂度：O(n log n)（排序）
+ * 空间复杂度：O(n)
+ */
+
 using namespace std;
 
 struct node
@@ -14,6 +27,13 @@ struct node
     }
 };
 
+/**
+ * @brief 按结束时间选择活动的贪心算法
+ *
+ * @param n 活动数量
+ * @param act 活动数组（按结束时间排序后使用）
+ * @param A 输出布尔数组，A[i] 表示第 i 个活动是否被选择
+ */
 void GreedySelector(int n, node *act, bool *A)
 {
     A[1] = true;

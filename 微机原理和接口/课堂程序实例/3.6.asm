@@ -1,5 +1,12 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.6（栈、XLAT、交换、字符串/表访问演示）
+; @Notes: 保持实现不变，仅添加注释
+; ------------------------------------------------------------------
 DATAS SEGMENT
-      ;�˴��������ݶδ���
+      ; 数据段
       var1  db 031H
       var2  db 032H
       var3  db 033H
@@ -11,7 +18,7 @@ DATAS SEGMENT
       var9  db 039H
       varA  dw 041H
       varB  dw 042H
-      ;������
+      ; 表数据
       table db 061H,062H,064H,065H,066H,067H,068H,069H,06AH,06BH,06CH,06DH,06EH,06FH
 DATAS ENDS
 

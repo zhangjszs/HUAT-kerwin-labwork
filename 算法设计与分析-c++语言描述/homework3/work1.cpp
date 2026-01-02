@@ -1,3 +1,16 @@
+/*
+ * @Author: kerwin-win zhangjszs@foxmail.com
+ * @Date: 2024-04-02
+ * @LastEditors: kerwin-win zhangjszs@foxmail.com
+ * @LastEditTime: 2024-04-02
+ * @FilePath: \HUAT-kerwin-labwork\算法设计与分析-c++语言描述\homework3\work1.cpp
+ * @Description: 0/1 背包的贪心近似（按单位重量收益排序，装满为止）
+ *
+ * 算法：贪心（按 profit/weight 排序）
+ * 时间复杂度：O(n log n)
+ * 空间复杂度：O(n)
+ */
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -10,10 +23,20 @@ struct Item {
     double profitPerWeight;
 };
 
+// 比较函数：按单位重量收益降序
 bool cmpProfitPerWeight(const Item& a, const Item& b) {
     return a.profitPerWeight > b.profitPerWeight;
 }
 
+/**
+ * @brief 贪心策略求近似背包解：按 profit/weight 排序，依次放入
+ *
+ * @param n 物品数
+ * @param M 背包容量
+ * @param weights 每个物品重量
+ * @param profits 每个物品收益
+ * @return int 最大近似收益
+ */
 int greedySolution(int n, int M, const vector<int>& weights, const vector<int>& profits) {
     vector<Item> items(n);
     for (int i = 0; i < n; i++) {

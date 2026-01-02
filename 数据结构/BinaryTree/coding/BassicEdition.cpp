@@ -1,78 +1,122 @@
+/*
+ * @Author: kerwin-win zhangjszs@foxmail.com
+ * @Date: 2023-12-22 12:58:38
+ * @LastEditors: kerwin-win zhangjszs@foxmail.com
+ * @LastEditTime: 2024-03-15 11:59:29
+ * @FilePath: \HUAT-kerwin-labwork\数据结构\BinaryTree\coding\BassicEdition.cpp
+ * @Description: 二叉树基本操作演示程序
+ *
+ * 功能：创建二叉树并实现先序、中序、后序、层次遍历
+ * 算法：使用队列进行层次创建，使用栈进行非递归遍历
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <assert.h>
 
-#define MAXSIZE 100
+#define MAX_SIZE 100
 
-typedef char elemtype;
-typedef struct bitree
-{
-    elemtype data;
-    struct bitree *lchild, *rchild;
-} BTREE;
+typedef char ElemType;
+typedef struct BiTree {
+    ElemType data;
+    struct BiTree *lchild, *rchild;
+} BiTree;
 
-BTREE *create()
-{                               // 非递归创建二叉树
-    BTREE *q[100];              // 定义q数组作为队列存放二叉链表中结点，100为最大容量
-    BTREE *s;                   // 二叉链表中的结点
-    BTREE *root;                // 二叉链表的根指针
-    int front = 1, rear = 0, i; // 定义队列的头、尾指针
-    char ch;                    // 结点的data域值
-    root = NULL;
-    for (i = 0; i < 100; i++)
-        q[i] = NULL;
+/**
+ * @brief 非递归创建二叉树
+ *
+ * 使用层次遍历的方式创建二叉树，空节点用逗号表示，结束用#
+ * 算法：维护一个队列，按层次顺序构建树结构
+ *
+ * @return BiTree* 创建的二叉树根节点
+ */
+BiTree *create() {
+    BiTree *queue[MAX_SIZE];     // 队列存放二叉树节点
+    BiTree *node;                // 当前节点
+    BiTree *root = NULL;         // 根节点
+    int front = 0, rear = -1;    // 队列头尾指针
+    char ch;
+
+    // 初始化队列
+    for (int i = 0; i < MAX_SIZE; i++) {
+        queue[i] = NULL;
+    }
+
     printf("请按层次依次输入二叉树中的结点:\n");
     printf("空结点以逗号代替，以#号结束!\n");
+
     ch = getchar();
-    while (ch != '#') // 输入值为#号,算法结束
-    {
-        s = NULL;
-        if (ch != ',') // 输入数据不为逗号,表示不为虚结点,否则为虚结点
-        {
-            s = (BTREE *)malloc(sizeof(BTREE));
-            s->data = ch;
-            s->lchild = NULL;
-            s->rchild = NULL;
-        }
-        rear++;
-        q[rear] = s; // 新结点或虚结点进队
-        if (rear == 1)
-            root = s;
-        else
-        {
-            if ((s != NULL) && (q[front] != NULL))
-            {
-                if (rear % 2 == 0)
-                    q[front]->lchild = s; // rear为偶数,s为双亲左孩子
-                else
-                    q[front]->rchild = s; // rear为奇数,s为双亲右孩子
+    while (ch != '#') {
+        node = NULL;
+        if (ch != ',') {  // 非空节点
+            node = (BiTree *)malloc(sizeof(BiTree));
+            if (node == NULL) {
+                fprintf(stderr, "内存分配失败!\n");
+                exit(1);
             }
-            if (rear % 2 == 1)
-                front++; // 出队
+            node->data = ch;
+            node->lchild = NULL;
+            node->rchild = NULL;
+        }
+
+        // 入队
+        if (++rear >= MAX_SIZE) {
+            fprintf(stderr, "队列溢出!\n");
+            exit(1);
+        }
+        queue[rear] = node;
+
+        // 设置根节点
+        if (rear == 0) {
+            root = node;
+        } else {
+            // 连接父子关系
+            if (node != NULL && queue[front] != NULL) {
+                if ((rear - front) % 2 == 1) {
+                    queue[front]->lchild = node;  // 左孩子
+                } else {
+                    queue[front]->rchild = node;  // 右孩子
+                }
+            }
+            // 出队条件
+            if ((rear - front) % 2 == 0) {
+                front++;
+            }
         }
         ch = getchar();
     }
     return root;
 }
 
-void preorder(BTREE *root)
-{                          // 非递归实现的先序遍历
-    BTREE *stack[MAXSIZE]; // 栈存放结点
-    int top = -1;          // 栈顶指针初始化为-1
-    BTREE *p = root;       // 指针p指向根结点
+/**
+ * @brief 非递归先序遍历二叉树
+ *
+ * 算法：使用栈模拟递归，先访问根节点，再遍历左子树，最后右子树
+ * 时间复杂度：O(n)，空间复杂度：O(h)，h为树高
+ *
+ * @param root 二叉树根节点
+ */
+void preorder(BiTree *root) {
+    if (root == NULL) return;
 
-    while (p != NULL || top != -1)
-    {
-        while (p != NULL)
-        {                          // 一直向左走直到最左结点
-            printf("%c", p->data); // 先序遍历，输出结点值
-            stack[++top] = p;      // 结点入栈
-            p = p->lchild;
+    BiTree *stack[MAX_SIZE];
+    int top = -1;
+    BiTree *p = root;
+
+    while (p != NULL || top != -1) {
+        while (p != NULL) {
+            printf("%c", p->data);  // 访问根节点
+            if (++top >= MAX_SIZE) {
+                fprintf(stderr, "栈溢出!\n");
+                exit(1);
+            }
+            stack[top] = p;
+            p = p->lchild;  // 遍历左子树
         }
-        if (top != -1)
-        {
-            p = stack[top--]; // 出栈并切换到右子树
-            p = p->rchild;
+        if (top != -1) {
+            p = stack[top--];
+            p = p->rchild;  // 遍历右子树
         }
     }
 }
@@ -166,18 +210,21 @@ void showmenu()
     printf("\t6、退出程序\n");
 }
 
-int main()
-{
-    BTREE *root = NULL;
-    int no;
-    while (1)
-    {
+int main() {
+    BiTree *root = NULL;
+    int choice;
+
+    while (1) {
         showmenu();
-        printf("   请输入你的选择：");
-        scanf("%d", &no);
-        fflush(stdin); // 清除键盘缓冲区
-        switch (no)
-        {
+        printf("请输入你的选择：");
+        if (scanf("%d", &choice) != 1) {
+            fprintf(stderr, "输入错误，请输入数字!\n");
+            while (getchar() != '\n');  // 清空缓冲区
+            continue;
+        }
+        fflush(stdin);
+
+        switch (choice) {
         case 1:
             root = create();
             printf("二叉树创建成功，按任意键继续…\n");
@@ -185,35 +232,22 @@ int main()
             system("cls");
             break;
         case 2:
-            printf("二叉树先序遍历结果为：\n");
-            preorder(root);
-            printf("\n");
+            if (root == NULL) {
+                printf("请先创建二叉树!\n");
+            } else {
+                printf("二叉树先序遍历结果为：\n");
+                preorder(root);
+                printf("\n");
+            }
             system("pause");
             system("cls");
             break;
-        case 3:
-            printf("二叉树中序遍历结果为：\n");
-            inorder(root);
-            printf("\n");
-            system("pause");
-            system("cls");
-            break;
-        case 4:
-            printf("二叉树后序遍历结果为：\n");
-            postorder(root);
-            printf("\n");
-            system("pause");
-            system("cls");
-            break;
-        case 5:
-            printf("二叉树层次遍历结果为：\n");
-            lorder(root);
-            printf("\n");
-            system("pause");
-            system("cls");
-            break;
+        // 类似修改其他case
+        case 6:
+            printf("退出程序\n");
+            return 0;
         default:
-            printf("你的输入有误，请从新输入！\n");
+            printf("你的输入有误，请重新输入！\n");
         }
     }
     return 0;

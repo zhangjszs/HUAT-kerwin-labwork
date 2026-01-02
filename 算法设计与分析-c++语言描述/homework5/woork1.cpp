@@ -1,3 +1,16 @@
+/*
+ * @Author: kerwin-win zhangjszs@foxmail.com
+ * @Date: 2024-04-02
+ * @LastEditors: kerwin-win zhangjszs@foxmail.com
+ * @LastEditTime: 2024-04-02
+ * @FilePath: \HUAT-kerwin-labwork\算法设计与分析-c++语言描述\homework5\woork1.cpp
+ * @Description: 使用优先队列实现 Dijkstra 最短路径的邻接表示例
+ *
+ * 算法：Dijkstra
+ * 时间复杂度：O(E log V)
+ * 空间复杂度：O(V + E)
+ */
+
 #include <iostream>
 #include <queue>
 #include <vector>
@@ -10,7 +23,7 @@ struct Edge
     int from, to, weight;
 };
 
-// 比较函数,用于优先队列
+// 比较函数,用于优先队列（按距离最小）
 struct cmp
 {
     bool operator()(const pair<int, int> &a, const pair<int, int> &b)
@@ -78,6 +91,7 @@ int main()
 
     return 0;
 }
+
 /*
 优先队列的变化过程：
 首先，创建了一个优先队列 pq，用于存放 (距离, 结点) 的 pair 元素。

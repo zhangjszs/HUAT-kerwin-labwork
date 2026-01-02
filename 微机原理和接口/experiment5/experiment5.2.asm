@@ -1,8 +1,13 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 实验 5.2（7段数码管与 8255 控制示例，显示字符串并驱动数码管）
+; @Notes: 使用 XLAT 查表与 8255 端口输出
+; ------------------------------------------------------------------
 DATA SEGMENT
-       ; 定义一个字节数组LED，存储0~9对应的7段数码管段码值
        LED     DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H,7FH,6FH
-    
-       ; 定义要打印的字符串MESSAGE，并以$结尾表示字符串结束
+
        MESSAGE DB 'zhangchongwen 202202296 lizihang 202202297 $',0
 DATA ENDS
 

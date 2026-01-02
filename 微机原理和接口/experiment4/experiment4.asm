@@ -1,3 +1,10 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 实验 4（8259A 中断示例，设置和恢复中断向量，处理 IRQ）
+; @Notes: 演示获取/设置中断向量、屏蔽位与中断服务程序（ISR）
+; ------------------------------------------------------------------
 DATA SEGMENT
     MSG1  DB 0DH,0AH,'THIS IS A 8259A INTERRUPT',0DH,0AH,'$'                     ; 定义字符串MSG1
     MSG2  DB 0DH,0AH,'PRESS ANY KEY TO EXIT!',0DH,0AH,'$'                        ; 定义字符串MSG2

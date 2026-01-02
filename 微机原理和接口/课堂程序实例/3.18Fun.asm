@@ -1,15 +1,21 @@
-crlf macro             ;��ɻس����еĺ�
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.18Fun（定义换行宏并演示数字输出函数）
+; @Notes: crlf 宏用于输出回车换行，ShowFun 为打印十进制数字的子程序
+; ------------------------------------------------------------------
+crlf macro             ; 换行宏
          mov ah,2
-         mov dl,0dh    ;�س�
+         mov dl,0dh    ; 回车
          int 21h
 
          mov ah,2
-         mov dl,0ah    ;����
+         mov dl,0ah    ; 换行
          int 21h
 endm
-     
+
 DATAS SEGMENT
-    ;�˴��������ݶδ���
     v1    DB 123
     v2    DB 105
 DATAS ENDS

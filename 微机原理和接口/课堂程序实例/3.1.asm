@@ -1,3 +1,10 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.1（简单的字符串/字符输出示例）
+; @Notes: 使用 INT 21H 的 AH=02 功能输出字符
+; ------------------------------------------------------------------
 DATAS SEGMENT
    
 DATAS ENDS

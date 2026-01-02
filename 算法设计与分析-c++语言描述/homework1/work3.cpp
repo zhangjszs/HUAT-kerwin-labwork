@@ -1,12 +1,28 @@
 /*
-用分治法实现两个n位整数的乘法。为简单请见，假设n等于2的k次幂，例如n=8，同时假定n位整数的大小在C语言整数的运算范围内, 
-设计算法并调试计算12345678*87654321，并分析算法的时间复杂度。（25分）
-*/
+ * @Author: kerwin-win zhangjszs@foxmail.com
+ * @Date: 2024-04-02
+ * @LastEditors: kerwin-win zhangjszs@foxmail.com
+ * @LastEditTime: 2024-04-02
+ * @FilePath: \HUAT-kerwin-labwork\算法设计与分析-c++语言描述\homework1\work3.cpp
+ * @Description: 分治法实现大整数乘法（简单分割为高低位的递归实现）
+ *
+ * 算法：分治（类似学校教材中的大整数乘法分解）
+ * 时间复杂度：O(n^log2(3)) 可通过 Karatsuba 改进到 O(n^1.585)
+ * 空间复杂度：O(n)
+ */
 #include <iostream>
 #include <cmath>
 
 using namespace std;
 
+/**
+ * @brief 将两个 n 位整数按高低位分治相乘（要求 n 为 2 的幂）
+ *
+ * @param a 第一个整数
+ * @param b 第二个整数
+ * @param n 当前处理的位数
+ * @return long long 相乘结果
+ */
 long long multiplyNumbers(long long a, long long b, int n) {
     // 如果 n 等于 1,直接返回 a * b
     if (n == 1) {

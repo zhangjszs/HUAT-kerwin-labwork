@@ -1,3 +1,16 @@
+/*
+ * @Author: kerwin-win zhangjszs@foxmail.com
+ * @Date: 2024-04-02
+ * @LastEditors: kerwin-win zhangjszs@foxmail.com
+ * @LastEditTime: 2024-04-02
+ * @FilePath: \HUAT-kerwin-labwork\算法设计与分析-c++语言描述\homework3\work3.cpp
+ * @Description: 两路合并（构造最优合并树）的贪心实现，近似 Huffman 合并过程
+ *
+ * 算法：每次合并权重最小的两个节点
+ * 时间复杂度：O(n^2)（简单排序实现），可用优先队列降到 O(n log n)
+ * 空间复杂度：O(n)
+ */
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -9,10 +22,17 @@ struct Node {
     int depth;
 };
 
+// 比较函数：按权重升序
 bool cmpWeight(const Node& a, const Node& b) {
     return a.weight < b.weight;
 }
 
+/**
+ * @brief 使用贪心合并最小权重节点，计算带权路径长度
+ *
+ * @param W 权重数组
+ * @return int 带权路径长度
+ */
 int greedySolution(const vector<int>& W) {
     vector<Node> nodes;
     for (int w : W) {

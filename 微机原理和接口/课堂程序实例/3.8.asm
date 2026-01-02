@@ -1,5 +1,12 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.8（位操作与移位/循环移位演示）
+; @Notes: 保持原实现，仅添加注释
+; ------------------------------------------------------------------
 DATAS SEGMENT
-      ;�˴��������ݶδ���
+      ; 数据段
 DATAS ENDS
 
 STACKS SEGMENT

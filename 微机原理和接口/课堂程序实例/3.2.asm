@@ -1,3 +1,10 @@
+; ------------------------------------------------------------------
+; @Author: kerwin-win zhangjszs@foxmail.com
+; @Date: 2024-04-02
+; @LastEditors: kerwin-win
+; @Description: 课堂示例 3.2（简单加法并输出）
+; @Notes: 保持原实现，仅添加注释
+; ------------------------------------------------------------------
 DATAS SEGMENT
       one   DB 01H
       two   DB 02H
