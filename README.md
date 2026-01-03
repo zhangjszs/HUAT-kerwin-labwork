@@ -144,6 +144,9 @@ git clone https://github.com/zhangjszs/HUAT-kerwin-labwork.git
 
 # 进入项目目录
 cd HUAT-kerwin-labwork
+
+# 初始化 Git LFS（首次克隆后）
+git lfs install
 ```
 
 ### 浏览课程代码
@@ -313,4 +316,3 @@ Copyright (c) 2024 zhangjszs
 *最后更新：2025年10月*
 
 </div>
-
