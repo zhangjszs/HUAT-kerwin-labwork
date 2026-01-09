@@ -138,8 +138,22 @@
 
 ### 克隆仓库
 
+> ⚠️ **重要提示**：本仓库使用 **Git LFS** 管理大文件（ZIP、PDF、PPT、Excel等），克隆前请先安装 Git LFS
+
+#### 安装 Git LFS
+
 ```bash
-# 克隆项目到本地
+# Windows (推荐)
+winget install Git.GitLFS
+
+# 或下载安装
+# 访问: https://git-lfs.github.com/
+```
+
+#### 克隆项目
+
+```bash
+# 克隆项目到本地（会自动下载 LFS 大文件）
 git clone https://github.com/zhangjszs/HUAT-kerwin-labwork.git
 
 # 进入项目目录
@@ -148,6 +162,25 @@ cd HUAT-kerwin-labwork
 # 初始化 Git LFS（首次克隆后）
 git lfs install
 ```
+
+#### 快速克隆（仅代码，不含大文件）
+
+```bash
+# 浅克隆（不下载 LFS 大文件，只获取代码）
+git clone --depth=1 --no-lfs https://github.com/zhangjszs/HUAT-kerwin-labwork.git
+
+# 如需后续下载 LFS 文件
+cd HUAT-kerwin-labwork
+git lfs pull
+```
+
+#### Git LFS 说明
+
+- **什么是 Git LFS**：Git Large File Storage，用于管理大文件的扩展
+- **大文件类型**：ZIP、PDF、PPT、Excel、Word、视频等
+- **文件数量**：259 个大文件已迁移到 LFS
+- **存储大小**：~1 GB（存储在 GitHub LFS 服务器）
+- **优势**：大幅提升克隆速度，仓库大小保持稳定
 
 ### 浏览课程代码
 
