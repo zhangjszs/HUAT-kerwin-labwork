@@ -1,69 +1,84 @@
-# HUAT JavaWeb实验
+# JavaWeb 基础实验
 
-本项目包含JavaWeb基础实验，使用Servlet、JSP等技术。
+本目录包含 JavaWeb 基础课程的实验代码，涵盖 Servlet、JSP、MySQL 等技术。
 
-## 环境要求
+## 📋 实验列表
 
-- **操作系统**: Windows/Linux/macOS
-- **IDE**: IntelliJ IDEA Ultimate 2024.4
-- **JDK**: JDK 21
-- **服务器**: Tomcat 10.1.19
-- **数据库**: MySQL 8.0
-- **构建工具**: Maven 3.9 (阿里云镜像)
-- **规范**: Jakarta EE 10
+| 实验编号 | 实验名称 | 目录 | 主要内容 | 技术栈 |
+|-----------|---------|------|---------|---------|
+| 实验一 | JavaWeb 基础入门 | [WebLab1/](./WebLab1/) | Servlet 基础、JSP 页面 | Java, Servlet |
+| 实验二 | 数据库操作 | [WebLab2/](./WebLab2/) | JDBC 连接、CRUD 操作 | Java, MySQL |
+| 实验三 | 会话管理 | [WebLab3/](./WebLab3/) | Session、Cookie | Java, Servlet |
+| 实验四 | 过滤器与监听器 | [webLab4/](./webLab4/) | Filter、Listener | Java, Servlet |
+| 实验五 | MVC 模式 | [WebLab5/](./WebLab5/) | MVC 架构实现 | Java, Servlet |
 
-## 依赖安装
+## 🚀 快速开始
+
+### 环境要求
+
+- **JDK**: JDK 8 或更高版本
+- **Web 容器**: Tomcat 8.5 或更高版本
+- **数据库**: MySQL 5.7 或更高版本
+- **IDE**: IntelliJ IDEA / Eclipse
+
+### 运行步骤
 
 ```bash
-# 安装 JDK 21
-# 下载并安装 JDK 21
+# 进入实验目录
+cd <实验目录>
 
-# 安装 Tomcat
-# 下载 Tomcat 10.1.19 并配置
+# 使用 Maven 构建
+mvn clean package
 
-# 安装 MySQL
-# 下载 MySQL 8.0
+# 部署到 Tomcat
+# 将 target 目录下的 war 文件复制到 Tomcat webapps 目录
 
-# 配置 Maven 阿里云镜像
-# 编辑 ~/.m2/settings.xml
+# 启动 Tomcat
+cd <tomcat-path>/bin
+./startup.sh  # Linux/Mac
+# startup.bat  # Windows
 ```
 
-## 运行步骤
+## 📊 实验亮点
 
-1. 克隆仓库：
-   ```bash
-   git clone https://github.com/zhangjszs/HUAT-kerwin-labwork.git
-   cd HUAT-kerwin-labwork/HUATJavaWebLab
-   ```
+- ✨ **Servlet 规范**：遵循 Servlet 规范
+- 🎯 **数据库操作**：使用 JDBC 进行数据库连接和操作
+- 🔍 **会话管理**：正确使用 Session 和 Cookie
+- 📝 **详细注释**：便于理解 JavaWeb 开发流程
 
-2. 导入项目：
-   - 在 IntelliJ IDEA 中打开 WebLab1 等目录
+## 📚 学习资源
 
-3. 配置数据库：
-   ```sql
-   CREATE DATABASE webapp;
-   ```
+- [JavaWeb 实验一.docx](./JavaWeb实验一.docx)
+- [JavaWeb 实验二.docx](./javaweb实验二.docx)
+- [JavaWeb 实验三.docx](./javaweb实验三.docx)
+- [JavaWeb 实验四.docx](./javaweb实验四.docx)
+- [JavaWeb 实验五.docx](./javaweb实验五.docx)
+- [JAVA高级编程实验2023.doc](./JAVA高级编程实验2023.doc)
 
-4. 运行项目：
-   - 配置 Tomcat
-   - 启动服务器
+## 💡 学习建议
 
-## 目录结构
+1. **理解 Web 生命周期**：掌握 Servlet 的生命周期
+2. **熟练 JDBC 操作**：掌握数据库连接、查询、更新、删除
+3. **理解 MVC 模式**：理解 Model-View-Controller 的分离
+4. **注意安全问题**：SQL 注入、XSS 攻击的防护
 
-- `WebLab1/`：基础Servlet实验
-- `WebLab2/`：JSP实验
-- `WebLab3/`：数据库集成
-- `webLab4/`：MVC模式
-- `WebLab5/`：综合实验
+## 📝 实验报告
 
-## 实验说明
+每个实验目录下都包含相应的实验文档，详细记录：
+- 实验目的
+- 实验环境
+- 实验原理
+- 实验步骤
+- 实验结果
+- 心得体会
 
-每个实验都是独立项目，CSS样式各不相同。代码可能较乱，后续会整合。
+## ⚠️ 注意事项
 
-## 贡献
+- 本目录代码仅供学习参考
+- 请理解后用自己的方式实现
+- 注意数据库连接信息的配置
+- 注意 Tomcat 端口配置
 
-欢迎改进实验代码。
+---
 
-## 许可
-
-MIT License
+**最后更新：2024年**

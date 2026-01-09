@@ -1,71 +1,70 @@
-<!--
- * @Author: kerwin-win zhangjszs@foxmail.com
- * @Date: 2023-12-22 12:58:38
- * @LastEditors: kerwin-win zhangjszs@foxmail.com
- * @LastEditTime: 2024-03-15 11:59:29
- * @FilePath: \HUAT-kerwin-labwork\README.md
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 # 数据结构课程实验
 
-本项目是数据结构学习的代码仓库，包含各种数据结构实现和算法分析。
+本目录包含数据结构课程的实验代码，涵盖基础数据结构的实现与应用。
 
-## 环境要求
+## 📋 实验列表
 
-- **操作系统**: Windows/Linux/macOS
-- **编译器**: GCC 11.4.0 或更高版本 (C/C++)
-- **Python**: 3.10 或更高版本 (可视化部分)
-- **IDE**: Visual Studio Code, CLion 等
+| 实验编号 | 实验名称 | 目录 | 主要内容 | 技术栈 |
+|-----------|---------|------|---------|---------|
+| 实验一 | 线性表基本操作 | [linked list/](./linked%20list/) | 单链表、顺序表 | C++ |
+| 实验二 | 堆栈和队列 | [Stackandqueue/](./Stackandqueue/) | 栈、队列 | C++ |
+| 实验三 | 串基本操作 | [string_operations/](./string_operations/) | 字符串操作 | C++ |
+| 实验四 | 二维数组 | [twoDimensionalArray/](./twoDimensionalArray/) | 二维数组 | C++ |
+| 实验五 | 二叉树基本操作 | [BinaryTree/](./BinaryTree/) | 二叉树遍历 | C++ |
+| 实验六 | 图基本操作 | [graph%20theory/](./graph%20theory/) | 图的遍历 | C++ |
+| 实验七 | 查找技术 | [Search%20Algorithms/](./Search%20Algorithms/) | 顺序查找、二分查找 | C++ |
+| 实验八 | 排序技术 | [Sorting%20Technology/](./Sorting%20Technology/) | 冒泡、选择、插入排序 | C++ |
 
-## 依赖安装
+## 🚀 快速开始
 
-### C/C++ 项目
+### 编译与运行
+
 ```bash
-# 无需额外依赖，使用标准库
+# 进入实验目录
+cd <实验目录>
+
+# 编译（以实验一为例）
+cd linked list/Coding
+g++ BasicEdition.cpp -o BasicEdition
+
+# 运行
+./BasicEdition
 ```
 
-### Python 可视化
-```bash
-pip install matplotlib numpy
-```
+## 📊 实验亮点
 
-## 运行步骤
+- ✨ **代码规范**：遵循 C++11 标准
+- 🎯 **完整实现**：包含所有基本操作
+- 📝 **详细注释**：便于理解算法逻辑
+- 🔍 **测试用例**：验证程序正确性
 
-1. 克隆仓库：
-   ```bash
-   git clone https://github.com/zhangjszs/HUAT-kerwin-labwork.git
-   cd HUAT-kerwin-labwork/数据结构
-   ```
+## 📚 学习资源
 
-2. 编译 C/C++ 代码：
-   ```bash
-   cd BinaryTree/coding
-   g++ BassicEdition.cpp -o binary_tree
-   ./binary_tree
-   ```
+- [实验报告模版](./实验报告模版.doc)
+- [实验指导书](../操作系统/操作系统原理实验指导书（普教用2023版）使用.doc)
 
-3. 运行 Python 可视化：
-   ```bash
-   cd ../python_visualization  # 如果有
-   python visualize.py
-   ```
+## 💡 学习建议
 
-## 目录结构
+1. **先理解数据结构**：在编写代码前，先理解数据结构的定义和操作
+2. **画图辅助理解**：使用图示帮助理解数据结构的逻辑
+3. **多写多练**：每个实验都多写几遍，加深理解
+4. **注意边界条件**：空表、满表等特殊情况的处理
 
-- `BinaryTree`：二叉树实现
-- `Search Algorithms`：搜索算法
-- `Sorting Technology`：排序算法
-- `StackAndQueue`：栈和队列
-- `graph theory`：图论
-- `linked list`：链表
-- `string_operations`：字符串操作
-- `twoDimensionalArray`：二维数组
-- `report/`：实验报告
+## 📝 实验报告
 
-## 贡献
+每个实验目录下都包含相应的实验报告模板，详细记录：
+- 实验目的
+- 实验内容
+- 实现步骤
+- 测试结果
+- 心得体会
 
-欢迎各种形式的贡献，包括但不限于代码、文档和建议。
+## ⚠️ 注意事项
 
-## 许可
+- 本目录代码仅供学习参考
+- 请理解后用自己的方式实现
+- 注意代码的可读性和可维护性
 
-本项目采用 MIT 许可证，详见 `LICENSE` 文件。
+---
+
+**最后更新：2024年**
