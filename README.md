@@ -4,9 +4,9 @@
 
 **HUAT Computer Science Lab Work Repository**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![GitHub Stars](https://img.shields.io/github/stars/zhangjszs/HUAT-kerwin-labwork?style=social)](https://github.com/zhangjszs/HUAT-kerwin-labwork/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/zhangjszs/HUAT-kerwin-labwork?style=social)](https://github.com/zhangjszs/HUAT-kerwin-labwork/network/members)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) •
+[![GitHub Stars](https://img.shields.io/github/stars/zhangjszs/HUAT-kerwin-labwork?style=social)](https://github.com/zhangjszs/HUAT-kerwin-labwork/stargazers) •
+[![GitHub Forks](https://img.shields.io/github/forks/zhangjszs/HUAT-kerwin-labwork?style=social)](https://github.com/zhangjszs/HUAT-kerwin-labwork/network/members) •
 [![GitHub Issues](https://img.shields.io/github/issues/zhangjszs/HUAT-kerwin-labwork)](https://github.com/zhangjszs/HUAT-kerwin-labwork/issues)
 
 *湖北汽车工业学院 计算机科学与技术专业 课程实验代码集合*
