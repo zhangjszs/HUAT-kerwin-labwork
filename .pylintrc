@@ -1,0 +1,55 @@
+[MASTER]
+disable=
+    C0114,  # missing-module-docstring
+    C0115,  # missing-class-docstring
+    C0116,  # missing-function-docstring
+    R0903,  # too-few-public-methods
+    R0913,  # too-many-arguments
+    W0212,  # protected-access
+    C0103,  # invalid-name
+
+[FORMAT]
+max-line-length=120
+indent-string='    '
+
+[BASIC]
+good-names=i,j,k,x,y,z
+
+[DESIGN]
+max-args=7
+max-locals=15
+max-returns=6
+max-branches=12
+max-statements=50
+max-parents=7
+max-attributes=7
+min-public-methods=2
+max-public-methods=20
+
+[IMPORTS]
+deprecated-modules=regsub,TERMIOS,Bastion,rexec
+import-graph=
+ext-import-graph=
+int-import-graph=
+
+[CLASSES]
+defining-attr-methods=__init__,__new__,setUp
+exclude-protected=_asdict,_fields,_replace,_source,_make
+valid-classmethod-first-arg=cls
+valid-metaclass-first-arg=mcs
+
+[EXCEPTIONS]
+overgeneral-exceptions=Exception
+
+[MISCELLANEOUS]
+notes=FIXME,XXX,TODO
+
+[LOGGING]
+logging-format-style=new
+logging-modules=logging
+
+[SIMILARITIES]
+min-similarity-lines=4
+ignore-comments=yes
+ignore-docstrings=yes
+ignore-imports=no
