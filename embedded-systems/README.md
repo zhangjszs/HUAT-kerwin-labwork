@@ -30,6 +30,7 @@ sudo apt install gcc-arm-none-eabi
 
 ## 目录结构
 
+- `大作业/`：课程大作业
 - `chaoxing/`：超星学习资料
 
 ## 实验说明

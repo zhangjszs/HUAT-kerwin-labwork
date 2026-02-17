@@ -25,7 +25,7 @@ export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 1. 克隆仓库：
    ```bash
    git clone https://github.com/zhangjszs/HUAT-kerwin-labwork.git
-   cd HUAT-kerwin-labwork/android-mobile-development
+   cd HUAT-kerwin-labwork/android移动开发
    ```
 
 2. 打开项目：

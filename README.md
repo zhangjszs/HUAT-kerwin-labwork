@@ -13,6 +13,24 @@
 
 [简介](#-简介) • [快速开始](#-快速开始) • [目录](#-目录)
 
+> 📝 **目录命名说明**：所有目录统一使用英文命名，便于 URL 访问和命令行操作。
+> | 中文 | 英文 |
+> |------|------|
+> | 数据结构 | data-structures |
+> | 数据结构课设 | data-structures-course-design |
+> | 算法设计与分析 | algorithm-design-analysis |
+> | 操作系统 | operating-system |
+> | 计算机组成原理 | computer-organization |
+> | 计算机网络 | computer-network |
+> | 编译原理 | compiler-principles |
+> | 数据库 | database |
+> | Java课程设计 | java-course-design |
+> | 汽车概论A | automotive-introduction |
+> | 智能网联汽车技术 | intelligent-connected-vehicle |
+> | 智能网联汽车技术课程设计 | intelligent-connected-vehicle-course-design |
+> | 软件工程 | software-engineering |
+> | 项目工程管理 | project-management |
+
 ---
 
 </div>
@@ -40,14 +58,14 @@
 
 | 课程                                          | 目录       | 技术栈 |
 | --------------------------------------------- | ---------- | ------ |
-| [数据结构](数据结构/)                         | C++        |
-| [数据结构课设](数据结构课设/)                 | Qt, C++    |
-| [算法设计与分析](算法设计与分析-c++语言描述/) | C++11      |
-| [操作系统](操作系统/)                         | C          |
-| [计算机组成原理](计算机组成原理/)             | -          |
-| [计算机网络](计算机网络/)                     | Python, C  |
-| [编译原理](编译原理/)                         | C++        |
-| [数据库](数据库/)                             | MySQL, SQL |
+| [数据结构](data-structures/)                         | C++        |
+| [数据结构课设](data-structures-course-design/)                 | Qt, C++    |
+| [算法设计与分析](algorithm-design-analysis/) | C++11      |
+| [操作系统](operating-system/)                         | C          |
+| [计算机组成原理](computer-organization/)             | -          |
+| [计算机网络](computer-network/)                     | Python, C  |
+| [编译原理](compiler-principles/)                         | C++        |
+| [数据库](database/)                             | MySQL, SQL |
 
 ### 数据科学与分析
 
@@ -63,7 +81,7 @@
 | -------------------------------------- | ------------------ | ------ |
 | [Java 基础实验](HUATJavaWebLab/)       | Java, Servlet      |
 | [Java 课程作业](school-java-homework/) | Java               |
-| [Java 课程设计](java课程设计/)         | Java, Swing        |
+| [Java 课程设计](java-course-design/)         | Java, Swing        |
 | [JavaWeb 课设](javaweb-course-design/) | Spring Boot, MySQL |
 
 ### 系统编程
@@ -78,18 +96,18 @@
 
 | 课程                                          | 目录 |
 | --------------------------------------------- | ---- |
-| [汽车概论A](汽车概论A/)                       |
-| [智能网联汽车技术](智能网联汽车技术/)         |
-| [智能网联汽车课设](智能网联汽车技术课程设计/) |
+| [汽车概论A](automotive-introduction/)                       |
+| [智能网联汽车技术](intelligent-connected-vehicle/)         |
+| [智能网联汽车课设](intelligent-connected-vehicle-course-design/) |
 
 ### 其他专业课程
 
-| 课程                                        | 目录          | 技术栈 |
-| ------------------------------------------- | ------------- | ------ |
-| [嵌入式系统](embedded-systems/)             | C, ARM        |
-| [Android 开发](android-mobile-development/) | Java, Android |
-| [软件工程](软件工程/)                       | UML, Java     |
-| [项目管理](项目工程管理/)                   | -             |
+| 课程                                | 目录          | 技术栈 |
+| ----------------------------------- | ------------- | ------ |
+| [嵌入式系统](embedded-systems/) | C, ARM        |
+| [Android 开发](android-mobile-development/)    | Java, Android |
+| [软件工程](software-engineering/)               | UML, Java     |
+| [项目管理](project-management/)           | -             |
 
 ## 🚀 快速开始
 
