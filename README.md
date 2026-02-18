@@ -1,15 +1,15 @@
 <div align="center">
 
-# 🎓 HUAT 计科课程设计与实验代码库
+# 📚 HUAT 计科开源学习笔记
 
-**HUAT Computer Science Lab Work Repository**
+**HUAT Computer Science Open-Source Study Notes &amp; Lab Work**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) •
 [![GitHub Stars](https://img.shields.io/github/stars/zhangjszs/HUAT-kerwin-labwork?style=social)](https://github.com/zhangjszs/HUAT-kerwin-labwork/stargazers) •
 [![GitHub Forks](https://img.shields.io/github/forks/zhangjszs/HUAT-kerwin-labwork?style=social)](https://github.com/zhangjszs/HUAT-kerwin-labwork/network/members) •
 [![GitHub Issues](https://img.shields.io/github/issues/zhangjszs/HUAT-kerwin-labwork)](https://github.com/zhangjszs/HUAT-kerwin-labwork/issues)
 
-*湖北汽车工业学院 计算机科学与技术专业 课程实验代码集合*
+*湖北汽车工业学院 计算机科学与技术专业 课程实验代码与学习笔记集合*
 
 [简介](#-简介) • [快速开始](#-快速开始) • [目录](#-目录)
 
@@ -37,14 +37,15 @@
 
 ## 👋 简介
 
-> 💡 记录学习轨迹，分享技术成长
+&gt; 💡 开源学习，共同成长
 
-欢迎来到 `HUAT-kerwin-labwork`！
+欢迎来到 **HUAT 计科开源学习笔记**！
 
-本仓库收录了我在**湖北汽车工业学院 (HUAT) 计算机科学与技术专业 (2022级)** 学习期间完成的课程设计和实验代码。创建此仓库旨在：
-- 📚 **记录学习过程**：系统化整理大学期间的编程实践
-- 🎯 **分享学习成果**：为学弟学妹和相关课程同学提供参考
-- 🔍 **持续改进**：通过开源协作不断完善代码质量
+本仓库是我在**湖北汽车工业学院 (HUAT) 计算机科学与技术专业 (2022级)** 学习期间的完整记录，包含课程设计、实验代码、学习笔记等。将其开源旨在：
+
+- 📚 **记录学习轨迹**：系统化整理大学期间的编程实践
+- 🤝 **分享学习成果**：为学弟学妹和同学提供学习参考
+- � **持续改进**：通过开源协作不断完善
 
 ### ⚠️ 重要提示
 
@@ -56,16 +57,16 @@
 
 ### 计算机基础
 
-| 课程                                          | 目录       | 技术栈 |
-| --------------------------------------------- | ---------- | ------ |
-| [数据结构](data-structures/)                         | C++        |
-| [数据结构课设](data-structures-course-design/)                 | Qt, C++    |
-| [算法设计与分析](algorithm-design-analysis/) | C++11      |
-| [操作系统](operating-system/)                         | C          |
-| [计算机组成原理](computer-organization/)             | -          |
-| [计算机网络](computer-network/)                     | Python, C  |
-| [编译原理](compiler-principles/)                         | C++        |
-| [数据库](database/)                             | MySQL, SQL |
+| 课程                                           | 目录       | 技术栈 |
+| ---------------------------------------------- | ---------- | ------ |
+| [数据结构](data-structures/)                   | C++        |
+| [数据结构课设](data-structures-course-design/) | Qt, C++    |
+| [算法设计与分析](algorithm-design-analysis/)   | C++11      |
+| [操作系统](operating-system/)                  | C          |
+| [计算机组成原理](computer-organization/)       | -          |
+| [计算机网络](computer-network/)                | Python, C  |
+| [编译原理](compiler-principles/)               | C++        |
+| [数据库](database/)                            | MySQL, SQL |
 
 ### 数据科学与分析
 
@@ -81,7 +82,7 @@
 | -------------------------------------- | ------------------ | ------ |
 | [Java 基础实验](HUATJavaWebLab/)       | Java, Servlet      |
 | [Java 课程作业](school-java-homework/) | Java               |
-| [Java 课程设计](java-course-design/)         | Java, Swing        |
+| [Java 课程设计](java-course-design/)   | Java, Swing        |
 | [JavaWeb 课设](javaweb-course-design/) | Spring Boot, MySQL |
 
 ### 系统编程
@@ -94,20 +95,20 @@
 
 ### 专业特色
 
-| 课程                                          | 目录 |
-| --------------------------------------------- | ---- |
-| [汽车概论A](automotive-introduction/)                       |
-| [智能网联汽车技术](intelligent-connected-vehicle/)         |
+| 课程                                                             | 目录 |
+| ---------------------------------------------------------------- | ---- |
+| [汽车概论A](automotive-introduction/)                            |
+| [智能网联汽车技术](intelligent-connected-vehicle/)               |
 | [智能网联汽车课设](intelligent-connected-vehicle-course-design/) |
 
 ### 其他专业课程
 
-| 课程                                | 目录          | 技术栈 |
-| ----------------------------------- | ------------- | ------ |
-| [嵌入式系统](embedded-systems/) | C, ARM        |
-| [Android 开发](android-mobile-development/)    | Java, Android |
-| [软件工程](software-engineering/)               | UML, Java     |
-| [项目管理](project-management/)           | -             |
+| 课程                                        | 目录          | 技术栈 |
+| ------------------------------------------- | ------------- | ------ |
+| [嵌入式系统](embedded-systems/)             | C, ARM        |
+| [Android 开发](android-mobile-development/) | Java, Android |
+| [软件工程](software-engineering/)           | UML, Java     |
+| [项目管理](project-management/)             | -             |
 
 ## 🚀 快速开始
 
@@ -263,6 +264,6 @@ Copyright (c) 2024 zhangjszs
 
 **Made with ❤️ by [zhangjszs](https://github.com/zhangjszs)**
 
-*最后更新：2025年1月*
+*最后更新：2026年2月*
 
 </div>
