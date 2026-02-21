@@ -25,6 +25,7 @@ set(PROJECT_SOURCES
         models/mazegrid.h
         services/fileservice.cpp
         services/fileservice.h
+        utils/gridutils.h
         constants.h
 )
 
@@ -50,6 +51,7 @@ target_include_directories(MazeProject PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/core
     ${CMAKE_CURRENT_SOURCE_DIR}/models
     ${CMAKE_CURRENT_SOURCE_DIR}/services
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils
 )
 
 target_link_libraries(MazeProject PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)

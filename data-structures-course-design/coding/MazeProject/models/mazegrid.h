@@ -6,7 +6,7 @@
 #include <QColor>
 
 enum class AType {
-    Unknow,
+    Unknown,
     Wall,
     StartPoint,
     EndPoint,
@@ -17,13 +17,12 @@ enum class AType {
 struct APoint {
     int x = 0;
     int y = 0;
-    AType type = AType::Unknow;
-    double current_cost = 0.0;
+    AType type = AType::Unknown;
     double f_cost = 0.0;
     double g_cost = 0.0;
     double h_cost = 0.0;
     std::shared_ptr<APoint> parent;
-    
+
     int algorithmPath = -1;
     QColor pathColor;
     bool isBestPath = false;
@@ -53,8 +52,9 @@ public:
     void setWidth(int w) { m_width = w; }
     void setHeight(int h) { m_height = h; }
 
-    APointPtr at(int x, int y) const;
-    bool isValid(int x, int y) const;
+    // at(col, row) = at(x, y)
+    APointPtr at(int col, int row) const;
+    bool isValid(int col, int row) const;
 
 private:
     int m_width;

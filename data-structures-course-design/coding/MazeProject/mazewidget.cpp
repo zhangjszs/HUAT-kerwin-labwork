@@ -1,19 +1,21 @@
 #include "mazewidget.h"
-#include <QTime>
+#include "constants.h"
+#include <QDateTime>
 
 MazeWidget::MazeWidget(QWidget *parent) : QWidget(parent)
 {
+    m_lastUpdateTime = QDateTime::currentMSecsSinceEpoch();
     updateSize();
 }
 
 void MazeWidget::updateSize()
 {
-    int cellSize = qMin(width() - 20, height() - 20) / qMax(MAX_X, MAX_Y);
+    int cellSize = qMin(width() - 20, height() - 20) / qMax(m_mazeWidth, m_mazeHeight);
     cellSize = qMax(cellSize, 15);
     m_cellSize = cellSize;
-    m_offsetX = (width() - MAX_Y * m_cellSize) / 2;
-    m_offsetY = (height() - MAX_X * m_cellSize) / 2;
-    setMinimumSize(MAX_Y * m_cellSize + 40, MAX_X * m_cellSize + 40);
+    m_offsetX = (width() - m_mazeWidth * m_cellSize) / 2;
+    m_offsetY = (height() - m_mazeHeight * m_cellSize) / 2;
+    setMinimumSize(m_mazeWidth * m_cellSize + 40, m_mazeHeight * m_cellSize + 40);
 }
 
 void MazeWidget::resizeEvent(QResizeEvent *event)
@@ -28,7 +30,7 @@ void MazeWidget::paintEvent(QPaintEvent *event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    QColor bgColor = m_isDark ? QColor(60, 60, 60) : QColor(236, 240, 241);
+    QColor bgColor = m_isDark ? MazeColors::Dark::Background : MazeColors::Light::Background;
     painter.fillRect(rect(), bgColor);
 
     if (!m_grid) return;
@@ -42,30 +44,34 @@ void MazeWidget::paintEvent(QPaintEvent *event)
 
             AType type = (*m_grid)[i][j]->type;
             
-            bool hasOverlay = ((*m_grid)[i][j]->algorithmPath >= 0) && (type == AType::Unknow);
-            if (hasOverlay && (*m_grid)[i][j]->isBestPath) {
-                painter.fillRect(cellRect, QColor(46, 204, 113));
-            } else if (hasOverlay && (*m_grid)[i][j]->algorithmPath == 0) {
-                painter.fillRect(cellRect, QColor(52, 152, 219));
-            } else if (hasOverlay && (*m_grid)[i][j]->algorithmPath == 1) {
-                painter.fillRect(cellRect, QColor(155, 89, 182));
-            } else if (hasOverlay && (*m_grid)[i][j]->algorithmPath == 2) {
-                painter.fillRect(cellRect, QColor(241, 196, 15));
-            } else if (type == AType::Wall) {
-                painter.fillRect(cellRect, QColor(52, 73, 94));
-            } else if (type == AType::Unknow) {
-                painter.fillRect(cellRect, m_isDark ? QColor(80, 80, 80) : QColor(255, 255, 255));
+            QColor fillColor;
+            
+            if (type == AType::Wall) {
+                fillColor = MazeColors::Wall;
+            } else if ((*m_grid)[i][j]->algorithmPath >= 0 && (*m_grid)[i][j]->isBestPath) {
+                fillColor = MazeColors::Path;
+            } else if ((*m_grid)[i][j]->algorithmPath == 0) {
+                fillColor = MazeColors::PathCompare0;
+            } else if ((*m_grid)[i][j]->algorithmPath == 1) {
+                fillColor = MazeColors::PathCompare1;
+            } else if ((*m_grid)[i][j]->algorithmPath == 2) {
+                fillColor = MazeColors::PathCompare2;
             } else if (type == AType::StartPoint) {
-                painter.fillRect(cellRect, QColor(52, 152, 219));
+                fillColor = MazeColors::StartPoint;
             } else if (type == AType::EndPoint) {
-                painter.fillRect(cellRect, QColor(231, 76, 60));
+                fillColor = MazeColors::EndPoint;
             } else if (type == AType::Path) {
-                painter.fillRect(cellRect, QColor(46, 204, 113));
+                fillColor = MazeColors::Path;
             } else if (type == AType::Visited) {
-                painter.fillRect(cellRect, m_isDark ? QColor(127, 140, 141) : QColor(189, 195, 199));
+                fillColor = MazeColors::Visited;
+            } else if (type == AType::Unknown) {
+                fillColor = m_isDark ? MazeColors::Dark::CellUnknown : MazeColors::Light::CellUnknown;
             }
 
-            painter.setPen(QPen(m_isDark ? QColor(100, 100, 100) : QColor(189, 195, 199), 1));
+            painter.fillRect(cellRect, fillColor);
+
+            QColor borderColor = m_isDark ? MazeColors::Dark::CellBorder : MazeColors::Light::CellBorder;
+            painter.setPen(QPen(borderColor, 1));
             painter.drawRect(cellRect);
         }
     }
@@ -76,30 +82,31 @@ void MazeWidget::mousePressEvent(QMouseEvent *event)
     int x = event->position().x();
     int y = event->position().y();
 
+    // i = 行索引, j = 列索引
     int i = (y - m_offsetY) / m_cellSize;
     int j = (x - m_offsetX) / m_cellSize;
 
-    if (i >= 0 && i < MAX_X && j >= 0 && j < MAX_Y) {
+    // 边界检查：i是行(应检查height)，j是列(应检查width)
+    if (i >= 0 && i < m_mazeHeight && j >= 0 && j < m_mazeWidth) {
         emit clicked(i, j, event->button());
     }
 }
 
 void MazeWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    static QTime lastUpdateTime = QTime::currentTime();
-
     int x = event->position().x();
     int y = event->position().y();
 
     int i = (y - m_offsetY) / m_cellSize;
     int j = (x - m_offsetX) / m_cellSize;
 
-    if (i >= 0 && i < MAX_X && j >= 0 && j < MAX_Y) {
+    if (i >= 0 && i < m_mazeHeight && j >= 0 && j < m_mazeWidth) {
         if (event->buttons() & Qt::LeftButton) {
             emit dragged(i, j);
-            if (lastUpdateTime.msecsTo(QTime::currentTime()) > MOUSE_MOVE_THROTTLE_MS) {
+            qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
+            if (currentTime - m_lastUpdateTime > MOUSE_MOVE_THROTTLE_MS) {
                 update();
-                lastUpdateTime = QTime::currentTime();
+                m_lastUpdateTime = currentTime;
             }
         }
     }

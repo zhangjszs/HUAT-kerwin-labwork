@@ -18,7 +18,7 @@
     <item>
      <widget class="QLabel" name="titleLabel">
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot;font-size:20pt; font-weight:600;&quot;&gt;🧩 迷宫寻路可视化系统&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot;font-size:20pt; font-weight:600; color:#2c3e50;&quot;&gt;🧩 迷宫寻路可视化系统&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -51,7 +51,7 @@
         <item>
           <widget class="QLabel" name="labelAlgorithm">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;font-size:13pt; font-weight:600;&quot;&gt;🔧 迷宫设置&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;font-size:13pt; font-weight:600; color:#34495e;&quot;&gt;🔧 迷宫设置&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -190,7 +190,7 @@ QPushButton:hover {
         <item>
           <widget class="QLabel" name="labelAlgorithm2">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;font-size:13pt; font-weight:600;&quot;&gt;🔍 选择算法&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;font-size:13pt; font-weight:600; color:#34495e;&quot;&gt;🔍 选择算法&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -312,7 +312,7 @@ QPushButton:hover {
         <item>
           <widget class="QLabel" name="labelOperation">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;font-size:13pt; font-weight:600;&quot;&gt;⚙️ 操作&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot;font-size:13pt; font-weight:600; color:#34495e;&quot;&gt;⚙️ 操作&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -536,6 +536,16 @@ QPushButton:hover {
             <width>16777215</width>
             <height>60</height>
            </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QTextEdit {
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 10pt;
+    color: #2c3e50;
+}</string>
           </property>
           <property name="readOnly">
            <bool>true</bool>

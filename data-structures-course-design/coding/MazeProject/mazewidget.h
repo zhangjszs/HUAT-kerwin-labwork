@@ -18,6 +18,7 @@ public:
     void setStartPoint(QPoint *sp) { m_startPoint = sp; }
     void setEndPoint(QPoint *ep) { m_endPoint = ep; }
     void setTheme(bool isDark) { m_isDark = isDark; }
+    void setMazeSize(int width, int height) { m_mazeWidth = width; m_mazeHeight = height; }
     void refresh() { update(); }
     void updateSize();
 
@@ -39,6 +40,9 @@ private:
     int m_cellSize;
     int m_offsetX;
     int m_offsetY;
+    int m_mazeWidth = 20;
+    int m_mazeHeight = 20;
+    qint64 m_lastUpdateTime = 0;
 };
 
 #endif

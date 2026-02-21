@@ -18,6 +18,7 @@
 #include <QKeyEvent>
 #include <QDialog>
 #include <QLabel>
+#include <QComboBox>
 #include "constants.h"
 #include "models/mazegrid.h"
 #include "core/algorithms.h"
@@ -45,9 +46,13 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
-    Grid2D Mainmap;
-    QPoint startPoint = QPoint(-1, -1);
-    QPoint endPoint = QPoint(-1, -1);
+    // Getters
+    const Grid2D& getMainmap() const { return m_mainmap; }
+    Grid2D& getMainmap() { return m_mainmap; }
+    QPoint getStartPoint() const { return m_startPoint; }
+    QPoint getEndPoint() const { return m_endPoint; }
+    void setStartPoint(const QPoint& point) { m_startPoint = point; }
+    void setEndPoint(const QPoint& point) { m_endPoint = point; }
 
     void applyTheme(const QString &theme);
     MazeWidget* getMazeWidget() { return mazeWidget; }
@@ -60,6 +65,8 @@ private:
     QPushButton* aStarButton;
     QPushButton* bfsButton;
     QPushButton* dfsButton;
+    QPushButton* dijkstraButton;
+    QPushButton* jpsButton;
     QPushButton* clearButton;
     QPushButton* loadButton;
     QPushButton* saveButton;
@@ -73,22 +80,29 @@ private:
     QSpinBox* sizeSpinBox;
     QSlider* speedSlider;
     QSlider* densitySlider;
+    QComboBox* movementComboBox;
+    QComboBox* heuristicComboBox;
     QTextEdit * textEdit;
     MazeWidget* mazeWidget;
     AlgorithmRunner* m_algorithmRunner;
     bool m_isDarkTheme = false;
     int m_visitedCount = 0;
-    int m_currentAlgorithm = 0;
-    AType m_startPrevType = AType::Unknow;
-    AType m_endPrevType = AType::Unknow;
-    Grid2D initializeMaze(int rows, int cols);
-    void clearAlgorithmOverlay();
+    AType m_startPrevType = AType::Unknown;
+    AType m_endPrevType = AType::Unknown;
+    int m_mazeWidth = 20;
+    int m_mazeHeight = 20;
+    Grid2D m_mainmap;
+    QPoint m_startPoint = QPoint(-1, -1);
+    QPoint m_endPoint = QPoint(-1, -1);
+    Grid2D initializeMaze(int width, int height);
     void setupConnections();
     void applySize(int size);
     void generateRandomMaze();
     void resetPathOnly();
     void exportAsImage();
     void compareAlgorithms();
+    void clearAlgorithmOverlay();
+    std::vector<std::vector<int>> convertMazeToIntGrid();
 
 signals:
     void updateTextEdit(const QString &text);
@@ -98,6 +112,8 @@ public slots:
     void onAStarClicked();
     void onBfsClicked();
     void onDfsClicked();
+    void onDijkstraClicked();
+    void onJPSClicked();
     void clearMap();
     void loadMap();
     void saveMap();
@@ -114,6 +130,8 @@ public slots:
     void onExportClicked();
     void onCompareClicked();
     void onDensityChanged(int value);
+    void onMovementTypeChanged(int index);
+    void onHeuristicTypeChanged(int index);
 
 };
 
