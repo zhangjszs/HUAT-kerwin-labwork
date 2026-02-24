@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:fillViewport="true"
+    tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="48dp"
+            android:text="ADMIN"
+            style="@style/TextDisplay"/>
+
+        <!-- Username -->
+        <EditText
+            android:id="@+id/et_loginactivity_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="ADMIN USERNAME"
+            android:inputType="textPersonName"
+            style="@style/BrutalistInput"/>
+
+        <!-- Password -->
+        <EditText
+            android:id="@+id/et_loginactivity_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:ems="10"
+            android:hint="PASSWORD"
+            android:inputType="textPassword"
+            style="@style/BrutalistInput"/>
+
+        <!-- Login Button -->
+        <Button
+            android:id="@+id/bt_loginactivity_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="ADMIN LOGIN"
+            style="@style/BrutalistButton.Tertiary"/>
+
+        <!-- Back -->
+        <Button
+            android:id="@+id/b_gloginback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BACK"
+            style="@style/BrutalistButton.Secondary"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:fillViewport="true"
+    tools:context="com.example.company.RegisterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="36dp"
+            android:text="REGISTER"
+            style="@style/TextDisplay"/>
+
+        <!-- Username -->
+        <EditText
+            android:id="@+id/et_registeractivity_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="USERNAME"
+            android:inputType="textPersonName"
+            style="@style/BrutalistInput"/>
+
+        <!-- Password -->
+        <EditText
+            android:id="@+id/et_registeractivity_password1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="PASSWORD"
+            android:inputType="textPassword"
+            style="@style/BrutalistInput"/>
+
+        <!-- Confirm Password -->
+        <EditText
+            android:id="@+id/et_registeractivity_password2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:ems="10"
+            android:hint="CONFIRM PASSWORD"
+            android:inputType="numberPassword"
+            style="@style/BrutalistInput"/>
+
+        <!-- Register Button -->
+        <Button
+            android:id="@+id/bt_registeractivity_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="SIGN UP"
+            style="@style/BrutalistButton.Primary"/>
+
+        <!-- Back to Login -->
+        <Button
+            android:id="@+id/bt_registeractivity_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BACK TO LOGIN"
+            style="@style/BrutalistButton.Secondary"/>
+
+    </LinearLayout>
+</ScrollView>

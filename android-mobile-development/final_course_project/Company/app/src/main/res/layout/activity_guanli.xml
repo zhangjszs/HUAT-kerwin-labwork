@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:fillViewport="true"
+    tools:context=".GuanliActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="MANAGE"
+            style="@style/TextDisplay"/>
+
+        <!-- Form Fields -->
+        <EditText
+            android:id="@+id/edt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:ems="10"
+            android:hint="NAME"
+            android:inputType="textPersonName"
+            style="@style/BrutalistInput"/>
+
+        <EditText
+            android:id="@+id/edt_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:ems="10"
+            android:hint="PASSWORD"
+            android:inputType="textPassword"
+            style="@style/BrutalistInput"/>
+
+        <EditText
+            android:id="@+id/edt_sex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:ems="10"
+            android:hint="GENDER"
+            android:inputType="textPersonName"
+            style="@style/BrutalistInput"/>
+
+        <EditText
+            android:id="@+id/edt_tel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:ems="10"
+            android:hint="PHONE"
+            android:inputType="phone"
+            style="@style/BrutalistInput"/>
+        <EditText
+            android:id="@+id/edt_position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:ems="10"
+            android:hint="POSITION"
+            android:inputType="textPersonName"
+            style="@style/BrutalistInput"/>
+
+        <EditText
+            android:id="@+id/edt_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:ems="10"
+            android:hint="HIRE DATE (YYYY-MM-DD)"
+            android:inputType="date"
+            style="@style/BrutalistInput"/>
+
+        <!-- Action Buttons -->
+        <Button
+            android:id="@+id/bt_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="ADD EMPLOYEE"
+            style="@style/BrutalistButton.Primary"/>
+
+        <Button
+            android:id="@+id/bt_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="UPDATE EMPLOYEE"
+            style="@style/BrutalistButton.Secondary"/>
+
+        <Button
+            android:id="@+id/bt_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="DELETE EMPLOYEE"
+            style="@style/BrutalistButton.Danger"/>
+
+        <Button
+            android:id="@+id/bt_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="SEARCH EMPLOYEE"
+            style="@style/BrutalistButton.Accent"/>
+
+        <Button
+            android:id="@+id/bt_manage_appeals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="APPEALS"
+            style="@style/BrutalistButton.Secondary"/>
+
+        <Button
+            android:id="@+id/bt_manage_leaves"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="LEAVES"
+            style="@style/BrutalistButton.Primary"/>
+
+        <Button
+            android:id="@+id/bt_guanliback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="BACK TO LOGIN"
+            style="@style/BrutalistButton.Tertiary"/>
+
+    </LinearLayout>
+</ScrollView>

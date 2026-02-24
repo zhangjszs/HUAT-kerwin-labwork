@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="LEAVE REQUEST"
+        style="@style/TextDisplay"/>
+
+    <Spinner
+        android:id="@+id/spinner_leave_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/brutalist_input"
+        android:padding="16dp"/>
+
+    <EditText
+        android:id="@+id/edt_start_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:hint="开始日期（如：2026年02月24日）"
+        android:inputType="text"
+        style="@style/BrutalistInput"/>
+
+    <EditText
+        android:id="@+id/edt_end_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:hint="结束日期（如：2026年02月25日）"
+        android:inputType="text"
+        style="@style/BrutalistInput"/>
+
+    <EditText
+        android:id="@+id/edt_leave_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="请假原因"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        style="@style/BrutalistInput"/>
+
+    <Button
+        android:id="@+id/btn_submit_leave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="SUBMIT REQUEST"
+        style="@style/BrutalistButton.Primary"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="MY REQUESTS"
+        style="@style/TextLabel"/>
+
+    <ListView
+        android:id="@+id/list_leave_requests"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp"/>
+
+</LinearLayout>

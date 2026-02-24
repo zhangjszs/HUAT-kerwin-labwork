@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:fillViewport="true"
+    tools:context=".IntroductionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Page Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="ABOUT US"
+            style="@style/TextDisplay"/>
+
+        <!-- Company Image with brutalist frame -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/brutalist_card"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/image_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/company"/>
+        </LinearLayout>
+
+        <!-- Introduction Text -->
+        <TextView
+            android:id="@+id/tv_introduction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/company_introduction"
+            style="@style/TextBody"/>
+
+    </LinearLayout>
+</ScrollView>

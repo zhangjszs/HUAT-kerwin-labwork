@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Brutalist card: white fill + black border + solid offset shadow -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="4dp" android:top="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/brutalistShadow"/>
+            <corners android:radius="12dp"/>
+        </shape>
+    </item>
+    <item android:right="4dp" android:bottom="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorSurface"/>
+            <stroke android:width="2dp" android:color="@color/brutalistBorder"/>
+            <corners android:radius="12dp"/>
+        </shape>
+    </item>
+</layer-list>

@@ -1,0 +1,114 @@
+<resources>
+
+    <!-- Base application theme: Neo-Brutalism -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:textColorSecondary">@color/textSecondary</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+    </style>
+
+    <!-- Brutalist Title Bar -->
+    <style name="BrutalistToolbar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <!-- Text Styles -->
+    <style name="TextDisplay">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+    </style>
+
+    <style name="TextHeadline">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textPrimary</item>
+    </style>
+
+    <style name="TextBody">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
+    <style name="TextLabel">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="TextCaption">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/textSecondary</item>
+    </style>
+
+    <!-- Brutalist Button Base -->
+    <style name="BrutalistButton">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:paddingLeft">24dp</item>
+        <item name="android:paddingRight">24dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="BrutalistButton.Primary">
+        <item name="android:background">@drawable/brutalist_button_primary</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+    </style>
+
+    <style name="BrutalistButton.Secondary">
+        <item name="android:background">@drawable/brutalist_button_secondary</item>
+        <item name="android:textColor">@color/colorOnSecondary</item>
+    </style>
+
+    <style name="BrutalistButton.Tertiary">
+        <item name="android:background">@drawable/brutalist_button_tertiary</item>
+        <item name="android:textColor">@color/colorOnTertiary</item>
+    </style>
+
+    <style name="BrutalistButton.Accent">
+        <item name="android:background">@drawable/brutalist_button_accent</item>
+        <item name="android:textColor">@color/colorOnAccent</item>
+    </style>
+
+    <style name="BrutalistButton.Danger">
+        <item name="android:background">@drawable/brutalist_button_danger</item>
+        <item name="android:textColor">@color/colorOnError</item>
+    </style>
+
+    <!-- Brutalist Input -->
+    <style name="BrutalistInput">
+        <item name="android:background">@drawable/brutalist_input</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textColorHint">@color/textSecondary</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+    </style>
+
+    <!-- Brutalist Card -->
+    <style name="BrutalistCard">
+        <item name="android:background">@drawable/brutalist_card</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+</resources>

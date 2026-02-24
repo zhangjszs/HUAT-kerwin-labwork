@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:fillViewport="true"
+    tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <!-- Title Block -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="KERWIN"
+            style="@style/TextDisplay"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="COMPANY"
+            style="@style/TextDisplay"
+            android:layout_marginBottom="48dp"/>
+
+        <!-- Username -->
+        <EditText
+            android:id="@+id/et_loginactivity_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:ems="10"
+            android:hint="USERNAME"
+            android:inputType="textPersonName"
+            style="@style/BrutalistInput"/>
+
+        <!-- Password -->
+        <EditText
+            android:id="@+id/et_loginactivity_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:ems="10"
+            android:hint="PASSWORD"
+            android:inputType="textPassword"
+            style="@style/BrutalistInput"/>
+
+        <!-- Login Button -->
+        <Button
+            android:id="@+id/bt_loginactivity_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="LOGIN"
+            style="@style/BrutalistButton.Primary"/>
+
+        <!-- Register Button -->
+        <Button
+            android:id="@+id/bt_loginactivity_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="REGISTER"
+            style="@style/BrutalistButton.Secondary"/>
+
+        <!-- Admin Login -->
+        <Button
+            android:id="@+id/bt_loginactivityGl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADMIN LOGIN"
+            style="@style/BrutalistButton.Tertiary"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="APPEAL"
+        style="@style/TextDisplay"/>
+
+    <EditText
+        android:id="@+id/edt_appeal_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:hint="日期（如：2026年02月24日）"
+        android:inputType="text"
+        style="@style/BrutalistInput"/>
+
+    <EditText
+        android:id="@+id/edt_appeal_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:hint="补卡时间（如：09:00）"
+        android:inputType="text"
+        style="@style/BrutalistInput"/>
+
+    <EditText
+        android:id="@+id/edt_appeal_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:hint="申诉原因"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        style="@style/BrutalistInput"/>
+
+    <Button
+        android:id="@+id/btn_submit_appeal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="SUBMIT APPEAL"
+        style="@style/BrutalistButton.Primary"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="MY APPEALS"
+        style="@style/TextLabel"/>
+
+    <ListView
+        android:id="@+id/list_appeals"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp"/>
+
+</LinearLayout>

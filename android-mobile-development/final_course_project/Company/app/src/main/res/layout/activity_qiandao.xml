@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <!-- Time Display -->
+    <TextView
+        android:id="@+id/tv_qiandao_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="monospace"
+        style="@style/TextDisplay"/>
+
+    <!-- Status Label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="ATTENDANCE"
+        style="@style/TextLabel"/>
+
+    <!-- Location Status -->
+    <TextView
+        android:id="@+id/tv_location_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="正在获取位置..."
+        android:gravity="center"
+        style="@style/TextCaption"/>
+
+    <!-- Distance Display -->
+    <TextView
+        android:id="@+id/tv_distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        style="@style/TextCaption"/>
+
+    <!-- Sign In Button -->
+    <Button
+        android:id="@+id/btn_qiandao_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="SIGN IN"
+        style="@style/BrutalistButton.Primary"/>
+
+    <!-- Sign Out Button -->
+    <Button
+        android:id="@+id/btn_qiantui_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SIGN OUT"
+        style="@style/BrutalistButton.Tertiary"/>
+
+</LinearLayout>

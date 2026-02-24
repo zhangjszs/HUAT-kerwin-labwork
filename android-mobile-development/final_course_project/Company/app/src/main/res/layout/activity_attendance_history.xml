@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="HISTORY"
+        style="@style/TextDisplay"/>
+
+    <!-- Month Navigation -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_prev_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&lt;"
+            style="@style/BrutalistButton.Secondary"/>
+
+        <TextView
+            android:id="@+id/tv_month_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            style="@style/TextHeadline"/>
+
+        <Button
+            android:id="@+id/btn_next_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&gt;"
+            style="@style/BrutalistButton.Secondary"/>
+    </LinearLayout>
+
+    <!-- Stats Card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/brutalist_card"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_stat_total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            style="@style/TextCaption"/>
+
+        <TextView
+            android:id="@+id/tv_stat_ontime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            style="@style/TextCaption"/>
+
+        <TextView
+            android:id="@+id/tv_stat_late"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            style="@style/TextCaption"/>
+
+        <TextView
+            android:id="@+id/tv_stat_absent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            style="@style/TextCaption"/>
+    </LinearLayout>
+
+    <!-- Weekday Headers -->
+    <LinearLayout
+        android:id="@+id/ll_weekday_headers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal"/>
+
+    <!-- Calendar Grid -->
+    <GridView
+        android:id="@+id/grid_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:numColumns="7"
+        android:horizontalSpacing="4dp"
+        android:verticalSpacing="4dp"
+        android:stretchMode="columnWidth"/>
+
+</LinearLayout>

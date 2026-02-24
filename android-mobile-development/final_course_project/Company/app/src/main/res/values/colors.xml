@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Neo-Brutalism Color Palette -->
+
+    <!-- Primary: Electric Yellow -->
+    <color name="colorPrimary">#FFE600</color>
+    <color name="colorPrimaryDark">#E6CF00</color>
+    <color name="colorOnPrimary">#1A1A1A</color>
+
+    <!-- Secondary: Signal Blue -->
+    <color name="colorSecondary">#2563EB</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+
+    <!-- Tertiary: Hot Pink -->
+    <color name="colorTertiary">#FF3CAC</color>
+    <color name="colorOnTertiary">#FFFFFF</color>
+
+    <!-- Accent: Mint Green -->
+    <color name="colorAccent">#06D6A0</color>
+    <color name="colorOnAccent">#1A1A1A</color>
+
+    <!-- Error -->
+    <color name="colorError">#EF4444</color>
+    <color name="colorOnError">#FFFFFF</color>
+
+    <!-- Background & Surface -->
+    <color name="colorBackground">#FAF7F0</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorSurfaceVariant">#F0EDEA</color>
+
+    <!-- Text -->
+    <color name="textPrimary">#1A1A1A</color>
+    <color name="textSecondary">#6B7280</color>
+
+    <!-- Brutalist Border & Shadow -->
+    <color name="brutalistBorder">#1A1A1A</color>
+    <color name="brutalistShadow">#1A1A1A</color>
+
+    <!-- Attendance status (legacy compat) -->
+    <drawable name="yqd">#06D6A0</drawable>
+    <drawable name="qd">#FFFFFFFF</drawable>
+</resources>
