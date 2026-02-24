@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:padding="20dp"
+    tools:context=".FirstActivity">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="DASHBOARD"
+        style="@style/TextDisplay"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- Profile Button -->
+    <Button
+        android:id="@+id/btn_profile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="PROFILE"
+        style="@style/BrutalistButton.Secondary"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Attendance Button -->
+    <Button
+        android:id="@+id/bt_qiandao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="ATTENDANCE"
+        style="@style/BrutalistButton.Primary"
+        app:layout_constraintTop_toBottomOf="@id/btn_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Date / Status -->
+    <TextView
+        android:id="@+id/tv_qiandaotime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_horizontal"
+        style="@style/TextCaption"
+        app:layout_constraintTop_toBottomOf="@id/bt_qiandao"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Work Hours -->
+    <TextView
+        android:id="@+id/tv_work_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        style="@style/TextCaption"
+        app:layout_constraintTop_toBottomOf="@id/tv_qiandaotime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- News Section Label -->
+    <TextView
+        android:id="@+id/tv_news_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="NEWS"
+        style="@style/TextLabel"
+        app:layout_constraintTop_toBottomOf="@id/tv_work_hours"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- News List -->
+    <ListView
+        android:id="@+id/list_news"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_news_label"
+        app:layout_constraintBottom_toTopOf="@id/btn_appeal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Appeal Button -->
+    <Button
+        android:id="@+id/btn_appeal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="APPEAL"
+        style="@style/BrutalistButton.Accent"
+        app:layout_constraintBottom_toTopOf="@id/btn_leave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Leave Button -->
+    <Button
+        android:id="@+id/btn_leave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="LEAVE"
+        style="@style/BrutalistButton.Tertiary"
+        app:layout_constraintBottom_toTopOf="@id/btn_history"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- History Button -->
+    <Button
+        android:id="@+id/btn_history"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="HISTORY"
+        style="@style/BrutalistButton.Secondary"
+        app:layout_constraintBottom_toTopOf="@id/introduction"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Company Intro Button -->
+    <Button
+        android:id="@+id/introduction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="ABOUT US"
+        style="@style/BrutalistButton.Secondary"
+        app:layout_constraintBottom_toTopOf="@id/login"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Logout Button -->
+    <Button
+        android:id="@+id/login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="LOGOUT"
+        style="@style/BrutalistButton.Danger"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
