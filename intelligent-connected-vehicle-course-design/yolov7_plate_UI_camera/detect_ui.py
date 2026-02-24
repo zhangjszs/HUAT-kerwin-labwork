@@ -18,6 +18,7 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
         self.PB3.clicked.connect(self.close)      #绑定按键3;退出键
         self.PB4.clicked.connect(self.camera)     #打开/关闭摄像头
         self.PB5.clicked.connect(self.save_screenshot)
+        self.PB6.clicked.connect(self.clear_history)
         self.camera_open = True
 
         parser = argparse.ArgumentParser()
@@ -67,6 +68,10 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
         pixmap.save(save_path)
         self.statusBar().showMessage(f"截图已保存: {save_path}", 3000)
 
+    def clear_history(self):
+        self.textBrowser.clear()
+        self.statusBar().showMessage("识别记录已清空", 2000)
+
     def closeEvent(self, event): #重写关闭事件函数
         result = QMessageBox.question(self, "提示", "是否退出?",
                                                 QMessageBox.Yes | QMessageBox.No,
@@ -109,7 +114,8 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
                 self.label_2.setPixmap(jpg_result)
                 self.statusBar().showMessage(f"检测完成，耗时 {time_end - time_start:.2f}s，共识别 {len(dict_list)} 个车牌")
                 if len(result_str) != 0:
-                    self.textBrowser.append(f"检测结果为：{result_str}")
+                    timestamp = time.strftime("%H:%M:%S")
+                    self.textBrowser.append(f"[{timestamp}] {result_str}")
 
             if file_type in ".mp4 .avi": # 对文件夹中的.mp4和.avi格式的视频进行检测
                 self.video = cv2.VideoCapture(self.FileName)  # 读取视频文件
@@ -138,7 +144,8 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
                         video_result = QtGui.QPixmap(showImage).scaled(self.label_2.width(), self.label_2.height())
                         self.label_2.setPixmap(video_result)
                         if len(result_str) !=0: #用字符串长度判断检测结果是否为空
-                            self.textBrowser.append(f"检测结果为：{result_str}") #将检测结果写在界面上
+                            timestamp = time.strftime("%H:%M:%S")
+                            self.textBrowser.append(f"[{timestamp}] {result_str}") #将检测结果写在界面上
                         self.label_6.setText('%.2f' % (time_end - time_start) + 'S')  # 将检测时间显示到GUI界面中，对结果保留两位小数
                         key = cv2.waitKey(1000 // fps)
                         if key == ord('q'):
@@ -175,7 +182,8 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
                     video_result = QtGui.QPixmap(showImage).scaled(self.label_2.width(), self.label_2.height())
                     self.label_2.setPixmap(video_result)
                     if len(result_str) != 0:
-                        self.textBrowser.append(f"检测结果为：{result_str}")  # 将检测结果写在界面上
+                        timestamp = time.strftime("%H:%M:%S")
+                        self.textBrowser.append(f"[{timestamp}] {result_str}")  # 将检测结果写在界面上
                     self.label_6.setText('%.2f' % (time_end - time_start) + 'S')  # 将检测时间显示到GUI界面中，对结果保留两位小数
                     cv2.waitKey(1000 // fps)
 
