@@ -5,7 +5,41 @@ from PyQt5.QtCore import *
 from yolov7_LPR import Ui_MainWindow
 import sys,os,time
 from detect_rec_plate import *
-from PyQt5.QtGui import QImage
+from PyQt5.QtGui import QImage, QBrush, QColor
+
+
+class ImageViewer(QDialog):
+    """图片放大查看窗口，支持滚轮缩放和拖拽平移"""
+    def __init__(self, pixmap, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("图片查看 - 缩放: 100%")
+        self.resize(900, 700)
+        self._zoom = 1.0
+
+        self._scene = QGraphicsScene(self)
+        self._scene.setBackgroundBrush(QBrush(QColor(30, 30, 30)))
+        self._pixmap_item = self._scene.addPixmap(pixmap)
+
+        self._view = QGraphicsView(self._scene, self)
+        self._view.setDragMode(QGraphicsView.ScrollHandDrag)
+        self._view.setRenderHints(
+            QtGui.QPainter.Antialiasing | QtGui.QPainter.SmoothPixmapTransform
+        )
+        self._view.setBackgroundBrush(QBrush(QColor(30, 30, 30)))
+        self._view.viewport().installEventFilter(self)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self._view)
+
+    def eventFilter(self, obj, event):
+        if obj is self._view.viewport() and event.type() == QEvent.Wheel:
+            factor = 1.2 if event.angleDelta().y() > 0 else 1 / 1.2
+            self._zoom *= factor
+            self._view.scale(factor, factor)
+            self.setWindowTitle(f"图片查看 - 缩放: {self._zoom * 100:.0f}%")
+            return True
+        return super().eventFilter(obj, event)
 
 
 class myMainWindow(Ui_MainWindow,QMainWindow):
@@ -52,7 +86,19 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
             sys.exit(1)
 
         device_info = "GPU: " + torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU"
-        self.statusBar().showMessage(f"模型加载完成 | 设备: {device_info} | 就绪")
+        self.statusBar().showMessage(f"模型加载完成 | 设备: {device_info} | 双击图片可放大查看")
+
+        # 给 label_2 安装事件过滤器，用于双击放大查看
+        self.label_2.installEventFilter(self)
+
+    def eventFilter(self, obj, event):
+        if obj is self.label_2 and event.type() == QEvent.MouseButtonDblClick:
+            pixmap = self.label_2.pixmap()
+            if pixmap and not pixmap.isNull():
+                viewer = ImageViewer(pixmap, self)
+                viewer.exec_()
+            return True
+        return super().eventFilter(obj, event)
 
     def OpenFile(self): #打开文件
         self.FileName, self.FileType = QFileDialog.getOpenFileName(self, "打开文件", "./imgs/",

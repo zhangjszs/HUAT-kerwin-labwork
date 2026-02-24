@@ -1,0 +1,4 @@
+plateName="京沪津渝冀晋蒙辽吉黑苏浙皖闽赣鲁豫鄂湘粤桂琼川贵云藏陕甘青宁新学警港澳挂使领民航0123456789ABCDEFGHJKLMNPQRSTUVWXYZ危险品"
+plateName1="#京沪津渝冀晋蒙辽吉黑苏浙皖闽赣鲁豫鄂湘粤桂琼川贵云藏陕甘青宁新学警港澳挂使领民航0123456789ABCDEFGHJKLMNPQRSTUVWXYZ危险品"
+
+print(len(plateName))
