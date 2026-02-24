@@ -1,0 +1,24 @@
+# 核心依赖
+numpy>=1.18.5
+opencv-python>=4.1.2
+Pillow>=8.0.0
+PyYAML>=5.3.1
+tqdm>=4.41.0
+PyQt5>=5.15.0
+
+# PyTorch - 根据你的环境选择安装方式：
+# CPU 版本: pip install torch torchvision
+# GPU 版本(CUDA 11.8): pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+# GPU 版本(CUDA 12.1): pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+torch>=1.7.0
+torchvision>=0.8.1
+
+# 可视化
+matplotlib>=3.2.2
+seaborn>=0.11.0
+pandas
+
+# 其他
+scipy>=1.4.1
+tensorboard>=2.4.1
+thop

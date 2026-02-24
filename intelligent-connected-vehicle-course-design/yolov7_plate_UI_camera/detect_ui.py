@@ -32,13 +32,33 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.opt = parser.parse_args()
         print(self.opt)
-        self.model = attempt_load(self.opt.detect_model, map_location=self.device)  # 加载模型
-        self.plate_rec_model = init_model(self.device, self.opt.rec_model)  # 初始化模型
-        self.statusBar().showMessage("模型加载完成，就绪")
+        # 检查权重文件
+        if not os.path.exists(self.opt.detect_model):
+            QMessageBox.critical(self, "错误", f"检测模型不存在: {self.opt.detect_model}")
+            sys.exit(1)
+        if not os.path.exists(self.opt.rec_model):
+            QMessageBox.critical(self, "错误", f"识别模型不存在: {self.opt.rec_model}")
+            sys.exit(1)
+
+        # 创建输出目录
+        os.makedirs(self.opt.output, exist_ok=True)
+
+        # 加载模型
+        try:
+            self.model = attempt_load(self.opt.detect_model, map_location=self.device)
+            self.plate_rec_model = init_model(self.device, self.opt.rec_model)
+        except Exception as e:
+            QMessageBox.critical(self, "模型加载失败", f"错误信息: {str(e)}")
+            sys.exit(1)
+
+        device_info = "GPU: " + torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU"
+        self.statusBar().showMessage(f"模型加载完成 | 设备: {device_info} | 就绪")
 
     def OpenFile(self): #打开文件
         self.FileName, self.FileType = QFileDialog.getOpenFileName(self, "打开文件", "./imgs/",
                                                                    "All Files(*);;*.jpg;;*.png;;*.mp4;;*.avi")
+        if not self.FileName:
+            return
         file = os.path.splitext(self.FileName)  # 将文件路径分离文件名与扩展名
         file_name, file_type = file  # 获取文件名称和文件类型
         if file_type in ".jpg .png":
@@ -93,29 +113,33 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
             file_name, file_type = file  # 获取文件名称和文件类型
             '''这里对图片和视频类文件分开进行处理'''
             if file_type in ".jpg .png": # 如果获取的文件为图片类型
-                self.statusBar().showMessage("检测中...")
-                QApplication.processEvents()
-                time_start = time.time() # 记录检测开始时间
-                img = cv_imread(self.FileName) # cv2读取图片
-                if img.shape[-1] == 4:
-                    img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR) # 将图片格式由BGRA格式转换为BGR
-                dict_list = detect_Recognition_plate(self.model, img, self.device, self.plate_rec_model, self.opt.img_size) #调用车牌检测函数
-                ori_img, result_str = draw_result(img, dict_list) #将检测结果在原图上显示，画框
+                try:
+                    self.statusBar().showMessage("检测中...")
+                    QApplication.processEvents()
+                    time_start = time.time() # 记录检测开始时间
+                    img = cv_imread(self.FileName) # cv2读取图片
+                    if img.shape[-1] == 4:
+                        img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR) # 将图片格式由BGRA格式转换为BGR
+                    dict_list = detect_Recognition_plate(self.model, img, self.device, self.plate_rec_model, self.opt.img_size) #调用车牌检测函数
+                    ori_img, result_str = draw_result(img, dict_list) #将检测结果在原图上显示，画框
 
-                time_end = time.time() # 记录结束时间
-                self.label_6.setText('%.2f' % (time_end - time_start) + 'S')  # 将检测时间显示到GUI界面中，对结果保留两位小数
+                    time_end = time.time() # 记录结束时间
+                    self.label_6.setText('%.2f' % (time_end - time_start) + 'S')  # 将检测时间显示到GUI界面中，对结果保留两位小数
 
-                '''保存检测结果'''
-                img_name = os.path.basename(self.FileName)
-                save_img_path = os.path.join(self.opt.output, img_name)
-                cv2.imwrite(save_img_path, ori_img)
-                '''检测结果在GUI界面显示'''
-                jpg_result = QtGui.QPixmap(save_img_path).scaled(self.label_2.width(), self.label_2.height()) #将结果显示在窗口中
-                self.label_2.setPixmap(jpg_result)
-                self.statusBar().showMessage(f"检测完成，耗时 {time_end - time_start:.2f}s，共识别 {len(dict_list)} 个车牌")
-                if len(result_str) != 0:
-                    timestamp = time.strftime("%H:%M:%S")
-                    self.textBrowser.append(f"[{timestamp}] {result_str}")
+                    '''保存检测结果'''
+                    img_name = os.path.basename(self.FileName)
+                    save_img_path = os.path.join(self.opt.output, img_name)
+                    cv2.imwrite(save_img_path, ori_img)
+                    '''检测结果在GUI界面显示'''
+                    jpg_result = QtGui.QPixmap(save_img_path).scaled(self.label_2.width(), self.label_2.height()) #将结果显示在窗口中
+                    self.label_2.setPixmap(jpg_result)
+                    self.statusBar().showMessage(f"检测完成，耗时 {time_end - time_start:.2f}s，共识别 {len(dict_list)} 个车牌")
+                    if len(result_str) != 0:
+                        timestamp = time.strftime("%H:%M:%S")
+                        self.textBrowser.append(f"[{timestamp}] {result_str}")
+                except Exception as e:
+                    self.statusBar().showMessage("检测失败")
+                    QMessageBox.warning(self, "检测失败", f"错误信息: {str(e)}")
 
             if file_type in ".mp4 .avi": # 对文件夹中的.mp4和.avi格式的视频进行检测
                 self.video = cv2.VideoCapture(self.FileName)  # 读取视频文件
