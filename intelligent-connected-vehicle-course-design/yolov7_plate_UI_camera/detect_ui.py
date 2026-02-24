@@ -33,6 +33,7 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
         print(self.opt)
         self.model = attempt_load(self.opt.detect_model, map_location=self.device)  # 加载模型
         self.plate_rec_model = init_model(self.device, self.opt.rec_model)  # 初始化模型
+        self.statusBar().showMessage("模型加载完成，就绪")
 
     def OpenFile(self): #打开文件
         self.FileName, self.FileType = QFileDialog.getOpenFileName(self, "打开文件", "./imgs/",
@@ -53,6 +54,7 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
                 self.label_2.setPixmap(video_result)
             else:
                 self.cap.release()
+        self.statusBar().showMessage(f"已加载: {os.path.basename(self.FileName)}")
 
     def save_screenshot(self):
         pixmap = self.label_2.pixmap()
@@ -86,6 +88,8 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
             file_name, file_type = file  # 获取文件名称和文件类型
             '''这里对图片和视频类文件分开进行处理'''
             if file_type in ".jpg .png": # 如果获取的文件为图片类型
+                self.statusBar().showMessage("检测中...")
+                QApplication.processEvents()
                 time_start = time.time() # 记录检测开始时间
                 img = cv_imread(self.FileName) # cv2读取图片
                 if img.shape[-1] == 4:
@@ -103,6 +107,7 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
                 '''检测结果在GUI界面显示'''
                 jpg_result = QtGui.QPixmap(save_img_path).scaled(self.label_2.width(), self.label_2.height()) #将结果显示在窗口中
                 self.label_2.setPixmap(jpg_result)
+                self.statusBar().showMessage(f"检测完成，耗时 {time_end - time_start:.2f}s，共识别 {len(dict_list)} 个车牌")
                 if len(result_str) != 0:
                     self.textBrowser.append(f"检测结果为：{result_str}")
 
@@ -145,6 +150,7 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
         if self.camera_open:
             self.camera_open = False
             self.video_1 = cv2.VideoCapture(0)  # 打开摄像头
+            self.statusBar().showMessage("摄像头已开启，实时检测中...")
             width = int(self.video_1.get(cv2.CAP_PROP_FRAME_WIDTH))  # 获取视频的宽度
             height = int(self.video_1.get(cv2.CAP_PROP_FRAME_HEIGHT))  # 获取视频的高度
             fps = int(self.video_1.get(cv2.CAP_PROP_FPS))  # 获取视频的帧率
@@ -180,6 +186,7 @@ class myMainWindow(Ui_MainWindow,QMainWindow):
             if self.timer_camera.isActive():
                 self.timer_camera.stop()
             self.label_2.clear()
+            self.statusBar().showMessage("摄像头已关闭")
         # cv2.destroyAllWindows()
 
 
