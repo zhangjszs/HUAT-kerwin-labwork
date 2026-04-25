@@ -24,7 +24,18 @@
 > | 计算机网络 | computer-network |
 > | 编译原理 | compiler-principles |
 > | 数据库 | database |
-> | Java课程设计 | java-course-design |
+> | C 语言课设 | c-course-design |
+> | Java 课程作业 | school-java-homework |
+> | Java 课程设计 | java-course-design |
+> | Java Web 实验 | HUATJavaWebLab |
+> | JavaWeb 课程设计 | javaweb-course-design |
+> | 数据采集与预处理 | data-collection-preprocessing |
+> | 数据分析与可视化 | data-analysis-visualization |
+> | 数据分析课设 | data-analysis-course-design |
+> | 微机原理与接口 | microcomputer-principles |
+> | Linux 系统应用 | linux-system-application |
+> | 嵌入式系统 | embedded-systems |
+> | Android 移动开发 | android-mobile-development |
 > | 汽车概论A | automotive-introduction |
 > | 智能网联汽车技术 | intelligent-connected-vehicle |
 > | 智能网联汽车技术课程设计 | intelligent-connected-vehicle-course-design |

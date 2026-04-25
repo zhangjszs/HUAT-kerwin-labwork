@@ -153,6 +153,13 @@ build/
 catboost_info/
 catboost_info/**
 
+# Editor local configs
+.claude/
+.trae/
+
+# Temporary / scratch directories
+tmp/
+
 ############################################
 # Documents (keep originals in repo only if needed)
 ~$*.docx

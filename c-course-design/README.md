@@ -21,7 +21,7 @@
 1. 克隆仓库：
    ```bash
    git clone https://github.com/zhangjszs/HUAT-kerwin-labwork.git
-   cd HUAT-kerwin-labwork/C语言课设
+   cd HUAT-kerwin-labwork/c-course-design
    ```
 
 2. 构建项目：
