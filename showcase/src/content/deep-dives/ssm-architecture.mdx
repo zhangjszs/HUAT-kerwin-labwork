@@ -1,0 +1,118 @@
+---
+title: "经典 SSM 架构实战：ForestBlog 的三层设计"
+description: "深入分析 Spring + SpringMVC + MyBatis 的经典三层架构设计，从 Controller 到 Mapper 的职责划分、依赖注入的实际应用，以及 MyBatis 动态 SQL 的最佳实践。"
+date: "2024-01"
+tags: ["Java", "Spring", "MyBatis", "Architecture"]
+relatedProject: "forestblog-master"
+---
+
+## 为什么选 SSM
+
+在企业级 Java Web 开发中，SSM（Spring + SpringMVC + MyBatis）是经典且稳定的技术栈。相比更现代的 Spring Boot，SSM 需要手动配置更多东西，但也因此能更深入理解框架背后的设计哲学。
+
+ForestBlog 选择 SSM 的主要原因是课程要求掌握这些核心框架的整合方式。项目实践中，我发现手动配置虽然繁琐，但确实帮助我理解了：
+
+- Spring IoC 容器的启动流程和 Bean 生命周期
+- SpringMVC 请求分发机制
+- MyBatis 的 SQL 映射和动态 SQL 能力
+
+## 三层架构的职责划分
+
+<MermaidDiagram chart={`flowchart TD
+    A[Client Request] --> B[SpringMVC DispatcherServlet]
+    B --> C[@Controller / @RestController]
+    C --> D[Service Layer]
+    D --> E[@Service]
+    E --> F[Mapper Layer]
+    F --> G[MyBatis Mapper]
+    G --> H[(MySQL Database)]
+    H --> G
+    G --> F
+    F --> E
+    E --> D
+    D --> C
+    C --> I[View / JSON Response]
+    I --> J[Client]
+
+    style C fill:#667eea,stroke:#4c51bf,color:#fff
+    style E fill:#f093fb,stroke:#d53f8c,color:#fff
+    style G fill:#4facfe,stroke:#3182ce,color:#fff
+`} />
+
+### Controller 层：请求的入口
+
+Controller 负责接收 HTTP 请求、参数校验、调用 Service、返回视图或 JSON。ForestBlog 中使用了 `@Controller` 和 `@RestController` 两种模式：
+
+- 前台页面使用 `@Controller` 返回 JSP 视图
+- 后台管理使用 `@RestController` 返回 JSON 数据
+
+这种混合模式虽然不够统一，但在课程项目中是合理的渐进式实践。
+
+### Service 层：业务逻辑的核心
+
+Service 层封装了所有的业务规则。ForestBlog 中最典型的业务逻辑是**文章发布流程**：
+
+1. 接收文章标题、内容、分类、标签
+2. 校验必填字段和格式
+3. 解析标签字符串为标签列表（创建不存在的标签）
+4. 保存文章并建立与分类、标签的关联
+5. 更新相关统计（分类文章数、标签文章数）
+
+### Mapper 层：数据访问的抽象
+
+Mapper 接口通过 MyBatis 与数据库交互。ForestBlog 使用了两种映射方式：
+
+- **注解方式**：简单的 CRUD 使用 `@Select`、`@Insert` 等注解
+- **XML 方式**：复杂的动态 SQL 使用 XML 映射文件
+
+## 依赖注入的实践
+
+ForestBlog 中大量使用了 `@Autowired` 进行依赖注入。一个典型场景是 `ArticleServiceImpl` 注入多个 Mapper：
+
+```java
+@Service
+public class ArticleServiceImpl implements ArticleService {
+    @Autowired
+    private ArticleMapper articleMapper;
+    @Autowired
+    private CategoryMapper categoryMapper;
+    @Autowired
+    private TagMapper tagMapper;
+}
+```
+
+这种设计让业务逻辑与数据访问解耦，便于单元测试和后续替换实现。
+
+## MyBatis 动态 SQL 的应用
+
+ForestBlog 中最复杂的 SQL 是**文章列表查询**。需要根据分类、标签、状态等多个条件动态组合 WHERE 子句：
+
+```xml
+<select id="findArticles" resultType="Article">
+    SELECT * FROM article
+    <where>
+        <if test="categoryId != null">
+            AND category_id = #{categoryId}
+        </if>
+        <if test="tagId != null">
+            AND id IN (
+                SELECT article_id FROM article_tag WHERE tag_id = #{tagId}
+            )
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+    </where>
+    ORDER BY create_time DESC
+</select>
+```
+
+## 设计中的妥协
+
+作为课程项目，ForestBlog 在架构上有一些合理的妥协：
+
+- **没有使用 Spring Boot**：手动配置可以加深理解
+- **没有前后端完全分离**：JSP 模板渲染更简单直接
+- **没有使用缓存**：数据量小，缓存收益不明显
+
+这些妥协让项目保持聚焦在学习核心框架上，而不是被大量中间件分散注意力。

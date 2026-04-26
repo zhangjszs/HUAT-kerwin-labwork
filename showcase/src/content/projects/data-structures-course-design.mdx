@@ -1,0 +1,108 @@
+---
+title: "Maze Solver"
+description: "基于 Qt 的 C++ 数据结构课程设计，实现迷宫自动生成、可视化和多种寻路算法对比（DFS/BFS/A*）。"
+repoPath: "data-structures-course-design"
+tags: ["C++", "Qt", "Data Structures", "Algorithm", "Visualization"]
+keywords: ["Maze", "DFS", "BFS", "A-Star", "Qt", "GUI", "Backtracking"]
+techStack: ["C++", "Qt", "CMake", "MinGW"]
+screenshotsDir: "data-structures-course-design"
+codeSnippets: ["data-structures-course-design/mazegrid.cpp", "data-structures-course-design/algorithms.h"]
+featured: false
+date: "2024-03"
+difficulty: "进阶"
+status: "Completed"
+architecture: "MVC 架构：Model 负责迷宫数据结构和算法，View 使用 Qt Widgets 实现可视化，Controller 处理用户交互和动画调度。"
+challenges: [
+  "递归回溯法生成完美迷宫（无回路、全连通）的算法实现",
+  "DFS 与 BFS 寻路过程的可视化动画同步",
+  "A* 算法启发函数的设计与性能对比分析"
+]
+lessons: [
+  "深入理解了栈和队列在图搜索中的本质区别",
+  "掌握了 Qt 的信号-槽机制和自定义绘图",
+  "学会了通过可视化验证算法正确性"
+]
+---
+
+## 项目背景
+
+数据结构课程设计需要解决一个实际问题来综合运用所学知识。选择迷宫问题的原因是它天然涉及多种核心数据结构：二维数组表示地图、栈实现 DFS 回溯、队列实现 BFS 层序遍历、优先队列实现 A* 搜索。
+
+## 核心功能
+
+- **迷宫生成**：递归回溯法生成完美迷宫
+- **多种寻路**：DFS、BFS、A* 算法对比
+- **可视化**：Qt GUI 实时展示生成和寻路过程
+- **交互控制**：调整迷宫大小、选择算法、步进/自动播放
+- **性能统计**：步数、时间、空间复杂度对比
+
+## 系统架构
+
+<MermaidDiagram chart={`
+graph LR
+    A[User Input] --> B[Controller]
+    B --> C[Maze Generator]
+    B --> D[Path Finder]
+    C --> E[Maze Data]
+    D --> E
+    E --> F[Qt View]
+    F --> G[Animation]
+`} caption="Maze Solver Architecture" />
+
+## 算法对比
+
+| 算法 | 时间复杂度 | 空间复杂度 | 路径特点 |
+|------|-----------|-----------|---------|
+| DFS | O(V+E) | O(V) | 不一定最短 |
+| BFS | O(V+E) | O(V) | 最短路径 |
+| A* | O(E) | O(V) | 启发式最优 |
+
+## 项目结构
+
+<FileTree tree={`
+data-structures-course-design/
+├── coding/
+│   └── MazeProject/      # Qt C++ 源码
+├── python版本/            # Python 原型实现
+├── report/               # 课程设计报告
+├── README.md
+└── *.png                 # 演示截图
+`} caption="Project Directory Structure" />
+
+## 核心代码
+
+### 迷宫网格模型
+
+<CodePreview src="/code-snippets/data-structures-course-design/mazegrid.cpp" lang="cpp" caption="MazeGrid.cpp - Grid Data Structure & Wall Management" />
+
+### 寻路算法接口
+
+<CodePreview src="/code-snippets/data-structures-course-design/algorithms.h" lang="cpp" caption="algorithms.h - DFS/BFS/A* Algorithm Declarations" />
+
+## 效果展示
+
+<ScreenshotGallery dir="data-structures-course-design" />
+
+## 技术要点
+
+### 迷宫生成算法
+
+递归回溯法（Recursive Backtracking）：
+1. 从起点开始，随机选择一个未访问的邻接单元格
+2. 打通当前单元格与选中单元格之间的墙
+3. 递归对新单元格重复上述过程
+4. 若无未访问邻接单元格，回溯到上一个单元格
+
+### A* 启发函数
+
+```
+f(n) = g(n) + h(n)
+g(n): 从起点到 n 的实际代价
+h(n): 从 n 到终点的曼哈顿距离估计
+```
+
+### Qt 自定义绘图
+
+- `QPainter` 绘制网格、墙壁、路径
+- `QTimer` 控制动画帧率
+- 信号-槽机制解耦算法与 UI

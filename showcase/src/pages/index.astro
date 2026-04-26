@@ -1,0 +1,614 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Icon from '../components/Icon.astro';
+import Grid from '../components/Grid.astro';
+
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects.filter((p) => p.data.featured);
+const recentProjects = allProjects
+	.sort((a, b) => {
+		if (!a.data.date || !b.data.date) return 0;
+		return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+	})
+	.slice(0, 6);
+
+const allTags = [...new Set(allProjects.flatMap((p) => p.data.tags))].sort();
+const allTech = [...new Set(allProjects.flatMap((p) => p.data.techStack))].sort();
+
+// Tag frequency for sizing
+const tagFreq = new Map<string, number>();
+allProjects.forEach((p) => {
+	p.data.tags.forEach((t) => {
+		tagFreq.set(t, (tagFreq.get(t) || 0) + 1);
+	});
+});
+const maxFreq = Math.max(...tagFreq.values());
+
+// Stats
+const totalProjects = allProjects.length;
+const totalTech = allTech.length;
+const totalTags = allTags.length;
+const years = [...new Set(allProjects.map((p) => p.data.date?.split('-')[0]).filter(Boolean))].sort();
+const yearSpan = years.length > 1 ? `${years[0]}-${years[years.length - 1]}` : years[0] || '2024';
+
+// Programming languages extracted from techStack
+const langSet = new Set<string>();
+allProjects.forEach((p) => {
+	p.data.techStack.forEach((t) => {
+		const lower = t.toLowerCase();
+		if (['java', 'python', 'c++', 'c', 'javascript', 'typescript', 'go', 'rust', 'kotlin', 'swift'].includes(lower)) {
+			langSet.add(t);
+		}
+	});
+});
+const languages = [...langSet];
+---
+
+<BaseLayout title="HUAT Labwork Showcase" description="A curated showcase of computer science coursework and projects from HUAT.">
+	<!-- Hero Section -->
+	<section class="hero-section">
+		<div class="hero-blobs" aria-hidden="true">
+			<div class="blob blob-1"></div>
+			<div class="blob blob-2"></div>
+			<div class="blob blob-3"></div>
+		</div>
+		<div class="wrapper hero-content">
+			<div class="hero-text">
+				<h1 class="hero-title">
+					<span class="gradient-text">Kerwin's</span> Labwork
+				</h1>
+				<p class="hero-tagline">
+					Computer Science coursework & projects from Hubei University of Automotive Technology.
+					Open-source, polyglot, and always learning.
+				</p>
+				<div class="hero-roles">
+					{languages.map((lang) => (
+						<span class="role-pill">{lang}</span>
+					))}
+					{languages.length === 0 && ['Java', 'Python', 'C++'].map((lang) => (
+						<span class="role-pill">{lang}</span>
+					))}
+				</div>
+			</div>
+			<div class="stats-grid">
+				<div class="stat-card reveal">
+					<span class="stat-icon"><Icon icon="code" size="1.5em" /></span>
+					<span class="stat-number" data-target={totalProjects}>{totalProjects}</span>
+					<span class="stat-label">Projects</span>
+				</div>
+				<div class="stat-card reveal">
+					<span class="stat-icon"><Icon icon="terminal-window" size="1.5em" /></span>
+					<span class="stat-number" data-target={totalTech}>{totalTech}</span>
+					<span class="stat-label">Technologies</span>
+				</div>
+				<div class="stat-card reveal">
+					<span class="stat-icon"><Icon icon="list" size="1.5em" /></span>
+					<span class="stat-number" data-target={totalTags}>{totalTags}</span>
+					<span class="stat-label">Tags</span>
+				</div>
+				<div class="stat-card reveal">
+					<span class="stat-icon"><Icon icon="calendar" size="1.5em" /></span>
+					<span class="stat-number">{yearSpan}</span>
+					<span class="stat-label">Timeline</span>
+				</div>
+			</div>
+		</div>
+		<div class="scroll-indicator" aria-hidden="true">
+			<div class="mouse">
+				<div class="wheel"></div>
+			</div>
+		</div>
+	</section>
+
+	<main class="wrapper stack gap-20 lg:gap-48">
+		<!-- Featured Projects -->
+		{
+			featuredProjects.length > 0 && (
+				<section class="section reveal">
+					<header class="section-header">
+						<span class="section-eyebrow">Highlights</span>
+						<h2 class="section-title">
+							Featured <span class="gradient-text">Projects</span>
+						</h2>
+						<p class="section-desc">Work that represents depth and technical breadth.</p>
+					</header>
+					<div class="gallery">
+						<Grid variant="offset">
+							{featuredProjects.map((project) => (
+								<li><ProjectCard project={project} /></li>
+							))}
+						</Grid>
+					</div>
+				</section>
+			)
+		}
+
+		<!-- Recent Projects -->
+		<section class="section reveal">
+			<header class="section-header">
+				<span class="section-eyebrow">Latest Work</span>
+				<h2 class="section-title">
+					Recent <span class="gradient-text">Projects</span>
+				</h2>
+				<p class="section-desc">Browse the latest coursework and experiments.</p>
+			</header>
+			<div class="gallery">
+				<Grid variant="offset">
+					{recentProjects.map((project) => (
+						<li><ProjectCard project={project} /></li>
+					))}
+				</Grid>
+			</div>
+			<div class="cta">
+				<a href="/projects" class="cta-button">
+					View All Projects
+					<Icon icon="arrow-right" size="1.2em" />
+				</a>
+			</div>
+		</section>
+
+		<!-- Tech Stack -->
+		<section class="section reveal">
+			<header class="section-header">
+				<span class="section-eyebrow">Toolbox</span>
+				<h2 class="section-title">
+					Tech <span class="gradient-text">Stack</span>
+				</h2>
+				<p class="section-desc">Technologies and tools used across all projects.</p>
+			</header>
+			<div class="tech-grid">
+				{allTech.map((tech) => (
+					<span class="tech-item">{tech}</span>
+				))}
+			</div>
+		</section>
+
+		<!-- Tag Cloud -->
+		<section class="section reveal">
+			<header class="section-header">
+				<span class="section-eyebrow">Explore</span>
+				<h2 class="section-title">
+					Browse by <span class="gradient-text">Tag</span>
+				</h2>
+				<p class="section-desc">Filter projects by technology, domain, or course.</p>
+			</header>
+			<div class="tag-cloud">
+				{allTags.map((tag) => {
+					const freq = tagFreq.get(tag) || 1;
+					const sizeClass = freq >= maxFreq ? 'tag-lg' : freq >= maxFreq / 2 ? 'tag-md' : 'tag-sm';
+					return (
+						<a href={`/projects?tag=${encodeURIComponent(tag)}`} class={`tag-link ${sizeClass}`}>
+							{tag}
+						</a>
+					);
+				})}
+			</div>
+		</section>
+	</main>
+
+	<script>
+		// Scroll reveal animation
+		const revealObserver = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('visible');
+					revealObserver.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+		document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+
+		// Count-up animation for stats
+		const countObserver = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					const el = entry.target as HTMLElement;
+					const target = parseInt(el.dataset.target || '0', 10);
+					if (!target || isNaN(target)) return;
+					let current = 0;
+					const duration = 1200;
+					const step = target / (duration / 16);
+					const timer = setInterval(() => {
+						current += step;
+						if (current >= target) {
+							current = target;
+							clearInterval(timer);
+						}
+						el.textContent = Math.floor(current).toString();
+					}, 16);
+					countObserver.unobserve(el);
+				}
+			});
+		}, { threshold: 0.5 });
+
+		document.querySelectorAll('.stat-number[data-target]').forEach((el) => countObserver.observe(el));
+	</script>
+
+	<style>
+		/* ===== Hero Section ===== */
+		.hero-section {
+			position: relative;
+			padding: 8rem 0 6rem;
+			overflow: hidden;
+		}
+
+		.hero-blobs {
+			position: absolute;
+			inset: 0;
+			z-index: 0;
+			pointer-events: none;
+		}
+
+		.blob {
+			position: absolute;
+			border-radius: 50%;
+			filter: blur(100px);
+			opacity: 0.35;
+		}
+
+		.blob-1 {
+			width: 500px;
+			height: 500px;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			top: -10%;
+			left: -5%;
+			animation: float 12s ease-in-out infinite;
+		}
+
+		.blob-2 {
+			width: 400px;
+			height: 400px;
+			background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+			top: 20%;
+			right: -5%;
+			animation: float 14s ease-in-out infinite reverse;
+		}
+
+		.blob-3 {
+			width: 350px;
+			height: 350px;
+			background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+			bottom: -5%;
+			left: 30%;
+			animation: float 10s ease-in-out infinite 2s;
+		}
+
+		@keyframes float {
+			0%, 100% { transform: translate(0, 0) scale(1); }
+			33% { transform: translate(30px, -30px) scale(1.05); }
+			66% { transform: translate(-20px, 20px) scale(0.95); }
+		}
+
+		.hero-content {
+			position: relative;
+			z-index: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 3rem;
+			text-align: center;
+		}
+
+		.hero-text {
+			display: flex;
+			flex-direction: column;
+			gap: 1.25rem;
+			align-items: center;
+		}
+
+		.hero-title {
+			font-size: clamp(var(--text-3xl), 6vw, var(--text-5xl));
+			font-weight: 800;
+			color: var(--gray-0);
+			line-height: 1.1;
+			margin: 0;
+		}
+
+		.gradient-text {
+			background: var(--gradient-accent);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.hero-tagline {
+			font-size: var(--text-lg);
+			color: var(--gray-300);
+			max-width: 55ch;
+			line-height: 1.6;
+			margin: 0;
+		}
+
+		.hero-roles {
+			display: flex;
+			gap: 0.5rem;
+			flex-wrap: wrap;
+			justify-content: center;
+			margin-top: 0.5rem;
+		}
+
+		.role-pill {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			padding: 0.4rem 1rem;
+			background: rgba(255, 255, 255, 0.05);
+			backdrop-filter: blur(8px);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 999px;
+			font-size: var(--text-sm);
+			color: var(--gray-200);
+			font-weight: 500;
+		}
+
+		/* ===== Stats Grid ===== */
+		.stats-grid {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1rem;
+			width: 100%;
+			max-width: 800px;
+		}
+
+		.stat-card {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 1.5rem 1rem;
+			background: rgba(255, 255, 255, 0.03);
+			backdrop-filter: blur(12px);
+			border: 1px solid rgba(255, 255, 255, 0.06);
+			border-radius: 1rem;
+			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+		}
+
+		.stat-card:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+			border-color: var(--accent-regular);
+		}
+
+		.stat-icon {
+			color: var(--accent-regular);
+			margin-bottom: 0.25rem;
+		}
+
+		.stat-number {
+			font-size: var(--text-3xl);
+			font-weight: 800;
+			color: var(--gray-0);
+			line-height: 1;
+			font-family: var(--font-brand);
+		}
+
+		.stat-label {
+			font-size: var(--text-sm);
+			color: var(--gray-400);
+			font-weight: 500;
+		}
+
+		/* ===== Scroll Indicator ===== */
+		.scroll-indicator {
+			position: absolute;
+			bottom: 2rem;
+			left: 50%;
+			transform: translateX(-50%);
+			display: none;
+		}
+
+		.mouse {
+			width: 24px;
+			height: 38px;
+			border: 2px solid var(--gray-400);
+			border-radius: 12px;
+			position: relative;
+		}
+
+		.wheel {
+			width: 4px;
+			height: 8px;
+			background: var(--gray-400);
+			border-radius: 2px;
+			position: absolute;
+			top: 6px;
+			left: 50%;
+			transform: translateX(-50%);
+			animation: scrollWheel 2s ease-in-out infinite;
+		}
+
+		@keyframes scrollWheel {
+			0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+			100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+		}
+
+		/* ===== Section Layout ===== */
+		.section {
+			display: flex;
+			flex-direction: column;
+			gap: 2.5rem;
+		}
+
+		.section-header {
+			text-align: center;
+			display: flex;
+			flex-direction: column;
+			gap: 0.75rem;
+		}
+
+		.section-eyebrow {
+			font-size: var(--text-sm);
+			font-weight: 600;
+			color: var(--accent-regular);
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+		}
+
+		.section-title {
+			font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl));
+			font-weight: 700;
+			color: var(--gray-0);
+			margin: 0;
+		}
+
+		.section-desc {
+			font-size: var(--text-lg);
+			color: var(--gray-300);
+			max-width: 45ch;
+			margin: 0 auto;
+			line-height: 1.5;
+		}
+
+		/* ===== CTA Button ===== */
+		.cta {
+			display: flex;
+			justify-content: center;
+			margin-top: 1rem;
+		}
+
+		.cta-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.9rem 2rem;
+			background: var(--gradient-accent);
+			color: var(--gray-999);
+			border-radius: 999px;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: var(--text-md);
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+			box-shadow: 0 4px 20px rgba(118, 17, 166, 0.3);
+		}
+
+		.cta-button:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 8px 30px rgba(118, 17, 166, 0.4);
+		}
+
+		/* ===== Tech Grid ===== */
+		.tech-grid {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.75rem;
+			justify-content: center;
+		}
+
+		.tech-item {
+			padding: 0.5rem 1rem;
+			background: var(--gray-800);
+			color: var(--gray-200);
+			border-radius: 0.5rem;
+			font-size: var(--text-sm);
+			font-weight: 500;
+			border: 1px solid var(--gray-700);
+			transition: all 0.2s ease;
+		}
+
+		.tech-item:hover {
+			background: var(--accent-regular);
+			color: var(--gray-999);
+			border-color: var(--accent-regular);
+			transform: translateY(-2px);
+		}
+
+		/* ===== Tag Cloud ===== */
+		.tag-cloud {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.75rem;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.tag-link {
+			display: inline-block;
+			padding: 0.4rem 1rem;
+			background: var(--gray-800);
+			color: var(--gray-300);
+			border-radius: 999px;
+			text-decoration: none;
+			font-weight: 500;
+			transition: all 0.2s ease;
+			border: 1px solid transparent;
+		}
+
+		.tag-link:hover {
+			background: var(--accent-regular);
+			color: var(--gray-999);
+			transform: scale(1.05);
+		}
+
+		.tag-sm { font-size: var(--text-sm); }
+		.tag-md { font-size: var(--text-md); padding: 0.5rem 1.2rem; }
+		.tag-lg { font-size: var(--text-lg); padding: 0.6rem 1.4rem; background: var(--gray-700); color: var(--gray-100); }
+
+		/* ===== Reveal Animation ===== */
+		.reveal {
+			opacity: 0;
+			transform: translateY(40px);
+			transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		.reveal.visible {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		/* ===== Responsive ===== */
+		@media (min-width: 50em) {
+			.hero-section {
+				padding: 10rem 0 8rem;
+			}
+
+			.hero-content {
+				flex-direction: row;
+				text-align: left;
+				gap: 4rem;
+				align-items: center;
+			}
+
+			.hero-text {
+				align-items: flex-start;
+				flex: 1;
+			}
+
+			.hero-title {
+				font-size: var(--text-5xl);
+			}
+
+			.hero-roles {
+				justify-content: flex-start;
+			}
+
+			.stats-grid {
+				grid-template-columns: repeat(2, 1fr);
+				gap: 1.25rem;
+				width: auto;
+				flex-shrink: 0;
+			}
+
+			.stat-card {
+				padding: 2rem 1.5rem;
+				min-width: 140px;
+			}
+
+			.scroll-indicator {
+				display: block;
+			}
+
+			.section {
+				gap: 3.5rem;
+			}
+		}
+
+		@media (min-width: 70em) {
+			.stats-grid {
+				grid-template-columns: repeat(4, 1fr);
+			}
+		}
+	</style>
+</BaseLayout>

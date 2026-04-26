@@ -1,0 +1,78 @@
+---
+interface Props {
+	chart: string;
+	caption?: string;
+}
+
+const { chart, caption } = Astro.props;
+const id = 'mermaid-' + Math.random().toString(36).slice(2, 9);
+---
+
+<figure class="mermaid-figure">
+	{caption && <figcaption>{caption}</figcaption>}
+	<div class="mermaid" id={id} data-chart={chart}>
+		<pre>{chart}</pre>
+	</div>
+</figure>
+
+<script>
+	import mermaid from 'mermaid';
+
+	mermaid.initialize({
+		startOnLoad: false,
+		theme: 'dark',
+		securityLevel: 'strict',
+	});
+
+	async function renderMermaid() {
+		const elements = document.querySelectorAll('.mermaid[data-chart]');
+		for (const el of elements) {
+			const chart = el.getAttribute('data-chart');
+			if (!chart) continue;
+			try {
+				const { svg } = await mermaid.render('mermaid-svg-' + Math.random().toString(36).slice(2, 9), chart);
+				el.innerHTML = svg;
+			} catch (err) {
+				el.innerHTML = '<p class="mermaid-error">Failed to render diagram</p>';
+			}
+		}
+	}
+
+	renderMermaid();
+</script>
+
+<style>
+	.mermaid-figure {
+		margin: 2rem 0;
+		border-radius: 0.75rem;
+		overflow: hidden;
+		border: 1px solid var(--gray-800);
+		background: var(--gray-999);
+	}
+
+	.mermaid-figure figcaption {
+		padding: 0.75rem 1rem;
+		font-size: var(--text-sm);
+		color: var(--gray-300);
+		background: var(--gray-900);
+		border-bottom: 1px solid var(--gray-800);
+		text-align: center;
+	}
+
+	.mermaid {
+		padding: 1.5rem;
+		overflow-x: auto;
+		display: flex;
+		justify-content: center;
+	}
+
+	.mermaid :global(svg) {
+		max-width: 100%;
+		height: auto;
+	}
+
+	.mermaid-error {
+		color: var(--gray-500);
+		font-style: italic;
+	}
+</style>

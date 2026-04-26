@@ -1,0 +1,679 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ScreenshotGallery from '../../components/ScreenshotGallery.astro';
+import CodePreview from '../../components/CodePreview.astro';
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+import FileTree from '../../components/FileTree.astro';
+import Icon from '../../components/Icon.astro';
+
+export async function getStaticPaths() {
+	const projects = await getCollection('projects');
+	return projects.map((project) => ({
+		params: { slug: project.id },
+		props: { project },
+	}));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, description, repoPath, tags, keywords, techStack, screenshotsDir, codeSnippets, demoUrl, externalDeployUrl, date, difficulty, status, architecture, challenges, lessons } = project.data;
+---
+
+<BaseLayout title={`${title} | HUAT Labwork`} description={description}>
+	<article class="project-article">
+		<!-- Hero -->
+		<header class="project-hero">
+			<div class="hero-blobs" aria-hidden="true">
+				<div class="blob blob-1"></div>
+				<div class="blob blob-2"></div>
+			</div>
+			<div class="wrapper hero-content">
+				<div class="breadcrumbs">
+					<a href="/">Home</a>
+					<span>/</span>
+					<a href="/projects">Projects</a>
+					<span>/</span>
+					<span class="current">{title}</span>
+				</div>
+				<h1><span class="gradient-text">{title}</span></h1>
+				<p class="hero-description">{description}</p>
+				<div class="hero-meta">
+					{difficulty && <span class="badge difficulty">{difficulty}</span>}
+					{status && <span class={`badge status status-${status.toLowerCase().replace(' ', '-')}`}>{status}</span>}
+					{date && (
+						<span class="meta-item">
+							<Icon icon="calendar" size="1em" />
+							{date}
+						</span>
+					)}
+				</div>
+				<div class="hero-tech">
+					{techStack.map((tech) => (
+						<span class="tech-badge">{tech}</span>
+					))}
+				</div>
+				<div class="hero-actions">
+					<a class="btn btn-primary" href={`https://github.com/kerwin-lab/HUAT-kerwin-labwork/tree/main/${repoPath}`} target="_blank" rel="noopener">
+						<Icon icon="github-logo" size="1.2em" />
+						View Source
+					</a>
+					{demoUrl && (
+						<a class="btn btn-secondary" href={demoUrl} target="_blank" rel="noopener">
+							<Icon icon="rocket-launch" size="1.2em" />
+							Live Demo
+						</a>
+					)}
+					{externalDeployUrl && (
+						<a class="btn btn-secondary" href={externalDeployUrl} target="_blank" rel="noopener">
+							<Icon icon="globe" size="1.2em" />
+							Deployed
+						</a>
+					)}
+				</div>
+			</div>
+		</header>
+
+		<!-- Overview -->
+		<section class="section section-alt reveal">
+			<div class="wrapper">
+				<span class="section-eyebrow">Overview</span>
+				<h2 class="section-title">Project <span class="gradient-text">Details</span></h2>
+				<div class="overview-grid">
+					<div class="overview-card">
+						<h3><Icon icon="list" size="1.2em" /> Tags</h3>
+						<div class="tag-list">
+							{tags.map((tag) => (
+								<span class="tag-pill">{tag}</span>
+							))}
+						</div>
+					</div>
+					<div class="overview-card">
+						<h3><Icon icon="magnifying-glass" size="1.2em" /> Keywords</h3>
+						<div class="keyword-list">
+							{keywords.map((kw) => (
+								<span class="keyword-pill">{kw}</span>
+							))}
+						</div>
+					</div>
+					<div class="overview-card wide">
+						<h3><Icon icon="strategy" size="1.2em" /> Architecture</h3>
+						<p>{architecture || 'Architecture details to be added.'}</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Dynamic Content from MDX -->
+		<section class="section reveal">
+			<div class="wrapper content-wrapper">
+				<Content components={{ ScreenshotGallery, CodePreview, MermaidDiagram, FileTree }} />
+			</div>
+		</section>
+
+		<!-- Challenges -->
+		{challenges && challenges.length > 0 && (
+			<section class="section section-alt reveal">
+				<div class="wrapper">
+					<span class="section-eyebrow">Problems Solved</span>
+					<h2 class="section-title">Challenges <span class="gradient-text">&amp; Solutions</span></h2>
+					<div class="challenges-list">
+						{challenges.map((challenge, i) => (
+							<div class="challenge-item">
+								<div class="challenge-icon">
+									<Icon icon="warning" size="1.2em" />
+								</div>
+								<div class="challenge-content">
+									<span class="challenge-num">{String(i + 1).padStart(2, '0')}</span>
+									<p>{challenge}</p>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+		)}
+
+		<!-- Lessons -->
+		{lessons && lessons.length > 0 && (
+			<section class="section reveal">
+				<div class="wrapper">
+					<span class="section-eyebrow">Reflections</span>
+					<h2 class="section-title">Key <span class="gradient-text">Takeaways</span></h2>
+					<div class="lessons-list">
+						{lessons.map((lesson) => (
+							<div class="lesson-item">
+								<div class="lesson-icon">
+									<Icon icon="check-circle" size="1.4em" />
+								</div>
+								<p>{lesson}</p>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+		)}
+
+		<!-- Project Navigation -->
+		<nav class="project-nav">
+			<div class="wrapper">
+				<a href="/projects" class="back-link">
+					<Icon icon="arrow-left" size="1.2em" />
+					Back to all projects
+				</a>
+			</div>
+		</nav>
+	</article>
+
+	<script>
+		const revealObserver = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('visible');
+					revealObserver.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+		document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+	</script>
+
+	<style>
+		.project-article {
+			--section-padding: 4rem;
+		}
+
+		/* ===== Hero ===== */
+		.project-hero {
+			position: relative;
+			padding: 4rem 0 5rem;
+			overflow: hidden;
+			border-bottom: 1px solid var(--gray-800);
+		}
+
+		.hero-blobs {
+			position: absolute;
+			inset: 0;
+			z-index: 0;
+			pointer-events: none;
+		}
+
+		.blob {
+			position: absolute;
+			border-radius: 50%;
+			filter: blur(100px);
+			opacity: 0.25;
+		}
+
+		.blob-1 {
+			width: 400px;
+			height: 400px;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			top: -20%;
+			right: -5%;
+			animation: float 12s ease-in-out infinite;
+		}
+
+		.blob-2 {
+			width: 300px;
+			height: 300px;
+			background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+			bottom: -10%;
+			left: -5%;
+			animation: float 14s ease-in-out infinite reverse;
+		}
+
+		@keyframes float {
+			0%, 100% { transform: translate(0, 0) scale(1); }
+			33% { transform: translate(20px, -20px) scale(1.05); }
+			66% { transform: translate(-15px, 15px) scale(0.95); }
+		}
+
+		.hero-content {
+			position: relative;
+			z-index: 1;
+		}
+
+		.breadcrumbs {
+			display: flex;
+			gap: 0.5rem;
+			align-items: center;
+			font-size: var(--text-sm);
+			color: var(--gray-400);
+			margin-bottom: 1.5rem;
+		}
+
+		.breadcrumbs a {
+			color: var(--accent-regular);
+			text-decoration: none;
+			transition: opacity 0.2s;
+		}
+
+		.breadcrumbs a:hover {
+			opacity: 0.8;
+			text-decoration: underline;
+		}
+
+		.breadcrumbs .current {
+			color: var(--gray-200);
+		}
+
+		.project-hero h1 {
+			font-size: clamp(var(--text-3xl), 5vw, var(--text-4xl));
+			margin-bottom: 1rem;
+			max-width: 25ch;
+			line-height: 1.2;
+		}
+
+		.gradient-text {
+			background: var(--gradient-accent);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.hero-description {
+			font-size: var(--text-lg);
+			color: var(--gray-300);
+			max-width: 60ch;
+			margin-bottom: 1.5rem;
+			line-height: 1.6;
+		}
+
+		.hero-meta {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.75rem;
+			align-items: center;
+			margin-bottom: 1.5rem;
+		}
+
+		.badge {
+			padding: 0.3rem 0.8rem;
+			border-radius: 999px;
+			font-size: var(--text-xs);
+			font-weight: 600;
+		}
+
+		.difficulty {
+			background: var(--accent-subtle-overlay);
+			color: var(--accent-regular);
+		}
+
+		.status-completed {
+			background: rgba(34, 197, 94, 0.15);
+			color: #22c55e;
+		}
+
+		.status-in-progress {
+			background: rgba(234, 179, 8, 0.15);
+			color: #eab308;
+		}
+
+		.status-archived {
+			background: rgba(148, 163, 184, 0.15);
+			color: #94a3b8;
+		}
+
+		.meta-item {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			font-size: var(--text-sm);
+			color: var(--gray-400);
+		}
+
+		.hero-tech {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+			margin-bottom: 2rem;
+		}
+
+		.tech-badge {
+			padding: 0.4rem 0.9rem;
+			background: var(--gray-800);
+			color: var(--gray-200);
+			border-radius: 0.375rem;
+			font-size: var(--text-sm);
+			border: 1px solid var(--gray-700);
+			transition: all 0.2s ease;
+		}
+
+		.tech-badge:hover {
+			background: var(--accent-regular);
+			color: var(--gray-999);
+			border-color: var(--accent-regular);
+			transform: translateY(-2px);
+		}
+
+		.hero-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.75rem;
+		}
+
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.8rem 1.6rem;
+			border-radius: 0.5rem;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: var(--text-sm);
+			transition: all 0.2s ease;
+		}
+
+		.btn-primary {
+			background: var(--gradient-accent);
+			color: var(--gray-999);
+			box-shadow: 0 4px 20px rgba(118, 17, 166, 0.3);
+		}
+
+		.btn-primary:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 8px 30px rgba(118, 17, 166, 0.4);
+		}
+
+		.btn-secondary {
+			background: var(--gray-800);
+			color: var(--gray-200);
+			border: 1px solid var(--gray-700);
+		}
+
+		.btn-secondary:hover {
+			background: var(--gray-700);
+			transform: translateY(-2px);
+		}
+
+		/* ===== Sections ===== */
+		.section {
+			padding: var(--section-padding) 0;
+		}
+
+		.section-alt {
+			background: var(--gray-900);
+			border-top: 1px solid var(--gray-800);
+			border-bottom: 1px solid var(--gray-800);
+		}
+
+		.section-eyebrow {
+			display: block;
+			font-size: var(--text-sm);
+			font-weight: 600;
+			color: var(--accent-regular);
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+			margin-bottom: 0.5rem;
+		}
+
+		.section-title {
+			font-size: clamp(var(--text-2xl), 4vw, var(--text-3xl));
+			margin-bottom: 2.5rem;
+			color: var(--gray-0);
+		}
+
+		/* ===== Overview ===== */
+		.overview-grid {
+			display: grid;
+			gap: 1.5rem;
+			grid-template-columns: 1fr;
+		}
+
+		@media (min-width: 50em) {
+			.overview-grid {
+				grid-template-columns: 1fr 1fr;
+			}
+		}
+
+		.overview-card {
+			padding: 1.5rem;
+			background: var(--gray-999);
+			border: 1px solid var(--gray-800);
+			border-radius: 1rem;
+			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+		}
+
+		.overview-card:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+			border-color: var(--accent-regular);
+		}
+
+		.overview-card.wide {
+			grid-column: 1 / -1;
+		}
+
+		.overview-card h3 {
+			font-size: var(--text-sm);
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			color: var(--gray-400);
+			margin-bottom: 1rem;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
+
+		.overview-card h3 :global(svg) {
+			color: var(--accent-regular);
+		}
+
+		.overview-card p {
+			color: var(--gray-300);
+			line-height: 1.6;
+		}
+
+		.tag-list, .keyword-list {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+		}
+
+		.tag-pill {
+			padding: 0.3rem 0.7rem;
+			background: var(--accent-subtle-overlay);
+			color: var(--accent-regular);
+			border-radius: 999px;
+			font-size: var(--text-sm);
+			transition: all 0.2s ease;
+		}
+
+		.tag-pill:hover {
+			background: var(--accent-regular);
+			color: var(--gray-999);
+		}
+
+		.keyword-pill {
+			padding: 0.2rem 0.5rem;
+			background: var(--gray-800);
+			color: var(--gray-400);
+			border-radius: 0.25rem;
+			font-size: var(--text-xs);
+		}
+
+		/* ===== Content Wrapper ===== */
+		.content-wrapper {
+			max-width: 75ch;
+		}
+
+		.content-wrapper :global(h2) {
+			font-size: var(--text-2xl);
+			margin-top: 3rem;
+			margin-bottom: 1rem;
+			color: var(--gray-0);
+		}
+
+		.content-wrapper :global(h3) {
+			font-size: var(--text-xl);
+			margin-top: 2rem;
+			margin-bottom: 0.75rem;
+			color: var(--gray-100);
+		}
+
+		.content-wrapper :global(p) {
+			line-height: 1.8;
+			margin-bottom: 1.25rem;
+			color: var(--gray-300);
+		}
+
+		.content-wrapper :global(ul, ol) {
+			padding-left: 1.5rem;
+			margin-bottom: 1.25rem;
+		}
+
+		.content-wrapper :global(li) {
+			margin-bottom: 0.5rem;
+			color: var(--gray-300);
+		}
+
+		.content-wrapper :global(pre) {
+			background: var(--gray-999);
+			padding: 1rem;
+			border-radius: 0.5rem;
+			overflow-x: auto;
+			font-size: var(--text-sm);
+			border: 1px solid var(--gray-800);
+		}
+
+		.content-wrapper :global(code) {
+			font-family: var(--font-mono);
+		}
+
+		/* ===== Challenges ===== */
+		.challenges-list {
+			display: flex;
+			flex-direction: column;
+			gap: 1.25rem;
+		}
+
+		.challenge-item {
+			display: flex;
+			gap: 1.25rem;
+			align-items: flex-start;
+			padding: 1.5rem;
+			background: var(--gray-999);
+			border: 1px solid var(--gray-800);
+			border-radius: 1rem;
+			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+		}
+
+		.challenge-item:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+			border-color: var(--accent-regular);
+		}
+
+		.challenge-icon {
+			flex-shrink: 0;
+			width: 2.5rem;
+			height: 2.5rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: var(--accent-subtle-overlay);
+			border-radius: 0.75rem;
+			color: var(--accent-regular);
+		}
+
+		.challenge-content {
+			display: flex;
+			flex-direction: column;
+			gap: 0.35rem;
+		}
+
+		.challenge-num {
+			font-size: var(--text-sm);
+			font-weight: 700;
+			color: var(--accent-regular);
+			font-family: var(--font-brand);
+			letter-spacing: 0.05em;
+		}
+
+		.challenge-item p {
+			color: var(--gray-300);
+			line-height: 1.6;
+			margin: 0;
+		}
+
+		/* ===== Lessons ===== */
+		.lessons-list {
+			display: grid;
+			gap: 1rem;
+			grid-template-columns: 1fr;
+		}
+
+		@media (min-width: 50em) {
+			.lessons-list {
+				grid-template-columns: 1fr 1fr;
+			}
+		}
+
+		.lesson-item {
+			display: flex;
+			gap: 1rem;
+			align-items: flex-start;
+			padding: 1.5rem;
+			background: var(--gray-900);
+			border: 1px solid var(--gray-800);
+			border-radius: 0.75rem;
+			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+		}
+
+		.lesson-item:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+			border-color: #22c55e;
+		}
+
+		.lesson-icon {
+			flex-shrink: 0;
+			color: #22c55e;
+			margin-top: 0.1rem;
+		}
+
+		.lesson-item p {
+			color: var(--gray-300);
+			margin: 0;
+			line-height: 1.5;
+		}
+
+		/* ===== Project Nav ===== */
+		.project-nav {
+			padding: 2rem 0;
+			border-top: 1px solid var(--gray-800);
+		}
+
+		.back-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.6rem 1.2rem;
+			background: var(--gray-800);
+			color: var(--gray-200);
+			text-decoration: none;
+			font-weight: 500;
+			border-radius: 0.5rem;
+			transition: all 0.2s ease;
+		}
+
+		.back-link:hover {
+			background: var(--accent-regular);
+			color: var(--gray-999);
+			transform: translateX(-4px);
+		}
+
+		/* ===== Reveal Animation ===== */
+		.reveal {
+			opacity: 0;
+			transform: translateY(40px);
+			transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		.reveal.visible {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	</style>
+</BaseLayout>

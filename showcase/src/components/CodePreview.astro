@@ -1,0 +1,70 @@
+---
+interface Props {
+	src: string;
+	lang?: string;
+	caption?: string;
+}
+
+const { src, lang = 'text', caption } = Astro.props;
+---
+
+<figure class="code-preview">
+	{caption && <figcaption>{caption}</figcaption>}
+	<pre><code class={`language-${lang}`} data-src={src}><span class="loading">Loading code...</span></code></pre>
+</figure>
+
+<script>
+	const blocks = document.querySelectorAll('code[data-src]');
+	blocks.forEach(async (el) => {
+		const src = el.getAttribute('data-src');
+		if (!src) return;
+		try {
+			const res = await fetch(src);
+			if (!res.ok) throw new Error('Failed to load');
+			const text = await res.text();
+			el.textContent = text;
+			// Trigger Prism or Shiki if available
+			if ((window as any).Prism) {
+				(window as any).Prism.highlightElement(el);
+			}
+		} catch {
+			el.textContent = '// Code snippet not found: ' + src;
+		}
+	});
+</script>
+
+<style>
+	.code-preview {
+		margin: 1.5rem 0;
+		border-radius: 0.75rem;
+		overflow: hidden;
+		border: 1px solid var(--gray-800);
+	}
+
+	.code-preview figcaption {
+		padding: 0.5rem 1rem;
+		font-size: var(--text-xs);
+		color: var(--gray-300);
+		background: var(--gray-900);
+		border-bottom: 1px solid var(--gray-800);
+	}
+
+	.code-preview pre {
+		margin: 0;
+		padding: 1rem;
+		background: var(--gray-999);
+		overflow-x: auto;
+		font-size: var(--text-sm);
+		line-height: 1.6;
+	}
+
+	.code-preview code {
+		font-family: var(--font-mono);
+		color: var(--gray-200);
+	}
+
+	.loading {
+		color: var(--gray-500);
+		font-style: italic;
+	}
+</style>

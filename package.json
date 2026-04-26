@@ -1,0 +1,12 @@
+{
+  "name": "huat-kerwin-labwork",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:showcase": "cd showcase && npm run build",
+    "preview:showcase": "cd showcase && npm run preview",
+    "dev:showcase": "cd showcase && npm run dev",
+    "new:project": "cd showcase && npm run new-project",
+    "check:assets": "cd showcase && npm run check-assets"
+  }
+}

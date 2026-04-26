@@ -1,0 +1,418 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+
+const skills = [
+	{ category: 'Languages', items: ['Java', 'Python', 'C/C++', 'JavaScript', 'SQL'] },
+	{ category: 'Web', items: ['Spring', 'SpringMVC', 'MyBatis', 'Servlet/JSP', 'HTML/CSS'] },
+	{ category: 'Mobile', items: ['Android', 'Java/Kotlin', 'XML'] },
+	{ category: 'Data/ML', items: ['Pandas', 'NumPy', 'Scikit-learn', 'PyTorch', 'OpenCV'] },
+	{ category: 'Tools', items: ['Git', 'Maven', 'Gradle', 'CMake', 'Qt'] },
+];
+
+const timeline = [
+	{
+		period: '2023 - Present',
+		title: 'Bachelor of Computer Science',
+		org: 'Hubei University of Automotive Technology (HUAT)',
+		desc: 'Focusing on software engineering, data structures, computer networks, and machine learning.',
+	},
+	{
+		period: 'Coursework',
+		title: 'Key Subjects',
+		org: 'HUAT',
+		desc: 'Data Structures, Computer Networks, Operating Systems, Compiler Principles, Software Engineering, Machine Learning.',
+	},
+];
+---
+
+<BaseLayout title="About | Kerwin's Labwork" description="About Kerwin, a Computer Science student at HUAT.">
+	<section class="hero-section">
+		<div class="hero-blobs" aria-hidden="true">
+			<div class="blob blob-1"></div>
+			<div class="blob blob-2"></div>
+		</div>
+		<div class="wrapper hero-content">
+			<div class="hero-text">
+				<span class="eyebrow">Hello</span>
+				<h1 class="hero-title">
+					About <span class="gradient-text">Me</span>
+				</h1>
+				<p class="hero-tagline">
+					CS student at Hubei University of Automotive Technology.
+					Building things, breaking things, and learning in public.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<main class="wrapper stack gap-20">
+		<!-- Background -->
+		<section class="section reveal">
+			<div class="about-grid">
+				<div class="about-text">
+					<span class="section-eyebrow">Background</span>
+					<h2 class="section-title">Who I <span class="gradient-text">Am</span></h2>
+					<p>
+						I'm Kerwin, a Computer Science student passionate about software engineering,
+						data science, and mobile development. This site collects my coursework,
+						lab experiments, and side projects from HUAT.
+					</p>
+					<p>
+						I believe in learning by doing. Every project here represents a real problem
+						I tackled, a technology I explored, or a concept I struggled to understand
+						and eventually mastered.
+					</p>
+				</div>
+				<div class="timeline">
+					{timeline.map((item) => (
+						<div class="timeline-item">
+							<div class="timeline-marker">
+								<div class="timeline-dot"></div>
+								<div class="timeline-line"></div>
+							</div>
+							<div class="timeline-content">
+								<span class="timeline-period">{item.period}</span>
+								<h3>{item.title}</h3>
+								<p class="timeline-org">{item.org}</p>
+								<p>{item.desc}</p>
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- Skills -->
+		<section class="section section-alt reveal">
+			<span class="section-eyebrow">Capabilities</span>
+			<h2 class="section-title">Tech <span class="gradient-text">Stack</span></h2>
+			<div class="skills-grid">
+				{skills.map((group) => (
+					<div class="skill-card">
+						<h3>{group.category}</h3>
+						<div class="skill-items">
+							{group.items.map((item) => (
+								<span class="skill-item">{item}</span>
+							))}
+						</div>
+					</div>
+				))}
+			</div>
+		</section>
+	</main>
+
+	<script>
+		const revealObserver = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('visible');
+					revealObserver.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+		document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+	</script>
+
+	<style>
+		/* ===== Hero ===== */
+		.hero-section {
+			position: relative;
+			padding: 6rem 0 5rem;
+			overflow: hidden;
+			margin-bottom: 3rem;
+		}
+
+		.hero-blobs {
+			position: absolute;
+			inset: 0;
+			z-index: 0;
+			pointer-events: none;
+		}
+
+		.blob {
+			position: absolute;
+			border-radius: 50%;
+			filter: blur(100px);
+			opacity: 0.3;
+		}
+
+		.blob-1 {
+			width: 450px;
+			height: 450px;
+			background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+			top: -20%;
+			left: 10%;
+			animation: float 12s ease-in-out infinite;
+		}
+
+		.blob-2 {
+			width: 350px;
+			height: 350px;
+			background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+			bottom: -10%;
+			right: 10%;
+			animation: float 14s ease-in-out infinite reverse;
+		}
+
+		@keyframes float {
+			0%, 100% { transform: translate(0, 0) scale(1); }
+			33% { transform: translate(20px, -20px) scale(1.05); }
+			66% { transform: translate(-15px, 15px) scale(0.95); }
+		}
+
+		.hero-content {
+			position: relative;
+			z-index: 1;
+			text-align: center;
+		}
+
+		.hero-text {
+			display: flex;
+			flex-direction: column;
+			gap: 0.75rem;
+			align-items: center;
+		}
+
+		.eyebrow {
+			font-size: var(--text-sm);
+			font-weight: 600;
+			color: var(--accent-regular);
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+		}
+
+		.hero-title {
+			font-size: clamp(var(--text-3xl), 6vw, var(--text-5xl));
+			font-weight: 800;
+			color: var(--gray-0);
+			line-height: 1.1;
+			margin: 0;
+		}
+
+		.gradient-text {
+			background: var(--gradient-accent);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.hero-tagline {
+			font-size: var(--text-lg);
+			color: var(--gray-300);
+			max-width: 55ch;
+			line-height: 1.6;
+			margin: 0;
+		}
+
+		/* ===== Sections ===== */
+		.section {
+			padding: 2rem 0;
+		}
+
+		.section-alt {
+			background: var(--gray-900);
+			border-top: 1px solid var(--gray-800);
+			border-bottom: 1px solid var(--gray-800);
+			padding: 4rem 1.5rem;
+			margin: 0 -1.5rem;
+		}
+
+		.section-eyebrow {
+			display: block;
+			font-size: var(--text-sm);
+			font-weight: 600;
+			color: var(--accent-regular);
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+			margin-bottom: 0.5rem;
+		}
+
+		.section-title {
+			font-size: clamp(var(--text-2xl), 4vw, var(--text-3xl));
+			margin-bottom: 2rem;
+			color: var(--gray-0);
+		}
+
+		/* ===== About Grid ===== */
+		.about-grid {
+			display: grid;
+			gap: 3rem;
+			grid-template-columns: 1fr;
+		}
+
+		.about-text {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.about-text p {
+			color: var(--gray-300);
+			line-height: 1.7;
+			margin: 0;
+		}
+
+		/* ===== Timeline ===== */
+		.timeline {
+			display: flex;
+			flex-direction: column;
+			gap: 1.5rem;
+		}
+
+		.timeline-item {
+			display: flex;
+			gap: 1rem;
+		}
+
+		.timeline-marker {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			flex-shrink: 0;
+		}
+
+		.timeline-dot {
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+			background: var(--accent-regular);
+			box-shadow: 0 0 0 4px var(--accent-subtle-overlay);
+		}
+
+		.timeline-line {
+			width: 2px;
+			flex: 1;
+			background: var(--gray-800);
+			margin-top: 0.5rem;
+		}
+
+		.timeline-item:last-child .timeline-line {
+			display: none;
+		}
+
+		.timeline-content {
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+			padding-bottom: 1.5rem;
+		}
+
+		.timeline-period {
+			font-size: var(--text-sm);
+			font-weight: 600;
+			color: var(--accent-regular);
+		}
+
+		.timeline-content h3 {
+			font-size: var(--text-lg);
+			color: var(--gray-0);
+			margin: 0;
+		}
+
+		.timeline-org {
+			font-size: var(--text-sm);
+			color: var(--gray-400);
+			margin: 0;
+		}
+
+		.timeline-content p {
+			color: var(--gray-300);
+			line-height: 1.5;
+			margin: 0.25rem 0 0;
+			font-size: var(--text-sm);
+		}
+
+		/* ===== Skills Grid ===== */
+		.skills-grid {
+			display: grid;
+			gap: 1.5rem;
+			grid-template-columns: 1fr;
+		}
+
+		.skill-card {
+			padding: 1.5rem;
+			background: var(--gray-999);
+			border: 1px solid var(--gray-800);
+			border-radius: 1rem;
+			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+		}
+
+		.skill-card:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+			border-color: var(--accent-regular);
+		}
+
+		.skill-card h3 {
+			font-size: var(--text-sm);
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			color: var(--gray-400);
+			margin-bottom: 1rem;
+		}
+
+		.skill-items {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+		}
+
+		.skill-item {
+			padding: 0.35rem 0.8rem;
+			background: var(--gray-800);
+			color: var(--gray-200);
+			border-radius: 0.375rem;
+			font-size: var(--text-sm);
+			border: 1px solid var(--gray-700);
+			transition: all 0.2s ease;
+		}
+
+		.skill-item:hover {
+			background: var(--accent-regular);
+			color: var(--gray-999);
+			border-color: var(--accent-regular);
+			transform: translateY(-2px);
+		}
+
+		/* ===== Reveal Animation ===== */
+		.reveal {
+			opacity: 0;
+			transform: translateY(40px);
+			transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		.reveal.visible {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		@media (min-width: 50em) {
+			.hero-section {
+				padding: 8rem 0 6rem;
+			}
+
+			.about-grid {
+				grid-template-columns: 1fr 1fr;
+				gap: 4rem;
+				align-items: start;
+			}
+
+			.skills-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			.section-alt {
+				padding: 4rem 2.5rem;
+				margin: 0 -2.5rem;
+			}
+		}
+
+		@media (min-width: 70em) {
+			.skills-grid {
+				grid-template-columns: repeat(3, 1fr);
+			}
+		}
+	</style>
+</BaseLayout>

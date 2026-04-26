@@ -1,0 +1,99 @@
+---
+title: "Computer Network"
+description: "计算机网络课程实验合集，涵盖 Socket 编程、TCP/UDP 协议实现、HTTP 协议解析、网络安全与 RED 拥塞控制模拟。"
+repoPath: "computer-network"
+tags: ["Python", "Network", "Coursework", "C"]
+keywords: ["Socket", "TCP", "UDP", "HTTP", "RED", "Congestion Control", "Scapy"]
+techStack: ["Python", "C", "Scapy", "Socket Programming", "Wireshark"]
+screenshotsDir: "computer-network"
+codeSnippets: ["computer-network/01_red_and_ared_simulator.py"]
+featured: false
+date: "2023"
+difficulty: "进阶"
+status: "Completed"
+architecture: "实验采用分层递进结构：从基础 Socket API 调用，到自定义协议实现，再到网络抓包分析与安全实验。Python 用于快速原型和协议解析，C 用于底层性能敏感实现。"
+challenges: [
+  "TCP 三次握手与四次挥手的时序控制，以及粘包/拆包问题的处理",
+  "RED 拥塞控制算法的参数调优与性能评估",
+  "使用 Scapy 构造自定义数据包进行网络扫描和协议分析"
+]
+lessons: [
+  "深入理解了 TCP/IP 协议栈各层的工作原理",
+  "掌握了 Socket 编程的核心 API 和网络 IO 模型",
+  "学会了使用 Wireshark 和 Scapy 进行网络故障排查"
+]
+---
+
+## 项目背景
+
+计算机网络课程要求通过编程实践深入理解网络协议。本项目包含 8 个递进式实验，从基础的 Socket 编程到复杂的拥塞控制模拟，覆盖了网络编程的核心知识点。
+
+## 核心功能
+
+- **Socket 基础**：TCP/UDP 客户端-服务器通信
+- **协议实现**：自定义应用层协议设计与实现
+- **HTTP 解析**：实现简易 HTTP 客户端和服务器
+- **网络安全**：端口扫描、数据包嗅探、ARP 欺骗检测
+- **拥塞控制**：RED（Random Early Detection）算法模拟与可视化
+- **路由算法**：Dijkstra 最短路径算法实现
+
+## 系统架构
+
+<MermaidDiagram chart={`
+graph TD
+    A[Application Layer] -->|HTTP/FTP| B[Transport Layer]
+    B -->|TCP/UDP| C[Network Layer]
+    C -->|IP/ICMP| D[Link Layer]
+    D -->|Ethernet| E[Physical Layer]
+    
+    subgraph "Experiments"
+        A1[Socket Programming] --> A2[Custom Protocol]
+        A2 --> A3[HTTP Server]
+        A3 --> A4[Network Security]
+        A4 --> A5[RED Simulation]
+    end
+`} caption="Network Layer Architecture & Experiment Flow" />
+
+## 项目结构
+
+<FileTree tree={`
+computer-network/
+├── experiment1/          # Socket编程基础
+├── experiment2/          # TCP/UDP实现
+├── experiment3/          # HTTP协议
+├── experiment4/          # 网络安全
+├── experiment5/          # 路由算法
+├── experiment6/          # 拥塞控制
+├── experiment7/          # DNS解析
+├── experiment8/          # 综合实验
+├── Improve_RED/          # RED算法优化
+└── README.md
+`} caption="Experiment Directory Structure" />
+
+## 核心代码
+
+### RED 拥塞控制模拟器
+
+<CodePreview src="/code-snippets/computer-network/01_red_and_ared_simulator.py" lang="python" caption="RED Simulator - Queue Management & Packet Dropping" />
+
+## 效果展示
+
+<ScreenshotGallery dir="computer-network" />
+
+## 技术要点
+
+### Socket 编程模型
+
+- 阻塞/非阻塞 IO、多路复用 select/poll
+- 并发服务器：多进程 vs 多线程 vs 线程池
+
+### RED 拥塞控制
+
+- 早期随机丢包机制
+- 平均队列长度的指数加权移动平均
+- 参数：min_th、max_th、max_p
+
+### Scapy 网络编程
+
+- 构造任意协议层的数据包
+- 发送/接收、嗅探、Traceroute 实现

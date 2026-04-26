@@ -1,0 +1,116 @@
+---
+title: "Titanic 生存预测：特征工程决定模型上限"
+description: "以 Titanic 数据集为例，深入探讨数据清洗、缺失值处理、特征构造与选择的全流程。展示如何从原始数据中提取高信息量的特征，以及为什么特征工程比模型调参更能提升性能。"
+date: "2023-09"
+tags: ["Machine Learning", "Python", "Feature Engineering", "EDA"]
+relatedProject: "ml-practice"
+---
+
+## 模型是上限，特征工程是逼近上限的方法
+
+机器学习领域有句老话："Garbage in, garbage out"。在 Titanic 项目中，我深刻体会到了这一点。使用默认特征时，Random Forest 的交叉验证准确率约为 78%；经过系统的特征工程后，同一模型的准确率提升到 84% 以上。
+
+**6 个百分点的提升，完全来自特征工程，没有更换模型。**
+
+## 缺失值处理：不只是填个数字
+
+Titanic 数据集中，Age、Cabin、Embarked、Fare 都有缺失。简单的中位数/众数填充虽然能用，但会丢失信息。
+
+### Age：按 Title 分组填充
+
+名字的格式是 `Last, Title. First`，其中 Title（如 Mr, Mrs, Miss, Master）与年龄高度相关。按 Title 分组计算中位数填充，比全局中位数更准确：
+
+```python
+title_age_map = df.groupby('Title')['Age'].median()
+df['Age'] = df.groupby('Title')['Age'].transform(
+    lambda x: x.fillna(x.median())
+)
+```
+
+### Cabin：从缺失中提取信息
+
+Cabin 字段 77% 缺失。关键洞察是：**缺失本身可能是信号**。有 Cabin 记录的乘客通常是头等舱，生存率更高。因此将 Cabin 转换为二值特征：
+
+```python
+df['HasCabin'] = df['Cabin'].notna().astype(int)
+```
+
+这个简单的转换带来的信息增益，超过了对 Cabin 字母进行 One-Hot 编码。
+
+## 特征构造：从原始字段中挖掘信息
+
+### Name -> Title -> Age 分组
+
+从 Name 提取 Title 的过程：
+
+```python
+df['Title'] = df['Name'].str.extract(r', ([A-Za-z]+)\.')
+```
+
+Title 不仅用于 Age 填充，本身也是强预测特征。Master（男孩）的生存率显著高于 Mr（成年男性），因为逃生时优先救助妇女和儿童。
+
+### FamilySize：SibSp + Parch 的组合
+
+```python
+df['FamilySize'] = df['SibSp'] + df['Parch'] + 1
+```
+
+FamilySize 揭示了有趣的非线性关系：
+- 单独旅行（FamilySize=1）的生存率较低
+- 小家庭（2-4人）生存率最高
+- 大家庭（>4人）生存率再次下降
+
+这说明 "有家人但不多" 是最佳情况——既能互相帮助，又不会拖慢逃生速度。
+
+### FareBin & AgeBin：连续变量离散化
+
+将 Fare 和 Age 分箱后，模型更容易捕捉非线性模式：
+
+```python
+df['FareBin'] = pd.qcut(df['Fare'], 4, labels=['Low', 'Medium', 'High', 'VeryHigh'])
+df['AgeBin'] = pd.cut(df['Age'], bins=[0, 12, 18, 35, 60, 100], 
+                       labels=['Child', 'Teen', 'Adult', 'Middle', 'Senior'])
+```
+
+## 特征选择：去除冗余
+
+构造大量特征后，需要进行筛选。我使用了两种方法：
+
+1. **相关性分析**：去除与已有特征高度相关的变量
+2. **特征重要性**：基于 Random Forest 的重要性排序，保留 Top 15
+
+最终进入模型的特征：
+
+| 特征 | 来源 | 类型 |
+|------|------|------|
+| Pclass | 原始 | 有序类别 |
+| Sex | 原始 | 二值 |
+| Age | 填充后 | 连续 |
+| Fare | 填充后 | 连续 |
+| Embarked | 填充后 | 类别 |
+| Title | Name 提取 | 类别 |
+| FamilySize | 组合 | 连续 |
+| IsAlone | FamilySize 衍生 | 二值 |
+| HasCabin | Cabin 衍生 | 二值 |
+| AgeBin | Age 分箱 | 有序类别 |
+| FareBin | Fare 分箱 | 有序类别 |
+
+## 为什么特征工程比调参更重要
+
+通过对比实验验证：
+
+| 配置 | CV 准确率 |
+|------|----------|
+| 默认特征 + 默认参数 | 78.2% |
+| 默认特征 + GridSearch 调参 | 79.5% |
+| 工程特征 + 默认参数 | 84.1% |
+| 工程特征 + GridSearch 调参 | 85.3% |
+
+特征工程带来 **+5.9%** 提升，模型调参在好特征基础上仅带来 **+1.2%** 提升。
+
+## 核心经验
+
+1. **理解数据背后的故事** 比套用算法更重要。Titanic 的逃生规则（妇女儿童优先）直接体现在特征中。
+2. **缺失值处理要因地制宜**。Cabin 的"缺失即信息"是一个典型例子。
+3. **组合特征能捕捉交互效应**。单独的 SibSp 和 Parch 信息量有限，FamilySize 揭示了新模式。
+4. **离散化有时比连续值更好**。尤其是对于树模型，分箱后的特征更容易被利用。

@@ -1,0 +1,275 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import MermaidDiagram from '../../components/MermaidDiagram.astro';
+
+export async function getStaticPaths() {
+	const articles = await getCollection('deep-dives');
+	return articles.map((article) => ({
+		params: { slug: article.id },
+		props: { article },
+	}));
+}
+
+const { article } = Astro.props;
+const { Content } = await render(article);
+const { title, description, date, tags, relatedProject } = article.data;
+---
+
+<BaseLayout title={`${title} | Deep Dives`} description={description}>
+	<article class="article-page">
+		<header class="article-hero">
+			<div class="wrapper hero-content">
+				<div class="breadcrumbs">
+					<a href="/">Home</a>
+					<span>/</span>
+					<a href="/deep-dives">Deep Dives</a>
+					<span>/</span>
+					<span class="current">{title}</span>
+				</div>
+				<h1><span class="gradient-text">{title}</span></h1>
+				<p class="hero-description">{description}</p>
+				<div class="article-meta">
+					{date && (
+						<span class="meta-item">
+							<Icon icon="calendar" size="1em" />
+							{date}
+						</span>
+					)}
+					{tags.map((tag) => (
+						<span class="meta-tag">{tag}</span>
+					))}
+				</div>
+			</div>
+		</header>
+
+		<div class="wrapper content-wrapper">
+			<Content components={{ MermaidDiagram }} />
+		</div>
+
+		<nav class="article-nav">
+			<div class="wrapper">
+				<a href="/deep-dives" class="back-link">
+					<Icon icon="arrow-left" size="1.2em" />
+					Back to all articles
+				</a>
+				{relatedProject && (
+					<a href={`/projects/${relatedProject}`} class="related-link">
+						View Related Project
+						<Icon icon="arrow-right" size="1.2em" />
+					</a>
+				)}
+			</div>
+		</nav>
+	</article>
+
+	<style>
+		.article-hero {
+			padding: 4rem 0 3rem;
+			border-bottom: 1px solid var(--gray-800);
+			margin-bottom: 3rem;
+		}
+
+		.hero-content {
+			max-width: 75ch;
+		}
+
+		.breadcrumbs {
+			display: flex;
+			gap: 0.5rem;
+			align-items: center;
+			font-size: var(--text-sm);
+			color: var(--gray-400);
+			margin-bottom: 1.5rem;
+		}
+
+		.breadcrumbs a {
+			color: var(--accent-regular);
+			text-decoration: none;
+		}
+
+		.breadcrumbs a:hover {
+			text-decoration: underline;
+		}
+
+		.breadcrumbs .current {
+			color: var(--gray-200);
+		}
+
+		.article-hero h1 {
+			font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl));
+			margin-bottom: 1rem;
+			line-height: 1.2;
+		}
+
+		.gradient-text {
+			background: var(--gradient-accent);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.hero-description {
+			font-size: var(--text-lg);
+			color: var(--gray-300);
+			line-height: 1.6;
+			margin-bottom: 1.5rem;
+		}
+
+		.article-meta {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.75rem;
+			align-items: center;
+		}
+
+		.meta-item {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			font-size: var(--text-sm);
+			color: var(--gray-400);
+		}
+
+		.meta-tag {
+			padding: 0.25rem 0.7rem;
+			background: var(--accent-subtle-overlay);
+			color: var(--accent-regular);
+			border-radius: 999px;
+			font-size: var(--text-xs);
+			font-weight: 500;
+		}
+
+		.content-wrapper {
+			max-width: 75ch;
+			padding-bottom: 4rem;
+		}
+
+		.content-wrapper :global(h2) {
+			font-size: var(--text-2xl);
+			margin-top: 3rem;
+			margin-bottom: 1rem;
+			color: var(--gray-0);
+		}
+
+		.content-wrapper :global(h3) {
+			font-size: var(--text-xl);
+			margin-top: 2rem;
+			margin-bottom: 0.75rem;
+			color: var(--gray-100);
+		}
+
+		.content-wrapper :global(p) {
+			line-height: 1.8;
+			margin-bottom: 1.25rem;
+			color: var(--gray-300);
+		}
+
+		.content-wrapper :global(ul, ol) {
+			padding-left: 1.5rem;
+			margin-bottom: 1.25rem;
+		}
+
+		.content-wrapper :global(li) {
+			margin-bottom: 0.5rem;
+			color: var(--gray-300);
+		}
+
+		.content-wrapper :global(pre) {
+			background: var(--gray-999);
+			padding: 1rem;
+			border-radius: 0.5rem;
+			overflow-x: auto;
+			font-size: var(--text-sm);
+			border: 1px solid var(--gray-800);
+			margin-bottom: 1.25rem;
+		}
+
+		.content-wrapper :global(code) {
+			font-family: var(--font-mono);
+		}
+
+		.content-wrapper :global(blockquote) {
+			border-left: 3px solid var(--accent-regular);
+			padding-left: 1rem;
+			margin-left: 0;
+			color: var(--gray-400);
+			font-style: italic;
+		}
+
+		.content-wrapper :global(table) {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 1.25rem;
+			font-size: var(--text-sm);
+		}
+
+		.content-wrapper :global(th, td) {
+			padding: 0.6rem 0.8rem;
+			border: 1px solid var(--gray-800);
+			text-align: left;
+		}
+
+		.content-wrapper :global(th) {
+			background: var(--gray-900);
+			color: var(--gray-100);
+			font-weight: 600;
+		}
+
+		.content-wrapper :global(td) {
+			color: var(--gray-300);
+		}
+
+		.article-nav {
+			padding: 2rem 0;
+			border-top: 1px solid var(--gray-800);
+		}
+
+		.article-nav .wrapper {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 1rem;
+		}
+
+		.back-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.6rem 1.2rem;
+			background: var(--gray-800);
+			color: var(--gray-200);
+			text-decoration: none;
+			font-weight: 500;
+			border-radius: 0.5rem;
+			transition: all 0.2s ease;
+		}
+
+		.back-link:hover {
+			background: var(--accent-regular);
+			color: var(--gray-999);
+			transform: translateX(-4px);
+		}
+
+		.related-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.6rem 1.2rem;
+			background: var(--gradient-accent);
+			color: var(--gray-999);
+			text-decoration: none;
+			font-weight: 500;
+			border-radius: 0.5rem;
+			transition: all 0.2s ease;
+			box-shadow: 0 4px 20px rgba(118, 17, 166, 0.3);
+		}
+
+		.related-link:hover {
+			transform: translateX(4px);
+			box-shadow: 0 8px 30px rgba(118, 17, 166, 0.4);
+		}
+	</style>
+</BaseLayout>

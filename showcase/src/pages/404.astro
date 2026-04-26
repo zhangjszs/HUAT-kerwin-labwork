@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<BaseLayout title="404 | Page Not Found" description="The page you are looking for does not exist.">
+	<section class="error-section">
+		<div class="wrapper">
+			<div class="error-content">
+				<span class="error-code">404</span>
+				<h1>Page Not Found</h1>
+				<p>The page you are looking for doesn't exist or has been moved.</p>
+				<a href="/" class="home-link">
+					<Icon icon="arrow-left" size="1.2em" />
+					Back to Home
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<style>
+		.error-section {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 70vh;
+			text-align: center;
+		}
+
+		.error-content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1rem;
+		}
+
+		.error-code {
+			font-size: clamp(6rem, 15vw, 10rem);
+			font-weight: 800;
+			font-family: var(--font-brand);
+			background: var(--gradient-accent);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			line-height: 1;
+		}
+
+		h1 {
+			font-size: var(--text-2xl);
+			color: var(--gray-0);
+			margin: 0;
+		}
+
+		p {
+			color: var(--gray-300);
+			max-width: 40ch;
+			margin: 0;
+		}
+
+		.home-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			margin-top: 1rem;
+			padding: 0.8rem 1.6rem;
+			background: var(--gradient-accent);
+			color: var(--gray-999);
+			border-radius: 0.5rem;
+			text-decoration: none;
+			font-weight: 600;
+			font-size: var(--text-sm);
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+			box-shadow: 0 4px 20px rgba(118, 17, 166, 0.3);
+		}
+
+		.home-link:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 8px 30px rgba(118, 17, 166, 0.4);
+		}
+	</style>
+</BaseLayout>

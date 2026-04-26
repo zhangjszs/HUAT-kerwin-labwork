@@ -1,0 +1,63 @@
+---
+interface Props {
+	tree: string;
+	caption?: string;
+}
+
+const { tree, caption } = Astro.props;
+
+function parseTree(tree: string) {
+	const lines = tree.trim().split('\n');
+	return lines.map((line) => {
+		const match = line.match(/^(\s*)/);
+		const indent = match ? match[1].length : 0;
+		const name = line.trim();
+		const isDir = name.endsWith('/');
+		const isLast = line.trimStart().startsWith('└──') || line.trimStart().startsWith('└--');
+		const cleanName = name.replace(/^[├└]──\s*/, '').replace(/^[├└]--\s*/, '');
+		return { indent, name: cleanName, isDir, isLast, raw: line };
+	});
+}
+
+const items = parseTree(tree);
+---
+
+<figure class="file-tree">
+	{caption && <figcaption>{caption}</figcaption>}
+	<div class="tree-content">
+		<pre>{tree}</pre>
+	</div>
+</figure>
+
+<style>
+	.file-tree {
+		margin: 2rem 0;
+		border-radius: 0.75rem;
+		overflow: hidden;
+		border: 1px solid var(--gray-800);
+		background: var(--gray-999);
+	}
+
+	.file-tree figcaption {
+		padding: 0.75rem 1rem;
+		font-size: var(--text-sm);
+		color: var(--gray-300);
+		background: var(--gray-900);
+		border-bottom: 1px solid var(--gray-800);
+		text-align: center;
+	}
+
+	.tree-content {
+		padding: 1rem 1.5rem;
+		overflow-x: auto;
+	}
+
+	.tree-content pre {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		line-height: 1.8;
+		color: var(--gray-200);
+		background: transparent;
+	}
+</style>

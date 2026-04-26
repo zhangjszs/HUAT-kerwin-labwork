@@ -1,0 +1,94 @@
+---
+title: "Forest Blog"
+description: "基于 Spring + SpringMVC + MyBatis 的全功能个人博客系统，包含文章管理、分类标签、评论系统和后台管理。"
+repoPath: "javaweb-course-design/ForestBlog-master"
+tags: ["Java", "Web", "Spring", "Full Stack"]
+keywords: ["SpringMVC", "MyBatis", "MySQL", "Blog", "JSP", "Admin Dashboard"]
+techStack: ["Spring", "SpringMVC", "MyBatis", "MySQL", "JSP", "Maven", "Druid", "PageHelper"]
+screenshotsDir: "forestblog-master"
+codeSnippets: ["forestblog-master/ArticleController.java", "forestblog-master/ArticleMapper.xml"]
+featured: true
+date: "2023-06"
+difficulty: "进阶"
+status: "Completed"
+architecture: "经典 SSM 三层架构：Controller 处理请求，Service 处理业务逻辑，Mapper 操作数据库。前端使用 JSP + JSTL + Layui，后端使用 SpringMVC RESTful API。数据库连接池采用 Druid，分页使用 PageHelper。"
+challenges: [
+  "如何设计文章与分类/标签的多对多关系，避免 N+1 查询问题",
+  "后台管理系统的前后端分离与权限控制实现",
+  "MyBatis 动态 SQL 实现复杂的文章筛选与分页"
+]
+lessons: [
+  "深入理解了 Spring IoC 和 AOP 的实际应用场景",
+  "掌握了 MyBatis 动态 SQL 和关联映射的最佳实践",
+  "学会了使用 Druid 监控 SQL 性能并优化慢查询"
+]
+---
+
+## 项目背景
+
+ForestBlog 是一个基于经典 SSM（Spring + SpringMVC + MyBatis）框架开发的个人博客系统。项目目标是构建一个功能完整、易于维护的内容管理系统，支持文章发布、分类管理、标签云、评论互动和后台管理。
+
+## 系统架构
+
+<MermaidDiagram chart={`
+graph TD
+    A[Client Browser] -->|HTTP| B[SpringMVC DispatcherServlet]
+    B --> C[Controller Layer]
+    C --> D[Service Layer]
+    D --> E[Mapper Layer]
+    E --> F[(MySQL Database)]
+    D --> G[Druid Connection Pool]
+    C --> H[JSP View]
+    H --> I[Layui JS Framework]
+`} caption="ForestBlog System Architecture" />
+
+## 核心功能
+
+- **文章管理**：支持 Markdown 编辑、草稿箱、文章发布/下架
+- **分类标签**：树形分类结构 + 标签云，支持多对多关联
+- **评论系统**：嵌套评论 + 管理员审核机制
+- **后台管理**：数据统计仪表盘、文章/分类/评论 CRUD、系统设置
+- **SEO 优化**：友好的 URL、meta 标签、sitemap 生成
+
+## 项目结构
+
+<FileTree tree={`
+ForestBlog/
+├── src/main/java/
+│   └── com/liuyanzhao/
+│       ├── controller/      # 控制器层
+│       ├── service/         # 业务逻辑层
+│       ├── mapper/          # 数据访问层
+│       ├── entity/          # 实体类
+│       └── util/            # 工具类
+├── src/main/resources/
+│   ├── mapper/              # MyBatis XML 映射文件
+│   ├── spring/              # Spring 配置文件
+│   └── db.properties        # 数据库配置
+└── src/main/webapp/
+    ├── WEB-INF/view/        # JSP 页面
+    ├── static/              # CSS/JS/图片
+    └── upload/              # 文件上传目录
+`} caption="Project Directory Structure" />
+
+## 核心代码
+
+### 文章展示控制器
+
+<CodePreview src="/code-snippets/forestblog-master/ArticleController.java" lang="java" caption="ArticleController.java - Article Listing & Detail" />
+
+### MyBatis 文章映射
+
+<CodePreview src="/code-snippets/forestblog-master/ArticleMapper.xml" lang="xml" caption="ArticleMapper.xml - Dynamic SQL for Article Query" />
+
+## 效果展示
+
+<ScreenshotGallery dir="forestblog-master" />
+
+## 部署说明
+
+由于本项目需要 Java 运行环境和 MySQL 数据库，无法直接部署在 Cloudflare Pages 等静态托管平台。建议：
+
+- 使用 **Render** 或 **Railway** 的免费 Java 服务部署
+- 或使用 **阿里云/腾讯云** 的学生机（约 10 元/月）
+- 本地运行：`mvn tomcat7:run`

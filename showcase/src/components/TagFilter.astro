@@ -1,0 +1,88 @@
+---
+interface Props {
+	tags: string[];
+	selected?: string[];
+}
+
+const { tags, selected = [] } = Astro.props;
+const uniqueTags = [...new Set(tags)].sort();
+---
+
+<div class="tag-filter" data-selected={JSON.stringify(selected)}>
+	<span class="label">Filter:</span>
+	<div class="tags">
+		<button class="tag-btn active" data-tag="all">All</button>
+		{uniqueTags.map((tag) => (
+			<button class="tag-btn" data-tag={tag}>{tag}</button>
+		))}
+	</div>
+</div>
+
+<script>
+	const filter = document.querySelector('.tag-filter');
+	if (filter) {
+		const buttons = filter.querySelectorAll('.tag-btn');
+		const projects = document.querySelectorAll('[data-project-tags]');
+
+		buttons.forEach((btn) => {
+			btn.addEventListener('click', () => {
+				const tag = btn.getAttribute('data-tag');
+
+				buttons.forEach((b) => b.classList.remove('active'));
+				btn.classList.add('active');
+
+				projects.forEach((project) => {
+					const tags = JSON.parse(project.getAttribute('data-project-tags') || '[]');
+					if (tag === 'all' || tags.includes(tag)) {
+						(project as HTMLElement).style.display = '';
+					} else {
+						(project as HTMLElement).style.display = 'none';
+					}
+				});
+			});
+		});
+	}
+</script>
+
+<style>
+	.tag-filter {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 2rem;
+	}
+
+	.label {
+		font-size: var(--text-sm);
+		color: var(--gray-300);
+		font-weight: 500;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.tag-btn {
+		font-size: var(--text-sm);
+		padding: 0.4rem 0.9rem;
+		background: var(--gray-800);
+		color: var(--gray-300);
+		border: 1px solid var(--gray-700);
+		border-radius: 999px;
+		cursor: pointer;
+		transition: all 0.2s;
+	}
+
+	.tag-btn:hover {
+		background: var(--gray-700);
+	}
+
+	.tag-btn.active {
+		background: var(--accent-regular);
+		color: var(--gray-999);
+		border-color: var(--accent-regular);
+	}
+</style>

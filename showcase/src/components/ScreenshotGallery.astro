@@ -1,0 +1,87 @@
+---
+interface Props {
+	dir: string;
+	captions?: string[];
+}
+
+const { dir, captions = [] } = Astro.props;
+// Read the screenshots directory at build time
+import { readdirSync, existsSync } from 'fs';
+import { join } from 'path';
+
+const screenshotsDir = join(process.cwd(), 'public', 'screenshots', dir);
+let images: string[] = [];
+
+if (existsSync(screenshotsDir)) {
+	images = readdirSync(screenshotsDir)
+		.filter((f) => /\.(png|jpe?g|webp|gif)$/i.test(f))
+		.sort();
+}
+---
+
+{
+	images.length > 0 ? (
+		<div class="gallery">
+			{images.map((img, i) => (
+				<figure>
+					<img
+						src={`/screenshots/${dir}/${img}`}
+						alt={captions[i] || `${dir} screenshot ${i + 1}`}
+						loading="lazy"
+						decoding="async"
+					/>
+					{captions[i] && <figcaption>{captions[i]}</figcaption>}
+				</figure>
+			))}
+		</div>
+	) : (
+		<p class="placeholder">No screenshots yet. Add images to<code> public/screenshots/{dir}/</code>.</p>
+	)
+}
+
+<style>
+	.gallery {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 1rem;
+		margin: 1.5rem 0;
+	}
+
+	.gallery figure {
+		margin: 0;
+		border-radius: 0.75rem;
+		overflow: hidden;
+		border: 1px solid var(--gray-800);
+		background: var(--gray-999);
+	}
+
+	.gallery img {
+		width: 100%;
+		height: auto;
+		display: block;
+		object-fit: cover;
+	}
+
+	.gallery figcaption {
+		padding: 0.5rem 0.75rem;
+		font-size: var(--text-xs);
+		color: var(--gray-300);
+		background: var(--gray-900);
+	}
+
+	.placeholder {
+		color: var(--gray-500);
+		font-style: italic;
+		padding: 1rem;
+		background: var(--gray-900);
+		border-radius: 0.5rem;
+		border: 1px dashed var(--gray-700);
+	}
+
+	.placeholder code {
+		background: var(--gray-800);
+		padding: 0.1rem 0.3rem;
+		border-radius: 0.25rem;
+		font-size: var(--text-xs);
+	}
+</style>

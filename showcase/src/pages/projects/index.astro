@@ -1,0 +1,255 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import TagFilter from '../../components/TagFilter.astro';
+import Grid from '../../components/Grid.astro';
+import Icon from '../../components/Icon.astro';
+
+const projects = await getCollection('projects');
+const allTags = projects.flatMap((p) => p.data.tags);
+const uniqueTags = [...new Set(allTags)];
+const allTech = [...new Set(projects.flatMap((p) => p.data.techStack))];
+const featuredCount = projects.filter((p) => p.data.featured).length;
+---
+
+<BaseLayout title="All Projects | HUAT Labwork" description="Browse all computer science projects and coursework.">
+	<section class="hero-section">
+		<div class="hero-blobs" aria-hidden="true">
+			<div class="blob blob-1"></div>
+			<div class="blob blob-2"></div>
+		</div>
+		<div class="wrapper hero-content">
+			<div class="hero-text">
+				<span class="eyebrow">Portfolio</span>
+				<h1 class="hero-title">
+					All <span class="gradient-text">Projects</span>
+				</h1>
+				<p class="hero-tagline">
+					Browse {projects.length} projects across {uniqueTags.length} categories.
+					From Java Web to Machine Learning, from Android to Computer Networks.
+				</p>
+			</div>
+			<div class="stats-grid">
+				<div class="stat-card">
+					<Icon icon="code" size="1.5em" />
+					<span class="stat-number">{projects.length}</span>
+					<span class="stat-label">Projects</span>
+				</div>
+				<div class="stat-card">
+					<Icon icon="terminal-window" size="1.5em" />
+					<span class="stat-number">{allTech.length}</span>
+					<span class="stat-label">Technologies</span>
+				</div>
+				<div class="stat-card">
+					<Icon icon="list" size="1.5em" />
+					<span class="stat-number">{uniqueTags.length}</span>
+					<span class="stat-label">Categories</span>
+				</div>
+				<div class="stat-card">
+					<Icon icon="star" size="1.5em" />
+					<span class="stat-number">{featuredCount}</span>
+					<span class="stat-label">Featured</span>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<main class="wrapper stack gap-20">
+		<TagFilter tags={allTags} />
+
+		<div class="projects-grid reveal">
+			<Grid variant="offset">
+				{projects.map((project) => (
+					<li data-project-tags={JSON.stringify(project.data.tags)}>
+						<ProjectCard project={project} />
+					</li>
+				))}
+			</Grid>
+		</div>
+	</main>
+
+	<script>
+		const revealObserver = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('visible');
+					revealObserver.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.1 });
+
+		document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+	</script>
+
+	<style>
+		.hero-section {
+			position: relative;
+			padding: 6rem 0 5rem;
+			overflow: hidden;
+			margin-bottom: 3rem;
+		}
+
+		.hero-blobs {
+			position: absolute;
+			inset: 0;
+			z-index: 0;
+			pointer-events: none;
+		}
+
+		.blob {
+			position: absolute;
+			border-radius: 50%;
+			filter: blur(100px);
+			opacity: 0.3;
+		}
+
+		.blob-1 {
+			width: 450px;
+			height: 450px;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			top: -20%;
+			left: 10%;
+			animation: float 12s ease-in-out infinite;
+		}
+
+		.blob-2 {
+			width: 350px;
+			height: 350px;
+			background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+			bottom: -10%;
+			right: 10%;
+			animation: float 14s ease-in-out infinite reverse;
+		}
+
+		@keyframes float {
+			0%, 100% { transform: translate(0, 0) scale(1); }
+			33% { transform: translate(20px, -20px) scale(1.05); }
+			66% { transform: translate(-15px, 15px) scale(0.95); }
+		}
+
+		.hero-content {
+			position: relative;
+			z-index: 1;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 2.5rem;
+			text-align: center;
+		}
+
+		.hero-text {
+			display: flex;
+			flex-direction: column;
+			gap: 0.75rem;
+			align-items: center;
+		}
+
+		.eyebrow {
+			font-size: var(--text-sm);
+			font-weight: 600;
+			color: var(--accent-regular);
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+		}
+
+		.hero-title {
+			font-size: clamp(var(--text-3xl), 6vw, var(--text-5xl));
+			font-weight: 800;
+			color: var(--gray-0);
+			line-height: 1.1;
+			margin: 0;
+		}
+
+		.gradient-text {
+			background: var(--gradient-accent);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.hero-tagline {
+			font-size: var(--text-lg);
+			color: var(--gray-300);
+			max-width: 55ch;
+			line-height: 1.6;
+			margin: 0;
+		}
+
+		.stats-grid {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1rem;
+			width: 100%;
+			max-width: 600px;
+		}
+
+		.stat-card {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 0.35rem;
+			padding: 1.25rem 1rem;
+			background: rgba(255, 255, 255, 0.03);
+			backdrop-filter: blur(12px);
+			border: 1px solid rgba(255, 255, 255, 0.06);
+			border-radius: 1rem;
+			color: var(--accent-regular);
+			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+		}
+
+		.stat-card:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+			border-color: var(--accent-regular);
+		}
+
+		.stat-card :global(svg) {
+			color: var(--accent-regular);
+		}
+
+		.stat-number {
+			font-size: var(--text-2xl);
+			font-weight: 800;
+			color: var(--gray-0);
+			line-height: 1;
+			font-family: var(--font-brand);
+		}
+
+		.stat-label {
+			font-size: var(--text-sm);
+			color: var(--gray-400);
+			font-weight: 500;
+		}
+
+		.projects-grid {
+			margin-top: 1rem;
+		}
+
+		.reveal {
+			opacity: 0;
+			transform: translateY(40px);
+			transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		.reveal.visible {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		@media (min-width: 50em) {
+			.hero-section {
+				padding: 8rem 0 6rem;
+			}
+
+			.stats-grid {
+				grid-template-columns: repeat(4, 1fr);
+				gap: 1.25rem;
+			}
+
+			.stat-card {
+				padding: 1.5rem;
+			}
+		}
+	</style>
+</BaseLayout>

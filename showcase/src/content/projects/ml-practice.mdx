@@ -1,0 +1,117 @@
+---
+title: "Titanic Survival Prediction"
+description: "基于 Titanic 数据集的完整机器学习项目，涵盖数据清洗、特征工程、多模型对比和模型解释的端到端流程。"
+repoPath: "ml-practice"
+tags: ["Python", "Machine Learning", "Data Science", "Classification"]
+keywords: ["Titanic", "EDA", "Feature Engineering", "Random Forest", "XGBoost", "Cross Validation"]
+techStack: ["Python", "Pandas", "NumPy", "Scikit-learn", "XGBoost", "Matplotlib", "Seaborn"]
+screenshotsDir: "ml-practice"
+codeSnippets: ["ml-practice/data_exploration.py", "ml-practice/feature_engineering.py"]
+featured: false
+date: "2023"
+difficulty: "入门"
+status: "Completed"
+architecture: "标准数据科学流程：数据获取 → 探索性数据分析(EDA) → 数据清洗 → 特征工程 → 模型训练 → 评估优化 → 结果解释。使用 Jupyter Notebook 进行交互式开发。"
+challenges: [
+  "缺失值处理策略：Age 使用 Title 分组中位数填充，Cabin 转换为二进制特征",
+  "特征工程：从 Name 提取 Title、从 Ticket 提取前缀、FamilySize 组合特征",
+  "模型融合：Stacking 整合 Random Forest、XGBoost、SVM 的预测结果"
+]
+lessons: [
+  "理解了特征工程对模型性能的决定性影响",
+  "掌握了交叉验证和超参数调优的系统方法",
+  "学会了使用 SHAP/LIME 解释模型预测原因"
+]
+---
+
+## 项目背景
+
+Titanic 生存预测是机器学习领域的经典入门项目。本项目的目标不仅是获得高准确率，更重要的是展示完整的数据科学工作流：从原始数据到可解释的最终模型。
+
+## 核心流程
+
+<MermaidDiagram chart={`
+graph LR
+    A[Raw Data] --> B[EDA & Cleaning]
+    B --> C[Feature Engineering]
+    C --> D[Model Training]
+    D --> E[Cross Validation]
+    E --> F[Hyperparameter Tuning]
+    F --> G[Model Ensemble]
+    G --> H[Interpretation]
+`} caption="ML Pipeline Workflow" />
+
+## 核心功能
+
+- **数据清洗**：缺失值处理、异常值检测、数据类型转换
+- **EDA**：统计分布、相关性热力图、生存率分析
+- **特征工程**：Title 提取、FamilySize、FareBin、AgeBin、Embarked 编码
+- **模型对比**：Logistic Regression、Random Forest、XGBoost、SVM
+- **超参数调优**：Grid Search + Random Search
+- **模型解释**：特征重要性、SHAP 值分析
+
+## 关键特征
+
+| 特征 | 原始形式 | 工程后 |
+|------|---------|--------|
+| Name | 字符串 | Title (Mr/Mrs/Miss) |
+| Age | 数值 | AgeBin + Title 分组填充 |
+| SibSp + Parch | 两个字段 | FamilySize (组合) |
+| Ticket | 字符串 | TicketPrefix + 数值 |
+| Cabin | 字符串 | HasCabin (布尔) |
+
+## 项目结构
+
+<FileTree tree={`
+ml-practice/
+└── titanic-survival-prediction/
+    ├── data/
+    │   ├── train.csv
+    │   └── test.csv
+    ├── notebooks/
+    │   ├── 01-eda.ipynb
+    │   ├── 02-feature-engineering.ipynb
+    │   └── 03-modeling.ipynb
+    ├── src/
+    │   ├── preprocess.py
+    │   ├── features.py
+    │   └── model.py
+    └── README.md
+`} caption="Project Directory Structure" />
+
+## 核心代码
+
+### 数据探索
+
+<CodePreview src="/code-snippets/ml-practice/data_exploration.py" lang="python" caption="Data Exploration - Loading, EDA & Visualization" />
+
+### 特征工程
+
+<CodePreview src="/code-snippets/ml-practice/feature_engineering.py" lang="python" caption="Feature Engineering - Title Extraction & Family Size" />
+
+## 效果展示
+
+<ScreenshotGallery dir="ml-practice" />
+
+## 技术要点
+
+### 缺失值处理策略
+
+- **Age**: 按 Title (Mr/Mrs/Miss/Master) 分组计算中位数填充
+- **Embarked**: 使用众数填充
+- **Fare**: 按 Pclass 分组中位数填充
+- **Cabin**: 转换为 HasCabin 布尔特征（有无 cabin 信息本身就是信号）
+
+### 模型融合
+
+使用 Stacking（堆叠集成）：
+- Level-0: Random Forest + XGBoost + Gradient Boosting
+- Level-1: Logistic Regression 作为元学习器
+- 通过 out-of-fold 预测避免数据泄露
+
+### 评估指标
+
+- **Accuracy**: 总体准确率
+- **Precision/Recall**: 关注生存者的识别能力
+- **ROC-AUC**: 模型区分能力
+- **Cross-Validation**: 5-Fold Stratified K-Fold
