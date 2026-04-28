@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Icon from '../components/Icon.astro';
 import Grid from '../components/Grid.astro';
+import Typewriter from '../components/Typewriter.astro';
 
 const allProjects = await getCollection('projects');
 const featuredProjects = allProjects.filter((p) => p.data.featured);
@@ -46,7 +47,10 @@ allProjects.forEach((p) => {
 const languages = [...langSet];
 ---
 
-<BaseLayout title="HUAT Labwork Showcase" description="A curated showcase of computer science coursework and projects from HUAT.">
+<BaseLayout
+	title="HUAT Labwork Showcase"
+	description="A curated showcase of computer science coursework and projects from HUAT."
+>
 	<!-- Hero Section -->
 	<section class="hero-section">
 		<div class="hero-blobs" aria-hidden="true">
@@ -57,19 +61,15 @@ const languages = [...langSet];
 		<div class="wrapper hero-content">
 			<div class="hero-text">
 				<h1 class="hero-title">
-					<span class="gradient-text">Kerwin's</span> Labwork
+					<Typewriter text="Kerwin's" class="gradient-text" speed={100} /> Labwork
 				</h1>
 				<p class="hero-tagline">
-					Computer Science coursework & projects from Hubei University of Automotive Technology.
-					Open-source, polyglot, and always learning.
+					Computer Science coursework & projects from Hubei University of Automotive Technology. Open-source, polyglot,
+					and always learning.
 				</p>
 				<div class="hero-roles">
-					{languages.map((lang) => (
-						<span class="role-pill">{lang}</span>
-					))}
-					{languages.length === 0 && ['Java', 'Python', 'C++'].map((lang) => (
-						<span class="role-pill">{lang}</span>
-					))}
+					{languages.map((lang) => <span class="role-pill">{lang}</span>)}
+					{languages.length === 0 && ['Java', 'Python', 'C++'].map((lang) => <span class="role-pill">{lang}</span>)}
 				</div>
 			</div>
 			<div class="stats-grid">
@@ -117,7 +117,9 @@ const languages = [...langSet];
 					<div class="gallery">
 						<Grid variant="offset">
 							{featuredProjects.map((project) => (
-								<li><ProjectCard project={project} /></li>
+								<li>
+									<ProjectCard project={project} />
+								</li>
 							))}
 						</Grid>
 					</div>
@@ -136,9 +138,13 @@ const languages = [...langSet];
 			</header>
 			<div class="gallery">
 				<Grid variant="offset">
-					{recentProjects.map((project) => (
-						<li><ProjectCard project={project} /></li>
-					))}
+					{
+						recentProjects.map((project) => (
+							<li>
+								<ProjectCard project={project} />
+							</li>
+						))
+					}
 				</Grid>
 			</div>
 			<div class="cta">
@@ -159,9 +165,7 @@ const languages = [...langSet];
 				<p class="section-desc">Technologies and tools used across all projects.</p>
 			</header>
 			<div class="tech-grid">
-				{allTech.map((tech) => (
-					<span class="tech-item">{tech}</span>
-				))}
+				{allTech.map((tech) => <span class="tech-item">{tech}</span>)}
 			</div>
 		</section>
 
@@ -175,54 +179,62 @@ const languages = [...langSet];
 				<p class="section-desc">Filter projects by technology, domain, or course.</p>
 			</header>
 			<div class="tag-cloud">
-				{allTags.map((tag) => {
-					const freq = tagFreq.get(tag) || 1;
-					const sizeClass = freq >= maxFreq ? 'tag-lg' : freq >= maxFreq / 2 ? 'tag-md' : 'tag-sm';
-					return (
-						<a href={`/projects?tag=${encodeURIComponent(tag)}`} class={`tag-link ${sizeClass}`}>
-							{tag}
-						</a>
-					);
-				})}
+				{
+					allTags.map((tag) => {
+						const freq = tagFreq.get(tag) || 1;
+						const sizeClass = freq >= maxFreq ? 'tag-lg' : freq >= maxFreq / 2 ? 'tag-md' : 'tag-sm';
+						return (
+							<a href={`/projects?tag=${encodeURIComponent(tag)}`} class={`tag-link ${sizeClass}`}>
+								{tag}
+							</a>
+						);
+					})
+				}
 			</div>
 		</section>
 	</main>
 
 	<script>
 		// Scroll reveal animation
-		const revealObserver = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					entry.target.classList.add('visible');
-					revealObserver.unobserve(entry.target);
-				}
-			});
-		}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+		const revealObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('visible');
+						revealObserver.unobserve(entry.target);
+					}
+				});
+			},
+			{ threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+		);
 
 		document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 
 		// Count-up animation for stats
-		const countObserver = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					const el = entry.target as HTMLElement;
-					const target = parseInt(el.dataset.target || '0', 10);
-					if (!target || isNaN(target)) return;
-					let current = 0;
-					const duration = 1200;
-					const step = target / (duration / 16);
-					const timer = setInterval(() => {
-						current += step;
-						if (current >= target) {
-							current = target;
-							clearInterval(timer);
-						}
-						el.textContent = Math.floor(current).toString();
-					}, 16);
-					countObserver.unobserve(el);
-				}
-			});
-		}, { threshold: 0.5 });
+		const countObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						const el = entry.target as HTMLElement;
+						const target = parseInt(el.dataset.target || '0', 10);
+						if (!target || isNaN(target)) return;
+						let current = 0;
+						const duration = 1200;
+						const step = target / (duration / 16);
+						const timer = setInterval(() => {
+							current += step;
+							if (current >= target) {
+								current = target;
+								clearInterval(timer);
+							}
+							el.textContent = Math.floor(current).toString();
+						}, 16);
+						countObserver.unobserve(el);
+					}
+				});
+			},
+			{ threshold: 0.5 }
+		);
 
 		document.querySelectorAll('.stat-number[data-target]').forEach((el) => countObserver.observe(el));
 	</script>
@@ -277,9 +289,16 @@ const languages = [...langSet];
 		}
 
 		@keyframes float {
-			0%, 100% { transform: translate(0, 0) scale(1); }
-			33% { transform: translate(30px, -30px) scale(1.05); }
-			66% { transform: translate(-20px, 20px) scale(0.95); }
+			0%,
+			100% {
+				transform: translate(0, 0) scale(1);
+			}
+			33% {
+				transform: translate(30px, -30px) scale(1.05);
+			}
+			66% {
+				transform: translate(-20px, 20px) scale(0.95);
+			}
 		}
 
 		.hero-content {
@@ -363,7 +382,10 @@ const languages = [...langSet];
 			backdrop-filter: blur(12px);
 			border: 1px solid rgba(255, 255, 255, 0.06);
 			border-radius: 1rem;
-			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+			transition:
+				transform 0.3s ease,
+				box-shadow 0.3s ease,
+				border-color 0.3s ease;
 		}
 
 		.stat-card:hover {
@@ -421,8 +443,14 @@ const languages = [...langSet];
 		}
 
 		@keyframes scrollWheel {
-			0% { opacity: 1; transform: translateX(-50%) translateY(0); }
-			100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+			0% {
+				opacity: 1;
+				transform: translateX(-50%) translateY(0);
+			}
+			100% {
+				opacity: 0;
+				transform: translateX(-50%) translateY(12px);
+			}
 		}
 
 		/* ===== Section Layout ===== */
@@ -480,7 +508,9 @@ const languages = [...langSet];
 			text-decoration: none;
 			font-weight: 600;
 			font-size: var(--text-md);
-			transition: transform 0.2s ease, box-shadow 0.2s ease;
+			transition:
+				transform 0.2s ease,
+				box-shadow 0.2s ease;
 			box-shadow: 0 4px 20px rgba(118, 17, 166, 0.3);
 		}
 
@@ -542,15 +572,27 @@ const languages = [...langSet];
 			transform: scale(1.05);
 		}
 
-		.tag-sm { font-size: var(--text-sm); }
-		.tag-md { font-size: var(--text-md); padding: 0.5rem 1.2rem; }
-		.tag-lg { font-size: var(--text-lg); padding: 0.6rem 1.4rem; background: var(--gray-700); color: var(--gray-100); }
+		.tag-sm {
+			font-size: var(--text-sm);
+		}
+		.tag-md {
+			font-size: var(--text-md);
+			padding: 0.5rem 1.2rem;
+		}
+		.tag-lg {
+			font-size: var(--text-lg);
+			padding: 0.6rem 1.4rem;
+			background: var(--gray-700);
+			color: var(--gray-100);
+		}
 
 		/* ===== Reveal Animation ===== */
 		.reveal {
 			opacity: 0;
 			transform: translateY(40px);
-			transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+			transition:
+				opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+				transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 		}
 
 		.reveal.visible {

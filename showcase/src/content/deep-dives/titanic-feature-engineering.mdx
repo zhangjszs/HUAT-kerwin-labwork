@@ -1,9 +1,9 @@
 ---
-title: "Titanic 生存预测：特征工程决定模型上限"
-description: "以 Titanic 数据集为例，深入探讨数据清洗、缺失值处理、特征构造与选择的全流程。展示如何从原始数据中提取高信息量的特征，以及为什么特征工程比模型调参更能提升性能。"
-date: "2023-09"
-tags: ["Machine Learning", "Python", "Feature Engineering", "EDA"]
-relatedProject: "ml-practice"
+title: 'Titanic 生存预测：特征工程决定模型上限'
+description: '以 Titanic 数据集为例，深入探讨数据清洗、缺失值处理、特征构造与选择的全流程。展示如何从原始数据中提取高信息量的特征，以及为什么特征工程比模型调参更能提升性能。'
+date: '2023-09'
+tags: ['Machine Learning', 'Python', 'Feature Engineering', 'EDA']
+relatedProject: 'ml-practice'
 ---
 
 ## 模型是上限，特征工程是逼近上限的方法
@@ -56,6 +56,7 @@ df['FamilySize'] = df['SibSp'] + df['Parch'] + 1
 ```
 
 FamilySize 揭示了有趣的非线性关系：
+
 - 单独旅行（FamilySize=1）的生存率较低
 - 小家庭（2-4人）生存率最高
 - 大家庭（>4人）生存率再次下降
@@ -68,7 +69,7 @@ FamilySize 揭示了有趣的非线性关系：
 
 ```python
 df['FareBin'] = pd.qcut(df['Fare'], 4, labels=['Low', 'Medium', 'High', 'VeryHigh'])
-df['AgeBin'] = pd.cut(df['Age'], bins=[0, 12, 18, 35, 60, 100], 
+df['AgeBin'] = pd.cut(df['Age'], bins=[0, 12, 18, 35, 60, 100],
                        labels=['Child', 'Teen', 'Adult', 'Middle', 'Senior'])
 ```
 
@@ -81,30 +82,30 @@ df['AgeBin'] = pd.cut(df['Age'], bins=[0, 12, 18, 35, 60, 100],
 
 最终进入模型的特征：
 
-| 特征 | 来源 | 类型 |
-|------|------|------|
-| Pclass | 原始 | 有序类别 |
-| Sex | 原始 | 二值 |
-| Age | 填充后 | 连续 |
-| Fare | 填充后 | 连续 |
-| Embarked | 填充后 | 类别 |
-| Title | Name 提取 | 类别 |
-| FamilySize | 组合 | 连续 |
-| IsAlone | FamilySize 衍生 | 二值 |
-| HasCabin | Cabin 衍生 | 二值 |
-| AgeBin | Age 分箱 | 有序类别 |
-| FareBin | Fare 分箱 | 有序类别 |
+| 特征       | 来源            | 类型     |
+| ---------- | --------------- | -------- |
+| Pclass     | 原始            | 有序类别 |
+| Sex        | 原始            | 二值     |
+| Age        | 填充后          | 连续     |
+| Fare       | 填充后          | 连续     |
+| Embarked   | 填充后          | 类别     |
+| Title      | Name 提取       | 类别     |
+| FamilySize | 组合            | 连续     |
+| IsAlone    | FamilySize 衍生 | 二值     |
+| HasCabin   | Cabin 衍生      | 二值     |
+| AgeBin     | Age 分箱        | 有序类别 |
+| FareBin    | Fare 分箱       | 有序类别 |
 
 ## 为什么特征工程比调参更重要
 
 通过对比实验验证：
 
-| 配置 | CV 准确率 |
-|------|----------|
-| 默认特征 + 默认参数 | 78.2% |
-| 默认特征 + GridSearch 调参 | 79.5% |
-| 工程特征 + 默认参数 | 84.1% |
-| 工程特征 + GridSearch 调参 | 85.3% |
+| 配置                       | CV 准确率 |
+| -------------------------- | --------- |
+| 默认特征 + 默认参数        | 78.2%     |
+| 默认特征 + GridSearch 调参 | 79.5%     |
+| 工程特征 + 默认参数        | 84.1%     |
+| 工程特征 + GridSearch 调参 | 85.3%     |
 
 特征工程带来 **+5.9%** 提升，模型调参在好特征基础上仅带来 **+1.2%** 提升。
 

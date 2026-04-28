@@ -1,0 +1,70 @@
+---
+import Icon from './Icon.astro';
+---
+
+<button class="back-to-top" aria-label="Back to top" hidden>
+	<Icon icon="arrow-up" size="1.2em" />
+</button>
+
+<script>
+	const btn = document.querySelector('.back-to-top');
+	if (btn) {
+		const toggleVisibility = () => {
+			if (window.scrollY > 400) {
+				btn.removeAttribute('hidden');
+				(btn as HTMLElement).classList.add('visible');
+			} else {
+				(btn as HTMLElement).classList.remove('visible');
+			}
+		};
+
+		window.addEventListener('scroll', toggleVisibility, { passive: true });
+		toggleVisibility();
+
+		btn.addEventListener('click', () => {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		});
+	}
+</script>
+
+<style>
+	.back-to-top {
+		position: fixed;
+		bottom: 2rem;
+		right: 2rem;
+		z-index: 9999;
+		width: 3rem;
+		height: 3rem;
+		border-radius: 50%;
+		border: 1px solid var(--gray-700);
+		background: var(--gray-999);
+		color: var(--gray-200);
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: var(--shadow-lg);
+		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		opacity: 0;
+		transform: translateY(20px) scale(0.9);
+		pointer-events: none;
+	}
+
+	.back-to-top.visible {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+		pointer-events: auto;
+	}
+
+	.back-to-top:hover {
+		background: var(--accent-regular);
+		color: var(--gray-999);
+		border-color: var(--accent-regular);
+		transform: translateY(-4px);
+		box-shadow: 0 8px 24px rgba(118, 17, 166, 0.35);
+	}
+
+	.back-to-top:active {
+		transform: translateY(-2px) scale(0.95);
+	}
+</style>

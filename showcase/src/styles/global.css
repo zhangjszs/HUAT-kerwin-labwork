@@ -30,30 +30,20 @@
 	--gradient-stop-2: var(--accent-regular);
 	--gradient-stop-3: var(--accent-dark);
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 150%);
-	--gradient-accent: linear-gradient(
-		150deg,
-		var(--gradient-stop-1),
-		var(--gradient-stop-2),
-		var(--gradient-stop-3)
-	);
-	--gradient-accent-orange: linear-gradient(
-		150deg,
-		#ca7879,
-		var(--accent-regular),
-		var(--accent-dark)
-	);
+	--gradient-accent: linear-gradient(150deg, var(--gradient-stop-1), var(--gradient-stop-2), var(--gradient-stop-3));
+	--gradient-accent-orange: linear-gradient(150deg, #ca7879, var(--accent-regular), var(--accent-dark));
 	--gradient-stroke: linear-gradient(180deg, var(--gray-900), var(--gray-700));
 
 	/* Shadows */
 	--shadow-sm:
-		0px 6px 3px rgba(9, 11, 17, 0.01), 0px 4px 2px rgba(9, 11, 17, 0.01),
-		0px 2px 2px rgba(9, 11, 17, 0.02), 0px 0px 1px rgba(9, 11, 17, 0.03);
+		0px 6px 3px rgba(9, 11, 17, 0.01), 0px 4px 2px rgba(9, 11, 17, 0.01), 0px 2px 2px rgba(9, 11, 17, 0.02),
+		0px 0px 1px rgba(9, 11, 17, 0.03);
 	--shadow-md:
-		0px 28px 11px rgba(9, 11, 17, 0.01), 0px 16px 10px rgba(9, 11, 17, 0.03),
-		0px 7px 7px rgba(9, 11, 17, 0.05), 0px 2px 4px rgba(9, 11, 17, 0.06);
+		0px 28px 11px rgba(9, 11, 17, 0.01), 0px 16px 10px rgba(9, 11, 17, 0.03), 0px 7px 7px rgba(9, 11, 17, 0.05),
+		0px 2px 4px rgba(9, 11, 17, 0.06);
 	--shadow-lg:
-		0px 62px 25px rgba(9, 11, 17, 0.01), 0px 35px 21px rgba(9, 11, 17, 0.05),
-		0px 16px 16px rgba(9, 11, 17, 0.1), 0px 4px 9px rgba(9, 11, 17, 0.12);
+		0px 62px 25px rgba(9, 11, 17, 0.01), 0px 35px 21px rgba(9, 11, 17, 0.05), 0px 16px 16px rgba(9, 11, 17, 0.1),
+		0px 4px 9px rgba(9, 11, 17, 0.12);
 
 	/* Text Sizes */
 	--text-sm: 0.875rem;
@@ -68,9 +58,9 @@
 
 	/* Fonts */
 	--font-system:
-		system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-		"Open Sans", "Helvetica Neue", sans-serif;
-	--font-body: "Public Sans", var(--font-system);
+		system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+		'Helvetica Neue', sans-serif;
+	--font-body: 'Public Sans', var(--font-system);
 	--font-brand: Rubik, var(--font-system);
 
 	/* Transitions */
@@ -103,17 +93,12 @@
 
 	--gradient-stop-1: #4c11c6;
 	--gradient-subtle: linear-gradient(150deg, var(--gray-900) 19%, var(--gray-999) 81%);
-	--gradient-accent-orange: linear-gradient(
-		150deg,
-		#ca7879,
-		var(--accent-regular),
-		var(--accent-light)
-	);
+	--gradient-accent-orange: linear-gradient(150deg, #ca7879, var(--accent-regular), var(--accent-light));
 	--gradient-stroke: linear-gradient(180deg, var(--gray-600), var(--gray-800));
 
 	--shadow-sm:
-		0px 6px 3px rgba(255, 255, 255, 0.01), 0px 4px 2px rgba(255, 255, 255, 0.01),
-		0px 2px 2px rgba(255, 255, 255, 0.02), 0px 0px 1px rgba(255, 255, 255, 0.03);
+		0px 6px 3px rgba(255, 255, 255, 0.01), 0px 4px 2px rgba(255, 255, 255, 0.01), 0px 2px 2px rgba(255, 255, 255, 0.02),
+		0px 0px 1px rgba(255, 255, 255, 0.03);
 	--shadow-md:
 		0px 28px 11px rgba(255, 255, 255, 0.01), 0px 16px 10px rgba(255, 255, 255, 0.03),
 		0px 7px 7px rgba(255, 255, 255, 0.05), 0px 2px 4px rgba(255, 255, 255, 0.06);
@@ -232,6 +217,170 @@ h5 {
 }
 .gap-48 {
 	gap: 12rem;
+}
+
+/* ===== Code Block Copy Button ===== */
+.copy-code-btn {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	padding: 0.4rem 0.5rem;
+	background: var(--gray-800);
+	color: var(--gray-400);
+	border: 1px solid var(--gray-700);
+	border-radius: 0.375rem;
+	cursor: pointer;
+	opacity: 0;
+	transition:
+		opacity 0.2s,
+		background 0.2s,
+		color 0.2s,
+		border-color 0.2s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+pre:hover .copy-code-btn,
+.copy-code-btn:focus {
+	opacity: 1;
+}
+
+.copy-code-btn:hover {
+	background: var(--accent-regular);
+	color: var(--gray-999);
+	border-color: var(--accent-regular);
+}
+
+.copy-code-btn.copied {
+	background: #22c55e;
+	color: white;
+	border-color: #22c55e;
+	opacity: 1;
+}
+
+/* ===== Image Fade-in ===== */
+.img-fade {
+	opacity: 0;
+	transform: scale(0.98);
+	transition:
+		opacity 0.6s ease,
+		transform 0.6s ease;
+}
+
+.img-fade.loaded {
+	opacity: 1;
+	transform: scale(1);
+}
+
+/* ===== Reveal Stagger ===== */
+.reveal .grid > :nth-child(1),
+.reveal .gallery > :nth-child(1),
+.reveal .challenges-list > :nth-child(1),
+.reveal .lessons-list > :nth-child(1),
+.reveal .skills-grid > :nth-child(1),
+.reveal .timeline > :nth-child(1) {
+	transition-delay: 0ms;
+}
+
+.reveal .grid > :nth-child(2),
+.reveal .gallery > :nth-child(2),
+.reveal .challenges-list > :nth-child(2),
+.reveal .lessons-list > :nth-child(2),
+.reveal .skills-grid > :nth-child(2),
+.reveal .timeline > :nth-child(2) {
+	transition-delay: 80ms;
+}
+
+.reveal .grid > :nth-child(3),
+.reveal .gallery > :nth-child(3),
+.reveal .challenges-list > :nth-child(3),
+.reveal .lessons-list > :nth-child(3),
+.reveal .skills-grid > :nth-child(3),
+.reveal .timeline > :nth-child(3) {
+	transition-delay: 160ms;
+}
+
+.reveal .grid > :nth-child(4),
+.reveal .gallery > :nth-child(4),
+.reveal .challenges-list > :nth-child(4),
+.reveal .lessons-list > :nth-child(4),
+.reveal .skills-grid > :nth-child(4),
+.reveal .timeline > :nth-child(4) {
+	transition-delay: 240ms;
+}
+
+.reveal .grid > :nth-child(5),
+.reveal .gallery > :nth-child(5),
+.reveal .challenges-list > :nth-child(5),
+.reveal .lessons-list > :nth-child(5),
+.reveal .skills-grid > :nth-child(5),
+.reveal .timeline > :nth-child(5) {
+	transition-delay: 320ms;
+}
+
+.reveal .grid > :nth-child(6),
+.reveal .gallery > :nth-child(6),
+.reveal .challenges-list > :nth-child(6),
+.reveal .lessons-list > :nth-child(6),
+.reveal .skills-grid > :nth-child(6),
+.reveal .timeline > :nth-child(6) {
+	transition-delay: 400ms;
+}
+
+.reveal .grid > :nth-child(7),
+.reveal .gallery > :nth-child(7) {
+	transition-delay: 480ms;
+}
+.reveal .grid > :nth-child(8),
+.reveal .gallery > :nth-child(8) {
+	transition-delay: 560ms;
+}
+.reveal .grid > :nth-child(9),
+.reveal .gallery > :nth-child(9) {
+	transition-delay: 640ms;
+}
+.reveal .grid > :nth-child(10),
+.reveal .gallery > :nth-child(10) {
+	transition-delay: 720ms;
+}
+.reveal .grid > :nth-child(11),
+.reveal .gallery > :nth-child(11) {
+	transition-delay: 800ms;
+}
+.reveal .grid > :nth-child(12),
+.reveal .gallery > :nth-child(12) {
+	transition-delay: 880ms;
+}
+
+.reveal .grid > *,
+.reveal .gallery > *,
+.reveal .challenges-list > *,
+.reveal .lessons-list > *,
+.reveal .skills-grid > *,
+.reveal .timeline > * {
+	opacity: 0;
+	transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible .grid > *,
+.reveal.visible .gallery > *,
+.reveal.visible .challenges-list > *,
+.reveal.visible .lessons-list > *,
+.reveal.visible .skills-grid > *,
+.reveal.visible .timeline > * {
+	opacity: 1;
+}
+
+/* ===== Smooth scroll ===== */
+html {
+	scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
 }
 
 @media (min-width: 50em) {

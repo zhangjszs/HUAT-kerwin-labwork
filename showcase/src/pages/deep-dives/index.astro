@@ -10,7 +10,10 @@ const sortedArticles = articles.sort((a, b) => {
 });
 ---
 
-<BaseLayout title="Deep Dives | HUAT Labwork" description="In-depth technical write-ups on architecture, algorithms, and engineering decisions.">
+<BaseLayout
+	title="Deep Dives | HUAT Labwork"
+	description="In-depth technical write-ups on architecture, algorithms, and engineering decisions."
+>
 	<section class="hero-section">
 		<div class="hero-blobs" aria-hidden="true">
 			<div class="blob blob-1"></div>
@@ -23,8 +26,8 @@ const sortedArticles = articles.sort((a, b) => {
 					Deep <span class="gradient-text">Dives</span>
 				</h1>
 				<p class="hero-tagline">
-					In-depth articles on architecture, algorithms, and engineering decisions.
-					Written while building real projects.
+					In-depth articles on architecture, algorithms, and engineering decisions. Written while building real
+					projects.
 				</p>
 			</div>
 		</div>
@@ -32,43 +35,48 @@ const sortedArticles = articles.sort((a, b) => {
 
 	<main class="wrapper">
 		<div class="articles-grid">
-			{sortedArticles.map((article) => (
-				<article class="article-card reveal">
-					<div class="article-meta">
-						{article.data.date && (
-							<span class="article-date">
-								<Icon icon="calendar" size="0.9em" />
-								{article.data.date}
-							</span>
+			{
+				sortedArticles.map((article) => (
+					<article class="article-card reveal">
+						<div class="article-meta">
+							{article.data.date && (
+								<span class="article-date">
+									<Icon icon="calendar" size="0.9em" />
+									{article.data.date}
+								</span>
+							)}
+							{article.data.tags.map((tag) => (
+								<span class="article-tag">{tag}</span>
+							))}
+						</div>
+						<h2 class="article-title">
+							<a href={`/deep-dives/${article.id}`}>{article.data.title}</a>
+						</h2>
+						<p class="article-desc">{article.data.description}</p>
+						{article.data.relatedProject && (
+							<a href={`/projects/${article.data.relatedProject}`} class="related-link">
+								<Icon icon="arrow-right" size="0.9em" />
+								Related Project
+							</a>
 						)}
-						{article.data.tags.map((tag) => (
-							<span class="article-tag">{tag}</span>
-						))}
-					</div>
-					<h2 class="article-title">
-						<a href={`/deep-dives/${article.id}`}>{article.data.title}</a>
-					</h2>
-					<p class="article-desc">{article.data.description}</p>
-					{article.data.relatedProject && (
-						<a href={`/projects/${article.data.relatedProject}`} class="related-link">
-							<Icon icon="arrow-right" size="0.9em" />
-							Related Project
-						</a>
-					)}
-				</article>
-			))}
+					</article>
+				))
+			}
 		</div>
 	</main>
 
 	<script>
-		const revealObserver = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					entry.target.classList.add('visible');
-					revealObserver.unobserve(entry.target);
-				}
-			});
-		}, { threshold: 0.1 });
+		const revealObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('visible');
+						revealObserver.unobserve(entry.target);
+					}
+				});
+			},
+			{ threshold: 0.1 }
+		);
 
 		document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 	</script>
@@ -114,9 +122,16 @@ const sortedArticles = articles.sort((a, b) => {
 		}
 
 		@keyframes float {
-			0%, 100% { transform: translate(0, 0) scale(1); }
-			33% { transform: translate(20px, -20px) scale(1.05); }
-			66% { transform: translate(-15px, 15px) scale(0.95); }
+			0%,
+			100% {
+				transform: translate(0, 0) scale(1);
+			}
+			33% {
+				transform: translate(20px, -20px) scale(1.05);
+			}
+			66% {
+				transform: translate(-15px, 15px) scale(0.95);
+			}
 		}
 
 		.hero-content {
@@ -175,7 +190,10 @@ const sortedArticles = articles.sort((a, b) => {
 			background: var(--gray-900);
 			border: 1px solid var(--gray-800);
 			border-radius: 1rem;
-			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+			transition:
+				transform 0.3s ease,
+				box-shadow 0.3s ease,
+				border-color 0.3s ease;
 		}
 
 		.article-card:hover {
@@ -250,7 +268,9 @@ const sortedArticles = articles.sort((a, b) => {
 		.reveal {
 			opacity: 0;
 			transform: translateY(40px);
-			transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+			transition:
+				opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+				transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 		}
 
 		.reveal.visible {

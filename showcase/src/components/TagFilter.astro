@@ -12,9 +12,13 @@ const uniqueTags = [...new Set(tags)].sort();
 	<span class="label">Filter:</span>
 	<div class="tags">
 		<button class="tag-btn active" data-tag="all">All</button>
-		{uniqueTags.map((tag) => (
-			<button class="tag-btn" data-tag={tag}>{tag}</button>
-		))}
+		{
+			uniqueTags.map((tag) => (
+				<button class="tag-btn" data-tag={tag}>
+					{tag}
+				</button>
+			))
+		}
 	</div>
 </div>
 

@@ -17,7 +17,24 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
-const { title, description, repoPath, tags, keywords, techStack, screenshotsDir, codeSnippets, demoUrl, externalDeployUrl, date, difficulty, status, architecture, challenges, lessons } = project.data;
+const {
+	title,
+	description,
+	repoPath,
+	tags,
+	keywords,
+	techStack,
+	screenshotsDir,
+	codeSnippets,
+	demoUrl,
+	externalDeployUrl,
+	date,
+	difficulty,
+	status,
+	architecture,
+	challenges,
+	lessons,
+} = project.data;
 ---
 
 <BaseLayout title={`${title} | HUAT Labwork`} description={description}>
@@ -41,35 +58,44 @@ const { title, description, repoPath, tags, keywords, techStack, screenshotsDir,
 				<div class="hero-meta">
 					{difficulty && <span class="badge difficulty">{difficulty}</span>}
 					{status && <span class={`badge status status-${status.toLowerCase().replace(' ', '-')}`}>{status}</span>}
-					{date && (
-						<span class="meta-item">
-							<Icon icon="calendar" size="1em" />
-							{date}
-						</span>
-					)}
+					{
+						date && (
+							<span class="meta-item">
+								<Icon icon="calendar" size="1em" />
+								{date}
+							</span>
+						)
+					}
 				</div>
 				<div class="hero-tech">
-					{techStack.map((tech) => (
-						<span class="tech-badge">{tech}</span>
-					))}
+					{techStack.map((tech) => <span class="tech-badge">{tech}</span>)}
 				</div>
 				<div class="hero-actions">
-					<a class="btn btn-primary" href={`https://github.com/kerwin-lab/HUAT-kerwin-labwork/tree/main/${repoPath}`} target="_blank" rel="noopener">
+					<a
+						class="btn btn-primary"
+						href={`https://github.com/kerwin-lab/HUAT-kerwin-labwork/tree/main/${repoPath}`}
+						target="_blank"
+						rel="noopener"
+					>
 						<Icon icon="github-logo" size="1.2em" />
 						View Source
 					</a>
-					{demoUrl && (
-						<a class="btn btn-secondary" href={demoUrl} target="_blank" rel="noopener">
-							<Icon icon="rocket-launch" size="1.2em" />
-							Live Demo
-						</a>
-					)}
-					{externalDeployUrl && (
-						<a class="btn btn-secondary" href={externalDeployUrl} target="_blank" rel="noopener">
-							<Icon icon="globe" size="1.2em" />
-							Deployed
-						</a>
-					)}
+					{
+						demoUrl && (
+							<a class="btn btn-secondary" href={demoUrl} target="_blank" rel="noopener">
+								<Icon icon="rocket-launch" size="1.2em" />
+								Live Demo
+							</a>
+						)
+					}
+					{
+						externalDeployUrl && (
+							<a class="btn btn-secondary" href={externalDeployUrl} target="_blank" rel="noopener">
+								<Icon icon="globe" size="1.2em" />
+								Deployed
+							</a>
+						)
+					}
 				</div>
 			</div>
 		</header>
@@ -83,17 +109,13 @@ const { title, description, repoPath, tags, keywords, techStack, screenshotsDir,
 					<div class="overview-card">
 						<h3><Icon icon="list" size="1.2em" /> Tags</h3>
 						<div class="tag-list">
-							{tags.map((tag) => (
-								<span class="tag-pill">{tag}</span>
-							))}
+							{tags.map((tag) => <span class="tag-pill">{tag}</span>)}
 						</div>
 					</div>
 					<div class="overview-card">
 						<h3><Icon icon="magnifying-glass" size="1.2em" /> Keywords</h3>
 						<div class="keyword-list">
-							{keywords.map((kw) => (
-								<span class="keyword-pill">{kw}</span>
-							))}
+							{keywords.map((kw) => <span class="keyword-pill">{kw}</span>)}
 						</div>
 					</div>
 					<div class="overview-card wide">
@@ -112,47 +134,55 @@ const { title, description, repoPath, tags, keywords, techStack, screenshotsDir,
 		</section>
 
 		<!-- Challenges -->
-		{challenges && challenges.length > 0 && (
-			<section class="section section-alt reveal">
-				<div class="wrapper">
-					<span class="section-eyebrow">Problems Solved</span>
-					<h2 class="section-title">Challenges <span class="gradient-text">&amp; Solutions</span></h2>
-					<div class="challenges-list">
-						{challenges.map((challenge, i) => (
-							<div class="challenge-item">
-								<div class="challenge-icon">
-									<Icon icon="warning" size="1.2em" />
+		{
+			challenges && challenges.length > 0 && (
+				<section class="section section-alt reveal">
+					<div class="wrapper">
+						<span class="section-eyebrow">Problems Solved</span>
+						<h2 class="section-title">
+							Challenges <span class="gradient-text">&amp; Solutions</span>
+						</h2>
+						<div class="challenges-list">
+							{challenges.map((challenge, i) => (
+								<div class="challenge-item">
+									<div class="challenge-icon">
+										<Icon icon="warning" size="1.2em" />
+									</div>
+									<div class="challenge-content">
+										<span class="challenge-num">{String(i + 1).padStart(2, '0')}</span>
+										<p>{challenge}</p>
+									</div>
 								</div>
-								<div class="challenge-content">
-									<span class="challenge-num">{String(i + 1).padStart(2, '0')}</span>
-									<p>{challenge}</p>
-								</div>
-							</div>
-						))}
+							))}
+						</div>
 					</div>
-				</div>
-			</section>
-		)}
+				</section>
+			)
+		}
 
 		<!-- Lessons -->
-		{lessons && lessons.length > 0 && (
-			<section class="section reveal">
-				<div class="wrapper">
-					<span class="section-eyebrow">Reflections</span>
-					<h2 class="section-title">Key <span class="gradient-text">Takeaways</span></h2>
-					<div class="lessons-list">
-						{lessons.map((lesson) => (
-							<div class="lesson-item">
-								<div class="lesson-icon">
-									<Icon icon="check-circle" size="1.4em" />
+		{
+			lessons && lessons.length > 0 && (
+				<section class="section reveal">
+					<div class="wrapper">
+						<span class="section-eyebrow">Reflections</span>
+						<h2 class="section-title">
+							Key <span class="gradient-text">Takeaways</span>
+						</h2>
+						<div class="lessons-list">
+							{lessons.map((lesson) => (
+								<div class="lesson-item">
+									<div class="lesson-icon">
+										<Icon icon="check-circle" size="1.4em" />
+									</div>
+									<p>{lesson}</p>
 								</div>
-								<p>{lesson}</p>
-							</div>
-						))}
+							))}
+						</div>
 					</div>
-				</div>
-			</section>
-		)}
+				</section>
+			)
+		}
 
 		<!-- Project Navigation -->
 		<nav class="project-nav">
@@ -166,14 +196,17 @@ const { title, description, repoPath, tags, keywords, techStack, screenshotsDir,
 	</article>
 
 	<script>
-		const revealObserver = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					entry.target.classList.add('visible');
-					revealObserver.unobserve(entry.target);
-				}
-			});
-		}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+		const revealObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('visible');
+						revealObserver.unobserve(entry.target);
+					}
+				});
+			},
+			{ threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+		);
 
 		document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 	</script>
@@ -224,9 +257,16 @@ const { title, description, repoPath, tags, keywords, techStack, screenshotsDir,
 		}
 
 		@keyframes float {
-			0%, 100% { transform: translate(0, 0) scale(1); }
-			33% { transform: translate(20px, -20px) scale(1.05); }
-			66% { transform: translate(-15px, 15px) scale(0.95); }
+			0%,
+			100% {
+				transform: translate(0, 0) scale(1);
+			}
+			33% {
+				transform: translate(20px, -20px) scale(1.05);
+			}
+			66% {
+				transform: translate(-15px, 15px) scale(0.95);
+			}
 		}
 
 		.hero-content {
@@ -432,7 +472,10 @@ const { title, description, repoPath, tags, keywords, techStack, screenshotsDir,
 			background: var(--gray-999);
 			border: 1px solid var(--gray-800);
 			border-radius: 1rem;
-			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+			transition:
+				transform 0.3s ease,
+				box-shadow 0.3s ease,
+				border-color 0.3s ease;
 		}
 
 		.overview-card:hover {
@@ -465,7 +508,8 @@ const { title, description, repoPath, tags, keywords, techStack, screenshotsDir,
 			line-height: 1.6;
 		}
 
-		.tag-list, .keyword-list {
+		.tag-list,
+		.keyword-list {
 			display: flex;
 			flex-wrap: wrap;
 			gap: 0.5rem;
@@ -556,7 +600,10 @@ const { title, description, repoPath, tags, keywords, techStack, screenshotsDir,
 			background: var(--gray-999);
 			border: 1px solid var(--gray-800);
 			border-radius: 1rem;
-			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+			transition:
+				transform 0.3s ease,
+				box-shadow 0.3s ease,
+				border-color 0.3s ease;
 		}
 
 		.challenge-item:hover {
@@ -618,7 +665,10 @@ const { title, description, repoPath, tags, keywords, techStack, screenshotsDir,
 			background: var(--gray-900);
 			border: 1px solid var(--gray-800);
 			border-radius: 0.75rem;
-			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+			transition:
+				transform 0.3s ease,
+				box-shadow 0.3s ease,
+				border-color 0.3s ease;
 		}
 
 		.lesson-item:hover {
@@ -668,7 +718,9 @@ const { title, description, repoPath, tags, keywords, techStack, screenshotsDir,
 		.reveal {
 			opacity: 0;
 			transform: translateY(40px);
-			transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+			transition:
+				opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+				transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 		}
 
 		.reveal.visible {

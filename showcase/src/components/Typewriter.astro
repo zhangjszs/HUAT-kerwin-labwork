@@ -1,0 +1,85 @@
+---
+interface Props {
+	text: string;
+	speed?: number;
+	class?: string;
+}
+
+const { text, speed = 80, class: className = '' } = Astro.props;
+---
+
+<span class={`typewriter ${className}`} data-text={text} data-speed={speed}>
+	<span class="typewriter-text"></span>
+	<span class="typewriter-cursor" aria-hidden="true">|</span>
+</span>
+
+<script>
+	const typewriters = document.querySelectorAll('.typewriter');
+
+	typewriters.forEach((el) => {
+		const text = el.getAttribute('data-text') || '';
+		const speed = parseInt(el.getAttribute('data-speed') || '80', 10);
+		const textEl = el.querySelector('.typewriter-text');
+		const cursorEl = el.querySelector('.typewriter-cursor');
+		if (!textEl || !cursorEl) return;
+
+		let i = 0;
+		let isDeleting = false;
+		let pauseEnd = 0;
+
+		let lastTypeTime = 0;
+
+		const type = (timestamp: number) => {
+			const now = Date.now();
+			if (now < pauseEnd) {
+				requestAnimationFrame(type);
+				return;
+			}
+
+			if (!lastTypeTime) lastTypeTime = timestamp;
+			const elapsed = timestamp - lastTypeTime;
+
+			if (elapsed > speed) {
+				lastTypeTime = timestamp;
+				if (!isDeleting) {
+					textEl.textContent = text.slice(0, i + 1);
+					i++;
+					if (i >= text.length) {
+						isDeleting = false;
+						pauseEnd = now + 3000; // pause at end
+						i = 0; // loop back
+					}
+				}
+			}
+			requestAnimationFrame(type);
+		};
+
+		// Start with a delay
+		setTimeout(() => {
+			requestAnimationFrame(type);
+		}, 600);
+	});
+</script>
+
+<style>
+	.typewriter {
+		display: inline;
+	}
+
+	.typewriter-cursor {
+		display: inline-block;
+		color: var(--accent-regular);
+		animation: blink 1s step-end infinite;
+		margin-left: 2px;
+	}
+
+	@keyframes blink {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0;
+		}
+	}
+</style>

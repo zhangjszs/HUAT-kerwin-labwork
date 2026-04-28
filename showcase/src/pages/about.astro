@@ -39,8 +39,8 @@ const timeline = [
 					About <span class="gradient-text">Me</span>
 				</h1>
 				<p class="hero-tagline">
-					CS student at Hubei University of Automotive Technology.
-					Building things, breaking things, and learning in public.
+					CS student at Hubei University of Automotive Technology. Building things, breaking things, and learning in
+					public.
 				</p>
 			</div>
 		</div>
@@ -54,31 +54,31 @@ const timeline = [
 					<span class="section-eyebrow">Background</span>
 					<h2 class="section-title">Who I <span class="gradient-text">Am</span></h2>
 					<p>
-						I'm Kerwin, a Computer Science student passionate about software engineering,
-						data science, and mobile development. This site collects my coursework,
-						lab experiments, and side projects from HUAT.
+						I'm Kerwin, a Computer Science student passionate about software engineering, data science, and mobile
+						development. This site collects my coursework, lab experiments, and side projects from HUAT.
 					</p>
 					<p>
-						I believe in learning by doing. Every project here represents a real problem
-						I tackled, a technology I explored, or a concept I struggled to understand
-						and eventually mastered.
+						I believe in learning by doing. Every project here represents a real problem I tackled, a technology I
+						explored, or a concept I struggled to understand and eventually mastered.
 					</p>
 				</div>
 				<div class="timeline">
-					{timeline.map((item) => (
-						<div class="timeline-item">
-							<div class="timeline-marker">
-								<div class="timeline-dot"></div>
-								<div class="timeline-line"></div>
+					{
+						timeline.map((item) => (
+							<div class="timeline-item">
+								<div class="timeline-marker">
+									<div class="timeline-dot" />
+									<div class="timeline-line" />
+								</div>
+								<div class="timeline-content">
+									<span class="timeline-period">{item.period}</span>
+									<h3>{item.title}</h3>
+									<p class="timeline-org">{item.org}</p>
+									<p>{item.desc}</p>
+								</div>
 							</div>
-							<div class="timeline-content">
-								<span class="timeline-period">{item.period}</span>
-								<h3>{item.title}</h3>
-								<p class="timeline-org">{item.org}</p>
-								<p>{item.desc}</p>
-							</div>
-						</div>
-					))}
+						))
+					}
 				</div>
 			</div>
 		</section>
@@ -88,29 +88,34 @@ const timeline = [
 			<span class="section-eyebrow">Capabilities</span>
 			<h2 class="section-title">Tech <span class="gradient-text">Stack</span></h2>
 			<div class="skills-grid">
-				{skills.map((group) => (
-					<div class="skill-card">
-						<h3>{group.category}</h3>
-						<div class="skill-items">
-							{group.items.map((item) => (
-								<span class="skill-item">{item}</span>
-							))}
+				{
+					skills.map((group) => (
+						<div class="skill-card">
+							<h3>{group.category}</h3>
+							<div class="skill-items">
+								{group.items.map((item) => (
+									<span class="skill-item">{item}</span>
+								))}
+							</div>
 						</div>
-					</div>
-				))}
+					))
+				}
 			</div>
 		</section>
 	</main>
 
 	<script>
-		const revealObserver = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					entry.target.classList.add('visible');
-					revealObserver.unobserve(entry.target);
-				}
-			});
-		}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+		const revealObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('visible');
+						revealObserver.unobserve(entry.target);
+					}
+				});
+			},
+			{ threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+		);
 
 		document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 	</script>
@@ -157,9 +162,16 @@ const timeline = [
 		}
 
 		@keyframes float {
-			0%, 100% { transform: translate(0, 0) scale(1); }
-			33% { transform: translate(20px, -20px) scale(1.05); }
-			66% { transform: translate(-15px, 15px) scale(0.95); }
+			0%,
+			100% {
+				transform: translate(0, 0) scale(1);
+			}
+			33% {
+				transform: translate(20px, -20px) scale(1.05);
+			}
+			66% {
+				transform: translate(-15px, 15px) scale(0.95);
+			}
 		}
 
 		.hero-content {
@@ -336,7 +348,10 @@ const timeline = [
 			background: var(--gray-999);
 			border: 1px solid var(--gray-800);
 			border-radius: 1rem;
-			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+			transition:
+				transform 0.3s ease,
+				box-shadow 0.3s ease,
+				border-color 0.3s ease;
 		}
 
 		.skill-card:hover {
@@ -380,7 +395,9 @@ const timeline = [
 		.reveal {
 			opacity: 0;
 			transform: translateY(40px);
-			transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+			transition:
+				opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+				transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 		}
 
 		.reveal.visible {

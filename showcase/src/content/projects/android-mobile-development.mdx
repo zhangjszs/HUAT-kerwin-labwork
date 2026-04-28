@@ -1,27 +1,29 @@
 ---
-title: "Android Course Projects"
-description: "Android 移动应用开发课程实验与期末项目，涵盖 UI 组件、Activity 生命周期、数据持久化和网络请求。"
-repoPath: "android-mobile-development"
-tags: ["Android", "Java", "Mobile", "Coursework"]
-keywords: ["Activity", "RecyclerView", "SQLite", "Intent", "Fragment", "Retrofit"]
-techStack: ["Java", "Android SDK", "Gradle", "SQLite", "XML"]
-screenshotsDir: "android-mobile-development"
-codeSnippets: ["android-mobile-development/GloginActivity.kt"]
+title: 'Android Course Projects'
+description: 'Android 移动应用开发课程实验与期末项目，涵盖 UI 组件、Activity 生命周期、数据持久化和网络请求。'
+repoPath: 'android-mobile-development'
+tags: ['Android', 'Java', 'Mobile', 'Coursework']
+keywords: ['Activity', 'RecyclerView', 'SQLite', 'Intent', 'Fragment', 'Retrofit']
+techStack: ['Java', 'Android SDK', 'Gradle', 'SQLite', 'XML']
+screenshotsDir: 'android-mobile-development'
+codeSnippets: ['android-mobile-development/GloginActivity.kt']
 featured: false
-date: "2023"
-difficulty: "入门"
-status: "Completed"
-architecture: "Android 经典组件化架构：Activity 作为页面容器，Fragment 实现模块化 UI，RecyclerView 展示列表数据，SQLite 本地存储，SharedPreferences 保存配置。"
-challenges: [
-  "RecyclerView 多类型 Item 的适配器设计与 ViewHolder 复用",
-  "Activity 生命周期与 Fragment 通信的数据一致性保障",
-  "SQLite 数据库升级策略与数据迁移"
-]
-lessons: [
-  "理解了 Android 四大组件的职责划分",
-  "掌握了 Material Design 组件和自定义 View 的基础",
-  "学会了处理 Android 版本的兼容性差异"
-]
+date: '2023'
+difficulty: '入门'
+status: 'Completed'
+architecture: 'Android 经典组件化架构：Activity 作为页面容器，Fragment 实现模块化 UI，RecyclerView 展示列表数据，SQLite 本地存储，SharedPreferences 保存配置。'
+challenges:
+  [
+    'RecyclerView 多类型 Item 的适配器设计与 ViewHolder 复用',
+    'Activity 生命周期与 Fragment 通信的数据一致性保障',
+    'SQLite 数据库升级策略与数据迁移',
+  ]
+lessons:
+  [
+    '理解了 Android 四大组件的职责划分',
+    '掌握了 Material Design 组件和自定义 View 的基础',
+    '学会了处理 Android 版本的兼容性差异',
+  ]
 ---
 
 ## 项目背景
@@ -38,7 +40,8 @@ Android 开发课程要求掌握移动端应用的核心开发技能。本项目
 
 ## 系统架构
 
-<MermaidDiagram chart={`
+<MermaidDiagram
+	chart={`
 graph TD
     A[Activity] --> B[Fragment]
     B --> C[RecyclerView]
@@ -48,33 +51,42 @@ graph TD
     F --> G[Repository]
     G --> H[(SQLite)]
     G --> I[SharedPreferences]
-`} caption="Android App Component Architecture" />
+`}
+	caption="Android App Component Architecture"
+/>
 
 ## 实验内容
 
-| 模块 | 内容 | 重点 |
-|------|------|------|
-| UI 基础 | Layout、控件、事件处理 | ConstraintLayout |
-| Activity | 生命周期、跳转、传值 | Intent、Bundle |
-| RecyclerView | 列表、网格、多类型 | Adapter、ViewHolder |
-| 数据存储 | SQLite、文件、SP | CRUD、事务 |
-| 网络 | HTTP 请求、JSON 解析 | 异步处理 |
-| 期末项目 | 综合应用开发 | 架构设计 |
+| 模块         | 内容                   | 重点                |
+| ------------ | ---------------------- | ------------------- |
+| UI 基础      | Layout、控件、事件处理 | ConstraintLayout    |
+| Activity     | 生命周期、跳转、传值   | Intent、Bundle      |
+| RecyclerView | 列表、网格、多类型     | Adapter、ViewHolder |
+| 数据存储     | SQLite、文件、SP       | CRUD、事务          |
+| 网络         | HTTP 请求、JSON 解析   | 异步处理            |
+| 期末项目     | 综合应用开发           | 架构设计            |
 
 ## 项目结构
 
-<FileTree tree={`
+<FileTree
+	tree={`
 android-mobile-development/
 ├── final_course_project/   # 期末项目
 ├── chaoxing/               # 学习资料
 └── README.md
-`} caption="Project Directory Structure" />
+`}
+	caption="Project Directory Structure"
+/>
 
 ## 核心代码
 
 ### 登录界面实现
 
-<CodePreview src="/code-snippets/android-mobile-development/GloginActivity.kt" lang="kotlin" caption="GloginActivity.kt - Admin Login Activity" />
+<CodePreview
+	src="/code-snippets/android-mobile-development/GloginActivity.kt"
+	lang="kotlin"
+	caption="GloginActivity.kt - Admin Login Activity"
+/>
 
 ## 效果展示
 

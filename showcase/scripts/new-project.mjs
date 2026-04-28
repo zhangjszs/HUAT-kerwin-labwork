@@ -49,26 +49,26 @@ function inferTechStack(repoPath, readmeContent) {
 	const lower = (repoPath + ' ' + (readmeContent || '')).toLowerCase();
 
 	const techMap = {
-		'Spring': 'spring',
-		'SpringMVC': 'springmvc',
+		Spring: 'spring',
+		SpringMVC: 'springmvc',
 		'Spring Boot': 'spring boot',
-		'MyBatis': 'mybatis',
-		'MySQL': 'mysql',
-		'React': 'react',
-		'Vue': 'vue',
-		'Qt': 'qt',
-		'PyTorch': 'pytorch',
-		'TensorFlow': 'tensorflow',
-		'YOLO': 'yolo',
-		'OpenCV': 'opencv',
-		'Pandas': 'pandas',
-		'NumPy': 'numpy',
-		'Jupyter': 'jupyter',
-		'JSP': 'jsp',
-		'Servlet': 'servlet',
-		'Maven': 'maven',
-		'Gradle': 'gradle',
-		'CMake': 'cmake',
+		MyBatis: 'mybatis',
+		MySQL: 'mysql',
+		React: 'react',
+		Vue: 'vue',
+		Qt: 'qt',
+		PyTorch: 'pytorch',
+		TensorFlow: 'tensorflow',
+		YOLO: 'yolo',
+		OpenCV: 'opencv',
+		Pandas: 'pandas',
+		NumPy: 'numpy',
+		Jupyter: 'jupyter',
+		JSP: 'jsp',
+		Servlet: 'servlet',
+		Maven: 'maven',
+		Gradle: 'gradle',
+		CMake: 'cmake',
 	};
 
 	for (const [name, keyword] of Object.entries(techMap)) {
@@ -105,14 +105,21 @@ function scanSourceFiles(projectDir) {
 		try {
 			const items = readdirSync(dir, { withFileTypes: true });
 			for (const item of items) {
-				if (item.isDirectory() && !item.name.startsWith('.') && item.name !== 'node_modules' && item.name !== 'target' && item.name !== 'build') {
+				if (
+					item.isDirectory() &&
+					!item.name.startsWith('.') &&
+					item.name !== 'node_modules' &&
+					item.name !== 'target' &&
+					item.name !== 'build'
+				) {
 					scan(join(dir, item.name), depth + 1);
 				} else if (item.isFile()) {
 					const ext = item.name.slice(item.name.lastIndexOf('.'));
 					if (extensions.includes(ext) && item.name.length < 50) {
 						const fullPath = join(dir, item.name);
 						const size = statSync(fullPath).size;
-						if (size > 100 && size < 50000) { // Between 100B and 50KB
+						if (size > 100 && size < 50000) {
+							// Between 100B and 50KB
 							candidates.push(fullPath);
 						}
 					}
@@ -125,7 +132,7 @@ function scanSourceFiles(projectDir) {
 
 	// Pick up to 2 files
 	const picked = candidates.slice(0, 2);
-	return picked.map(p => basename(p));
+	return picked.map((p) => basename(p));
 }
 
 function generateFileTree(projectDir) {
@@ -135,10 +142,16 @@ function generateFileTree(projectDir) {
 
 	try {
 		const items = readdirSync(projectDir, { withFileTypes: true });
-		const dirs = items.filter(i => i.isDirectory() && !i.name.startsWith('.')).map(i => i.name).sort();
-		const files = items.filter(i => i.isFile()).map(i => i.name).sort();
+		const dirs = items
+			.filter((i) => i.isDirectory() && !i.name.startsWith('.'))
+			.map((i) => i.name)
+			.sort();
+		const files = items
+			.filter((i) => i.isFile())
+			.map((i) => i.name)
+			.sort();
 
-		const all = [...dirs.map(d => ({ name: d, isDir: true })), ...files.map(f => ({ name: f, isDir: false }))];
+		const all = [...dirs.map((d) => ({ name: d, isDir: true })), ...files.map((f) => ({ name: f, isDir: false }))];
 
 		for (let i = 0; i < all.length; i++) {
 			const isLast = i === all.length - 1;
@@ -184,9 +197,7 @@ function generateMDX(projectDir, options = {}) {
 
 	// Auto-scan for code snippet candidates
 	const sourceFiles = scanSourceFiles(absoluteProjectDir);
-	const snippetPaths = sourceFiles.length > 0
-		? sourceFiles.map(f => `"${screenshotsDir}/${f}"`).join(', ')
-		: '';
+	const snippetPaths = sourceFiles.length > 0 ? sourceFiles.map((f) => `"${screenshotsDir}/${f}"`).join(', ') : '';
 
 	// Generate file tree
 	const fileTree = generateFileTree(absoluteProjectDir);

@@ -1,9 +1,9 @@
 ---
-title: "迷宫寻路算法：DFS、BFS 与 A* 的实现与可视化"
-description: "深入对比三种经典图搜索算法在迷宫问题中的应用。从递归回溯生成完美迷宫，到 DFS、BFS、A* 的寻路实现，再到 Qt 可视化中的动画同步挑战。"
-date: "2024-03"
-tags: ["Algorithm", "C++", "Qt", "Data Structures"]
-relatedProject: "data-structures-course-design"
+title: '迷宫寻路算法：DFS、BFS 与 A* 的实现与可视化'
+description: '深入对比三种经典图搜索算法在迷宫问题中的应用。从递归回溯生成完美迷宫，到 DFS、BFS、A* 的寻路实现，再到 Qt 可视化中的动画同步挑战。'
+date: '2024-03'
+tags: ['Algorithm', 'C++', 'Qt', 'Data Structures']
+relatedProject: 'data-structures-course-design'
 ---
 
 ## 迷宫生成：递归回溯法
@@ -21,7 +21,7 @@ void MazeGenerator::generate(int x, int y) {
     visited[x][y] = true;
     auto neighbors = getUnvisitedNeighbors(x, y);
     shuffle(neighbors);
-    
+
     for (auto [nx, ny] : neighbors) {
         if (!visited[nx][ny]) {
             removeWall(x, y, nx, ny);
@@ -41,7 +41,7 @@ DFS（深度优先搜索）在迷宫中的实现使用显式栈或递归：
 bool dfs(int x, int y) {
     if (x == endX && y == endY) return true;
     visited[x][y] = true;
-    
+
     for (auto [dx, dy] : directions) {
         int nx = x + dx, ny = y + dy;
         if (canMove(nx, ny) && !visited[nx][ny]) {
@@ -66,11 +66,11 @@ bool bfs() {
     queue<pair<int, int>> q;
     q.push({startX, startY});
     visited[startX][startY] = true;
-    
+
     while (!q.empty()) {
         auto [x, y] = q.front(); q.pop();
         if (x == endX && y == endY) return true;
-        
+
         for (auto [dx, dy] : directions) {
             int nx = x + dx, ny = y + dy;
             if (canMove(nx, ny) && !visited[nx][ny]) {
@@ -86,19 +86,19 @@ bool bfs() {
 
 BFS 的层序遍历特性保证了找到的**一定是最短路径**（以步数计算）。代价是需要更多的内存来存储队列中的节点。
 
-## A* 算法：启发式搜索
+## A\* 算法：启发式搜索
 
-A* 是 DFS 和 BFS 的折中，使用优先队列（最小堆）来选择下一步：
+A\* 是 DFS 和 BFS 的折中，使用优先队列（最小堆）来选择下一步：
 
 ```cpp
 bool astar() {
     priority_queue<Node, vector<Node>, greater<Node>> pq;
     pq.push({startX, startY, 0, heuristic(startX, startY)});
-    
+
     while (!pq.empty()) {
         auto [x, y, g, f] = pq.top(); pq.pop();
         if (x == endX && y == endY) return true;
-        
+
         for (auto [dx, dy] : directions) {
             int nx = x + dx, ny = y + dy;
             if (canMove(nx, ny) && g + 1 < cost[nx][ny]) {
@@ -166,13 +166,14 @@ void MazeWidget::stepAlgorithm() {
     style DFS fill:#667eea20,stroke:#667eea
     style BFS fill:#f093fb20,stroke:#f093fb
     style ASTAR fill:#4facfe20,stroke:#4facfe
+
 `} />
 
 ## 三种算法对比
 
-| 特性 | DFS | BFS | A* |
-|------|-----|-----|----|
-| 数据结构 | 栈 | 队列 | 优先队列 |
-| 路径质量 | 不一定最短 | 最短 | 启发式最优 |
-| 空间复杂度 | O(V) | O(V) | O(V) |
-| 适合场景 | 快速找任意路径 | 需要最短路径 | 需要高效最优路径 |
+| 特性       | DFS            | BFS          | A\*              |
+| ---------- | -------------- | ------------ | ---------------- |
+| 数据结构   | 栈             | 队列         | 优先队列         |
+| 路径质量   | 不一定最短     | 最短         | 启发式最优       |
+| 空间复杂度 | O(V)           | O(V)         | O(V)             |
+| 适合场景   | 快速找任意路径 | 需要最短路径 | 需要高效最优路径 |

@@ -33,15 +33,11 @@ const gradient = gradients[gradientIndex];
 		<h3 class="card-title">{title}</h3>
 		<p class="card-description">{description}</p>
 		<div class="card-tags">
-			{tags.slice(0, 3).map((tag) => (
-				<span class="tag">{tag}</span>
-			))}
+			{tags.slice(0, 3).map((tag) => <span class="tag">{tag}</span>)}
 			{tags.length > 3 && <span class="tag more">+{tags.length - 3}</span>}
 		</div>
 		<div class="card-tech">
-			{techStack.slice(0, 4).map((tech) => (
-				<span class="tech">{tech}</span>
-			))}
+			{techStack.slice(0, 4).map((tech) => <span class="tech">{tech}</span>)}
 		</div>
 	</div>
 </a>
@@ -55,14 +51,27 @@ const gradient = gradients[gradientIndex];
 		border-radius: 1rem;
 		text-decoration: none;
 		color: inherit;
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
 		overflow: hidden;
 		height: 100%;
 	}
 
 	.card:hover {
-		transform: translateY(-8px);
+		transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
 		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.card {
+			transform-style: preserve-3d;
+			perspective: 1000px;
+		}
+
+		.card[data-tilt]:hover {
+			transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
+		}
 	}
 
 	.card.featured {
@@ -71,7 +80,9 @@ const gradient = gradients[gradientIndex];
 	}
 
 	.card.featured:hover {
-		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--accent-regular);
+		box-shadow:
+			0 20px 40px rgba(0, 0, 0, 0.3),
+			0 0 0 1px var(--accent-regular);
 	}
 
 	.card-cover {

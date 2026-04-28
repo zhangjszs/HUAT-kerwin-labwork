@@ -1,27 +1,29 @@
 ---
-title: "HUAT Java Web Labs"
-description: "Java Web 基础实验合集，从 Servlet 入门到 JSP MVC 完整 Web 应用，涵盖登录认证、数据库 CRUD、过滤器和监听器。"
-repoPath: "HUATJavaWebLab"
-tags: ["Java", "Web", "Servlet", "JSP", "Coursework"]
-keywords: ["Servlet", "JSP", "JDBC", "MVC", "Filter", "Listener", "Session", "Cookie"]
-techStack: ["Java", "Servlet", "JSP", "JSTL", "MySQL", "JDBC", "Maven", "Tomcat"]
-screenshotsDir: "huatjavaweblab"
-codeSnippets: ["huatjavaweblab/HelloServlet.java", "huatjavaweblab/LoginServlet.java"]
+title: 'HUAT Java Web Labs'
+description: 'Java Web 基础实验合集，从 Servlet 入门到 JSP MVC 完整 Web 应用，涵盖登录认证、数据库 CRUD、过滤器和监听器。'
+repoPath: 'HUATJavaWebLab'
+tags: ['Java', 'Web', 'Servlet', 'JSP', 'Coursework']
+keywords: ['Servlet', 'JSP', 'JDBC', 'MVC', 'Filter', 'Listener', 'Session', 'Cookie']
+techStack: ['Java', 'Servlet', 'JSP', 'JSTL', 'MySQL', 'JDBC', 'Maven', 'Tomcat']
+screenshotsDir: 'huatjavaweblab'
+codeSnippets: ['huatjavaweblab/HelloServlet.java', 'huatjavaweblab/LoginServlet.java']
 featured: false
-date: "2024"
-difficulty: "入门"
-status: "Completed"
-architecture: "每个实验基于 MVC 模式分层：Servlet 作为 Controller 处理请求，JSP 作为 View 渲染页面，DAO 层封装 JDBC 数据库操作。使用 Jakarta EE 10 规范（原 Java EE）。"
-challenges: [
-  "理解 Servlet 生命周期和请求转发/重定向的区别",
-  "JDBC 连接池配置与 SQL 注入防护（PreparedStatement）",
-  "过滤器链实现登录验证和统一编码处理"
-]
-lessons: [
-  "掌握了 Java Web 的核心规范和开发流程",
-  "理解了 HTTP 请求处理模型和会话管理机制",
-  "为后续学习 Spring Boot 打下了坚实基础"
-]
+date: '2024'
+difficulty: '入门'
+status: 'Completed'
+architecture: '每个实验基于 MVC 模式分层：Servlet 作为 Controller 处理请求，JSP 作为 View 渲染页面，DAO 层封装 JDBC 数据库操作。使用 Jakarta EE 10 规范（原 Java EE）。'
+challenges:
+  [
+    '理解 Servlet 生命周期和请求转发/重定向的区别',
+    'JDBC 连接池配置与 SQL 注入防护（PreparedStatement）',
+    '过滤器链实现登录验证和统一编码处理',
+  ]
+lessons:
+  [
+    '掌握了 Java Web 的核心规范和开发流程',
+    '理解了 HTTP 请求处理模型和会话管理机制',
+    '为后续学习 Spring Boot 打下了坚实基础',
+  ]
 ---
 
 ## 项目背景
@@ -38,7 +40,8 @@ Java Web 实验是理解企业级 Web 开发的基础。本合集包含 5 个递
 
 ## 系统架构
 
-<MermaidDiagram chart={`
+<MermaidDiagram
+	chart={`
 graph TD
     A[Browser] -->|HTTP| B[Tomcat]
     B --> C[Filter]
@@ -48,21 +51,24 @@ graph TD
     F --> G[(MySQL)]
     D --> H[JSP View]
     H --> I[HTML/CSS/JS]
-`} caption="Java Web MVC Architecture" />
+`}
+	caption="Java Web MVC Architecture"
+/>
 
 ## 实验列表
 
-| 实验 | 重点内容 | 技术点 |
-|------|---------|--------|
-| WebLab1 | Servlet 入门 | doGet/doPost, 请求参数 |
-| WebLab2 | JSP 页面 | JSTL, EL, 页面包含 |
-| WebLab3 | JDBC 操作 | 连接池, CRUD, 事务 |
-| WebLab4 | MVC + 登录 | Session, Cookie, 过滤器 |
-| WebLab5 | 综合应用 | 文件上传, 监听器 |
+| 实验    | 重点内容     | 技术点                  |
+| ------- | ------------ | ----------------------- |
+| WebLab1 | Servlet 入门 | doGet/doPost, 请求参数  |
+| WebLab2 | JSP 页面     | JSTL, EL, 页面包含      |
+| WebLab3 | JDBC 操作    | 连接池, CRUD, 事务      |
+| WebLab4 | MVC + 登录   | Session, Cookie, 过滤器 |
+| WebLab5 | 综合应用     | 文件上传, 监听器        |
 
 ## 项目结构
 
-<FileTree tree={`
+<FileTree
+	tree={`
 HUATJavaWebLab/
 ├── WebLab1/              # Servlet 基础
 ├── WebLab2/              # JSP 页面
@@ -70,17 +76,27 @@ HUATJavaWebLab/
 ├── webLab4/              # MVC + 登录
 ├── WebLab5/              # 综合实验
 └── README.md
-`} caption="Lab Directory Structure" />
+`}
+	caption="Lab Directory Structure"
+/>
 
 ## 核心代码
 
 ### Hello Servlet
 
-<CodePreview src="/code-snippets/huatjavaweblab/HelloServlet.java" lang="java" caption="HelloServlet.java - Basic Servlet GET/POST Handling" />
+<CodePreview
+	src="/code-snippets/huatjavaweblab/HelloServlet.java"
+	lang="java"
+	caption="HelloServlet.java - Basic Servlet GET/POST Handling"
+/>
 
 ### 登录认证 Servlet
 
-<CodePreview src="/code-snippets/huatjavaweblab/LoginServlet.java" lang="java" caption="LoginServlet.java - Session-based Authentication" />
+<CodePreview
+	src="/code-snippets/huatjavaweblab/LoginServlet.java"
+	lang="java"
+	caption="LoginServlet.java - Session-based Authentication"
+/>
 
 ## 效果展示
 

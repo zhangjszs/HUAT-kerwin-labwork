@@ -26,8 +26,8 @@ const featuredCount = projects.filter((p) => p.data.featured).length;
 					All <span class="gradient-text">Projects</span>
 				</h1>
 				<p class="hero-tagline">
-					Browse {projects.length} projects across {uniqueTags.length} categories.
-					From Java Web to Machine Learning, from Android to Computer Networks.
+					Browse {projects.length} projects across {uniqueTags.length} categories. From Java Web to Machine Learning, from
+					Android to Computer Networks.
 				</p>
 			</div>
 			<div class="stats-grid">
@@ -60,24 +60,29 @@ const featuredCount = projects.filter((p) => p.data.featured).length;
 
 		<div class="projects-grid reveal">
 			<Grid variant="offset">
-				{projects.map((project) => (
-					<li data-project-tags={JSON.stringify(project.data.tags)}>
-						<ProjectCard project={project} />
-					</li>
-				))}
+				{
+					projects.map((project) => (
+						<li data-project-tags={JSON.stringify(project.data.tags)}>
+							<ProjectCard project={project} />
+						</li>
+					))
+				}
 			</Grid>
 		</div>
 	</main>
 
 	<script>
-		const revealObserver = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					entry.target.classList.add('visible');
-					revealObserver.unobserve(entry.target);
-				}
-			});
-		}, { threshold: 0.1 });
+		const revealObserver = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('visible');
+						revealObserver.unobserve(entry.target);
+					}
+				});
+			},
+			{ threshold: 0.1 }
+		);
 
 		document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 	</script>
@@ -123,9 +128,16 @@ const featuredCount = projects.filter((p) => p.data.featured).length;
 		}
 
 		@keyframes float {
-			0%, 100% { transform: translate(0, 0) scale(1); }
-			33% { transform: translate(20px, -20px) scale(1.05); }
-			66% { transform: translate(-15px, 15px) scale(0.95); }
+			0%,
+			100% {
+				transform: translate(0, 0) scale(1);
+			}
+			33% {
+				transform: translate(20px, -20px) scale(1.05);
+			}
+			66% {
+				transform: translate(-15px, 15px) scale(0.95);
+			}
 		}
 
 		.hero-content {
@@ -195,7 +207,10 @@ const featuredCount = projects.filter((p) => p.data.featured).length;
 			border: 1px solid rgba(255, 255, 255, 0.06);
 			border-radius: 1rem;
 			color: var(--accent-regular);
-			transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+			transition:
+				transform 0.3s ease,
+				box-shadow 0.3s ease,
+				border-color 0.3s ease;
 		}
 
 		.stat-card:hover {
@@ -229,7 +244,9 @@ const featuredCount = projects.filter((p) => p.data.featured).length;
 		.reveal {
 			opacity: 0;
 			transform: translateY(40px);
-			transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+			transition:
+				opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+				transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 		}
 
 		.reveal.visible {

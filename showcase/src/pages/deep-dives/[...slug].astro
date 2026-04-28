@@ -31,15 +31,15 @@ const { title, description, date, tags, relatedProject } = article.data;
 				<h1><span class="gradient-text">{title}</span></h1>
 				<p class="hero-description">{description}</p>
 				<div class="article-meta">
-					{date && (
-						<span class="meta-item">
-							<Icon icon="calendar" size="1em" />
-							{date}
-						</span>
-					)}
-					{tags.map((tag) => (
-						<span class="meta-tag">{tag}</span>
-					))}
+					{
+						date && (
+							<span class="meta-item">
+								<Icon icon="calendar" size="1em" />
+								{date}
+							</span>
+						)
+					}
+					{tags.map((tag) => <span class="meta-tag">{tag}</span>)}
 				</div>
 			</div>
 		</header>
@@ -54,12 +54,14 @@ const { title, description, date, tags, relatedProject } = article.data;
 					<Icon icon="arrow-left" size="1.2em" />
 					Back to all articles
 				</a>
-				{relatedProject && (
-					<a href={`/projects/${relatedProject}`} class="related-link">
-						View Related Project
-						<Icon icon="arrow-right" size="1.2em" />
-					</a>
-				)}
+				{
+					relatedProject && (
+						<a href={`/projects/${relatedProject}`} class="related-link">
+							View Related Project
+							<Icon icon="arrow-right" size="1.2em" />
+						</a>
+					)
+				}
 			</div>
 		</nav>
 	</article>

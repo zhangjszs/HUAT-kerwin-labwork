@@ -2,10 +2,12 @@
 // Learn about using Astro layouts:
 // https://docs.astro.build/en/basics/layouts/
 
+import BackToTop from '../components/BackToTop.astro';
 import Footer from '../components/Footer.astro';
 // Component Imports
 import MainHead from '../components/MainHead.astro';
 import Nav from '../components/Nav.astro';
+import ScrollProgress from '../components/ScrollProgress.astro';
 
 interface Props {
 	title?: string | undefined;
@@ -20,15 +22,84 @@ const { title, description } = Astro.props;
 		<MainHead title={title} description={description} />
 	</head>
 	<body>
+		<ScrollProgress />
 		<div class="stack backgrounds">
 			<Nav />
 			<slot />
 			<Footer />
 		</div>
+		<BackToTop />
 
 		<script>
-			// Add “loaded” class once the document has completely loaded.
+			// Add "loaded" class once the document has completely loaded.
 			addEventListener('load', () => document.documentElement.classList.add('loaded'));
+
+			// Smooth scroll for anchor links
+			document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+				anchor.addEventListener('click', (e) => {
+					const href = anchor.getAttribute('href');
+					if (href && href !== '#') {
+						const target = document.querySelector(href);
+						if (target) {
+							e.preventDefault();
+							target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+						}
+					}
+				});
+			});
+
+			// Code block copy buttons
+			const addCopyButtons = () => {
+				document.querySelectorAll('pre').forEach((pre) => {
+					if (pre.querySelector('.copy-code-btn')) return;
+					const code = pre.querySelector('code');
+					if (!code) return;
+
+					const btn = document.createElement('button');
+					btn.className = 'copy-code-btn';
+					btn.setAttribute('aria-label', 'Copy code');
+					btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+
+					btn.addEventListener('click', async () => {
+						try {
+							await navigator.clipboard.writeText(code.textContent || '');
+							btn.classList.add('copied');
+							btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+							setTimeout(() => {
+								btn.classList.remove('copied');
+								btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+							}, 2000);
+						} catch (err) {
+							console.error('Failed to copy:', err);
+						}
+					});
+
+					pre.style.position = 'relative';
+					pre.appendChild(btn);
+				});
+			};
+
+			// Image fade-in on load
+			const observeImages = () => {
+				document.querySelectorAll('img:not(.img-fade):not([src^="data:"])').forEach((img) => {
+					img.classList.add('img-fade');
+					if ((img as HTMLImageElement).complete) {
+						img.classList.add('loaded');
+					} else {
+						img.addEventListener('load', () => img.classList.add('loaded'));
+						img.addEventListener('error', () => img.classList.add('loaded'));
+					}
+				});
+			};
+
+			// Run after DOM is ready and after any dynamic content loads
+			addCopyButtons();
+			observeImages();
+			const observer = new MutationObserver(() => {
+				addCopyButtons();
+				observeImages();
+			});
+			observer.observe(document.body, { childList: true, subtree: true });
 		</script>
 
 		<style>

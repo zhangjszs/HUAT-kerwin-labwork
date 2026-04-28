@@ -1,27 +1,29 @@
 ---
-title: "Titanic Survival Prediction"
-description: "基于 Titanic 数据集的完整机器学习项目，涵盖数据清洗、特征工程、多模型对比和模型解释的端到端流程。"
-repoPath: "ml-practice"
-tags: ["Python", "Machine Learning", "Data Science", "Classification"]
-keywords: ["Titanic", "EDA", "Feature Engineering", "Random Forest", "XGBoost", "Cross Validation"]
-techStack: ["Python", "Pandas", "NumPy", "Scikit-learn", "XGBoost", "Matplotlib", "Seaborn"]
-screenshotsDir: "ml-practice"
-codeSnippets: ["ml-practice/data_exploration.py", "ml-practice/feature_engineering.py"]
+title: 'Titanic Survival Prediction'
+description: '基于 Titanic 数据集的完整机器学习项目，涵盖数据清洗、特征工程、多模型对比和模型解释的端到端流程。'
+repoPath: 'ml-practice'
+tags: ['Python', 'Machine Learning', 'Data Science', 'Classification']
+keywords: ['Titanic', 'EDA', 'Feature Engineering', 'Random Forest', 'XGBoost', 'Cross Validation']
+techStack: ['Python', 'Pandas', 'NumPy', 'Scikit-learn', 'XGBoost', 'Matplotlib', 'Seaborn']
+screenshotsDir: 'ml-practice'
+codeSnippets: ['ml-practice/data_exploration.py', 'ml-practice/feature_engineering.py']
 featured: false
-date: "2023"
-difficulty: "入门"
-status: "Completed"
-architecture: "标准数据科学流程：数据获取 → 探索性数据分析(EDA) → 数据清洗 → 特征工程 → 模型训练 → 评估优化 → 结果解释。使用 Jupyter Notebook 进行交互式开发。"
-challenges: [
-  "缺失值处理策略：Age 使用 Title 分组中位数填充，Cabin 转换为二进制特征",
-  "特征工程：从 Name 提取 Title、从 Ticket 提取前缀、FamilySize 组合特征",
-  "模型融合：Stacking 整合 Random Forest、XGBoost、SVM 的预测结果"
-]
-lessons: [
-  "理解了特征工程对模型性能的决定性影响",
-  "掌握了交叉验证和超参数调优的系统方法",
-  "学会了使用 SHAP/LIME 解释模型预测原因"
-]
+date: '2023'
+difficulty: '入门'
+status: 'Completed'
+architecture: '标准数据科学流程：数据获取 → 探索性数据分析(EDA) → 数据清洗 → 特征工程 → 模型训练 → 评估优化 → 结果解释。使用 Jupyter Notebook 进行交互式开发。'
+challenges:
+  [
+    '缺失值处理策略：Age 使用 Title 分组中位数填充，Cabin 转换为二进制特征',
+    '特征工程：从 Name 提取 Title、从 Ticket 提取前缀、FamilySize 组合特征',
+    '模型融合：Stacking 整合 Random Forest、XGBoost、SVM 的预测结果',
+  ]
+lessons:
+  [
+    '理解了特征工程对模型性能的决定性影响',
+    '掌握了交叉验证和超参数调优的系统方法',
+    '学会了使用 SHAP/LIME 解释模型预测原因',
+  ]
 ---
 
 ## 项目背景
@@ -30,7 +32,8 @@ Titanic 生存预测是机器学习领域的经典入门项目。本项目的目
 
 ## 核心流程
 
-<MermaidDiagram chart={`
+<MermaidDiagram
+	chart={`
 graph LR
     A[Raw Data] --> B[EDA & Cleaning]
     B --> C[Feature Engineering]
@@ -39,7 +42,9 @@ graph LR
     E --> F[Hyperparameter Tuning]
     F --> G[Model Ensemble]
     G --> H[Interpretation]
-`} caption="ML Pipeline Workflow" />
+`}
+	caption="ML Pipeline Workflow"
+/>
 
 ## 核心功能
 
@@ -52,17 +57,18 @@ graph LR
 
 ## 关键特征
 
-| 特征 | 原始形式 | 工程后 |
-|------|---------|--------|
-| Name | 字符串 | Title (Mr/Mrs/Miss) |
-| Age | 数值 | AgeBin + Title 分组填充 |
-| SibSp + Parch | 两个字段 | FamilySize (组合) |
-| Ticket | 字符串 | TicketPrefix + 数值 |
-| Cabin | 字符串 | HasCabin (布尔) |
+| 特征          | 原始形式 | 工程后                  |
+| ------------- | -------- | ----------------------- |
+| Name          | 字符串   | Title (Mr/Mrs/Miss)     |
+| Age           | 数值     | AgeBin + Title 分组填充 |
+| SibSp + Parch | 两个字段 | FamilySize (组合)       |
+| Ticket        | 字符串   | TicketPrefix + 数值     |
+| Cabin         | 字符串   | HasCabin (布尔)         |
 
 ## 项目结构
 
-<FileTree tree={`
+<FileTree
+	tree={`
 ml-practice/
 └── titanic-survival-prediction/
     ├── data/
@@ -77,17 +83,27 @@ ml-practice/
     │   ├── features.py
     │   └── model.py
     └── README.md
-`} caption="Project Directory Structure" />
+`}
+	caption="Project Directory Structure"
+/>
 
 ## 核心代码
 
 ### 数据探索
 
-<CodePreview src="/code-snippets/ml-practice/data_exploration.py" lang="python" caption="Data Exploration - Loading, EDA & Visualization" />
+<CodePreview
+	src="/code-snippets/ml-practice/data_exploration.py"
+	lang="python"
+	caption="Data Exploration - Loading, EDA & Visualization"
+/>
 
 ### 特征工程
 
-<CodePreview src="/code-snippets/ml-practice/feature_engineering.py" lang="python" caption="Feature Engineering - Title Extraction & Family Size" />
+<CodePreview
+	src="/code-snippets/ml-practice/feature_engineering.py"
+	lang="python"
+	caption="Feature Engineering - Title Extraction & Family Size"
+/>
 
 ## 效果展示
 
@@ -105,6 +121,7 @@ ml-practice/
 ### 模型融合
 
 使用 Stacking（堆叠集成）：
+
 - Level-0: Random Forest + XGBoost + Gradient Boosting
 - Level-1: Logistic Regression 作为元学习器
 - 通过 out-of-fold 预测避免数据泄露

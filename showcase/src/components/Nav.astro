@@ -132,6 +132,20 @@ const isCurrentPage = (href: string) => {
 			const mediaQueries = window.matchMedia('(min-width: 50em)');
 			handleViewports(mediaQueries);
 			mediaQueries.addEventListener('change', handleViewports);
+
+			// Nav scroll effect
+			const nav = document.getElementById('main-nav');
+			if (nav) {
+				const handleScroll = () => {
+					if (window.scrollY > 60) {
+						nav.classList.add('nav-scrolled');
+					} else {
+						nav.classList.remove('nav-scrolled');
+					}
+				};
+				window.addEventListener('scroll', handleScroll, { passive: true });
+				handleScroll();
+			}
 		}
 	}
 	customElements.define('menu-button', MenuButton);
@@ -177,8 +191,7 @@ const isCurrentPage = (href: string) => {
 	.menu-button[aria-expanded='true'] {
 		color: var(--gray-0);
 		background:
-			linear-gradient(180deg, var(--gray-600), transparent),
-			radial-gradient(var(--gray-900), var(--gray-800) 150%);
+			linear-gradient(180deg, var(--gray-600), transparent), radial-gradient(var(--gray-900), var(--gray-800) 150%);
 	}
 
 	.menu-button[hidden] {
@@ -262,6 +275,39 @@ const isCurrentPage = (href: string) => {
 		height: calc(var(--icon-size) + 2 * var(--icon-padding));
 	}
 
+	/* Nav scroll effect - global for all viewports */
+	.nav-scrolled {
+		position: fixed !important;
+		top: 0;
+		left: 0;
+		right: 0;
+		background: rgba(255, 255, 255, 0.7) !important;
+		backdrop-filter: blur(16px) saturate(180%) !important;
+		-webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+		box-shadow: 0 1px 20px rgba(0, 0, 0, 0.05) !important;
+		margin-bottom: 0 !important;
+		padding: 0.75rem 1.5rem !important;
+		z-index: 9999;
+		animation: navSlideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	:root.theme-dark .nav-scrolled {
+		background: rgba(9, 11, 17, 0.75) !important;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+	}
+
+	@keyframes navSlideDown {
+		from {
+			transform: translateY(-100%);
+			opacity: 0;
+		}
+		to {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+
 	@media (min-width: 50em) {
 		nav {
 			display: grid;
@@ -315,6 +361,12 @@ const isCurrentPage = (href: string) => {
 		.link:focus {
 			color: var(--gray-100);
 			background-color: var(--accent-subtle-overlay);
+		}
+
+		@media (min-width: 50em) {
+			.nav-scrolled {
+				padding: 0.75rem 5rem !important;
+			}
 		}
 
 		.link[aria-current='page'] {

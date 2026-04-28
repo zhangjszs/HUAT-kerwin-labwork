@@ -1,27 +1,29 @@
 ---
-title: "Computer Network"
-description: "计算机网络课程实验合集，涵盖 Socket 编程、TCP/UDP 协议实现、HTTP 协议解析、网络安全与 RED 拥塞控制模拟。"
-repoPath: "computer-network"
-tags: ["Python", "Network", "Coursework", "C"]
-keywords: ["Socket", "TCP", "UDP", "HTTP", "RED", "Congestion Control", "Scapy"]
-techStack: ["Python", "C", "Scapy", "Socket Programming", "Wireshark"]
-screenshotsDir: "computer-network"
-codeSnippets: ["computer-network/01_red_and_ared_simulator.py"]
+title: 'Computer Network'
+description: '计算机网络课程实验合集，涵盖 Socket 编程、TCP/UDP 协议实现、HTTP 协议解析、网络安全与 RED 拥塞控制模拟。'
+repoPath: 'computer-network'
+tags: ['Python', 'Network', 'Coursework', 'C']
+keywords: ['Socket', 'TCP', 'UDP', 'HTTP', 'RED', 'Congestion Control', 'Scapy']
+techStack: ['Python', 'C', 'Scapy', 'Socket Programming', 'Wireshark']
+screenshotsDir: 'computer-network'
+codeSnippets: ['computer-network/01_red_and_ared_simulator.py']
 featured: false
-date: "2023"
-difficulty: "进阶"
-status: "Completed"
-architecture: "实验采用分层递进结构：从基础 Socket API 调用，到自定义协议实现，再到网络抓包分析与安全实验。Python 用于快速原型和协议解析，C 用于底层性能敏感实现。"
-challenges: [
-  "TCP 三次握手与四次挥手的时序控制，以及粘包/拆包问题的处理",
-  "RED 拥塞控制算法的参数调优与性能评估",
-  "使用 Scapy 构造自定义数据包进行网络扫描和协议分析"
-]
-lessons: [
-  "深入理解了 TCP/IP 协议栈各层的工作原理",
-  "掌握了 Socket 编程的核心 API 和网络 IO 模型",
-  "学会了使用 Wireshark 和 Scapy 进行网络故障排查"
-]
+date: '2023'
+difficulty: '进阶'
+status: 'Completed'
+architecture: '实验采用分层递进结构：从基础 Socket API 调用，到自定义协议实现，再到网络抓包分析与安全实验。Python 用于快速原型和协议解析，C 用于底层性能敏感实现。'
+challenges:
+  [
+    'TCP 三次握手与四次挥手的时序控制，以及粘包/拆包问题的处理',
+    'RED 拥塞控制算法的参数调优与性能评估',
+    '使用 Scapy 构造自定义数据包进行网络扫描和协议分析',
+  ]
+lessons:
+  [
+    '深入理解了 TCP/IP 协议栈各层的工作原理',
+    '掌握了 Socket 编程的核心 API 和网络 IO 模型',
+    '学会了使用 Wireshark 和 Scapy 进行网络故障排查',
+  ]
 ---
 
 ## 项目背景
@@ -39,7 +41,8 @@ lessons: [
 
 ## 系统架构
 
-<MermaidDiagram chart={`
+<MermaidDiagram
+	chart={`
 graph TD
     A[Application Layer] -->|HTTP/FTP| B[Transport Layer]
     B -->|TCP/UDP| C[Network Layer]
@@ -52,11 +55,14 @@ graph TD
         A3 --> A4[Network Security]
         A4 --> A5[RED Simulation]
     end
-`} caption="Network Layer Architecture & Experiment Flow" />
+`}
+	caption="Network Layer Architecture & Experiment Flow"
+/>
 
 ## 项目结构
 
-<FileTree tree={`
+<FileTree
+	tree={`
 computer-network/
 ├── experiment1/          # Socket编程基础
 ├── experiment2/          # TCP/UDP实现
@@ -68,13 +74,19 @@ computer-network/
 ├── experiment8/          # 综合实验
 ├── Improve_RED/          # RED算法优化
 └── README.md
-`} caption="Experiment Directory Structure" />
+`}
+	caption="Experiment Directory Structure"
+/>
 
 ## 核心代码
 
 ### RED 拥塞控制模拟器
 
-<CodePreview src="/code-snippets/computer-network/01_red_and_ared_simulator.py" lang="python" caption="RED Simulator - Queue Management & Packet Dropping" />
+<CodePreview
+	src="/code-snippets/computer-network/01_red_and_ared_simulator.py"
+	lang="python"
+	caption="RED Simulator - Queue Management & Packet Dropping"
+/>
 
 ## 效果展示
 

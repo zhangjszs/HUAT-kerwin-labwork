@@ -1,9 +1,9 @@
 ---
-title: "RED 拥塞控制算法模拟与可视化"
-description: "深入理解 Random Early Detection（RED）拥塞控制算法的工作原理，通过 Python 模拟队列管理、早期丢包机制，并可视化比较 RED、ARED 和改进算法的性能差异。"
-date: "2023-11"
-tags: ["Network", "Python", "Algorithm", "Simulation"]
-relatedProject: "computer-network"
+title: 'RED 拥塞控制算法模拟与可视化'
+description: '深入理解 Random Early Detection（RED）拥塞控制算法的工作原理，通过 Python 模拟队列管理、早期丢包机制，并可视化比较 RED、ARED 和改进算法的性能差异。'
+date: '2023-11'
+tags: ['Network', 'Python', 'Algorithm', 'Simulation']
+relatedProject: 'computer-network'
 ---
 
 ## 为什么需要拥塞控制
@@ -32,6 +32,7 @@ def calculate_drop_probability(avg_queue, min_th, max_th, max_p):
 ```
 
 关键参数：
+
 - `min_th`：最小阈值，队列低于此值不丢包
 - `max_th`：最大阈值，队列高于此值全部丢包
 - `max_p`：最大丢包概率
@@ -74,7 +75,7 @@ def adapt_max_p(self, target_queue):
 def improved_drop_probability(self):
     base_p = self.calculate_base_probability()
     trend = self.queue_trend()  # 上升/下降/平稳
-    
+
     if trend == "rising":
         return min(base_p * 1.2, 1.0)  # 队列上升，更激进丢包
     elif trend == "falling":

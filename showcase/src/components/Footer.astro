@@ -2,74 +2,240 @@
 import Icon from './Icon.astro';
 
 const currentYear = new Date().getFullYear();
+
+const footerLinks = [
+	{
+		title: 'Navigate',
+		links: [
+			{ label: 'Home', href: '/' },
+			{ label: 'Projects', href: '/projects/' },
+			{ label: 'Deep Dives', href: '/deep-dives/' },
+			{ label: 'About', href: '/about/' },
+		],
+	},
+	{
+		title: 'Connect',
+		links: [
+			{ label: 'GitHub', href: 'https://github.com/kerwin-lab' },
+			{ label: 'X / Twitter', href: 'https://x.com/jszs15' },
+			{ label: 'Email', href: 'mailto:zhangjszs@foxmail.com' },
+		],
+	},
+];
 ---
 
 <footer>
-	<div class="group">
-		<p>
-			Built with <a href="https://astro.build/">Astro</a>
-			<Icon icon="rocket-launch" size="1.2em" />
-		</p>
-		<p>&copy; {currentYear} Kerwin Zhang</p>
+	<div class="footer-wrapper">
+		<div class="footer-top">
+			<div class="footer-brand">
+				<a href="/" class="brand-link">
+					<Icon icon="terminal-window" color="var(--accent-regular)" size="1.6em" gradient />
+					<span class="brand-name">Kerwin's Labwork</span>
+				</a>
+				<p class="brand-desc">A curated showcase of computer science coursework and projects from HUAT.</p>
+			</div>
+			<div class="footer-links">
+				{
+					footerLinks.map((group) => (
+						<div class="link-group">
+							<h4>{group.title}</h4>
+							<ul>
+								{group.links.map((link) => (
+									<li>
+										<a
+											href={link.href}
+											target={link.href.startsWith('http') ? '_blank' : undefined}
+											rel={link.href.startsWith('http') ? 'noopener' : undefined}
+										>
+											{link.label}
+										</a>
+									</li>
+								))}
+							</ul>
+						</div>
+					))
+				}
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p class="copyright">
+				&copy; {currentYear} Kerwin Zhang. Built with <a href="https://astro.build/">Astro</a>
+				<Icon icon="rocket-launch" size="1.2em" />
+			</p>
+			<div class="socials">
+				<a href="https://github.com/kerwin-lab" target="_blank" rel="noopener" aria-label="GitHub">
+					<Icon icon="github-logo" size="1.2em" />
+				</a>
+				<a href="https://x.com/jszs15" target="_blank" rel="noopener" aria-label="X / Twitter">
+					<Icon icon="twitter-logo" size="1.2em" />
+				</a>
+				<a href="mailto:zhangjszs@foxmail.com" aria-label="Email">
+					<Icon icon="envelope" size="1.2em" />
+				</a>
+			</div>
+		</div>
 	</div>
-	<p class="socials">
-		<a href="https://x.com/jszs15" target="_blank" rel="noopener"> X</a>
-		<a href="https://github.com/kerwin-lab" target="_blank" rel="noopener"> GitHub</a>
-		<a href="mailto:zhangjszs@foxmail.com"> Email</a>
-	</p>
 </footer>
+
 <style>
 	footer {
+		margin-top: auto;
+		border-top: 1px solid var(--gray-800);
+		background: linear-gradient(180deg, var(--gray-999) 0%, rgba(255, 255, 255, 0.02) 100%);
+	}
+
+	.footer-wrapper {
+		max-width: 83rem;
+		margin-inline: auto;
+		padding: 3rem 1.5rem 2rem;
+	}
+
+	.footer-top {
+		display: grid;
+		gap: 2.5rem;
+		grid-template-columns: 1fr;
+		padding-bottom: 2rem;
+		border-bottom: 1px solid var(--gray-800);
+	}
+
+	.footer-brand {
 		display: flex;
 		flex-direction: column;
-		gap: 3rem;
-		margin-top: auto;
-		padding: 3rem 2rem 3rem;
-		text-align: center;
+		gap: 0.75rem;
+	}
+
+	.brand-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--gray-0);
+		text-decoration: none;
+		font-family: var(--font-brand);
+		font-weight: 600;
+		font-size: var(--text-lg);
+		transition: opacity 0.2s;
+	}
+
+	.brand-link:hover {
+		opacity: 0.8;
+	}
+
+	.brand-desc {
 		color: var(--gray-400);
 		font-size: var(--text-sm);
+		line-height: 1.6;
+		max-width: 28ch;
+		margin: 0;
 	}
 
-	footer a {
-		color: var(--gray-400);
-		text-decoration: 1px solid underline transparent;
-		text-underline-offset: 0.25em;
-		transition: text-decoration-color var(--theme-transition);
+	.footer-links {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2rem;
 	}
 
-	footer a:hover,
-	footer a:focus {
-		text-decoration-color: currentColor;
+	.link-group h4 {
+		font-size: var(--text-sm);
+		font-weight: 600;
+		color: var(--gray-200);
+		margin: 0 0 0.75rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 	}
 
-	.group {
+	.link-group ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
 	}
 
+	.link-group a {
+		color: var(--gray-400);
+		text-decoration: none;
+		font-size: var(--text-sm);
+		transition: color 0.2s;
+	}
+
+	.link-group a:hover {
+		color: var(--accent-regular);
+	}
+
+	.footer-bottom {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		padding-top: 1.5rem;
+		text-align: center;
+	}
+
+	.copyright {
+		color: var(--gray-500);
+		font-size: var(--text-sm);
+		margin: 0;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+
+	.copyright a {
+		color: var(--gray-400);
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+
+	.copyright a:hover {
+		color: var(--accent-regular);
+	}
+
 	.socials {
 		display: flex;
+		gap: 0.75rem;
+	}
+
+	.socials a {
+		display: flex;
+		align-items: center;
 		justify-content: center;
-		gap: 1rem;
-		flex-wrap: wrap;
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: 50%;
+		background: var(--gray-800);
+		color: var(--gray-400);
+		border: 1px solid var(--gray-700);
+		transition: all 0.2s ease;
+		text-decoration: none;
+	}
+
+	.socials a:hover {
+		background: var(--accent-regular);
+		color: var(--gray-999);
+		border-color: var(--accent-regular);
+		transform: translateY(-2px);
 	}
 
 	@media (min-width: 50em) {
-		footer {
+		.footer-wrapper {
+			padding: 4rem 5rem 2.5rem;
+		}
+
+		.footer-top {
+			grid-template-columns: 1fr auto;
+			gap: 4rem;
+			padding-bottom: 2.5rem;
+		}
+
+		.footer-links {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 3rem;
+		}
+
+		.footer-bottom {
 			flex-direction: row;
 			justify-content: space-between;
-			padding: 2.5rem 5rem;
-		}
-
-		.group {
-			flex-direction: row;
-			gap: 1rem;
-			flex-wrap: wrap;
-		}
-
-		.socials {
-			justify-content: flex-end;
 		}
 	}
 </style>
