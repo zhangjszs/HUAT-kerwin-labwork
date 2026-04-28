@@ -21,11 +21,12 @@ const featuredCount = projects.filter((p) => p.data.featured).length;
 		</div>
 		<div class="wrapper hero-content">
 			<div class="hero-text">
-				<span class="eyebrow">Portfolio</span>
+				<span class="eyebrow" data-i18n="projects.eyebrow">Portfolio</span>
 				<h1 class="hero-title">
-					All <span class="gradient-text">Projects</span>
+					<span data-i18n="projects.title">All</span>
+					<span class="gradient-text" data-i18n="projects.titleAccent">Projects</span>
 				</h1>
-				<p class="hero-tagline">
+				<p class="hero-tagline" data-i18n="projects.tagline">
 					Browse {projects.length} projects across {uniqueTags.length} categories. From Java Web to Machine Learning, from
 					Android to Computer Networks.
 				</p>
@@ -34,22 +35,22 @@ const featuredCount = projects.filter((p) => p.data.featured).length;
 				<div class="stat-card">
 					<Icon icon="code" size="1.5em" />
 					<span class="stat-number">{projects.length}</span>
-					<span class="stat-label">Projects</span>
+					<span class="stat-label" data-i18n="stats.projects">Projects</span>
 				</div>
 				<div class="stat-card">
 					<Icon icon="terminal-window" size="1.5em" />
 					<span class="stat-number">{allTech.length}</span>
-					<span class="stat-label">Technologies</span>
+					<span class="stat-label" data-i18n="stats.technologies">Technologies</span>
 				</div>
 				<div class="stat-card">
 					<Icon icon="list" size="1.5em" />
 					<span class="stat-number">{uniqueTags.length}</span>
-					<span class="stat-label">Categories</span>
+					<span class="stat-label" data-i18n="projects.stats.categories">Categories</span>
 				</div>
 				<div class="stat-card">
 					<Icon icon="star" size="1.5em" />
 					<span class="stat-number">{featuredCount}</span>
-					<span class="stat-label">Featured</span>
+					<span class="stat-label" data-i18n="projects.stats.featured">Featured</span>
 				</div>
 			</div>
 		</div>

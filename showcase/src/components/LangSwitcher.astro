@@ -1,0 +1,117 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<lang-switcher data-path={currentPath}>
+	<button class="lang-btn" aria-label="Switch language" title="Switch language">
+		<span class="lang-current">EN</span>
+		<span class="lang-sep">/</span>
+		<span class="lang-alt">中</span>
+	</button>
+</lang-switcher>
+
+<script>
+	import { dictionary } from '../i18n/dictionary';
+	import type { Lang } from '../i18n/dictionary';
+
+	const STORAGE_KEY = 'preferred-lang';
+	const DEFAULT_LANG: Lang = 'en';
+
+	const getStoredLang = (): Lang => {
+		if (typeof localStorage === 'undefined') return DEFAULT_LANG;
+		const stored = localStorage.getItem(STORAGE_KEY);
+		return stored === 'zh' || stored === 'en' ? stored : DEFAULT_LANG;
+	};
+
+	const setStoredLang = (lang: Lang) => {
+		if (typeof localStorage === 'undefined') return;
+		localStorage.setItem(STORAGE_KEY, lang);
+	};
+
+	const applyTranslations = (lang: Lang) => {
+		const dict = dictionary[lang];
+		document.querySelectorAll('[data-i18n]').forEach((el) => {
+			const key = el.getAttribute('data-i18n');
+			if (key && key in dict) {
+				const value = dict[key as keyof typeof dict];
+				if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+					// skip form elements
+				} else if (el.hasAttribute('data-i18n-attr')) {
+					const attr = el.getAttribute('data-i18n-attr') || 'aria-label';
+					el.setAttribute(attr, value);
+				} else {
+					el.textContent = value;
+				}
+			}
+		});
+
+		// Update lang switcher UI
+		document.querySelectorAll('.lang-current').forEach((el) => {
+			el.textContent = lang === 'zh' ? '中' : 'EN';
+		});
+		document.querySelectorAll('.lang-alt').forEach((el) => {
+			el.textContent = lang === 'zh' ? 'EN' : '中';
+		});
+
+		document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+	};
+
+	class LangSwitcher extends HTMLElement {
+		constructor() {
+			super();
+			const btn = this.querySelector('.lang-btn');
+			if (!btn) return;
+
+			btn.addEventListener('click', () => {
+				const current = getStoredLang();
+				const next: Lang = current === 'zh' ? 'en' : 'zh';
+				setStoredLang(next);
+				applyTranslations(next);
+			});
+		}
+	}
+
+	customElements.define('lang-switcher', LangSwitcher);
+
+	// Apply on initial load and after Astro page transitions
+	const init = () => applyTranslations(getStoredLang());
+	init();
+	document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+	.lang-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.2rem;
+		padding: 0.4rem 0.7rem;
+		background: transparent;
+		border: 1px solid var(--gray-700);
+		border-radius: 999px;
+		color: var(--gray-300);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		font-family: var(--font-brand);
+	}
+
+	.lang-btn:hover {
+		border-color: var(--accent-regular);
+		color: var(--accent-regular);
+	}
+
+	.lang-current {
+		color: var(--gray-0);
+	}
+
+	.lang-sep {
+		color: var(--gray-500);
+		font-weight: 400;
+	}
+
+	.lang-alt {
+		color: var(--gray-400);
+		font-weight: 400;
+	}
+</style>

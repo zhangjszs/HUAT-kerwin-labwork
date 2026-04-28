@@ -34,11 +34,12 @@ const timeline = [
 		</div>
 		<div class="wrapper hero-content">
 			<div class="hero-text">
-				<span class="eyebrow">Hello</span>
+				<span class="eyebrow" data-i18n="about.eyebrow">Hello</span>
 				<h1 class="hero-title">
-					About <span class="gradient-text">Me</span>
+					<span data-i18n="about.title">About</span>
+					<span class="gradient-text" data-i18n="about.titleAccent">Me</span>
 				</h1>
-				<p class="hero-tagline">
+				<p class="hero-tagline" data-i18n="about.tagline">
 					CS student at Hubei University of Automotive Technology. Building things, breaking things, and learning in
 					public.
 				</p>
@@ -51,8 +52,11 @@ const timeline = [
 		<section class="section reveal">
 			<div class="about-grid">
 				<div class="about-text">
-					<span class="section-eyebrow">Background</span>
-					<h2 class="section-title">Who I <span class="gradient-text">Am</span></h2>
+					<span class="section-eyebrow" data-i18n="about.background.eyebrow">Background</span>
+					<h2 class="section-title">
+						<span data-i18n="about.background.title">Who I</span>
+						<span class="gradient-text" data-i18n="about.background.titleAccent">Am</span>
+					</h2>
 					<p>
 						I'm Kerwin, a Computer Science student passionate about software engineering, data science, and mobile
 						development. This site collects my coursework, lab experiments, and side projects from HUAT.
@@ -85,8 +89,11 @@ const timeline = [
 
 		<!-- Skills -->
 		<section class="section section-alt reveal">
-			<span class="section-eyebrow">Capabilities</span>
-			<h2 class="section-title">Tech <span class="gradient-text">Stack</span></h2>
+			<span class="section-eyebrow" data-i18n="about.skills.eyebrow">Capabilities</span>
+			<h2 class="section-title">
+				<span data-i18n="about.skills.title">Tech</span>
+				<span class="gradient-text" data-i18n="about.skills.titleAccent">Stack</span>
+			</h2>
 			<div class="skills-grid">
 				{
 					skills.map((group) => (

@@ -1,14 +1,15 @@
 ---
 import Icon from './Icon.astro';
 import type { iconPaths } from './IconPaths';
+import LangSwitcher from './LangSwitcher.astro';
 import ThemeToggle from './ThemeToggle.astro';
 
 /** Main menu items */
-const textLinks: { label: string; href: string }[] = [
-	{ label: 'Home', href: '/' },
-	{ label: 'Projects', href: '/projects/' },
-	{ label: 'Deep Dives', href: '/deep-dives/' },
-	{ label: 'About', href: '/about/' },
+const textLinks: { label: string; href: string; i18n: string }[] = [
+	{ label: 'Home', href: '/', i18n: 'nav.home' },
+	{ label: 'Projects', href: '/projects/', i18n: 'nav.projects' },
+	{ label: 'Deep Dives', href: '/deep-dives/', i18n: 'nav.deepDives' },
+	{ label: 'About', href: '/about/', i18n: 'nav.about' },
 ];
 
 /** Icon links to social media — edit these with links to your profiles! */
@@ -45,9 +46,9 @@ const isCurrentPage = (href: string) => {
 	<noscript>
 		<ul class="nav-items">
 			{
-				textLinks.map(({ label, href }) => (
+				textLinks.map(({ label, href, i18n }) => (
 					<li>
-						<a aria-current={isCurrentPage(href) ? 'page' : null} class="link" href={href}>
+						<a aria-current={isCurrentPage(href) ? 'page' : null} class="link" href={href} data-i18n={i18n}>
 							{label}
 						</a>
 					</li>
@@ -72,9 +73,9 @@ const isCurrentPage = (href: string) => {
 	<div id="menu-content" hidden>
 		<ul class="nav-items">
 			{
-				textLinks.map(({ label, href }) => (
+				textLinks.map(({ label, href, i18n }) => (
 					<li>
-						<a aria-current={isCurrentPage(href) ? 'page' : null} class="link" href={href}>
+						<a aria-current={isCurrentPage(href) ? 'page' : null} class="link" href={href} data-i18n={i18n}>
 							{label}
 						</a>
 					</li>
@@ -93,6 +94,9 @@ const isCurrentPage = (href: string) => {
 				}
 			</div>
 
+			<div class="lang-toggle">
+				<LangSwitcher />
+			</div>
 			<div class="theme-toggle">
 				<ThemeToggle />
 			</div>
@@ -273,6 +277,11 @@ const isCurrentPage = (href: string) => {
 		display: flex;
 		align-items: center;
 		height: calc(var(--icon-size) + 2 * var(--icon-padding));
+	}
+
+	.lang-toggle {
+		display: flex;
+		align-items: center;
 	}
 
 	/* Nav scroll effect - global for all viewports */

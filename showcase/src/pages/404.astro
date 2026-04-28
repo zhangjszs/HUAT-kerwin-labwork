@@ -13,11 +13,11 @@ import Icon from '../components/Icon.astro';
 		<div class="wrapper">
 			<div class="error-content">
 				<span class="error-code" aria-label="404">404</span>
-				<h1>Page Not Found</h1>
-				<p>The page you are looking for doesn't exist or has been moved.</p>
+				<h1 data-i18n="404.title">Page Not Found</h1>
+				<p data-i18n="404.desc">The page you are looking for doesn't exist or has been moved.</p>
 				<a href="/" class="home-link">
 					<Icon icon="arrow-left" size="1.2em" />
-					Back to Home
+					<span data-i18n="404.backHome">Back to Home</span>
 				</a>
 			</div>
 		</div>

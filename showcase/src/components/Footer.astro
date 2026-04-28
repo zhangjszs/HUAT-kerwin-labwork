@@ -38,7 +38,7 @@ const footerLinks = [
 				{
 					footerLinks.map((group) => (
 						<div class="link-group">
-							<h4>{group.title}</h4>
+							<h4 data-i18n={group.title === 'Navigate' ? 'footer.navigate' : 'footer.connect'}>{group.title}</h4>
 							<ul>
 								{group.links.map((link) => (
 									<li>
@@ -46,6 +46,7 @@ const footerLinks = [
 											href={link.href}
 											target={link.href.startsWith('http') ? '_blank' : undefined}
 											rel={link.href.startsWith('http') ? 'noopener' : undefined}
+											data-i18n={`footer.${group.title.toLowerCase() === 'navigate' ? 'navigate' : 'connect'}.${link.label.toLowerCase().replace(/[^a-z]/g, '')}`}
 										>
 											{link.label}
 										</a>
@@ -59,7 +60,8 @@ const footerLinks = [
 		</div>
 		<div class="footer-bottom">
 			<p class="copyright">
-				&copy; {currentYear} Kerwin Zhang. Built with <a href="https://astro.build/">Astro</a>
+				&copy; {currentYear} Kerwin Zhang. <span data-i18n="footer.builtWith">Built with</span>
+				<a href="https://astro.build/">Astro</a>
 				<Icon icon="rocket-launch" size="1.2em" />
 			</p>
 			<div class="socials">

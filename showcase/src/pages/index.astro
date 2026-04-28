@@ -63,7 +63,7 @@ const languages = [...langSet];
 				<h1 class="hero-title">
 					<Typewriter text="Kerwin's" class="gradient-text" speed={100} /> Labwork
 				</h1>
-				<p class="hero-tagline">
+				<p class="hero-tagline" data-i18n="hero.tagline">
 					Computer Science coursework & projects from Hubei University of Automotive Technology. Open-source, polyglot,
 					and always learning.
 				</p>
@@ -76,22 +76,22 @@ const languages = [...langSet];
 				<div class="stat-card reveal">
 					<span class="stat-icon"><Icon icon="code" size="1.5em" /></span>
 					<span class="stat-number" data-target={totalProjects}>{totalProjects}</span>
-					<span class="stat-label">Projects</span>
+					<span class="stat-label" data-i18n="stats.projects">Projects</span>
 				</div>
 				<div class="stat-card reveal">
 					<span class="stat-icon"><Icon icon="terminal-window" size="1.5em" /></span>
 					<span class="stat-number" data-target={totalTech}>{totalTech}</span>
-					<span class="stat-label">Technologies</span>
+					<span class="stat-label" data-i18n="stats.technologies">Technologies</span>
 				</div>
 				<div class="stat-card reveal">
 					<span class="stat-icon"><Icon icon="list" size="1.5em" /></span>
 					<span class="stat-number" data-target={totalTags}>{totalTags}</span>
-					<span class="stat-label">Tags</span>
+					<span class="stat-label" data-i18n="stats.tags">Tags</span>
 				</div>
 				<div class="stat-card reveal">
 					<span class="stat-icon"><Icon icon="calendar" size="1.5em" /></span>
 					<span class="stat-number">{yearSpan}</span>
-					<span class="stat-label">Timeline</span>
+					<span class="stat-label" data-i18n="stats.timeline">Timeline</span>
 				</div>
 			</div>
 		</div>
@@ -108,11 +108,18 @@ const languages = [...langSet];
 			featuredProjects.length > 0 && (
 				<section class="section reveal">
 					<header class="section-header">
-						<span class="section-eyebrow">Highlights</span>
+						<span class="section-eyebrow" data-i18n="section.eyebrow.featured">
+							Highlights
+						</span>
 						<h2 class="section-title">
-							Featured <span class="gradient-text">Projects</span>
+							<span data-i18n="section.title.featured">Featured</span>{' '}
+							<span class="gradient-text" data-i18n="section.title.featuredAccent">
+								Projects
+							</span>
 						</h2>
-						<p class="section-desc">Work that represents depth and technical breadth.</p>
+						<p class="section-desc" data-i18n="section.desc.featured">
+							Work that represents depth and technical breadth.
+						</p>
 					</header>
 					<div class="gallery">
 						<Grid variant="offset">
@@ -130,11 +137,12 @@ const languages = [...langSet];
 		<!-- Recent Projects -->
 		<section class="section reveal">
 			<header class="section-header">
-				<span class="section-eyebrow">Latest Work</span>
+				<span class="section-eyebrow" data-i18n="section.eyebrow.recent">Latest Work</span>
 				<h2 class="section-title">
-					Recent <span class="gradient-text">Projects</span>
+					<span data-i18n="section.title.recent">Recent</span>
+					<span class="gradient-text" data-i18n="section.title.recentAccent">Projects</span>
 				</h2>
-				<p class="section-desc">Browse the latest coursework and experiments.</p>
+				<p class="section-desc" data-i18n="section.desc.recent">Browse the latest coursework and experiments.</p>
 			</header>
 			<div class="gallery">
 				<Grid variant="offset">
@@ -148,7 +156,7 @@ const languages = [...langSet];
 				</Grid>
 			</div>
 			<div class="cta">
-				<a href="/projects" class="cta-button">
+				<a href="/projects" class="cta-button" data-i18n="section.cta.viewAll">
 					View All Projects
 					<Icon icon="arrow-right" size="1.2em" />
 				</a>
@@ -158,11 +166,12 @@ const languages = [...langSet];
 		<!-- Tech Stack -->
 		<section class="section reveal">
 			<header class="section-header">
-				<span class="section-eyebrow">Toolbox</span>
+				<span class="section-eyebrow" data-i18n="section.eyebrow.tech">Toolbox</span>
 				<h2 class="section-title">
-					Tech <span class="gradient-text">Stack</span>
+					<span data-i18n="section.title.tech">Tech</span>
+					<span class="gradient-text" data-i18n="section.title.techAccent">Stack</span>
 				</h2>
-				<p class="section-desc">Technologies and tools used across all projects.</p>
+				<p class="section-desc" data-i18n="section.desc.tech">Technologies and tools used across all projects.</p>
 			</header>
 			<div class="tech-grid">
 				{allTech.map((tech) => <span class="tech-item">{tech}</span>)}
@@ -172,11 +181,12 @@ const languages = [...langSet];
 		<!-- Tag Cloud -->
 		<section class="section reveal">
 			<header class="section-header">
-				<span class="section-eyebrow">Explore</span>
+				<span class="section-eyebrow" data-i18n="section.eyebrow.tags">Explore</span>
 				<h2 class="section-title">
-					Browse by <span class="gradient-text">Tag</span>
+					<span data-i18n="section.title.tags">Browse by</span>
+					<span class="gradient-text" data-i18n="section.title.tagsAccent">Tag</span>
 				</h2>
-				<p class="section-desc">Filter projects by technology, domain, or course.</p>
+				<p class="section-desc" data-i18n="section.desc.tags">Filter projects by technology, domain, or course.</p>
 			</header>
 			<div class="tag-cloud">
 				{

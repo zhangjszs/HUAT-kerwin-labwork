@@ -9,9 +9,9 @@ const uniqueTags = [...new Set(tags)].sort();
 ---
 
 <div class="tag-filter" data-selected={JSON.stringify(selected)}>
-	<span class="label">Filter:</span>
+	<span class="label" data-i18n="projects.filter">Filter:</span>
 	<div class="tags">
-		<button class="tag-btn active" data-tag="all">All</button>
+		<button class="tag-btn active" data-tag="all" data-i18n="projects.filter.all">All</button>
 		{
 			uniqueTags.map((tag) => (
 				<button class="tag-btn" data-tag={tag}>

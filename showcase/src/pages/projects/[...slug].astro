@@ -47,9 +47,9 @@ const {
 			</div>
 			<div class="wrapper hero-content">
 				<div class="breadcrumbs">
-					<a href="/">Home</a>
+					<a href="/" data-i18n="project.breadcrumbs.home">Home</a>
 					<span>/</span>
-					<a href="/projects">Projects</a>
+					<a href="/projects" data-i18n="project.breadcrumbs.projects">Projects</a>
 					<span>/</span>
 					<span class="current">{title}</span>
 				</div>
@@ -78,13 +78,13 @@ const {
 						rel="noopener"
 					>
 						<Icon icon="github-logo" size="1.2em" />
-						View Source
+						<span data-i18n="project.viewSource">View Source</span>
 					</a>
 					{
 						demoUrl && (
 							<a class="btn btn-secondary" href={demoUrl} target="_blank" rel="noopener">
 								<Icon icon="rocket-launch" size="1.2em" />
-								Live Demo
+								<span data-i18n="project.liveDemo">Live Demo</span>
 							</a>
 						)
 					}
@@ -92,7 +92,7 @@ const {
 						externalDeployUrl && (
 							<a class="btn btn-secondary" href={externalDeployUrl} target="_blank" rel="noopener">
 								<Icon icon="globe" size="1.2em" />
-								Deployed
+								<span data-i18n="project.deployed">Deployed</span>
 							</a>
 						)
 					}
@@ -103,23 +103,26 @@ const {
 		<!-- Overview -->
 		<section class="section section-alt reveal">
 			<div class="wrapper">
-				<span class="section-eyebrow">Overview</span>
-				<h2 class="section-title">Project <span class="gradient-text">Details</span></h2>
+				<span class="section-eyebrow" data-i18n="project.overview">Overview</span>
+				<h2 class="section-title">
+					<span data-i18n="project.details">Project</span>
+					<span class="gradient-text" data-i18n="project.detailsAccent">Details</span>
+				</h2>
 				<div class="overview-grid">
 					<div class="overview-card">
-						<h3><Icon icon="list" size="1.2em" /> Tags</h3>
+						<h3><Icon icon="list" size="1.2em" /> <span data-i18n="project.tags">Tags</span></h3>
 						<div class="tag-list">
 							{tags.map((tag) => <span class="tag-pill">{tag}</span>)}
 						</div>
 					</div>
 					<div class="overview-card">
-						<h3><Icon icon="magnifying-glass" size="1.2em" /> Keywords</h3>
+						<h3><Icon icon="magnifying-glass" size="1.2em" /> <span data-i18n="project.keywords">Keywords</span></h3>
 						<div class="keyword-list">
 							{keywords.map((kw) => <span class="keyword-pill">{kw}</span>)}
 						</div>
 					</div>
 					<div class="overview-card wide">
-						<h3><Icon icon="strategy" size="1.2em" /> Architecture</h3>
+						<h3><Icon icon="strategy" size="1.2em" /> <span data-i18n="project.architecture">Architecture</span></h3>
 						<p>{architecture || 'Architecture details to be added.'}</p>
 					</div>
 				</div>
@@ -138,9 +141,14 @@ const {
 			challenges && challenges.length > 0 && (
 				<section class="section section-alt reveal">
 					<div class="wrapper">
-						<span class="section-eyebrow">Problems Solved</span>
+						<span class="section-eyebrow" data-i18n="project.challenges.eyebrow">
+							Problems Solved
+						</span>
 						<h2 class="section-title">
-							Challenges <span class="gradient-text">&amp; Solutions</span>
+							<span data-i18n="project.challenges">Challenges</span>{' '}
+							<span class="gradient-text" data-i18n="project.challengesAccent">
+								&amp; Solutions
+							</span>
 						</h2>
 						<div class="challenges-list">
 							{challenges.map((challenge, i) => (
@@ -165,9 +173,14 @@ const {
 			lessons && lessons.length > 0 && (
 				<section class="section reveal">
 					<div class="wrapper">
-						<span class="section-eyebrow">Reflections</span>
+						<span class="section-eyebrow" data-i18n="project.lessons.eyebrow">
+							Reflections
+						</span>
 						<h2 class="section-title">
-							Key <span class="gradient-text">Takeaways</span>
+							<span data-i18n="project.lessons">Key</span>{' '}
+							<span class="gradient-text" data-i18n="project.lessonsAccent">
+								Takeaways
+							</span>
 						</h2>
 						<div class="lessons-list">
 							{lessons.map((lesson) => (
@@ -189,7 +202,7 @@ const {
 			<div class="wrapper">
 				<a href="/projects" class="back-link">
 					<Icon icon="arrow-left" size="1.2em" />
-					Back to all projects
+					<span data-i18n="project.back">Back to all projects</span>
 				</a>
 			</div>
 		</nav>
