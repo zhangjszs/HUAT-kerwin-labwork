@@ -11,27 +11,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.*;
 
-public class MoveButton extends Frame implements Runnable, ActionListener {
-    // 用Thread类声明first,second,third三个线程对象
+public class MoveButton extends JFrame implements Runnable, ActionListener {
     Thread first, second, third;
     JLabel label;
-    Button redButton, greenButton, blueButton, startButton;
+    JButton redButton, greenButton, blueButton, startButton;
     int distance = 10;
+    private boolean started = false;
 
     MoveButton() {
-        //分别创建first,second,third三个线程，用当前窗口做为该线程的目标对象
         first = new Thread(this);
         second = new Thread(this);
         third = new Thread(this);
 
-        redButton = new Button();
-        greenButton = new Button();
-        blueButton = new Button();
+        redButton = new JButton();
+        greenButton = new JButton();
+        blueButton = new JButton();
         redButton.setBackground(Color.red);
         greenButton.setBackground(Color.green);
         blueButton.setBackground(Color.blue);
 
-        startButton = new Button("start");
+        startButton = new JButton("start");
         startButton.addActionListener(this);
         label = new JLabel("计算机222 章崇文 202202296");
         setLayout(null);
@@ -42,24 +41,22 @@ public class MoveButton extends Frame implements Runnable, ActionListener {
         add(blueButton);
         blueButton.setBounds(200, 60, 15, 15);
         add(startButton);
-        startButton.setBounds(10, 100, 30, 30);
+        startButton.setBounds(10, 100, 70, 30);
         add(label);
         label.setBounds(50, 100, 300, 30);
 
         setTitle("线程接力");
         setBounds(0, 0, 400, 200);
         setVisible(true);
-        validate();
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void actionPerformed(ActionEvent e) {
+        if (started) {
+            return;
+        }
+        started = true;
         try {
-            // 分别启动三个线程
             first.start();
             second.start();
             third.start();
@@ -70,7 +67,6 @@ public class MoveButton extends Frame implements Runnable, ActionListener {
 
     public void run() {
         while (true) {
-            // 判断当前占有CPU资源的线程是否是first
             if (Thread.currentThread() == first) {
                 moveComponent(redButton);
                 try {
@@ -79,7 +75,6 @@ public class MoveButton extends Frame implements Runnable, ActionListener {
                     exp.printStackTrace();
                 }
             }
-            // 判断当前占有CPU资源的线程是否是second
             if (Thread.currentThread() == second) {
                 moveComponent(greenButton);
                 try {
@@ -88,7 +83,6 @@ public class MoveButton extends Frame implements Runnable, ActionListener {
                     exp.printStackTrace();
                 }
             }
-            // 判断当前占有CPU资源的线程是否是third
             if (Thread.currentThread() == third) {
                 moveComponent(blueButton);
                 try {
@@ -147,7 +141,6 @@ public class MoveButton extends Frame implements Runnable, ActionListener {
     }
 
     public static void main(String[] args) {
-        new MoveButton().setLocationRelativeTo(null);
+        SwingUtilities.invokeLater(() -> new MoveButton().setLocationRelativeTo(null));
     }
 }
-

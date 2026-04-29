@@ -19,6 +19,12 @@ public class GradeStatistics {
         String input = scanner.nextLine();
         List<Double> scores = parseScores(input);
 
+        if (scores.isEmpty()) {
+            System.out.println("没有有效的成绩数据！");
+            scanner.close();
+            return;
+        }
+
         GradeAnalyzer analyzer = new GradeAnalyzer(scores);
         double max = analyzer.getMax();
         double min = analyzer.getMin();
@@ -27,6 +33,7 @@ public class GradeStatistics {
         System.out.println("最高分：" + String.format("%.1f", max));
         System.out.println("最低分：" + String.format("%.1f", min));
         System.out.println("平均分：" + String.format("%.2f", average));
+        scanner.close();
     }
 
     private static List<Double> parseScores(String input) {
@@ -35,10 +42,9 @@ public class GradeStatistics {
 
         for (String scoreString : scoreStrings) {
             try {
-                double score = Double.parseDouble(scoreString);
+                double score = Double.parseDouble(scoreString.trim());
                 scores.add(score);
             } catch (NumberFormatException e) {
-                // 处理无效输入，如非数字字符串
                 System.err.println("无效的输入: " + scoreString);
             }
         }
@@ -63,6 +69,9 @@ class GradeAnalyzer {
     }
 
     public double getAverage() {
+        if (scores.isEmpty()) {
+            return 0;
+        }
         double sum = 0;
         for (Double score : scores) {
             sum += score;
@@ -70,4 +79,3 @@ class GradeAnalyzer {
         return sum / scores.size();
     }
 }
-

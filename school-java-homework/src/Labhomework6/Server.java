@@ -17,7 +17,7 @@ public class Server extends JFrame implements ActionListener {
     Socket s = null;
     private DataInputStream is = null;
     private DataOutputStream os = null;
-    private boolean connected = false;
+    private volatile boolean connected = false;
     JLabel ipLabel = new JLabel();
     JLabel portLabel = new JLabel("端口");
     JTextField portTextField = new JTextField("8000");
@@ -26,7 +26,7 @@ public class Server extends JFrame implements ActionListener {
     JPanel panel = new JPanel();
     JTextField inputTextField = new JTextField();
     JTextArea contentTextArea = new JTextArea();
-    Thread recvThread = new Thread(new RecvThread());
+    Thread recvThread = null;
 
     public Server() {
         setTitle("服务器端");
@@ -34,8 +34,6 @@ public class Server extends JFrame implements ActionListener {
         panel.setLayout(new FlowLayout());
         try {
             ipLabel.setText("本机IP信息：" + InetAddress.getLocalHost().toString());
-        } catch (HeadlessException e) {
-            e.printStackTrace();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -58,7 +56,6 @@ public class Server extends JFrame implements ActionListener {
             }
         });
         setSize(500, 300);
-        // 将窗体位于屏幕的中央
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -66,22 +63,24 @@ public class Server extends JFrame implements ActionListener {
     public void start() {
         try {
             int port = Integer.parseInt(portTextField.getText());
-            connected = true;
             ss = new ServerSocket(port);
+            connected = true;
+            appendMessage("等待客户端连接...");
             s = ss.accept();
+            appendMessage("客户端已连接: " + s.getInetAddress());
             os = new DataOutputStream(s.getOutputStream());
             is = new DataInputStream(s.getInputStream());
+            recvThread = new Thread(new RecvThread());
             recvThread.start();
-        } catch (IOException ignored) {
-        } finally {
-            try {
-                ss.close();
-            } catch (IOException ignored) {
-            }
+        } catch (IOException e) {
+            appendMessage("服务器异常: " + e.getMessage());
+            e.printStackTrace();
+            SwingUtilities.invokeLater(() -> listenButton.setEnabled(true));
         }
     }
 
     public void disconnect() {
+        connected = false;
         try {
             if (os != null)
                 os.close();
@@ -89,32 +88,36 @@ public class Server extends JFrame implements ActionListener {
                 is.close();
             if (s != null)
                 s.close();
-        } catch (IOException ignored) {
+            if (ss != null)
+                ss.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         System.exit(0);
     }
 
-    // 使用内部类创建接收数据线程
+    private void appendMessage(String msg) {
+        SwingUtilities.invokeLater(() -> contentTextArea.append(msg + "\n"));
+    }
+
     private class RecvThread implements Runnable {
         public void run() {
             try {
                 while (connected) {
                     String str = is.readUTF();
-                    contentTextArea.setText(contentTextArea.getText() + "client:" + str + '\n');
+                    appendMessage("client: " + str);
                 }
             } catch (EOFException e) {
-                contentTextArea.setText("Client closed!");
-//            } catch (IOException e) {
-//                e.printStackTrace();
+                appendMessage("Client closed!");
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                if (connected) {
+                    appendMessage("连接异常: " + e.getMessage());
+                }
             }
-
         }
     }
 
     public void actionPerformed(ActionEvent e) {
-        // 如果按下的是监听按钮
         if (e.getSource() == listenButton) {
             listenButton.setEnabled(false);
             start();
@@ -123,16 +126,22 @@ public class Server extends JFrame implements ActionListener {
         } else if (e.getSource() == inputTextField) {
             String str = inputTextField.getText().trim();
             inputTextField.setText("");
+            if (os == null || !connected) {
+                appendMessage("错误: 尚未有客户端连接");
+                return;
+            }
             try {
                 os.writeUTF(str);
                 os.flush();
-                contentTextArea.setText(contentTextArea.getText() + "server:" + str + '\n');
+                appendMessage("server: " + str);
             } catch (IOException e1) {
+                appendMessage("发送失败: " + e1.getMessage());
+                e1.printStackTrace();
             }
         }
     }
 
     public static void main(String[] args) {
-        new Server();
+        SwingUtilities.invokeLater(Server::new);
     }
 }

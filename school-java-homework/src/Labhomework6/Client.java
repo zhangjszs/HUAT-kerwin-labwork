@@ -16,7 +16,7 @@ public class Client extends JFrame implements ActionListener {
     Socket s = null;
     DataOutputStream os = null;
     DataInputStream is = null;
-    private boolean connected = false;
+    private volatile boolean connected = false;
     JLabel ipLabel = new JLabel("IP");
     JTextField ipTextField = new JTextField("127.0.0.1");
     JLabel portLabel = new JLabel("端口");
@@ -26,7 +26,7 @@ public class Client extends JFrame implements ActionListener {
     JPanel panel = new JPanel();
     JTextField inputTextField = new JTextField();
     JTextArea contentTextArea = new JTextArea();
-    Thread recvThread = new Thread(new RecvThread());
+    Thread recvThread = null;
 
     public Client() {
         setTitle("客户端");
@@ -54,28 +54,33 @@ public class Client extends JFrame implements ActionListener {
             }
         });
         setSize(500, 300);
-        // 将窗体位于屏幕的中央
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
     public void connect() {
         try {
-            String host, port;
-            host = ipTextField.getText();
-            port = portTextField.getText();
-            s = new Socket(host, Integer.parseInt(port));
+            String host = ipTextField.getText();
+            int port = Integer.parseInt(portTextField.getText());
+            s = new Socket(host, port);
             os = new DataOutputStream(s.getOutputStream());
             is = new DataInputStream(s.getInputStream());
             connected = true;
+            recvThread = new Thread(new RecvThread());
+            recvThread.start();
         } catch (UnknownHostException e) {
+            appendMessage("错误: 无法解析主机地址");
             e.printStackTrace();
+            SwingUtilities.invokeLater(() -> connectButton.setEnabled(true));
         } catch (IOException e) {
+            appendMessage("错误: 连接服务器失败");
             e.printStackTrace();
+            SwingUtilities.invokeLater(() -> connectButton.setEnabled(true));
         }
     }
 
     public void disconnect() {
+        connected = false;
         try {
             if (os != null)
                 os.close();
@@ -84,19 +89,26 @@ public class Client extends JFrame implements ActionListener {
             if (s != null)
                 s.close();
         } catch (IOException e) {
+            e.printStackTrace();
         }
         System.exit(0);
     }
 
-    // 使用内部类创建接收数据线程
+    private void appendMessage(String msg) {
+        SwingUtilities.invokeLater(() -> contentTextArea.append(msg + "\n"));
+    }
+
     private class RecvThread implements Runnable {
         public void run() {
             try {
                 while (connected) {
                     String str = is.readUTF();
-                    contentTextArea.setText(contentTextArea.getText() + "server:" + str + '\n');
+                    appendMessage("server: " + str);
                 }
             } catch (IOException e) {
+                if (connected) {
+                    appendMessage("与服务器断开连接");
+                }
             }
         }
     }
@@ -105,22 +117,27 @@ public class Client extends JFrame implements ActionListener {
         if (e.getSource() == connectButton) {
             connectButton.setEnabled(false);
             connect();
-            recvThread.start();
         } else if (e.getSource() == closeButton) {
             disconnect();
         } else if (e.getSource() == inputTextField) {
             String str = inputTextField.getText().trim();
             inputTextField.setText("");
+            if (os == null || !connected) {
+                appendMessage("错误: 尚未连接到服务器");
+                return;
+            }
             try {
                 os.writeUTF(str);
                 os.flush();
-                contentTextArea.setText(contentTextArea.getText() + "client:" + str + '\n');
+                appendMessage("client: " + str);
             } catch (IOException e1) {
+                appendMessage("发送失败: " + e1.getMessage());
+                e1.printStackTrace();
             }
         }
     }
 
     public static void main(String[] args) {
-        new Client();
+        SwingUtilities.invokeLater(Client::new);
     }
 }

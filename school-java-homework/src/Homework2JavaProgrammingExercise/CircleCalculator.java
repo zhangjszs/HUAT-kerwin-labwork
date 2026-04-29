@@ -29,13 +29,13 @@ public class CircleCalculator {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("==== 计算园面积周长 ====");
+        System.out.println("==== 计算圆面积周长 ====");
         System.out.print("请输入圆的半径：");
         double radius = scanner.nextDouble();
         CircleCalculator circleCalculator = new CircleCalculator(radius);
         System.out.println("半径为" + String.format("%.2f", circleCalculator.getRadius()) + "的圆的面积为：" + String.format("%.2f", circleCalculator.getArea()));
         System.out.println("半径为" + String.format("%.2f", circleCalculator.getRadius()) + "的圆的周长为：" + String.format("%.2f", circleCalculator.getPerimeter()));
-
+        scanner.close();
     }
 
 }

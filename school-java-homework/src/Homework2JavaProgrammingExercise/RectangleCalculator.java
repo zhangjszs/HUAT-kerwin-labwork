@@ -29,7 +29,7 @@ public class RectangleCalculator {
         return length * width;
     }
 
-    public double getperimeter() {
+    public double getPerimeter() {
         return 2 * (length + width);
     }
 
@@ -42,6 +42,7 @@ public class RectangleCalculator {
         double width = scanner.nextDouble();
         RectangleCalculator rectangleCalculator = new RectangleCalculator(length, width);
         System.out.println("长" + String.format("%.2f", rectangleCalculator.getLength()) + "，宽" + String.format("%.2f", rectangleCalculator.getWidth()) + "的矩形面积为：" + String.format("%.2f", rectangleCalculator.getArea()));
-        System.out.println("长" + String.format("%.2f", rectangleCalculator.getLength()) + "，宽" + String.format("%.2f", rectangleCalculator.getWidth()) + "的矩形周长为：" + String.format("%.2f", rectangleCalculator.getperimeter()));
+        System.out.println("长" + String.format("%.2f", rectangleCalculator.getLength()) + "，宽" + String.format("%.2f", rectangleCalculator.getWidth()) + "的矩形周长为：" + String.format("%.2f", rectangleCalculator.getPerimeter()));
+        scanner.close();
     }
 }

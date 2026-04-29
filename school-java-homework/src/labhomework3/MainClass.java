@@ -8,6 +8,7 @@ package labhomework3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 class StudentInfo {
@@ -38,6 +39,19 @@ class StudentInfo {
     public void setSdept(String sdept) {
         this.sdept = sdept;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StudentInfo)) return false;
+        StudentInfo that = (StudentInfo) o;
+        return Objects.equals(sno, that.sno);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sno);
+    }
 }
 
 interface IStudentDAO {
@@ -55,7 +69,7 @@ interface IStudentDAO {
 }
 
 class StudentDAOImpl implements IStudentDAO {
-    static List<StudentInfo> studentInfos = new ArrayList<>();
+    private final List<StudentInfo> studentInfos = new ArrayList<>();
 
     @Override
     public void insertStudent(StudentInfo stu) {
@@ -76,17 +90,20 @@ class StudentDAOImpl implements IStudentDAO {
 
     @Override
     public void updateStudent(StudentInfo stu) {
-        // 更新指定学生信息记录
-        studentInfos.remove(stu);
-        studentInfos.add(stu);
-        System.out.println("学生信息已更新");
+        StudentInfo existing = findStudentBySno(stu.getSno());
+        if (existing != null) {
+            existing.setSname(stu.getSname());
+            existing.setSdept(stu.getSdept());
+            System.out.println("学生信息已更新");
+        } else {
+            System.out.println("要更新的学生信息不存在");
+        }
     }
 
     @Override
     public StudentInfo findStudentBySno(String sno) {
         for (StudentInfo stu : studentInfos) {
             if (stu.getSno().equals(sno)) {
-                System.out.println("学生信息已找到");
                 return stu;
             }
         }
@@ -106,9 +123,8 @@ class StudentDAOImpl implements IStudentDAO {
     @Override
     public void displayAllStudent() {
         if (!studentInfos.isEmpty()) {
+            System.out.println("所有学生共计 " + studentInfos.size() + " 人的信息如下");
             for (StudentInfo stu : studentInfos) {
-                int num = studentInfos.indexOf(stu) + 1;
-                System.out.println("所有学生共计" + num + "人的信息如下");
                 System.out.println("学号: " + stu.getSno() + "\t姓名: " + stu.getSname() + "\t系部: " + stu.getSdept());
             }
         } else {
@@ -117,9 +133,6 @@ class StudentDAOImpl implements IStudentDAO {
     }
 }
 
-/**
- * @author MR
- */
 public class MainClass {
     private static final int INSERT = 1;
     private static final int DELETE = 2;
@@ -164,18 +177,23 @@ public class MainClass {
     }
 
     private static int menuSelect(Scanner scanner) {
-        System.out.print("\n");
-        System.out.print("\t\t\t  学生信息管理系统功能菜单		\n");
-        System.out.print("\t\t\t       作者：KerwinZhang			\n");
-        System.out.print("\t\t\t  =======================		\n");
-        System.out.print("\t\t\t  1.插入学生信息记录			\n");
-        System.out.print("\t\t\t  2.删除学生信息记录			\n");
-        System.out.print("\t\t\t  3.更新学生信息记录			\n");
-        System.out.print("\t\t\t  4.显示所有学生信息记录		\n");
-        System.out.print("\t\t\t  5.按学号查询指定学生信息		\n");
-        System.out.print("\t\t\t  0.结束程序				\n");
-        System.out.print("\t\t\t  =======================		\n");
-        System.out.print("\t\t\t请输入您的选择：		\n");
+        System.out.println();
+        System.out.println("\t\t\t  学生信息管理系统功能菜单\t\t");
+        System.out.println("\t\t\t       作者：KerwinZhang\t\t\t");
+        System.out.println("\t\t\t  =======================\t\t");
+        System.out.println("\t\t\t  1.插入学生信息记录\t\t\t");
+        System.out.println("\t\t\t  2.删除学生信息记录\t\t\t");
+        System.out.println("\t\t\t  3.更新学生信息记录\t\t\t");
+        System.out.println("\t\t\t  4.显示所有学生信息记录\t\t");
+        System.out.println("\t\t\t  5.按学号查询指定学生信息\t\t");
+        System.out.println("\t\t\t  0.结束程序\t\t\t\t");
+        System.out.println("\t\t\t  =======================\t\t");
+        System.out.print("\t\t\t请输入您的选择：\t\t");
+
+        while (!scanner.hasNextInt()) {
+            System.out.println("输入无效，请输入数字！");
+            scanner.nextLine();
+        }
         return scanner.nextInt();
     }
 
