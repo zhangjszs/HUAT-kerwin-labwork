@@ -28,21 +28,44 @@ const uniqueTags = [...new Set(tags)].sort();
 		const buttons = filter.querySelectorAll('.tag-btn');
 		const projects = document.querySelectorAll('[data-project-tags]');
 
+		const applyFilter = (tag: string) => {
+			buttons.forEach((b) => b.classList.remove('active'));
+			const activeBtn = Array.from(buttons).find((b) => b.getAttribute('data-tag') === tag);
+			if (activeBtn) activeBtn.classList.add('active');
+			else buttons[0]?.classList.add('active');
+
+			projects.forEach((project) => {
+				const tags = JSON.parse(project.getAttribute('data-project-tags') || '[]');
+				if (tag === 'all' || tags.includes(tag)) {
+					(project as HTMLElement).style.display = '';
+				} else {
+					(project as HTMLElement).style.display = 'none';
+				}
+			});
+		};
+
+		// Read URL query parameter on load, fallback to server-rendered selection
+		const params = new URLSearchParams(window.location.search);
+		const urlTag = params.get('tag');
+		const serverSelected = filter.getAttribute('data-selected');
+		const selectedTags = serverSelected ? JSON.parse(serverSelected) : [];
+		const initialTag = urlTag || selectedTags[0] || 'all';
+		if (initialTag !== 'all') {
+			applyFilter(initialTag);
+		}
+
 		buttons.forEach((btn) => {
 			btn.addEventListener('click', () => {
-				const tag = btn.getAttribute('data-tag');
-
-				buttons.forEach((b) => b.classList.remove('active'));
-				btn.classList.add('active');
-
-				projects.forEach((project) => {
-					const tags = JSON.parse(project.getAttribute('data-project-tags') || '[]');
-					if (tag === 'all' || tags.includes(tag)) {
-						(project as HTMLElement).style.display = '';
-					} else {
-						(project as HTMLElement).style.display = 'none';
-					}
-				});
+				const tag = btn.getAttribute('data-tag') || 'all';
+				applyFilter(tag);
+				// Update URL without reloading
+				const url = new URL(window.location.href);
+				if (tag === 'all') {
+					url.searchParams.delete('tag');
+				} else {
+					url.searchParams.set('tag', tag);
+				}
+				window.history.replaceState({}, '', url);
 			});
 		});
 	}

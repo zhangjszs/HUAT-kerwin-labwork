@@ -75,14 +75,14 @@ const {
 						class="btn btn-primary"
 						href={`https://github.com/kerwin-lab/HUAT-kerwin-labwork/tree/main/${repoPath}`}
 						target="_blank"
-						rel="noopener"
+						rel="noopener noreferrer"
 					>
 						<Icon icon="github-logo" size="1.2em" />
 						<span data-i18n="project.viewSource">View Source</span>
 					</a>
 					{
 						demoUrl && (
-							<a class="btn btn-secondary" href={demoUrl} target="_blank" rel="noopener">
+							<a class="btn btn-secondary" href={demoUrl} target="_blank" rel="noopener noreferrer">
 								<Icon icon="rocket-launch" size="1.2em" />
 								<span data-i18n="project.liveDemo">Live Demo</span>
 							</a>
@@ -90,7 +90,7 @@ const {
 					}
 					{
 						externalDeployUrl && (
-							<a class="btn btn-secondary" href={externalDeployUrl} target="_blank" rel="noopener">
+							<a class="btn btn-secondary" href={externalDeployUrl} target="_blank" rel="noopener noreferrer">
 								<Icon icon="globe" size="1.2em" />
 								<span data-i18n="project.deployed">Deployed</span>
 							</a>
@@ -208,22 +208,6 @@ const {
 		</nav>
 	</article>
 
-	<script>
-		const revealObserver = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						entry.target.classList.add('visible');
-						revealObserver.unobserve(entry.target);
-					}
-				});
-			},
-			{ threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-		);
-
-		document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
-	</script>
-
 	<style>
 		.project-article {
 			--section-padding: 4rem;
@@ -269,19 +253,6 @@ const {
 			animation: float 14s ease-in-out infinite reverse;
 		}
 
-		@keyframes float {
-			0%,
-			100% {
-				transform: translate(0, 0) scale(1);
-			}
-			33% {
-				transform: translate(20px, -20px) scale(1.05);
-			}
-			66% {
-				transform: translate(-15px, 15px) scale(0.95);
-			}
-		}
-
 		.hero-content {
 			position: relative;
 			z-index: 1;
@@ -316,13 +287,6 @@ const {
 			margin-bottom: 1rem;
 			max-width: 25ch;
 			line-height: 1.2;
-		}
-
-		.gradient-text {
-			background: var(--gradient-accent);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
 		}
 
 		.hero-description {
@@ -725,20 +689,6 @@ const {
 			background: var(--accent-regular);
 			color: var(--gray-999);
 			transform: translateX(-4px);
-		}
-
-		/* ===== Reveal Animation ===== */
-		.reveal {
-			opacity: 0;
-			transform: translateY(40px);
-			transition:
-				opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-				transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-		}
-
-		.reveal.visible {
-			opacity: 1;
-			transform: translateY(0);
 		}
 	</style>
 </BaseLayout>

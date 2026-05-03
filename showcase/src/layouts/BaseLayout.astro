@@ -7,6 +7,7 @@ import Footer from '../components/Footer.astro';
 // Component Imports
 import MainHead from '../components/MainHead.astro';
 import Nav from '../components/Nav.astro';
+import RevealObserver from '../components/RevealObserver.astro';
 import ScrollProgress from '../components/ScrollProgress.astro';
 
 interface Props {
@@ -29,6 +30,7 @@ const { title, description } = Astro.props;
 			<Footer />
 		</div>
 		<BackToTop />
+		<RevealObserver />
 
 		<script>
 			// Add "loaded" class once the document has completely loaded.
@@ -95,9 +97,12 @@ const { title, description } = Astro.props;
 			// Run after DOM is ready and after any dynamic content loads
 			addCopyButtons();
 			observeImages();
-			const observer = new MutationObserver(() => {
-				addCopyButtons();
-				observeImages();
+			const observer = new MutationObserver((mutations) => {
+				const hasNewContent = mutations.some((m) => Array.from(m.addedNodes).some((n) => n instanceof Element));
+				if (hasNewContent) {
+					addCopyButtons();
+					observeImages();
+				}
 			});
 			observer.observe(document.body, { childList: true, subtree: true });
 		</script>

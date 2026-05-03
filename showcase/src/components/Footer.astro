@@ -45,7 +45,7 @@ const footerLinks = [
 										<a
 											href={link.href}
 											target={link.href.startsWith('http') ? '_blank' : undefined}
-											rel={link.href.startsWith('http') ? 'noopener' : undefined}
+											rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
 											data-i18n={`footer.${group.title.toLowerCase() === 'navigate' ? 'navigate' : 'connect'}.${link.label.toLowerCase().replace(/[^a-z]/g, '')}`}
 										>
 											{link.label}
@@ -65,10 +65,10 @@ const footerLinks = [
 				<Icon icon="rocket-launch" size="1.2em" />
 			</p>
 			<div class="socials">
-				<a href="https://github.com/kerwin-lab" target="_blank" rel="noopener" aria-label="GitHub">
+				<a href="https://github.com/kerwin-lab" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
 					<Icon icon="github-logo" size="1.2em" />
 				</a>
-				<a href="https://x.com/jszs15" target="_blank" rel="noopener" aria-label="X / Twitter">
+				<a href="https://x.com/jszs15" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter">
 					<Icon icon="twitter-logo" size="1.2em" />
 				</a>
 				<a href="mailto:zhangjszs@foxmail.com" aria-label="Email">

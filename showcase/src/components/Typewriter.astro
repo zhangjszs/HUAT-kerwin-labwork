@@ -26,8 +26,8 @@ const { text, speed = 80, class: className = '' } = Astro.props;
 		let i = 0;
 		let isDeleting = false;
 		let pauseEnd = 0;
-
 		let lastTypeTime = 0;
+		const deleteSpeed = speed * 0.6;
 
 		const type = (timestamp: number) => {
 			const now = Date.now();
@@ -38,16 +38,24 @@ const { text, speed = 80, class: className = '' } = Astro.props;
 
 			if (!lastTypeTime) lastTypeTime = timestamp;
 			const elapsed = timestamp - lastTypeTime;
+			const currentSpeed = isDeleting ? deleteSpeed : speed;
 
-			if (elapsed > speed) {
+			if (elapsed > currentSpeed) {
 				lastTypeTime = timestamp;
 				if (!isDeleting) {
 					textEl.textContent = text.slice(0, i + 1);
 					i++;
-					if (i >= text.length) {
+					if (i > text.length) {
+						isDeleting = true;
+						pauseEnd = now + 2000;
+					}
+				} else {
+					textEl.textContent = text.slice(0, i - 1);
+					i--;
+					if (i <= 0) {
 						isDeleting = false;
-						pauseEnd = now + 3000; // pause at end
-						i = 0; // loop back
+						pauseEnd = now + 500;
+						i = 0;
 					}
 				}
 			}

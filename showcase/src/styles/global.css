@@ -18,6 +18,7 @@
 
 	--accent-light: #c561f6;
 	--accent-regular: #7611a6;
+	--accent-secondary: #00e1ff;
 	--accent-dark: #1c0056;
 	--accent-overlay: hsla(280, 89%, 67%, 0.33);
 	--accent-subtle-overlay: var(--accent-overlay);
@@ -84,6 +85,7 @@
 
 	--accent-light: #1c0056;
 	--accent-regular: #7611a6;
+	--accent-secondary: #00e1ff;
 	--accent-dark: #c561f6;
 	--accent-overlay: hsla(280, 89%, 67%, 0.33);
 	--accent-subtle-overlay: hsla(281, 81%, 36%, 0.33);
@@ -381,6 +383,42 @@ html {
 	html {
 		scroll-behavior: auto;
 	}
+}
+
+/* ===== Shared Animations ===== */
+@keyframes float {
+	0%,
+	100% {
+		transform: translate(0, 0) scale(1);
+	}
+	33% {
+		transform: translate(20px, -20px) scale(1.05);
+	}
+	66% {
+		transform: translate(-15px, 15px) scale(0.95);
+	}
+}
+
+/* ===== Gradient Text ===== */
+.gradient-text {
+	background: var(--gradient-accent);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+/* ===== Reveal Animation ===== */
+.reveal {
+	opacity: 0;
+	transform: translateY(40px);
+	transition:
+		opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+		transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+	opacity: 1;
+	transform: translateY(0);
 }
 
 @media (min-width: 50em) {

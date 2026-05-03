@@ -65,22 +65,6 @@ const sortedArticles = articles.sort((a, b) => {
 		</div>
 	</main>
 
-	<script>
-		const revealObserver = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						entry.target.classList.add('visible');
-						revealObserver.unobserve(entry.target);
-					}
-				});
-			},
-			{ threshold: 0.1 }
-		);
-
-		document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
-	</script>
-
 	<style>
 		.hero-section {
 			position: relative;
@@ -121,19 +105,6 @@ const sortedArticles = articles.sort((a, b) => {
 			animation: float 14s ease-in-out infinite reverse;
 		}
 
-		@keyframes float {
-			0%,
-			100% {
-				transform: translate(0, 0) scale(1);
-			}
-			33% {
-				transform: translate(20px, -20px) scale(1.05);
-			}
-			66% {
-				transform: translate(-15px, 15px) scale(0.95);
-			}
-		}
-
 		.hero-content {
 			position: relative;
 			z-index: 1;
@@ -161,13 +132,6 @@ const sortedArticles = articles.sort((a, b) => {
 			color: var(--gray-0);
 			line-height: 1.1;
 			margin: 0;
-		}
-
-		.gradient-text {
-			background: var(--gradient-accent);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			background-clip: text;
 		}
 
 		.hero-tagline {
@@ -263,19 +227,6 @@ const sortedArticles = articles.sort((a, b) => {
 		.related-link:hover {
 			gap: 0.6rem;
 			text-decoration: underline;
-		}
-
-		.reveal {
-			opacity: 0;
-			transform: translateY(40px);
-			transition:
-				opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-				transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-		}
-
-		.reveal.visible {
-			opacity: 1;
-			transform: translateY(0);
 		}
 
 		@media (min-width: 50em) {

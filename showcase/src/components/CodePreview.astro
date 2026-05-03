@@ -18,6 +18,17 @@ const { src, lang = 'text', caption } = Astro.props;
 	blocks.forEach(async (el) => {
 		const src = el.getAttribute('data-src');
 		if (!src) return;
+		// Only allow relative paths or same-origin URLs
+		try {
+			const url = new URL(src, window.location.href);
+			if (url.origin !== window.location.origin) {
+				el.textContent = '// External code loading is not allowed: ' + src;
+				return;
+			}
+		} catch {
+			el.textContent = '// Invalid code source: ' + src;
+			return;
+		}
 		try {
 			const res = await fetch(src);
 			if (!res.ok) throw new Error('Failed to load');
