@@ -1,0 +1,116 @@
+---
+title: 'Algorithm Design & Analysis'
+description: '算法设计与分析课程实验，实现动态规划、图算法、贪心算法等经典算法，使用 C++ 完成多个编程实验和作业。'
+repoPath: 'algorithm-design-analysis'
+tags: ['C++', 'Algorithm', 'Coursework']
+keywords: ['Dynamic Programming', 'Graph Algorithm', 'Greedy', 'Divide and Conquer', 'Backtracking', 'C++']
+techStack: ['C++', 'GCC', 'C++11']
+screenshotsDir: 'algorithm-design-analysis'
+codeSnippets: ['algorithm-design-analysis/labworkdp2.cpp']
+featured: false
+date: '2023-09'
+difficulty: '进阶'
+status: 'Completed'
+architecture: '五大算法范式实验：分治法、动态规划、贪心算法、回溯法和图算法，每个实验包含理论分析和编程实现两个部分。'
+challenges:
+  [
+    '动态规划状态转移方程的推导与优化',
+    '图算法中 Dijkstra 和 Floyd 的实现与复杂度分析',
+    '贪心算法的正确性证明与反例构造',
+  ]
+lessons:
+  [
+    '掌握了五大算法设计范式的核心思想',
+    '学会了分析算法的时间和空间复杂度',
+    '理解了算法选择与问题特征的匹配关系',
+  ]
+---
+
+## 项目背景
+
+算法设计与分析课程要求通过编程实践掌握经典算法设计范式。本项目包含 5 个实验和 4 个作业，覆盖了分治、动态规划、贪心、回溯和图算法。
+
+## 核心功能
+
+- **实验 1**：基础算法 — 排序、搜索、递归
+- **实验 2**：动态规划 — 背包问题、最长公共子序列、最优BST
+- **实验 3**：图算法 — Dijkstra、Floyd、Prim、Kruskal
+- **实验 4**：贪心算法 — 活动选择、哈夫曼编码、任务调度
+- **实验 5**：高级算法 — 回溯法、分支限界
+
+## 算法范式对比
+
+| 范式     | 核心思想             | 典型问题       | 时间复杂度     |
+| -------- | -------------------- | -------------- | -------------- |
+| 分治     | 分解 → 求解 → 合并   | 归并排序       | O(n log n)     |
+| 动态规划 | 最优子结构 + 重叠子问题 | 背包问题     | O(n^2) ~ O(n)  |
+| 贪心     | 局部最优 → 全局最优  | 活动选择       | O(n log n)     |
+| 回溯     | 试错 + 剪枝          | N 皇后         | O(n!)          |
+| 图算法   | 遍历 + 松弛          | 最短路径       | O(V^2) ~ O(E log V) |
+
+## 项目结构
+
+<FileTree
+	tree={`
+algorithm-design-analysis/
+├── experiment1/           # 基础算法
+│   └── 1.cpp
+├── experiment2/           # 动态规划
+│   └── labworkdp2.cpp
+├── experiment3/           # 图算法
+│   └── labwork3.cpp
+├── experiment4/           # 贪心算法
+│   └── labwork4.cpp
+├── experiment5/           # 高级算法
+│   └── labwork5.cpp
+├── homework1/             # 作业 1
+├── homework3/             # 作业 3
+├── homework4/             # 作业 4
+├── homework5/             # 作业 5
+└── README.md
+`}
+	caption="Experiment Directory Structure"
+/>
+
+## 核心代码
+
+### 动态规划实现
+
+<CodePreview
+	src="/code-snippets/algorithm-design-analysis/labworkdp2.cpp"
+	lang="cpp"
+	caption="labworkdp2.cpp - Dynamic Programming Implementation"
+/>
+
+## 技术要点
+
+### 动态规划解题框架
+
+```
+1. 定义状态：dp[i][j] 表示什么？
+2. 状态转移：dp[i][j] 如何从子问题推导？
+3. 初始条件：边界值是什么？
+4. 计算顺序：如何保证子问题先被求解？
+5. 最终答案：dp[n][m] 还是 max(dp[i][j])？
+```
+
+### Dijkstra 算法
+
+```cpp
+// 伪代码
+dist[source] = 0;
+for each vertex v:
+    u = extract_min(Q)        // 贪心选择
+    for each neighbor v of u:
+        if dist[u] + weight(u,v) < dist[v]:
+            dist[v] = dist[u] + weight(u,v)  // 松弛
+```
+
+### 贪心 vs 动态规划
+
+- **贪心**：每步选择局部最优，不回退，适用于贪心选择性质成立的问题
+- **动态规划**：考虑所有子问题的最优组合，适用于最优子结构的问题
+
+## 效果展示
+
+<ScreenshotGallery dir="algorithm-design-analysis" />

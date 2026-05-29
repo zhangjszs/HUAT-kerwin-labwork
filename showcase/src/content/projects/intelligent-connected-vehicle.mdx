@@ -1,0 +1,125 @@
+---
+title: 'Intelligent Connected Vehicle Labs'
+description: '智能网联汽车技术课程实验合集，涵盖 CAN 总线通信、视觉传感器标定、目标识别、GPS 定位导航和 ADAS 仿真。'
+repoPath: 'intelligent-connected-vehicle'
+tags: ['Python', 'OpenCV', 'MATLAB', 'Automotive', 'Coursework']
+keywords: ['CAN Bus', 'OpenCV', 'Camera Calibration', 'ADAS', 'GPS', 'Simulink', 'Sensor Fusion']
+techStack: ['Python', 'OpenCV', 'MATLAB', 'Simulink', 'NMEA', 'HTML5']
+screenshotsDir: 'intelligent-connected-vehicle'
+featured: false
+date: '2023-12'
+difficulty: '进阶'
+status: 'Completed'
+architecture: '六大实验模块覆盖智能网联汽车技术栈：感知层（视觉传感器标定、目标识别）、定位层（GPS/NMEA 解析）、通信层（CAN 总线、V2X）、决策层（ADAS 建模与仿真）。'
+challenges:
+  [
+    'OpenCV 相机标定的棋盘格检测与内参矩阵计算',
+    'CAN 总线协议的数据帧解析与多传感器数据融合',
+    'ADAS 场景建模与 Simulink 仿真参数调优',
+  ]
+lessons:
+  [
+    '理解了智能网联汽车的完整技术架构',
+    '掌握了计算机视觉在自动驾驶中的基础应用',
+    '学会了使用 MATLAB/Simulink 进行系统级仿真',
+  ]
+---
+
+## 项目背景
+
+智能网联汽车技术课程要求通过实验了解自动驾驶的核心技术模块。本项目包含 6 个实验，覆盖了从底层传感器到高层决策的完整技术栈。
+
+## 核心功能
+
+- **实验 1**：CAN 总线通信 — 车辆总线协议解析、毫米波雷达数据读取
+- **实验 2**：视觉传感器标定 — OpenCV 相机标定、畸变矫正
+- **实验 3**：目标识别 — 传感器目标检测与分类
+- **实验 4**：GPS 定位导航 — NMEA 协议解析、地图可视化
+- **实验 5**：通信建模 — Simulink 虚拟串口通信仿真
+- **实验 6**：ADAS 仿真 — 高级驾驶辅助系统建模
+
+## 技术架构
+
+<MermaidDiagram
+	chart={`
+graph TD
+    A[Sensor Layer] --> B[Perception Layer]
+    B --> C[Localization Layer]
+    C --> D[Communication Layer]
+    D --> E[Decision Layer]
+
+    A --> A1[Camera]
+    A --> A2[LiDAR]
+    A --> A3[Radar]
+    A --> A4[GPS]
+    B --> B1[Calibration]
+    B --> B2[Object Detection]
+    C --> C1[NMEA Parsing]
+    C --> C2[Map Matching]
+    D --> D1[CAN Bus]
+    D --> D2[V2X]
+    E --> E1[ADAS Simulation]
+`}
+	caption="ICV Technology Stack"
+/>
+
+## 项目结构
+
+<FileTree
+	tree={`
+intelligent-connected-vehicle/
+├── experiment1/           # CAN 总线通信
+├── experiment2/           # 视觉传感器标定
+│   └── calibration main.zip
+├── experiment3/           # 目标识别
+├── experiment4/           # GPS 定位导航
+│   ├── GPS-NMEA/
+│   └── map.html
+├── experiment5/           # 通信建模（Simulink）
+├── experiment6/           # ADAS 仿真
+├── 资料/                  # 参考资料
+└── README.md
+`}
+	caption="Experiment Directory Structure"
+/>
+
+## 实验内容
+
+| 实验   | 主题         | 工具                | 核心技术               |
+| ------ | ------------ | ------------------- | ---------------------- |
+| 实验 1 | CAN 总线     | CANoe / Python      | 协议解析、数据帧       |
+| 实验 2 | 相机标定     | OpenCV              | 棋盘格检测、内参计算   |
+| 实验 3 | 目标识别     | OpenCV / ML         | 特征提取、分类器       |
+| 实验 4 | GPS 导航     | Python / HTML       | NMEA 解析、地图可视化  |
+| 实验 5 | 通信仿真     | MATLAB Simulink     | 虚拟串口、信号处理     |
+| 实验 6 | ADAS 仿真    | MATLAB Simulink     | 场景建模、控制算法     |
+
+## 效果展示
+
+<ScreenshotGallery dir="intelligent-connected-vehicle" />
+
+## 技术要点
+
+### 相机标定
+
+```python
+import cv2
+# 棋盘格角点检测
+ret, corners = cv2.findChessboardCorners(gray, (9, 6), None)
+# 标定
+ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(
+    obj_points, img_points, gray.shape[::-1], None, None
+)
+```
+
+### NMEA 协议解析
+
+- `$GPGGA`：定位信息（经纬度、海拔、卫星数）
+- `$GPRMC`：推荐最小定位信息（速度、方向）
+- 校验和验证：异或校验
+
+### CAN 总线数据帧
+
+```
+| SOF | ID (11bit) | RTR | DLC (4bit) | Data (0-8 bytes) | CRC | ACK | EOF |
+```

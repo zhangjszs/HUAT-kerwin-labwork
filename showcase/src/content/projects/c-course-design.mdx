@@ -1,0 +1,129 @@
+---
+title: 'Vehicle Claim Management System'
+description: 'C 语言课程设计项目，实现车辆索赔管理系统，支持车辆信息管理、索赔记录 CRUD、文件持久化存储和多条件组合查询。'
+repoPath: 'c-course-design'
+tags: ['C', 'Coursework', 'File I/O', 'CLI']
+keywords: ['C Language', 'File System', 'CRUD', 'Data Structure', 'CMake', 'CLI Application']
+techStack: ['C', 'CMake', 'GCC', 'MinGW']
+screenshotsDir: 'c-course-design'
+codeSnippets: ['c-course-design/vehicle_claim.c']
+featured: false
+date: '2023-06'
+difficulty: '入门'
+status: 'Completed'
+architecture: '单文件模块化架构：vehicle_claim.c 作为主程序，通过结构体数组管理数据，文件 I/O 实现持久化存储，菜单驱动的 CLI 交互界面。CMake 构建系统管理编译流程。'
+challenges:
+  [
+    '结构体数组的内存管理与数据一致性维护',
+    '文件读写的格式化输入输出与错误处理',
+    '多条件组合查询的逻辑设计',
+  ]
+lessons:
+  [
+    '掌握了 C 语言结构体和文件操作的核心用法',
+    '理解了模块化编程和函数封装的设计思想',
+    '学会了使用 CMake 管理 C 项目构建流程',
+  ]
+---
+
+## 项目背景
+
+C 语言课程设计要求开发一个完整的应用程序来综合运用所学知识。选择车辆索赔管理系统是因为它涉及结构体设计、文件操作、菜单交互和数据查询等 C 语言核心知识点。
+
+## 核心功能
+
+- **车辆信息管理**：添加、修改、删除、查看车辆基本信息
+- **索赔记录管理**：创建索赔、更新状态、删除记录
+- **文件持久化**：数据自动保存到文件，程序启动时自动加载
+- **多条件查询**：按车牌号、日期、状态等条件组合查询
+- **统计报表**：索赔金额统计、按状态分类汇总
+
+## 系统架构
+
+<MermaidDiagram
+	chart={`
+graph TD
+    A[Main Menu] --> B[Vehicle Management]
+    A --> C[Claim Management]
+    A --> D[Query & Report]
+    A --> E[File Operations]
+    B --> B1[Add Vehicle]
+    B --> B2[Edit Vehicle]
+    B --> B3[Delete Vehicle]
+    B --> B4[List Vehicles]
+    C --> C1[Create Claim]
+    C --> C2[Update Status]
+    C --> C3[Delete Claim]
+    D --> D1[By License Plate]
+    D --> D2[By Date Range]
+    D --> D3[By Status]
+    D --> D4[Statistics]
+    E --> E1[Save to File]
+    E --> E2[Load from File]
+`}
+	caption="System Menu Structure"
+/>
+
+## 项目结构
+
+<FileTree
+	tree={`
+c-course-design/
+├── vehicle_claim.c        # 主程序源码（25KB）
+├── vehicle_claim.h        # 头文件
+├── CMakeLists.txt         # CMake 构建配置
+├── build/                 # 编译输出目录
+├── output/                # 数据文件输出目录
+└── README.md
+`}
+	caption="Project Directory Structure"
+/>
+
+## 核心代码
+
+### 数据结构定义
+
+<CodePreview
+	src="/code-snippets/c-course-design/vehicle_claim.c"
+	lang="c"
+	caption="vehicle_claim.c - Data Structures & Core Logic"
+/>
+
+## 效果展示
+
+<ScreenshotGallery dir="c-course-design" />
+
+## 技术要点
+
+### 数据结构设计
+
+```c
+typedef struct {
+    char licensePlate[20];   // 车牌号
+    char ownerName[50];      // 车主姓名
+    char model[30];          // 车型
+    int year;                // 年份
+} Vehicle;
+
+typedef struct {
+    int claimId;             // 索赔编号
+    char licensePlate[20];   // 关联车牌号
+    char date[20];           // 索赔日期
+    float amount;            // 索赔金额
+    char status[20];         // 状态
+} Claim;
+```
+
+### 文件持久化策略
+
+- 使用 `fprintf` / `fscanf` 格式化读写
+- 每次修改操作后自动保存
+- 启动时检测文件是否存在，自动加载历史数据
+
+### CMake 构建
+
+```cmake
+cmake_minimum_required(VERSION 3.10)
+project(VehicleClaimManagement)
+add_executable(VehicleClaimManagement vehicle_claim.c)
+```

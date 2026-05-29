@@ -1,0 +1,106 @@
+---
+title: 'Data Analysis & Visualization'
+description: '数据分析与可视化课程设计，包含淘宝电商数据、BOSS 直聘招聘数据分析，以及基于 Python 的舆情分析竞赛项目。'
+repoPath: 'data-analysis-course-design'
+tags: ['Python', 'Data Science', 'Jupyter', 'Visualization', 'Coursework']
+keywords: ['Pandas', 'Matplotlib', 'Seaborn', 'Scikit-learn', 'EDA', 'Taobao', 'Sentiment Analysis']
+techStack: ['Python', 'Jupyter Notebook', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Scikit-learn']
+screenshotsDir: 'data-analysis-course-design'
+featured: false
+date: '2023-12'
+difficulty: '进阶'
+status: 'Completed'
+architecture: '标准数据分析流程：数据采集 → 清洗 → 探索性分析(EDA) → 可视化 → 建模 → 报告。使用 Jupyter Notebook 进行交互式开发，每个 Notebook 独立完成一个完整的分析主题。'
+challenges:
+  [
+    '电商数据的缺失值处理和异常值检测',
+    '多维度数据的可视化呈现与洞察提取',
+    '舆情数据的文本预处理和情感分类',
+  ]
+lessons:
+  [
+    '掌握了 Pandas 数据处理的核心 API 和最佳实践',
+    '学会了用 Matplotlib/Seaborn 讲好数据故事',
+    '理解了从原始数据到业务洞察的完整分析链路',
+  ]
+---
+
+## 项目背景
+
+数据分析与可视化课程设计要求完成多个真实数据集的分析任务。本项目包含三个独立的分析主题：淘宝电商数据分析、BOSS 直聘招聘数据分析，以及一个竞赛级别的舆情分析系统。
+
+## 核心功能
+
+- **淘宝电商分析**：商品价格分布、销量趋势、品类对比、用户评价分析
+- **BOSS 直聘分析**：岗位薪资分布、技能需求热力图、城市对比
+- **舆情分析系统**：文本采集、情感分类、趋势可视化（竞赛项目）
+- **数据可视化**：统计图表、热力图、词云、时间序列图
+
+## 分析流程
+
+<MermaidDiagram
+	chart={`
+graph LR
+    A[Raw Data] --> B[Data Cleaning]
+    B --> C[EDA]
+    C --> D[Feature Engineering]
+    D --> E[Visualization]
+    E --> F[Insight Report]
+
+    subgraph "Tools"
+        G[Pandas] --> B
+        H[Matplotlib] --> E
+    I[Seaborn] --> E
+    end
+`}
+	caption="Data Analysis Pipeline"
+/>
+
+## 项目结构
+
+<FileTree
+	tree={`
+data-analysis-course-design/
+├── anylize.ipynb          # 数据分析主 Notebook（605KB）
+├── taobao.ipynb           # 淘宝数据分析（519KB）
+├── boos/                  # BOSS 直聘数据分析
+├── 比赛项目.md            # 竞赛项目说明
+├── 报告模板/              # 报告模板
+└── README.md
+`}
+	caption="Project Directory Structure"
+/>
+
+## 分析内容
+
+| 分析主题     | 数据来源       | 核心指标             | 可视化方式         |
+| ------------ | -------------- | -------------------- | ------------------ |
+| 淘宝电商     | 爬虫采集       | 价格、销量、评分     | 分布图、趋势图     |
+| BOSS 直聘    | 招聘平台       | 薪资、技能、城市     | 热力图、箱线图     |
+| 舆情分析     | 社交媒体       | 情感极性、传播路径   | 词云、时序图       |
+
+## 效果展示
+
+<ScreenshotGallery dir="data-analysis-course-design" />
+
+## 技术要点
+
+### 数据清洗
+
+- 缺失值：均值/众数/插值填充
+- 异常值：IQR 法检测与处理
+- 数据类型转换与格式统一
+
+### 可视化技巧
+
+- Matplotlib：基础图表、子图布局、自定义样式
+- Seaborn：统计图表、热力图、分布图
+- 中文字体配置与图表美化
+
+### 舆情分析系统（竞赛项目）
+
+关联 GitHub 仓库：`zhangjszs/A-_public_opinion_development_system_based_on_Python`
+
+- 文本采集与预处理
+- 情感分析模型
+- 舆情趋势可视化

@@ -63,6 +63,8 @@
 		'Helvetica Neue', sans-serif;
 	--font-body: 'Public Sans', var(--font-system);
 	--font-brand: Rubik, var(--font-system);
+	--font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas,
+		'DejaVu Sans Mono', monospace;
 
 	/* Transitions */
 	--theme-transition: 0.2s ease-in-out;

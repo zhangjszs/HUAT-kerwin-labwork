@@ -1,0 +1,132 @@
+---
+title: 'Operating Systems Labs'
+description: '操作系统课程实验合集，涵盖进程管理、内存分配、进程同步、文件系统和银行家算法等核心 OS 概念的编程实现。'
+repoPath: 'operating-system'
+tags: ['C', 'C++', 'Operating System', 'Coursework']
+keywords: ['Process', 'Memory Management', 'Semaphore', 'Mutex', 'Banker Algorithm', 'File System', 'Linux']
+techStack: ['C', 'C++', 'Linux System Calls', 'GCC']
+screenshotsDir: 'operating-system'
+codeSnippets: ['operating-system/labwork6.cpp']
+featured: false
+date: '2023-09'
+difficulty: '进阶'
+status: 'Completed'
+architecture: '基于 Linux 系统调用的实验体系：从进程创建（fork/exec）到内存管理（分配算法），从同步原语（信号量/互斥锁）到文件操作（系统调用），覆盖操作系统核心模块。'
+challenges:
+  [
+    'fork/exec 创建子进程与进程间通信（IPC）的实现',
+    '内存分配算法（首次适应/最佳适应/最差适应）的设计与对比',
+    '银行家算法的安全性检测与资源分配策略',
+    '信号量实现生产者-消费者问题的同步控制',
+  ]
+lessons:
+  [
+    '深入理解了操作系统的核心抽象：进程、内存、文件、同步',
+    '掌握了 Linux 系统调用的使用方法',
+    '学会了用编程实现经典的 OS 算法和同步机制',
+  ]
+---
+
+## 项目背景
+
+操作系统课程要求通过编程实验理解 OS 的核心概念。本项目包含 6 个递进实验，从进程管理到死锁处理，覆盖了操作系统的核心知识点。
+
+## 核心功能
+
+- **Lab 1 — 进程管理**：fork、exec、wait、进程间通信
+- **Lab 2 — 内存管理**：首次适应、最佳适应、最差适应分配算法
+- **Lab 3 — 进程同步**：信号量、互斥锁、生产者-消费者问题
+- **Lab 4 — 文件系统**：文件创建、读写、权限管理
+- **Lab 5 — 设备管理**：设备分配与回收
+- **Lab 6 — 死锁处理**：银行家算法实现
+
+## 系统架构
+
+<MermaidDiagram
+	chart={`
+graph TD
+    A[OS Concepts] --> B[Process Management]
+    A --> C[Memory Management]
+    A --> D[Process Synchronization]
+    A --> E[File System]
+    A --> F[Deadlock Handling]
+
+    B --> B1[fork/exec/wait]
+    B --> B2[IPC - pipe/signal]
+    C --> C1[First Fit]
+    C --> C2[Best Fit]
+    C --> C3[Worst Fit]
+    D --> D1[Semaphore]
+    D --> D2[Mutex]
+    F --> F1[Banker Algorithm]
+`}
+	caption="OS Experiment Modules"
+/>
+
+## 项目结构
+
+<FileTree
+	tree={`
+operating-system/
+├── labwork1/          # 进程管理（7个C++文件）
+├── labwork2/          # 内存管理（6个C文件）
+├── labwork3/          # 进程同步
+├── labwork4/          # 文件系统
+├── labwork5/          # 设备管理
+├── labwork6/          # 银行家算法（11.6KB）
+├── 实践/              # 综合实践
+└── README.md
+`}
+	caption="Experiment Directory Structure"
+/>
+
+## 核心代码
+
+### 银行家算法
+
+<CodePreview
+	src="/code-snippets/operating-system/labwork6.cpp"
+	lang="cpp"
+	caption="labwork6.cpp - Banker's Algorithm for Deadlock Avoidance"
+/>
+
+## 算法对比
+
+| 算法     | 目标       | 时间复杂度     | 适用场景       |
+| -------- | ---------- | -------------- | -------------- |
+| 首次适应 | 速度       | O(n)           | 通用场景       |
+| 最佳适应 | 空间利用率 | O(n)           | 小内存分配频繁 |
+| 最差适应 | 减少碎片   | O(n)           | 大块分配为主   |
+| 银行家   | 死锁避免   | O(n^2 * m)     | 资源竞争激烈   |
+
+## 效果展示
+
+<ScreenshotGallery dir="operating-system" />
+
+## 技术要点
+
+### 进程管理
+
+```c
+pid_t pid = fork();
+if (pid == 0) {
+    // 子进程
+    execlp("ls", "ls", "-l", NULL);
+} else {
+    // 父进程
+    wait(NULL);
+}
+```
+
+### 银行家算法核心逻辑
+
+1. 计算 `Need = Max - Allocation`
+2. 尝试分配，检查 `Need <= Available`
+3. 运行安全性算法，寻找安全序列
+4. 安则分配，不安全则回滚
+
+### 内存分配算法
+
+- **首次适应**：从头扫描，找到第一个够大的空闲块
+- **最佳适应**：遍历所有空闲块，选最小的够用块
+- **最差适应**：遍历所有空闲块，选最大的空闲块

@@ -1,5 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import RadarChart from '../components/RadarChart.astro';
+
+const radarCategories = [
+	{ category: 'Java', skills: ['Spring', 'Servlet', 'Swing', 'Maven'], level: 85 },
+	{ category: 'Python', skills: ['Pandas', 'PyTorch', 'OpenCV', 'Flask'], level: 80 },
+	{ category: 'C/C++', skills: ['Data Structures', 'Qt', 'CMake', 'Assembly'], level: 75 },
+	{ category: 'Web', skills: ['HTML/CSS', 'JavaScript', 'Astro', 'JSP'], level: 70 },
+	{ category: 'Data/ML', skills: ['Scikit-learn', 'YOLO', 'Matplotlib', 'SQL'], level: 72 },
+	{ category: 'Systems', skills: ['Linux', 'Git', 'Docker', 'Networking'], level: 68 },
+];
 
 const skills = [
 	{ category: 'Languages', items: ['Java', 'Python', 'C/C++', 'JavaScript', 'SQL'] },
@@ -93,6 +103,9 @@ const timeline = [
 				<span data-i18n="about.skills.title">Tech</span>
 				<span class="gradient-text" data-i18n="about.skills.titleAccent">Stack</span>
 			</h2>
+			<div class="radar-wrapper">
+				<RadarChart categories={radarCategories} />
+			</div>
 			<div class="skills-grid">
 				{
 					skills.map((group) => (
@@ -304,6 +317,13 @@ const timeline = [
 			line-height: 1.5;
 			margin: 0.25rem 0 0;
 			font-size: var(--text-sm);
+		}
+
+		/* ===== Radar Chart ===== */
+		.radar-wrapper {
+			display: flex;
+			justify-content: center;
+			margin-bottom: 2.5rem;
 		}
 
 		/* ===== Skills Grid ===== */

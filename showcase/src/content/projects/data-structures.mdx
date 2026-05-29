@@ -1,0 +1,120 @@
+---
+title: 'Data Structures Labs'
+description: '数据结构课程实验合集，使用 C++ 实现链表、栈、队列、二叉树、图、排序和查找等核心数据结构与算法。'
+repoPath: 'data-structures'
+tags: ['C++', 'Data Structures', 'Algorithm', 'Coursework']
+keywords: ['Linked List', 'Binary Tree', 'Graph', 'Sorting', 'Stack', 'Queue', 'C++']
+techStack: ['C++', 'GCC', 'C++11']
+screenshotsDir: 'data-structures'
+codeSnippets: ['data-structures/BassicEdition.cpp']
+featured: false
+date: '2023-06'
+difficulty: '入门'
+status: 'Completed'
+architecture: '分层递进实验体系：每个数据结构包含 Basic（基础实现）、Challenge（进阶应用）和 Raise（扩展提升）三个难度级别，逐步深入理解数据结构的本质。'
+challenges:
+  [
+    '链表的指针操作与内存管理',
+    '二叉树的递归遍历与非递归实现',
+    '图的邻接表表示与遍历算法',
+    '排序算法的时间复杂度分析与对比',
+  ]
+lessons:
+  [
+    '建立了数据结构的完整知识体系',
+    '掌握了 C++ 模板和面向对象的抽象能力',
+    '学会了通过实验验证算法的时间复杂度',
+  ]
+---
+
+## 项目背景
+
+数据结构课程要求通过编程实验深入理解各种数据结构的特性和应用场景。本项目包含 8 个实验，每个实验设计了多个难度级别。
+
+## 核心功能
+
+- **链表**：单链表、顺序表的增删查改操作
+- **栈与队列**：基本操作、应用场景（括号匹配、表达式求值）
+- **字符串**：字符串操作、模式匹配
+- **二维数组**：矩阵操作、稀疏矩阵
+- **二叉树**：前/中/后序遍历、层序遍历
+- **图**：邻接表、DFS/BFS 遍历
+- **查找**：顺序查找、二分查找
+- **排序**：冒泡、选择、插入排序
+
+## 算法复杂度
+
+| 算法     | 最好   | 平均     | 最差     | 空间   |
+| -------- | ------ | -------- | -------- | ------ |
+| 冒泡排序 | O(n)   | O(n^2)   | O(n^2)   | O(1)   |
+| 选择排序 | O(n^2) | O(n^2)   | O(n^2)   | O(1)   |
+| 插入排序 | O(n)   | O(n^2)   | O(n^2)   | O(1)   |
+| 顺序查找 | O(1)   | O(n)     | O(n)     | O(1)   |
+| 二分查找 | O(1)   | O(log n) | O(log n) | O(1)   |
+
+## 项目结构
+
+<FileTree
+	tree={`
+data-structures/
+├── linked-list/               # 链表实验
+│   ├── Basic/
+│   ├── Challenge 1.1/
+│   ├── Challenge 2.1/
+│   └── Raise/
+├── stack-and-queue/           # 栈与队列
+├── string_operations/         # 字符串操作
+├── two-dimensional-array/     # 二维数组
+├── binary-tree/               # 二叉树
+├── graph-theory/              # 图论
+├── Search Algorithms/         # 查找算法
+├── Sorting Technology/        # 排序算法
+└── README.md
+`}
+	caption="Experiment Directory Structure"
+/>
+
+## 核心代码
+
+### 二叉树遍历实现
+
+<CodePreview
+	src="/code-snippets/data-structures/BassicEdition.cpp"
+	lang="cpp"
+	caption="BassicEdition.cpp - Binary Tree Traversal Implementation"
+/>
+
+## 技术要点
+
+### 链表 vs 数组
+
+| 特性     | 数组     | 链表     |
+| -------- | -------- | -------- |
+| 访问     | O(1)     | O(n)     |
+| 插入/删除 | O(n)    | O(1)     |
+| 内存     | 连续     | 分散     |
+| 缓存友好 | 好       | 差       |
+
+### 二叉树遍历
+
+```
+        A
+       / \
+      B   C
+     / \   \
+    D   E   F
+
+前序: A B D E C F
+中序: D B E A C F
+后序: D E B F C A
+层序: A B C D E F
+```
+
+### 图的遍历
+
+- **DFS**（深度优先）：使用栈，适合路径搜索、连通性判断
+- **BFS**（广度优先）：使用队列，适合最短路径、层序遍历
+
+## 效果展示
+
+<ScreenshotGallery dir="data-structures" />

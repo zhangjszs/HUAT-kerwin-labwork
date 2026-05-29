@@ -1,0 +1,105 @@
+---
+title: 'Java Game Collection'
+description: 'Java 课程设计项目，使用 Java Swing 实现四个经典小游戏：大鱼吃小鱼、贪食蛇、吞食鱼和超级玛丽。'
+repoPath: 'java-course-design'
+tags: ['Java', 'Game', 'Swing', 'Coursework']
+keywords: ['Java Swing', 'Game Development', 'Snake', 'Super Mario', 'OOP', 'Animation']
+techStack: ['Java', 'Java Swing', 'AWT', 'IntelliJ IDEA']
+screenshotsDir: 'java-course-design'
+featured: false
+date: '2023-06'
+difficulty: '进阶'
+status: 'Completed'
+architecture: '经典游戏循环架构：GamePanel 负责游戏逻辑更新和画面渲染，KeyListener 处理用户输入，Timer 控制帧率。面向对象设计分离游戏实体（Player、Enemy、Food）。'
+challenges:
+  [
+    '双缓冲技术解决画面闪烁问题',
+    '碰撞检测算法的设计与实现',
+    '游戏状态机管理（开始、暂停、结束）',
+    '超级玛丽的关卡设计与物理引擎',
+  ]
+lessons:
+  [
+    '掌握了 Java 2D 图形编程和事件处理',
+    '理解了游戏循环和帧率控制的核心原理',
+    '学会了用面向对象思想设计游戏实体',
+  ]
+---
+
+## 项目背景
+
+Java 课程设计要求综合运用 Java 面向对象编程、GUI 开发和多线程技术。选择游戏开发是因为它能直观展示这些技术的实际应用，同时具有趣味性。
+
+## 核心功能
+
+- **大鱼吃小鱼**：控制大鱼吃掉比自己小的鱼，逐渐成长
+- **贪食蛇**：经典贪食蛇玩法，吃食物增长，撞墙/自身 Game Over
+- **吞食鱼**：海底捕鱼主题，躲避大鱼，吃掉小鱼
+- **超级玛丽**：横版卷轴闯关，跳跃、踩怪、吃金币
+
+## 游戏架构
+
+<MermaidDiagram
+	chart={`
+graph TD
+    A[Game Loop] --> B[Input Handler]
+    A --> C[Update Logic]
+    A --> D[Render]
+    B --> E[Key Events]
+    C --> F[Player Update]
+    C --> G[Enemy AI]
+    C --> H[Collision Detection]
+    D --> I[Draw Background]
+    D --> J[Draw Entities]
+    D --> K[Draw UI/HUD]
+`}
+	caption="Game Loop Architecture"
+/>
+
+## 项目结构
+
+<FileTree
+	tree={`
+java-course-design/
+├── 大鱼吃小鱼源码.zip     # Big Fish Eat Small Fish（8.2MB）
+├── 项目2贪食蛇.zip        # Snake Game（1.9MB）
+├── 项目3吞食鱼.zip        # Feeding Fish（1.0MB）
+├── 项目4超级玛丽.zip      # Super Mario（21.4MB）
+└── README.md
+`}
+	caption="Project Directory Structure"
+/>
+
+## 技术要点
+
+### Java Swing 游戏开发
+
+- `JPanel` + `Graphics2D` 自定义绘图
+- `KeyListener` 键盘事件处理
+- `javax.swing.Timer` 控制游戏帧率
+
+### 双缓冲消除闪烁
+
+```java
+Image offScreen = createImage(width, height);
+Graphics gOff = offScreen.getGraphics();
+// 在 gOff 上绘制所有内容
+g.drawImage(offScreen, 0, 0, null);
+```
+
+### 碰撞检测
+
+- 矩形碰撞（AABB）：`Rectangle.intersects()`
+- 精确碰撞：像素级检测（超级玛丽）
+
+### 游戏状态机
+
+```
+MENU → PLAYING → PAUSED → GAME_OVER → MENU
+```
+
+每个状态对应不同的输入处理和渲染逻辑。
+
+## 效果展示
+
+<ScreenshotGallery dir="java-course-design" />

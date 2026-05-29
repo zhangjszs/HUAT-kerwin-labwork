@@ -1,0 +1,123 @@
+---
+title: 'Database Labs'
+description: '数据库课程实验合集，涵盖 SQL 基础操作、数据库设计和 C++ 嵌入式 SQL 编程。'
+repoPath: 'database'
+tags: ['SQL', 'MySQL', 'C++', 'Coursework']
+keywords: ['MySQL', 'SQL', 'Database Design', 'Embedded SQL', 'JDBC', 'Schema Design']
+techStack: ['MySQL', 'SQL', 'C++', 'MySQL Workbench']
+screenshotsDir: 'database'
+codeSnippets: ['database/labwork5.cpp']
+featured: false
+date: '2023-09'
+difficulty: '进阶'
+status: 'Completed'
+architecture: '三层实验体系：Lab1 基础 SQL 查询与数据操作，Lab4 数据库模式设计与规范化，Lab5 C++ 嵌入式 SQL 实现应用程序与数据库的直接交互。'
+challenges:
+  [
+    '嵌入式 SQL 的预编译流程和宿主变量绑定',
+    '数据库模式的规范化设计（1NF → 2NF → 3NF）',
+    'C++ 与 MySQL 的连接配置和驱动安装',
+  ]
+lessons:
+  [
+    '掌握了 SQL 语言的核心语法和查询优化技巧',
+    '理解了数据库设计的规范化理论',
+    '学会了在 C++ 应用程序中直接操作数据库',
+  ]
+---
+
+## 项目背景
+
+数据库课程要求通过实验掌握 SQL 和数据库设计的核心技能。本项目包含基础 SQL 操作、数据库设计和嵌入式 SQL 编程三个层次的实验。
+
+## 核心功能
+
+- **Lab 1**：SQL 基础 — SELECT、JOIN、子查询、聚合函数
+- **Lab 4**：数据库设计 — ER 图、模式创建、规范化
+- **Lab 5**：嵌入式 SQL — C++ 程序直接连接 MySQL 执行查询
+
+## 系统架构
+
+<MermaidDiagram
+	chart={`
+graph TD
+    A[Application Layer] --> B[SQL Interface]
+    B --> C[Query Processor]
+    C --> D[Storage Engine]
+    D --> E[(MySQL)]
+
+    subgraph "Lab Experiments"
+        F[Lab1: SQL Queries] --> B
+        G[Lab4: Schema Design] --> C
+        H[Lab5: Embedded SQL] --> A
+    end
+`}
+	caption="Database System Architecture"
+/>
+
+## 项目结构
+
+<FileTree
+	tree={`
+database/
+├── labwork1/              # SQL 基础实验
+│   ├── work1.md           # 实验报告
+│   └── *.png              # 查询结果截图
+├── labwork4/              # 数据库设计
+│   ├── mysql.sql          # 建表语句
+│   └── 设计文档.md
+├── labwork5/              # 嵌入式 SQL
+│   ├── labwork5.cpp       # C++ 嵌入式 SQL 程序（8.5KB）
+│   └── VS2010-MySQL连接.docx
+└── README.md
+`}
+	caption="Experiment Directory Structure"
+/>
+
+## 核心代码
+
+### 嵌入式 SQL (C++)
+
+<CodePreview
+	src="/code-snippets/database/labwork5.cpp"
+	lang="cpp"
+	caption="labwork5.cpp - Embedded SQL with MySQL in C++"
+/>
+
+## 实验内容
+
+| 实验 | 主题         | 核心技术                     |
+| ---- | ------------ | ---------------------------- |
+| Lab1 | SQL 查询     | SELECT, JOIN, GROUP BY, HAVING |
+| Lab4 | 数据库设计   | ER 图, 范式, 建表语句         |
+| Lab5 | 嵌入式 SQL   | C++ 连接 MySQL, 宿主变量      |
+
+## 效果展示
+
+<ScreenshotGallery dir="database" />
+
+## 技术要点
+
+### SQL 查询优化
+
+- 使用 `EXPLAIN` 分析查询计划
+- 合理创建索引加速查询
+- 避免 `SELECT *`，只查询需要的列
+
+### 嵌入式 SQL 流程
+
+```
+源代码(.sqpc) → 预编译器 → C++ 代码(.cpp) → 编译器 → 可执行程序
+```
+
+- 宿主变量（Host Variables）在 SQL 和 C++ 之间传递数据
+- `EXEC SQL` 前缀标识嵌入式 SQL 语句
+- 游标（Cursor）处理多行结果集
+
+### 数据库规范化
+
+```
+1NF: 每列原子性，无重复组
+2NF: 消除部分函数依赖
+3NF: 消除传递函数依赖
+```

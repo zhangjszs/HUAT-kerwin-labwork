@@ -49,6 +49,12 @@ const {
 	const isDark = getThemePreference() === 'dark';
 	document.documentElement.classList[isDark ? 'add' : 'remove']('theme-dark');
 
+	// Set html lang from localStorage (synced with LangSwitcher)
+	if (typeof localStorage !== 'undefined') {
+		const lang = localStorage.getItem('preferred-lang') || 'en';
+		document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+	}
+
 	if (typeof localStorage !== 'undefined') {
 		// Watch the document element and persist user preference when it changes.
 		const observer = new MutationObserver(() => {

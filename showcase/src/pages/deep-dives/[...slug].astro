@@ -3,6 +3,9 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import MermaidDiagram from '../../components/MermaidDiagram.astro';
+import ScreenshotGallery from '../../components/ScreenshotGallery.astro';
+import CodePreview from '../../components/CodePreview.astro';
+import FileTree from '../../components/FileTree.astro';
 
 export async function getStaticPaths() {
 	const articles = await getCollection('deep-dives');
@@ -22,9 +25,9 @@ const { title, description, date, tags, relatedProject } = article.data;
 		<header class="article-hero">
 			<div class="wrapper hero-content">
 				<div class="breadcrumbs">
-					<a href="/">Home</a>
+					<a href="/" data-i18n="deepdives.breadcrumbs.home">Home</a>
 					<span>/</span>
-					<a href="/deep-dives">Deep Dives</a>
+					<a href="/deep-dives" data-i18n="deepdives.breadcrumbs.articles">Deep Dives</a>
 					<span>/</span>
 					<span class="current">{title}</span>
 				</div>
@@ -45,19 +48,19 @@ const { title, description, date, tags, relatedProject } = article.data;
 		</header>
 
 		<div class="wrapper content-wrapper">
-			<Content components={{ MermaidDiagram }} />
+			<Content components={{ MermaidDiagram, ScreenshotGallery, CodePreview, FileTree }} />
 		</div>
 
 		<nav class="article-nav">
 			<div class="wrapper">
 				<a href="/deep-dives" class="back-link">
 					<Icon icon="arrow-left" size="1.2em" />
-					Back to all articles
+					<span data-i18n="deepdives.back">Back to all articles</span>
 				</a>
 				{
 					relatedProject && (
 						<a href={`/projects/${relatedProject}`} class="related-link">
-							View Related Project
+							<span data-i18n="deepdives.relatedProject">View Related Project</span>
 							<Icon icon="arrow-right" size="1.2em" />
 						</a>
 					)

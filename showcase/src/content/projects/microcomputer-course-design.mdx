@@ -1,0 +1,122 @@
+---
+title: 'Microcomputer Assembly Projects'
+description: '微机原理与接口技术课程设计，使用 x86 汇编语言实现倒计时器和音乐播放器两个底层系统程序。'
+repoPath: 'microcomputer-course-design'
+tags: ['Assembly', 'x86', 'Low-Level', 'Coursework']
+keywords: ['x86 Assembly', '8086', 'Timer', 'Music Player', 'Hardware Interface', 'Interrupt']
+techStack: ['x86 Assembly', 'MASM', 'DOSBox']
+screenshotsDir: 'microcomputer-course-design'
+codeSnippets: ['microcomputer-course-design/Countdown.asm']
+featured: false
+date: '2023-12'
+difficulty: '深度'
+status: 'Completed'
+architecture: '基于 DOS 中断的裸机编程：直接操作硬件端口和中断控制器，使用 8253 定时器控制节拍，8255 并行接口控制 LED 显示，PC 扬声器驱动音乐播放。'
+challenges:
+  [
+    '8253 定时器的模式配置和频率计算',
+    'PC 扬声器驱动的音符-频率映射表设计',
+    '中断服务程序的现场保护与恢复',
+    '汇编语言的宏定义和模块化组织',
+  ]
+lessons:
+  [
+    '深入理解了 x86 处理器的寻址模式和指令集',
+    '掌握了硬件接口编程的底层原理',
+    '学会了用汇编语言实现完整的系统功能',
+  ]
+---
+
+## 项目背景
+
+微机原理课程设计要求用汇编语言编写底层系统程序。选择倒计时器和音乐播放器是因为它们综合运用了定时器、中断、端口操作等硬件接口技术。
+
+## 核心功能
+
+### 倒计时器（Countdown.asm）
+- 设定倒计时时长（秒/分/时）
+- LED 数码管显示剩余时间
+- 倒计时结束蜂鸣器报警
+- 支持暂停/继续操作
+
+### 音乐播放器（MusicPlay.asm）
+- 内置多首乐曲的音符数据
+- 通过 PC 扬声器驱动发声
+- 支持播放/暂停/切换曲目
+- 可调节播放速度
+
+## 系统架构
+
+<MermaidDiagram
+	chart={`
+graph TD
+    A[Main Program] --> B[Timer Setup]
+    A --> C[Display Module]
+    A --> D[Sound Module]
+    B --> E[8253 PIT]
+    E --> F[IRQ0 Interrupt]
+    F --> G[ISR: Update Counter]
+    G --> C
+    C --> H[8255 PPI]
+    H --> I[LED Display]
+    D --> J[PC Speaker]
+    J --> K[61H Port]
+`}
+	caption="Hardware Interface Architecture"
+/>
+
+## 项目结构
+
+<FileTree
+	tree={`
+microcomputer-course-design/
+├── Countdown.asm              # 倒计时器（10KB）
+├── MusicPlay.asm              # 音乐播放器（17KB）
+├── 低版本 微机原理及应用课程设计.ppt
+├── 微机原理与接口技术.docx
+└── README.md
+`}
+	caption="Project Directory Structure"
+/>
+
+## 核心代码
+
+### 倒计时器
+
+<CodePreview
+	src="/code-snippets/microcomputer-course-design/Countdown.asm"
+	lang="asm"
+	caption="Countdown.asm - Timer Setup & Display Control"
+/>
+
+## 技术要点
+
+### 8253 定时器编程
+
+```asm
+; 设置 8253 通道 0 为模式 3（方波发生器）
+MOV AL, 36H       ; 控制字：通道0，模式3，16位
+OUT 43H, AL        ; 写入控制寄存器
+MOV AX, 11932      ; 100Hz 频率（1193182 / 100）
+OUT 40H, AL        ; 写入低字节
+MOV AL, AH
+OUT 40H, AL        ; 写入高字节
+```
+
+### 音符频率映射
+
+| 音符 | C4   | D4   | E4   | F4   | G4   | A4   | B4   |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| 频率 | 262  | 294  | 330  | 349  | 392  | 440  | 494  |
+
+通过 8253 定时器产生对应频率的方波驱动扬声器。
+
+### DOS 中断调用
+
+- `INT 21H`：DOS 功能调用（键盘输入、显示输出）
+- `INT 1AH`：BIOS 时钟中断
+- `INT 10H`：BIOS 显示中断
+
+## 效果展示
+
+<ScreenshotGallery dir="microcomputer-course-design" />

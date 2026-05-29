@@ -1,0 +1,119 @@
+---
+title: 'Java Programming Homework'
+description: 'Java 编程作业合集，从基础语法到 Socket 网络编程，涵盖 GUI 开发、设计模式和多线程动画。'
+repoPath: 'school-java-homework'
+tags: ['Java', 'Socket', 'Swing', 'Coursework']
+keywords: ['Java', 'Socket Programming', 'DAO Pattern', 'Multi-threading', 'Swing GUI', 'OOP']
+techStack: ['Java', 'Java Swing', 'Socket API', 'IntelliJ IDEA']
+screenshotsDir: 'school-java-homework'
+codeSnippets: ['school-java-homework/Client.java']
+featured: false
+date: '2023-06'
+difficulty: '入门'
+status: 'Completed'
+architecture: '渐进式作业结构：从基础语法（计算器）到面向对象（学生管理系统 DAO 模式），再到网络编程（Socket 聊天）和多线程（动画），逐步深入。'
+challenges:
+  [
+    'Socket 双向通信的消息同步与断线处理',
+    'DAO 模式实现数据访问层与业务逻辑层的解耦',
+    '多线程动画的线程安全与帧率控制',
+  ]
+lessons:
+  [
+    '掌握了 Java 从基础到进阶的完整知识体系',
+    '理解了 DAO 设计模式的分层架构思想',
+    '学会了 Socket 网络编程和多线程协调',
+  ]
+---
+
+## 项目背景
+
+Java 编程课程作业，包含 7 个递进式实验，从 Java 基础语法到网络编程，覆盖了 Java SE 的核心知识点。
+
+## 核心功能
+
+- **Homework 1**：Java 基础 — 计算器、问候程序
+- **Homework 2**：面向对象 — 圆/矩形计算、成绩统计
+- **Homework 3**：Swing GUI — 数字键盘、文本显示
+- **Lab 3**：设计模式 — 学生信息管理系统（DAO 模式）
+- **Lab 4**：艺术字设置器
+- **Lab 5**：多线程 — 动画与线程控制
+- **Lab 6**：网络编程 — Socket 聊天应用
+
+## 系统架构
+
+<MermaidDiagram
+	chart={`
+graph TD
+    subgraph "Student Info System (DAO Pattern)"
+        A[View Layer - Swing] --> B[Controller]
+        B --> C[Service Layer]
+        C --> D[DAO Interface]
+        D --> E[FileDAO Implementation]
+    end
+
+    subgraph "Socket Chat"
+        F[Client GUI] --> G[Client Socket]
+        G --> H[(Server)]
+        H --> I[Client 2]
+    end
+`}
+	caption="Key Architecture Patterns"
+/>
+
+## 项目结构
+
+<FileTree
+	tree={`
+school-java-homework/
+├── Homework1JavaProgrammingFundamentals/  # 基础语法
+├── Homework2JavaProgrammingExercise/      # 面向对象
+├── Homework3JavaProgrammingSwing/         # Swing GUI
+├── labhomework3/                          # 学生管理系统（DAO）
+├── Labhomework4/                          # 艺术字
+├── Labhomework5/                          # 多线程动画
+├── Labhomework6/                          # Socket 聊天
+├── .gitignore
+└── README.md
+`}
+	caption="Project Directory Structure"
+/>
+
+## 核心代码
+
+### Socket 聊天客户端
+
+<CodePreview
+	src="/code-snippets/school-java-homework/Client.java"
+	lang="java"
+	caption="Client.java - Socket-based Chat Client"
+/>
+
+## 技术要点
+
+### DAO 设计模式
+
+```
+StudentView → StudentController → StudentService → StudentDAO
+                                                      ↓
+                                               FileStudentDAO
+```
+
+- 接口隔离：Service 只依赖 DAO 接口
+- 可替换实现：从文件存储切换到数据库只需替换 DAO 层
+
+### Socket 聊天
+
+- `ServerSocket` 监听端口，接受客户端连接
+- `Socket` 实现双向消息传递
+- 多线程处理多个客户端并发连接
+
+### 多线程动画
+
+- `Thread.sleep()` 控制帧间隔
+- `repaint()` 触发画面重绘
+- 线程安全的共享状态管理
+
+## 效果展示
+
+<ScreenshotGallery dir="school-java-homework" />
