@@ -18,77 +18,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-// 常量定义
-#define MAXNAME 30
-#define MAXDAY 20
-#define MAXID 20
-#define TRUE 1
-#define FALSE 0
+#include <windows.h>
 
 // 全局变量
-struct Node* list = NULL;  // 使用全局链表
+Node* list = NULL;  // 使用全局链表
 int Nowyear, Nowmonth, Nowday;
 int monthday[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-// 索赔信息结构体
-struct ClimeData {
-    char ServiceStationName[MAXNAME];  // 服务站名称
-    char id[MAXID];                    // 索赔编号
-    int ClaimAmount;                   // 索赔金额
-    char ClaimTime[MAXDAY];            // 索赔日期
-    char CarVIN[MAXID];                // 底盘号
-    char Reviewer[MAXNAME];            // 审核人
-};
-
-// 链表节点结构体
-struct Node {
-    struct ClimeData data;
-    struct Node* next;
-};
-
-// 函数声明
-void welcome(void);
-void makeMenu(void);
-void keyDown(void);
-void getNowTime(void);
-
-// 链表操作函数
-struct Node* createHead(void);
-struct Node* createNode(struct ClimeData data);
-void insertNodeByHead(struct Node* headNode, struct ClimeData data);
-void insertNodeByTail(struct Node* headNode, struct ClimeData data);
-void deleteNodeByClimeID(struct Node* headNode, char* DataId);
-
-// 查找函数
-struct Node* searchByCarVIN(struct Node* headNode, char* CarVIN);
-struct Node* searchByCarID(struct Node* headNode, char* ID);
-struct Node* checkRepeatID(struct Node* headNode, char* ID);
-void searchAndPrintByCarVIN(struct Node* headNode, char* CarVIN);
-
-// 数据处理函数
-void bubbleSortList(struct Node* headNode);
-void printList(struct Node* headNode);
-
-// 验证函数
-int checkID(char* ID);
-int checkTrueTime(char* time);
-int IsLeapYear(int year);
-
-// 统计函数
-int statisticalAmountByName(struct Node* headNode, char* name);
-int statisticalAmountByReviewer(struct Node* headNode, char* name);
-int statisticalAmountByTime(struct Node* headNode, char* Time);
-
-// 文件操作函数
-void saveInfoFile(const char* fileName, struct Node* headNode);
-void readInfoFile(const char* fileName, struct Node* headNode);
-
-// 辅助函数
-void substr(char dest[], char src[], int pos, int length);
-
-// 内存管理函数
-void freeList(struct Node* headNode);
 /**
  * @brief 显示欢迎界面
  *
@@ -469,10 +405,28 @@ void readInfoFile(const char* fileName, struct Node* headNode) {
         return;
     }
 
-    // 读取数据行
-    while (fscanf(fp, "%29s\t%19s\t%19s\t%d\t%19s\t%29s", tempData.ServiceStationName, tempData.id,
-                  tempData.ClaimTime, &tempData.ClaimAmount, tempData.CarVIN,
-                  tempData.Reviewer) == 6) {
+    // 逐行读取并按 \t 分割
+    while (fgets(line, sizeof(line), fp) != NULL) {
+        char* tokens[6] = {0};
+        int count = 0;
+        char* token = strtok(line, "\t\n");
+
+        while (token != NULL && count < 6) {
+            tokens[count++] = token;
+            token = strtok(NULL, "\t\n");
+        }
+
+        if (count < 5) continue;  // 字段不足，跳过坏行
+
+        strncpy(tempData.ServiceStationName, tokens[0], MAXNAME - 1);
+        strncpy(tempData.id, tokens[1], MAXID - 1);
+        strncpy(tempData.ClaimTime, tokens[2], MAXDAY - 1);
+        tempData.ClaimAmount = atoi(tokens[3]);
+        strncpy(tempData.CarVIN, tokens[4], MAXID - 1);
+        if (count >= 6) {
+            strncpy(tempData.Reviewer, tokens[5], MAXNAME - 1);
+        }
+
         insertNodeByHead(headNode, tempData);
     }
 
@@ -682,6 +636,7 @@ void keyDown() {
 }
 // 主函数
 int main(void) {
+    SetConsoleOutputCP(CP_UTF8);
     welcome();
 
     // 初始化当前时间
