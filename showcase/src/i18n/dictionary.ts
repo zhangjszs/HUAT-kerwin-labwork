@@ -161,12 +161,12 @@ export const dictionary = {
 		'about.eyebrow': '你好',
 		'about.title': '关于',
 		'about.titleAccent': '我',
-		'about.tagline': '湖北汽车工业学院计算机科学专业学生。动手实践、不断试错、公开学习。',
+		'about.tagline': '湖北汽车工业学院计算机科学专业毕业生。动手实践、不断试错、公开学习。',
 		'about.background.eyebrow': '背景',
 		'about.background.title': '我是谁',
 		'about.background.titleAccent': '',
 		'about.background.p1':
-			'我是 Kerwin，一名热爱软件工程、数据科学和移动开发的计算机科学专业学生。本网站收录了我在 HUAT 的课程作业、实验项目和课外实践。',
+			'我是 Kerwin，一名热爱软件工程、数据科学和移动开发的计算机科学专业毕业生。本网站收录了我在 HUAT 的课程作业、实验项目和课外实践。',
 		'about.background.p2':
 			'我相信在实践中学习。这里的每个项目都代表了我解决过的真实问题、探索过的技术，或者曾经难以理解最终掌握的概念。',
 		'about.skills.eyebrow': '能力',
