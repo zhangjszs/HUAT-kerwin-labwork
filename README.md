@@ -86,6 +86,7 @@
 | [数据采集与预处理](data-collection-preprocessing/) | Python          |
 | [数据分析与可视化](data-analysis-visualization/)   | Python, Jupyter |
 | [数据分析课设](data-analysis-course-design/)       | Python, Pandas  |
+| [SPSS 统计分析](spss/)                             | SPSS            |
 
 ### 编程语言与开发
 
@@ -275,6 +276,6 @@ Copyright (c) 2024 zhangjszs
 
 **Made with ❤️ by [zhangjszs](https://github.com/zhangjszs)**
 
-*最后更新：2026年2月*
+*最后更新：2026年2月*s
 
 </div>
