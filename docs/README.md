@@ -10,6 +10,7 @@
 | [plans/](./plans/) | 学习计划 |
 | [interview-project-statement.md](./interview-project-statement.md) | 面试项目陈述草稿 |
 | [interview-qa-prep.md](./interview-qa-prep.md) | 面试 Q&A 准备笔记 |
+| [MAINTENANCE.md](./MAINTENANCE.md) | 项目维护指南（临时文件管理、文档检查、质量保障） |
 
 ## 📝 说明
 
