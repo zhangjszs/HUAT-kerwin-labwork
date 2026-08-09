@@ -1,3 +1,5 @@
+
+
 <div align="center">
 
 # 📚 HUAT 计科开源学习笔记
@@ -153,7 +155,7 @@ git lfs install
 
 ```bash
 # 浅克隆（不下载 LFS 大文件，只获取代码）
-git clone --depth=1 --no-lfs https://github.com/zhangjszs/HUAT-kerwin-labwork.git
+GIT_LFS_SKIP_SMUDGE=1 git clone --depth=1 https://github.com/zhangjszs/HUAT-kerwin-labwork.git
 
 # 如需后续下载 LFS 文件
 cd HUAT-kerwin-labwork
