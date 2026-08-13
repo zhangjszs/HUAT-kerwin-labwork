@@ -154,11 +154,9 @@ build/
 catboost_info/
 catboost_info/**
 
-# Editor local configs
-.vscode/
+# IDE / AI tool local state
 .idea/
 .omc/
-.github/
 .claude/
 .trae/
 

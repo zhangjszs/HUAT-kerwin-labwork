@@ -6,11 +6,12 @@
 
 | 目录/文件 | 说明 |
 |-----------|------|
-| [archive/](./archive/) | 归档资料 |
-| [plans/](./plans/) | 学习计划 |
+| [archive/](./archive/) | 归档资料（历史优化报告等） |
+| [plans/](./plans/) | 学习计划与设计方案 |
 | [interview-project-statement.md](./interview-project-statement.md) | 面试项目陈述草稿 |
 | [interview-qa-prep.md](./interview-qa-prep.md) | 面试 Q&A 准备笔记 |
 | [MAINTENANCE.md](./MAINTENANCE.md) | 项目维护指南（临时文件管理、文档检查、质量保障） |
+| [code-analysis-report.md](./code-analysis-report.md) | 代码质量分析报告 |
 
 ## 📝 说明
 
