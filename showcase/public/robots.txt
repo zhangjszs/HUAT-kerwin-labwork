@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://huat-showcase.pages.dev/sitemap-index.xml
