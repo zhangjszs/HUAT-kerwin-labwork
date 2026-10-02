@@ -26,7 +26,7 @@ def parse_arg():
    
     with open(args.cfg, 'r') as f:
         # config = yaml.load(f, Loader=yaml.FullLoader)
-        config = yaml.load(f)
+        config = yaml.safe_load(f)
         config = edict(config)
 
     config.DATASET.ALPHABETS = plateName
@@ -92,7 +92,7 @@ def main():
         model_state_file = config.TRAIN.FINETUNE.FINETUNE_CHECKPOINIT
         if model_state_file == '':
             print(" => no checkpoint found")
-        checkpoint = torch.load(model_state_file, map_location='cpu')
+        checkpoint = torch.load(model_state_file, map_location='cpu', weights_only=True)
         if 'state_dict' in checkpoint.keys():
             checkpoint = checkpoint['state_dict']
 
@@ -111,7 +111,7 @@ def main():
         model_state_file = config.TRAIN.RESUME.FILE
         if model_state_file == '':
             print(" => no checkpoint found")
-        checkpoint = torch.load(model_state_file, map_location='cpu')
+        checkpoint = torch.load(model_state_file, map_location='cpu', weights_only=True)
         if 'state_dict' in checkpoint.keys():
             model.load_state_dict(checkpoint['state_dict'])
             last_epoch = checkpoint['epoch']

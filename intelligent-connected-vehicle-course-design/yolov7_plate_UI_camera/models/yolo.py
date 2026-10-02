@@ -1,8 +1,10 @@
 # YOLOv5 YOLO-specific modules
 
 import argparse
+import ast
 import logging
 import sys
+import torch
 from copy import deepcopy
 from pathlib import Path
 
@@ -522,11 +524,11 @@ def parse_model(d, ch):  # model_dict, input_channels(3)
     layers, save, c2 = [], [], ch[-1]  # layers, savelist, ch out
     for i, (f, n, m, args) in enumerate(d['backbone'] + d['head']):  # from, number, module, args
         args_dict = {}
-        m = eval(m) if isinstance(m, str) else m  # eval strings
+        m = (torch.nn.__dict__[m[3:]] if m.startswith('nn.') else globals()[m]) if isinstance(m, str) else m
         for j, a in enumerate(args):
             try:
-                args[j] = eval(a) if isinstance(a, str) else a  # eval strings
-            except:
+                args[j] = (globals()[a] if a in globals() else ast.literal_eval(a)) if isinstance(a, str) else a
+            except (ValueError, SyntaxError, KeyError):
                 pass
 
         n = max(round(n * gd), 1) if n > 1 else n  # depth gain

@@ -115,7 +115,7 @@ def attempt_load(weights, map_location=None, inplace=True):
     # Loads an ensemble of models weights=[a,b,c] or a single model weights=[a] or weights=a
     model = Ensemble()
     for w in weights if isinstance(weights, list) else [weights]:
-        ckpt = torch.load(w, map_location=map_location, weights_only=False)  # load
+        ckpt = torch.load(w, map_location=map_location, weights_only=True)  # load
         model.append(ckpt['ema' if ckpt.get('ema') else 'model'].float().fuse().eval())  # FP32 model
 
     # Compatibility updates

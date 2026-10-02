@@ -4,6 +4,7 @@ import glob
 import math
 import os
 import random
+import subprocess
 from copy import copy
 from pathlib import Path
 
@@ -471,8 +472,8 @@ def plot_results(start=0, stop=0, bucket='', id=(), labels=(), save_dir=''):
     if bucket:
         # files = ['https://storage.googleapis.com/%s/results%g.txt' % (bucket, x) for x in id]
         files = ['results%g.txt' % x for x in id]
-        c = ('gsutil cp ' + '%s ' * len(files) + '.') % tuple('gs://%s/results%g.txt' % (bucket, x) for x in id)
-        os.system(c)
+        targets = ['gs://%s/results%g.txt' % (bucket, x) for x in id]
+        subprocess.run(['gsutil', 'cp', *targets, '.'], shell=False, check=False)
     else:
         files = list(Path(save_dir).glob('results*.txt'))
     assert len(files), 'No results.txt files found in %s, nothing to plot.' % os.path.abspath(save_dir)

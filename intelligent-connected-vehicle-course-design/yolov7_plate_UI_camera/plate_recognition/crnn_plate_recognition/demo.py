@@ -59,7 +59,7 @@ def get_plate_result(img,device,model,img_size):
     return plate
 
 def init_model(device,model_path):
-    check_point = torch.load(model_path,map_location=device)
+    check_point = torch.load(model_path,map_location=device,weights_only=True)
     model_state=check_point['state_dict']
     cfg = check_point['cfg']
     model = myNet_ocr(num_classes=len(plate_chr),export=True,cfg=cfg)        #export  True 用来推理

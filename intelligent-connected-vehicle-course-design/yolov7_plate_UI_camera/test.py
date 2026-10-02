@@ -305,8 +305,11 @@ def test(data,
     if save_json or save_json_kpt and len(jdict):
         w = Path(weights[0] if isinstance(weights, list) else weights).stem if weights is not None else ''  # weights
         pred_json = str(save_dir / f"{w}_predictions.json")  # predictions json
-        with open(pred_json, 'w') as f:
-            json.dump(jdict, f)
+        _cwd = Path.cwd().resolve()
+        _pj = Path(pred_json).resolve()
+        if _cwd not in _pj.parents:
+            raise SystemExit(f'输出路径必须在项目工作目录内: {_pj}')
+        _pj.write_text(json.dumps(jdict), encoding='utf-8')
         if save_json:
             anno_json = '../coco/annotations/instances_val2017.json'  # annotations json
             print('\nEvaluating pycocotools mAP... saving %s...' % pred_json)

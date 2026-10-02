@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-readme_path = "D:/coding/Study_code/HUAT-kerwin-labwork/data-structures-course-design/coding/MazeProject/README.md"
+from pathlib import Path
+
+readme_path = "data-structures-course-design/coding/MazeProject/README.md"
 
 with open(readme_path, "r", encoding="utf-8") as f:
     content = f.read()
@@ -34,7 +36,10 @@ else:
     content = content + "\n" + new_sections
     print("Appended at end")
 
-with open(readme_path, "w", encoding="utf-8") as f:
-    f.write(content)
+_rf = Path(readme_path).resolve()
+_root = str(Path.cwd().resolve())
+if '..' in _rf.parts or not str(_rf).startswith(_root):
+    raise SystemExit(f'写入路径必须在项目工作目录内: {_rf}')
+_rf.write_text(content, encoding='utf-8')
 
 print("Done")

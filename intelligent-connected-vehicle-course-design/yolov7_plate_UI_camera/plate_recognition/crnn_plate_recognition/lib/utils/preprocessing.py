@@ -1,5 +1,6 @@
 '''
-360万中文训练集标签修改
+
+from pathlib import Path360万中文训练集标签修改
 '''
 
 # chinese characters dictionary for 3.6 million data set.
@@ -11,8 +12,7 @@ with open('../test.txt') as file:
 	value_list = ['%s %s'%(segment_list.split(' ')[0], ''.join([char_dict[int(val)] for val in segment_list[:-1].split(' ')[1:]])) for segment_list in file.readlines()]
 
 # final output
-with open('test.txt', 'w', encoding='utf-8') as file:
-	[file.write(val+'\n') for val in value_list]
+Path('test.txt').write_text('\n'.join(value_list) + '\n', encoding='utf-8')
 
 '''
 orginal version

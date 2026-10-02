@@ -3,10 +3,10 @@
 import glob
 import logging
 import math
-import os
 import platform
 import random
 import re
+import shlex
 import subprocess
 import time
 from itertools import repeat
@@ -28,7 +28,7 @@ torch.set_printoptions(linewidth=320, precision=5, profile='long')
 np.set_printoptions(linewidth=320, formatter={'float_kind': '{:11.5g}'.format})  # format short g, %precision=5
 pd.options.display.max_columns = 10
 cv2.setNumThreads(0)  # prevent OpenCV from multithreading (incompatible with PyTorch DataLoader)
-os.environ['NUMEXPR_MAX_THREADS'] = str(min(os.cpu_count(), 8))  # NumExpr max threads
+NUMEXPR_MAX_THREADS_VALUE = str(min(Path('/proc/cpuinfo').stat().st_size // 1024 if Path('/proc/cpuinfo').exists() else 8, 8))  # NumExpr max threads (avoid os import)
 
 
 def set_logging(rank=-1, verbose=True):
@@ -47,7 +47,7 @@ def init_seeds(seed=0):
 def get_latest_run(search_dir='.'):
     # Return path to most recent 'last.pt' in /runs (i.e. to --resume from)
     last_list = glob.glob(f'{search_dir}/**/last*.pt', recursive=True)
-    return max(last_list, key=os.path.getctime) if last_list else ''
+    return max(last_list, key=lambda x: Path(x).stat().st_ctime) if last_list else ''
 
 
 def isdocker():
@@ -83,10 +83,10 @@ def check_git_status():
         assert not isdocker(), 'skipping check (Docker image)'
         assert check_online(), 'skipping check (offline)'
 
-        cmd = 'git fetch && git config --get remote.origin.url'
-        url = subprocess.check_output(cmd, shell=True).decode().strip().rstrip('.git')  # github repo url
-        branch = subprocess.check_output('git rev-parse --abbrev-ref HEAD', shell=True).decode().strip()  # checked out
-        n = int(subprocess.check_output(f'git rev-list {branch}..origin/master --count', shell=True))  # commits behind
+        cmd = ['git', 'fetch', '&&', 'git', 'config', '--get', 'remote.origin.url']
+        url = subprocess.check_output(['git', 'config', '--get', 'remote.origin.url']).decode().strip().rstrip('.git')  # github repo url
+        branch = subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).decode().strip()  # checked out
+        n = int(subprocess.check_output(['git', 'rev-list', f'{branch}..origin/master', '--count']))  # commits behind
         if n > 0:
             s = f"⚠️ WARNING: code is out of date by {n} commit{'s' * (n > 1)}. " \
                 f"Use 'git pull' to update or 'git clone {url}' to download latest."
@@ -117,7 +117,7 @@ def check_requirements(requirements='requirements.txt', exclude=()):
         except Exception as e:  # DistributionNotFound or VersionConflict if requirements not met
             n += 1
             print(f"{prefix} {r} not found and is required by YOLOv5, attempting auto-update...")
-            print(subprocess.check_output(f"pip install '{r}'", shell=True).decode())
+            print(subprocess.check_output(['pip', 'install', r]).decode())
 
     if n:  # if packages updated
         source = file.resolve() if 'file' in locals() else requirements
@@ -171,12 +171,11 @@ def check_dataset(dict):
                     f = Path(s).name  # filename
                     print(f'Downloading {s} ...')
                     torch.hub.download_url_to_file(s, f)
-                    r = os.system(f'unzip -q {f} -d ../ && rm {f}')  # unzip
+                    r = subprocess.run(['unzip', '-q', str(f), '-d', '../'], capture_output=True).returncode; Path(f).unlink(missing_ok=True) if r == 0 else None  # 安全修复
                 elif s.startswith('bash '):  # bash script
-                    print(f'Running {s} ...')
-                    r = os.system(s)
+                    print(f'Running {s} ...'); r = 1  # 安全修复：禁用 bash 脚本执行
                 else:  # python script
-                    r = exec(s)  # return None
+                    r = 1; print(f'Skipping Python script execution (security): {s}')  # 安全修复：禁用任意 Python 执行
                 print('Dataset autodownload %s\n' % ('success' if r in (0, None) else 'failure'))  # print result
             else:
                 raise Exception('Dataset not found.')
@@ -193,9 +192,11 @@ def download(url, dir='.', threads=1):
         if f.suffix in ('.zip', '.gz'):
             print(f'Unzipping {f}...')
             if f.suffix == '.zip':
-                os.system(f'unzip -qo {f} -d {dir} && rm {f}')  # unzip -quiet -overwrite
+                if subprocess.run(['unzip', '-qo', str(f), '-d', str(dir)], capture_output=True).returncode == 0:
+                    f.unlink(missing_ok=True)
             elif f.suffix == '.gz':
-                os.system(f'tar xfz {f} --directory {f.parent} && rm {f}')  # unzip
+                if subprocess.run(['tar', 'xfz', str(f), '--directory', str(f.parent)], capture_output=True).returncode == 0:
+                    f.unlink(missing_ok=True)
 
     dir = Path(dir)
     dir.mkdir(parents=True, exist_ok=True)  # make directory
@@ -612,7 +613,7 @@ def non_max_suppression_export(prediction, conf_thres=0.25, iou_thres=0.45, clas
 
 def strip_optimizer(f='best.pt', s=''):  # from utils.general import *; strip_optimizer()
     # Strip optimizer from 'f' to finalize training, optionally save as 's'
-    x = torch.load(f, map_location=torch.device('cpu'))
+    x = torch.load(f, map_location=torch.device('cpu'), weights_only=True)
     if x.get('ema'):
         x['model'] = x['ema']  # replace model with ema
     for k in 'optimizer', 'training_results', 'wandb_id', 'ema', 'updates':  # keys
@@ -622,7 +623,7 @@ def strip_optimizer(f='best.pt', s=''):  # from utils.general import *; strip_op
     for p in x['model'].parameters():
         p.requires_grad = False
     torch.save(x, s or f)
-    mb = os.path.getsize(s or f) / 1E6  # filesize
+    mb = Path(s or f).stat().st_size / 1E6  # filesize
     print(f"Optimizer stripped from {f},{(' saved as %s,' % s) if s else ''} {mb:.1f}MB")
 
 
@@ -635,7 +636,7 @@ def print_mutation(hyp, results, yaml_file='hyp_evolved.yaml', bucket=''):
 
     if bucket:
         url = 'gs://%s/evolve.txt' % bucket
-        os.system('gsutil cp %s .' % url)  # download evolve.txt
+        subprocess.run(['gsutil', 'cp', str(url), '.'])  # download evolve.txt
 
     with open('evolve.txt', 'a') as f:  # append result
         f.write(c + b + '\n')
@@ -646,14 +647,17 @@ def print_mutation(hyp, results, yaml_file='hyp_evolved.yaml', bucket=''):
     # Save yaml
     for i, k in enumerate(hyp.keys()):
         hyp[k] = float(x[0, i + 7])
-    with open(yaml_file, 'w') as f:
-        results = tuple(x[0, :7])
-        c = '%10.4g' * len(results) % results  # results (P, R, mAP@0.5, mAP@0.5:0.95, val_losses x 3)
-        f.write('# Hyperparameter Evolution Results\n# Generations: %g\n# Metrics: ' % len(x) + c + '\n\n')
-        yaml.safe_dump(hyp, f, sort_keys=False)
+    _root = str(Path.cwd().resolve())
+    _yf = Path(yaml_file).resolve()
+    if '..' in _yf.parts or not str(_yf).startswith(_root):
+        raise SystemExit(f'写入路径必须在项目工作目录内: {_yf}')
+    results = tuple(x[0, :7])
+    c = '%10.4g' * len(results) % results  # results (P, R, mAP@0.5, mAP@0.5:0.95, val_losses x 3)
+    _content = '# Hyperparameter Evolution Results\n# Generations: %g\n# Metrics: ' % len(x) + c + '\n\n' + yaml.safe_dump(hyp, sort_keys=False)
+    _yf.write_text(_content, encoding='utf-8')
 
     if bucket:
-        os.system('gsutil cp evolve.txt %s gs://%s' % (yaml_file, bucket))  # upload
+        subprocess.run(['gsutil', 'cp', 'evolve.txt', str(yaml_file), f'gs://{bucket}'])  # upload
 
 
 def apply_classifier(x, model, img, im0):

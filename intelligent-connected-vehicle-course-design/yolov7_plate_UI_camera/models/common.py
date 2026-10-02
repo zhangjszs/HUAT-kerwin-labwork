@@ -1,8 +1,24 @@
 # This file contains modules common to various models
 
+import ipaddress
 import math
+import socket
 from copy import copy
 from pathlib import Path
+from urllib.parse import urlparse
+
+
+def safe_http_get(url):
+    # 校验协议并解析目标地址，阻断私网/环回/链路本地目标，禁止重定向（SSRF 防护）
+    parsed = urlparse(url)
+    if parsed.scheme not in ('http', 'https'):
+        raise ValueError(f'仅允许 http/https URL: {url}')
+    port = parsed.port or (443 if parsed.scheme == 'https' else 80)
+    for info in socket.getaddrinfo(parsed.hostname, port):
+        addr = ipaddress.ip_address(info[4][0])
+        if addr.is_private or addr.is_loopback or addr.is_link_local or addr.is_reserved or addr.is_multicast:
+            raise ValueError(f'目标地址不可访问: {addr}')
+    return requests.get(url, stream=True, allow_redirects=False)
 
 import numpy as np
 import pandas as pd
@@ -606,7 +622,7 @@ class autoShape(nn.Module):
         for i, im in enumerate(imgs):
             f = f'image{i}'  # filename
             if isinstance(im, str):  # filename or uri
-                im, f = np.asarray(Image.open(requests.get(im, stream=True).raw if im.startswith('http') else im)), im
+                im, f = np.asarray(Image.open(safe_http_get(im).raw if urlparse(im).scheme in ('http', 'https') else im)), im
             elif isinstance(im, Image.Image):  # PIL Image
                 im, f = np.asarray(im), getattr(im, 'filename', f) or f
             files.append(Path(f).with_suffix('.jpg').name)

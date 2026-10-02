@@ -51,10 +51,14 @@ def train(hyp, opt, device, tb_writer=None):
     results_file = save_dir / 'results.txt'
 
     # Save run settings
-    with open(save_dir / 'hyp.yaml', 'w') as f:
-        yaml.safe_dump(hyp, f, sort_keys=False)
-    with open(save_dir / 'opt.yaml', 'w') as f:
-        yaml.safe_dump(vars(opt), f, sort_keys=False)
+    _root = str(Path.cwd().resolve())
+    _hyp = (Path(save_dir) / 'hyp.yaml').resolve()
+    _opt = (Path(save_dir) / 'opt.yaml').resolve()
+    for _p in (_hyp, _opt):
+        if '..' in _p.parts or not str(_p).startswith(_root):
+            raise SystemExit(f'保存路径必须在项目工作目录内: {_p}')
+    _hyp.write_text(yaml.safe_dump(hyp, sort_keys=False), encoding='utf-8')
+    _opt.write_text(yaml.safe_dump(vars(opt), sort_keys=False), encoding='utf-8')
 
     # Configure
     plots = not opt.evolve  # create plots
@@ -68,7 +72,7 @@ def train(hyp, opt, device, tb_writer=None):
     loggers = {'wandb': None}  # loggers dict
     if rank in [-1, 0]:
         opt.hyp = hyp  # add hyperparameters
-        run_id = torch.load(weights).get('wandb_id') if weights.endswith('.pt') and os.path.isfile(weights) else None
+        run_id = torch.load(weights, weights_only=True).get('wandb_id') if weights.endswith('.pt') and os.path.isfile(weights) else None
         wandb_logger = WandbLogger(opt, save_dir.stem, run_id, data_dict)
         loggers['wandb'] = wandb_logger.wandb
         data_dict = wandb_logger.data_dict
@@ -84,7 +88,7 @@ def train(hyp, opt, device, tb_writer=None):
     if pretrained:
         with torch_distributed_zero_first(rank):
             attempt_download(weights)  # download if not found locally
-        ckpt = torch.load(weights, map_location=device)  # load checkpoint
+        ckpt = torch.load(weights, map_location=device, weights_only=True)  # load checkpoint
         model = Model(opt.cfg or ckpt['model'].yaml, ch=3, nc=nc, anchors=hyp.get('anchors')).to(device)  # create
         exclude = ['anchor'] if (opt.cfg or hyp.get('anchors')) and not opt.resume else []  # exclude keys
         state_dict = ckpt['model'].float().state_dict()  # to FP32
@@ -384,7 +388,7 @@ def train(hyp, opt, device, tb_writer=None):
             with open(results_file, 'a') as f:
                 f.write(s + '%10.4g' * 7 % results + '\n')  # append metrics, val_loss
             if len(opt.name) and opt.bucket:
-                os.system('gsutil cp %s gs://%s/results/results%s.txt' % (results_file, opt.bucket, opt.name))
+                subprocess.run(['gsutil', 'cp', results_file, f'gs://{opt.bucket}/results/results{opt.name}.txt'])
 
             # Log
             tags = ['train/box_loss', 'train/obj_loss', 'train/cls_loss',  # train loss
@@ -466,7 +470,7 @@ def train(hyp, opt, device, tb_writer=None):
             if f.exists():
                 strip_optimizer(f)  # strip optimizers
         if opt.bucket:
-            os.system(f'gsutil cp {final} gs://{opt.bucket}/weights')  # upload
+            subprocess.run(['gsutil', 'cp', str(final), f'gs://{opt.bucket}/weights'])  # upload
         if wandb_logger.wandb and not opt.evolve:  # Log the stripped model
             wandb_logger.wandb.log_artifact(str(final), type='model',
                                             name='run_' + wandb_logger.wandb_run.id + '_model',
@@ -606,7 +610,7 @@ if __name__ == '__main__':
         # ei = [isinstance(x, (int, float)) for x in hyp.values()]  # evolvable indices
         yaml_file = Path(opt.save_dir) / 'hyp_evolved.yaml'  # save best result here
         if opt.bucket:
-            os.system('gsutil cp gs://%s/evolve.txt .' % opt.bucket)  # download evolve.txt if exists
+            subprocess.run(['gsutil', 'cp', f'gs://{opt.bucket}/evolve.txt', '.'])  # download evolve.txt if exists
 
         for _ in range(300):  # generations to evolve
             if Path('evolve.txt').exists():  # if evolve.txt exists: select best hyps and mutate

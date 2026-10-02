@@ -4,6 +4,7 @@ import numpy as np
 import os
 import shutil
 import argparse
+from pathlib import Path
 from alphabets import plate_chr
 def allFileList(rootfile,allFile):
     folder =os.listdir(rootfile)
@@ -33,10 +34,14 @@ if __name__=="__main__":
     plateDict ={}
     for i in range(len(list(palteStr))):
         plateDict[palteStr[i]]=i
-    fp = open(labelFile,"w",encoding="utf-8")
+    _root = str(Path.cwd().resolve())
+    _lf = Path(labelFile).resolve()
+    if '..' in _lf.parts or not str(_lf).startswith(_root):
+        raise SystemExit(f'写入路径必须在项目工作目录内: {_lf}')
     file =[]
     allFileList(rootPath,file)
     picNum = 0
+    lines = []
     for jpgFile in file:
         print(jpgFile)
         jpgName = os.path.basename(jpgFile)
@@ -54,5 +59,5 @@ if __name__=="__main__":
         #     i+=1
         picNum+=1
         # print(jpgFile+labelStr)
-        fp.write(jpgFile+labelStr+"\n")
-    fp.close()
+        lines.append(jpgFile+labelStr+"\n")
+    Path(_lf).write_text(''.join(lines), encoding='utf-8')

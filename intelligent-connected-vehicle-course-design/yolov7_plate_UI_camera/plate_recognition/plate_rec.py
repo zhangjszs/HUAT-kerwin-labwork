@@ -61,7 +61,7 @@ def get_plate_result(img,device,model):
 def init_model(device,model_path):
     # print( print(sys.path))
     # model_path ="plate_recognition/model/checkpoint_61_acc_0.9715.pth"
-    check_point = torch.load(model_path,map_location=device)
+    check_point = torch.load(model_path,map_location=device,weights_only=True)
     model_state=check_point['state_dict']
     cfg=check_point['cfg']
     # model_path = os.sep.join([sys.path[0],model_path])

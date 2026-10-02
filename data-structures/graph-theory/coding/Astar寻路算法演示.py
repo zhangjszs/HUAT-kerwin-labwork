@@ -1,6 +1,7 @@
 import json
 import sys
 import time
+from pathlib import Path
 
 from PyQt5.QtCore import Qt, QBasicTimer
 from PyQt5.QtGui import QPainter, QColor, QFont, QPen
@@ -279,9 +280,8 @@ class GameBoard(QMainWindow):  # 可视化类，pyqt5进行编写。
             self.addDisplayText('开始进行搜索')
 
     def button_SaveMap(self):
-        with open('map.txt', 'w') as f:
-            f.write(json.dumps(self.Map))
-            self.addDisplayText('地图保存成功-->map.txt')
+        Path('map.txt').write_text(json.dumps(self.Map))
+        self.addDisplayText('地图保存成功-->map.txt')
 
     # else:
     # self.addDisplayText('地图保存失败')

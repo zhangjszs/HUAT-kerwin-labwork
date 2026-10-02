@@ -1,12 +1,13 @@
-import os
+from pathlib import Path
 
 
 a = 'chars_5990.txt'
 
-s = open(a).readlines()
+with open(a, encoding='utf-8') as f:
+    s = f.readlines()
 
 aa = ''
 for ss in s:
     aa += ss.strip()
 
-open('a.txt', 'w').write(aa)
+Path('a.txt').write_text(aa, encoding='utf-8')

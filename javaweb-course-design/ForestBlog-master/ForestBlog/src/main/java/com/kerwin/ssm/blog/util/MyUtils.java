@@ -39,16 +39,16 @@ public class MyUtils {
 
 
     /**
-     * 获得Md5加密
+     * 获得SHA-256加密（取代弱哈希MD5；与历史口令哈希不兼容）
      *
      * @param str 原字符串
      * @return 加密后的字符串
      */
-    public static String strToMd5(String str) {
-        String md5Str = null;
+    public static String strToSha256(String str) {
+        String sha256Str = null;
         if (str != null && str.length() != 0) {
             try {
-                MessageDigest md = MessageDigest.getInstance("MD5");
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
                 md.update(str.getBytes());
                 byte b[] = md.digest();
 
@@ -64,15 +64,13 @@ public class MyUtils {
                     }
                     buf.append(Integer.toHexString(i));
                 }
-                //32位
-                md5Str = buf.toString();
-                //16位
-                //md5Str = buf.toString().substring(8, 24);
+                //64位
+                sha256Str = buf.toString();
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
         }
-        return md5Str;
+        return sha256Str;
     }
 
     /**
@@ -82,9 +80,9 @@ public class MyUtils {
      * @return 头像URL
      */
     public static String getGravatar(String email) {
-        String emailMd5 = strToMd5(email);
+        String emailSha256 = strToSha256(email);
         //设置图片大小32px
-        String avatar = "http://cn.gravatar.com/avatar/" + emailMd5 + "?s=128&d=identicon&r=PG";
+        String avatar = "http://cn.gravatar.com/avatar/" + emailSha256 + "?s=128&d=identicon&r=PG";
         return avatar;
     }
 
