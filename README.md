@@ -27,12 +27,14 @@
 > | C 语言课设 | c-course-design |
 > | Java 课程作业 | school-java-homework |
 > | Java 课程设计 | java-course-design |
-> | Java Web 实验 | HUATJavaWebLab |
+> | Java Web 实验 | java-web-lab |
 > | JavaWeb 课程设计 | javaweb-course-design |
 > | 数据采集与预处理 | data-collection-preprocessing |
 > | 数据分析与可视化 | data-analysis-visualization |
 > | 数据分析课设 | data-analysis-course-design |
+> | 机器学习实践 | ml-practice |
 > | 微机原理与接口 | microcomputer-principles |
+> | 微机原理课程设计 | microcomputer-course-design |
 > | Linux 系统应用 | linux-system-application |
 > | 嵌入式系统 | embedded-systems |
 > | Android 移动开发 | android-mobile-development |
@@ -86,13 +88,14 @@
 | [数据采集与预处理](data-collection-preprocessing/) | Python          |
 | [数据分析与可视化](data-analysis-visualization/)   | Python, Jupyter |
 | [数据分析课设](data-analysis-course-design/)       | Python, Pandas  |
+| [机器学习实践](ml-practice/)                       | Python, Sklearn |
 | [SPSS 统计分析](spss/)                             | SPSS            |
 
 ### 编程语言与开发
 
 | 课程                                   | 目录               | 技术栈 |
 | -------------------------------------- | ------------------ | ------ |
-| [Java 基础实验](HUATJavaWebLab/)       | Java, Servlet      |
+| [Java 基础实验](java-web-lab/)       | Java, Servlet      |
 | [Java 课程作业](school-java-homework/) | Java               |
 | [Java 课程设计](java-course-design/)   | Java, Swing        |
 | [JavaWeb 课设](javaweb-course-design/) | Spring Boot, MySQL |
@@ -103,6 +106,7 @@
 | ------------------------------------------- | -------- | ------ |
 | [C 语言课设](c-course-design/)              | C, CMake |
 | [微机原理与接口](microcomputer-principles/) | Assembly |
+| [微机原理课设](microcomputer-course-design/) | Assembly |
 | [Linux 系统应用](linux-system-application/) | Shell, C |
 
 ### 专业特色
