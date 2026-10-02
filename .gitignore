@@ -117,6 +117,10 @@ out/
 ############################################
 .gradle/
 build/
+target/
+out/
+web/WEB-INF/classes/
+web/WEB-INF/lib/
 .project
 .classpath
 .settings/
@@ -159,6 +163,8 @@ catboost_info/**
 .omc/
 .claude/
 .trae/
+.mimosa/
+.zcode/
 
 # Temporary / scratch directories
 tmp/
