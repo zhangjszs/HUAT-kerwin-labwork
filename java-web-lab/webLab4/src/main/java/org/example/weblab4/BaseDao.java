@@ -9,8 +9,9 @@ public class BaseDao implements StudentDao {
     protected static ResultSet rs;
     public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String URL = "jdbc:mysql://localhost:3306/user_db";
-    public static final String USERNAME = "root";
-    public static final String PASSWORD = "123456";
+    // 凭据经环境变量注入；默认值仅用于本地课程环境
+    public static final String USERNAME = System.getenv().getOrDefault("DB_USER", "root");
+    public static final String PASSWORD = System.getenv().getOrDefault("DB_PASSWORD", "123456");
 
     //创建连接数据库的方法
     public static void getConnection() {
