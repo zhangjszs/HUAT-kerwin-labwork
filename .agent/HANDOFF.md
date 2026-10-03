@@ -8,8 +8,8 @@ _最近更新：2026-10-02（规划者，第二轮）_
 
 ## 执行 Agent 的下一批工作
 
-1. ** medium/low 发现评估**（issue 待建）：重扫后剩 6 medium + 31 low，由执行 Agent 逐条评估修复或说明不修理由。
-2. **M2 展示联动**（待规划者建 issue）：核心项目 README 深化，见 PLAN.md。
+1. **M2 第二批（待用户点名后建 issue）**：智能网联课设外层 FSD 网站部分、javaweb-course-design（ForestBlog）、microcomputer-course-design。第一批 5 项目 README 已由规划者完成（见 PLAN.md M2），勿重复改写。
+2. **Mimosa 遗留**：4 medium（BaseDao 环境变量默认值、3 处跨文件污点误报）+ 29 low（ML 随机数）均为已记录的合理留存，除非规则升级否则勿再动。
 
 ## 历史背景（已解决，勿重复处理）
 

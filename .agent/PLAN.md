@@ -12,19 +12,21 @@ _滚动更新：2026-10-02（第二轮）_
 
 **结果**：#4 重命名收尾、#5 索引补齐、Mimosa 门禁解锁（60 高危 → 0，见 D5/D6）均由规划者按用户一次性授权直接完成。门禁剩余 6 medium + 31 low 转 #6 评估。
 
-### M2：展示联动（核心项目 README 深化）—— 规划中
+### M2：展示联动（核心项目 README 深化）—— 第一批完成（2026-10-03）
 
-**目标**：精选 3–5 个最能体现能力的项目，README 升级到作品集水准：项目简介、架构/技术要点、运行方式、结果展示（截图或输出摘录）、亮点提炼。候选（规划者初选，建 issue 前再核对内容）：
+**第一批交付**（5 个核心项目）：
 
-- `java-course-design/`（Java 课设，工程化程度高）
-- `data-structures-course-design/`（算法 + 可视化潜力）
-- `intelligent-connected-vehicle-course-design/`（差异化方向）
-- `ml-practice/titanic-survival-prediction`（数据科学线索）
-- `android-mobile-development/final_course_project/Company/`（完整 App）
+| 项目 | 动作 |
+| ---- | ---- |
+| `intelligent-connected-vehicle-course-design/yolov7_plate_UI_camera/` | 补两阶段流水线架构图、设计要点、真实克隆路径、徽章、作品集脚注 |
+| `data-structures-course-design/` | 外层 README 重写：修正旧路径旧描述，对齐 MazeProject（5 算法）现状，算法对比表，链接内层文档 |
+| `android-mobile-development/final_course_project/Company/` | **新建** README：双角色功能矩阵、MVVM+Room 架构、构建方式、重构计划文档引用 |
+| `java-course-design/` | 重写：四游戏对比表（从 zip 提炼类结构与技术点）、增量快照工作法说明、修正旧路径 |
+| `ml-practice/titanic-survival-prediction/` | 徽章、流水线一览、作品集脚注 |
 
-**验收标准**：每个入选项目 README 含运行截图/输出证据；huat-showcase 对应 MDX 页可直接引用仓库内容。
+另修复 `data-collection-preprocessing/README.md` 旧中文路径残留。所有 README 统一追加 huat-showcase 作品集脚注。
 
-**包含 issue**：待建（下轮规划会话，依赖 #4 完成）。
+**第二批候选**（后续会话按需建 issue）：智能网联课设外层 README 的 FSD 网站部分、javaweb-course-design（ForestBlog）、microcomputer-course-design（汇编课设）。
 
 ## 远景（粗粒度）
 
