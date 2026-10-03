@@ -19,7 +19,7 @@ pip install pandas numpy matplotlib seaborn requests beautifulsoup4
 1. 克隆仓库：
    ```bash
    git clone https://github.com/zhangjszs/HUAT-kerwin-labwork.git
-   cd HUAT-kerwin-labwork/数据采集与预处理
+   cd HUAT-kerwin-labwork/data-collection-preprocessing
    ```
 
 2. 运行脚本：

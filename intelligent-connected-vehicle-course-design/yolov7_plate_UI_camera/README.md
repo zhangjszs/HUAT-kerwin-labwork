@@ -1,8 +1,50 @@
 # 基于 YOLOv7 的智能车牌识别系统
 
+![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
+![PyTorch](https://img.shields.io/badge/PyTorch-%E2%89%A51.10-orange.svg)
+![YOLOv7](https://img.shields.io/badge/Detector-YOLOv7--lite-red.svg)
+![UI](https://img.shields.io/badge/GUI-PyQt5-green.svg)
+
 ## 项目简介
 
 本项目是智能网联汽车课程设计作品，实现了一套完整的车牌检测与识别系统。系统采用 YOLOv7-lite 进行车牌区域检测及四个关键点定位，结合 LPRNet 完成车牌字符识别，并通过 PyQt5 构建了深色科技风格的图形化操作界面，支持图片、视频及摄像头实时检测。
+
+## 技术架构
+
+系统采用「检测 → 矫正 → 识别」两阶段流水线：
+
+```
+输入帧（图片 / 视频 / 摄像头）
+        │
+        ▼
+┌─────────────────────────────────┐
+│  YOLOv7-lite 检测网络            │
+│  · 车牌边界框回归                │
+│  · 4 个角点关键点定位            │
+└─────────────────────────────────┘
+        │  检测框 + 角点
+        ▼
+┌─────────────────────────────────┐
+│  透视矫正（Perspective Transform）│
+│  依据 4 角点将倾斜车牌对齐为矩形   │
+└─────────────────────────────────┘
+        │  矫正后的车牌条带图像
+        ▼
+┌─────────────────────────────────┐
+│  LPRNet 字符识别                 │
+│  轻量 CNN + CTC 解码，无需字符切分 │
+└─────────────────────────────────┘
+        │  车牌字符串 + 置信度
+        ▼
+  PyQt5 界面渲染 / 识别历史 / 截图导出
+```
+
+**设计要点**：
+
+- **角点关键点回归**：检测头额外回归 4 个角点，使倾斜、大角度车牌也能被矫正后识别，显著提升斜拍场景准确率
+- **两阶段解耦**：检测与识别独立训练、独立替换，识别网络可从 LPRNet 平滑切换到 CRNN（见 `plate_recognition/`）
+- **CPU 实时可用**：YOLOv7-lite 轻量骨干 + LPRNet 小模型，CPU 亦可流畅运行摄像头模式
+- **双层车牌支持**：针对新能源/警用双层牌设计识别后处理，单双层自适应
 
 ## 功能特性
 
@@ -27,8 +69,8 @@
 1. 克隆或下载本项目到本地：
 
 ```bash
-git clone <仓库地址>
-cd yolov7_plate_UI_camera
+git clone https://github.com/zhangjszs/HUAT-kerwin-labwork.git
+cd HUAT-kerwin-labwork/intelligent-connected-vehicle-course-design/yolov7_plate_UI_camera
 ```
 
 2. 创建虚拟环境（推荐）：
@@ -119,3 +161,7 @@ yolov7_plate_UI_camera/
 - [YOLOv7](https://github.com/WongKinYiu/yolov7) — 目标检测框架
 - [LPRNet](https://github.com/sirius-ai/LPRNet_Pytorch) — 车牌识别网络
 - PyQt5 — 图形界面框架
+
+---
+
+> 📁 本项目是 [HUAT-kerwin-labwork](https://github.com/zhangjszs/HUAT-kerwin-labwork) 课程作品集的一部分，项目展示页见 [huat-showcase](https://github.com/zhangjszs/huat-showcase)。

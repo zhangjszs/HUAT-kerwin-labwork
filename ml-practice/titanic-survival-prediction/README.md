@@ -1,6 +1,11 @@
 # Titanic 生存预测分析
 
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![sklearn](https://img.shields.io/badge/sklearn-LogisticRegression%20%7C%20RF%20%7C%20XGBoost-orange.svg)
+
 基于经典 Titanic 数据集的二分类预测项目，完整展示数据科学建模全流程。
+
+**建模流水线**：EDA 与缺失值分析 → 特征工程（填充策略 / family_size 等新特征 / 类别编码）→ 逻辑回归 / 随机森林 / XGBoost 5 折交叉验证对比 → 特征重要性与混淆矩阵解释。
 
 ## 项目背景
 
@@ -47,3 +52,7 @@ jupyter notebook titanic_analysis.ipynb
 4. **多模型对比** — 逻辑回归 / 随机森林 / XGBoost，5折交叉验证
 5. **模型解释** — 特征重要性分析、混淆矩阵
 6. **结论与反思** — 主要发现、局限性、改进方向
+
+---
+
+> 📁 本项目是 [HUAT-kerwin-labwork](https://github.com/zhangjszs/HUAT-kerwin-labwork) 课程作品集的一部分，项目展示页见 [huat-showcase](https://github.com/zhangjszs/huat-showcase)。
