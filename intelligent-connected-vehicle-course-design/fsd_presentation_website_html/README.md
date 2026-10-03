@@ -29,36 +29,32 @@
 13. **总结与展望** - 项目总结和未来规划
 14. **感谢聆听 & Q&A** - 致谢和联系方式
 
-## 如何部署
+## 本地运行
 
-由于这是一个纯HTML网站，部署非常简单，您不需要任何后端服务器或数据库。只需将项目文件放置在任何Web服务器（如Apache, Nginx, IIS）的根目录或子目录中即可。
+本目录是纯静态站点，无需安装任何依赖，直接从 git 克隆即可运行。
 
-### 步骤：
+1. 克隆仓库：
 
-1. **下载并解压**：下载提供的 `fsd_presentation_website_html.zip` 压缩包，并将其解压到您希望部署的目录。
-
-2. **放置到Web服务器**：
-   - **如果您有Web服务器**：将解压后的 `fsd_presentation_website_html` 文件夹中的所有内容（包括 `index.html`、所有幻灯片HTML文件和 `images` 文件夹）复制到您的Web服务器的网站根目录（例如：Apache的 `htdocs` 目录，Nginx的 `html` 目录）。
-   - **如果您没有Web服务器（本地预览）**：直接用浏览器打开 `index.html` 文件即可预览。
-
-3. **访问网站**：
-   - 如果您部署到Web服务器，通过服务器的域名或IP地址访问，例如 `http://yourdomain.com/` 或 `http://localhost/`。
-   - 如果是本地预览，直接在浏览器中打开 `index.html` 文件。
-
-### 示例 (使用Python的简单HTTP服务器进行本地测试):
-
-如果您只是想快速在本地测试，而没有安装专业的Web服务器，可以使用Python内置的HTTP服务器：
-
-1. 打开命令行工具（CMD 或 PowerShell）。
-2. 导航到 `fsd_presentation_website_html` 文件夹：
    ```bash
-   cd path\to\your\fsd_presentation_website_html
+   git clone https://github.com/zhangjszs/HUAT-kerwin-labwork.git
+   cd HUAT-kerwin-labwork/intelligent-connected-vehicle-course-design/fsd_presentation_website_html
    ```
-3. 运行Python的HTTP服务器：
-   ```bash
-   python -m http.server 8000
-   ```
-4. 在浏览器中访问 `http://localhost:8000`。
+
+2. 选择一种方式启动：
+
+   - **方式一（推荐）：Python 内置 HTTP 服务器**
+
+     ```bash
+     python -m http.server 8000
+     ```
+
+     然后在浏览器访问 `http://localhost:8000`。
+
+   - **方式二：直接打开文件**
+
+     用浏览器直接打开本目录下的 `index.html` 即可预览（注意：部分浏览器对 `file://` 协议加载本地资源有额外限制，遇到问题时请改用方式一）。
+
+3. 部署到 Web 服务器（可选）：将本目录全部文件（含 `images/`）复制到任何静态站点服务器（Apache / Nginx / IIS）的根目录或子目录即可，无需后端与数据库。
 
 ## 项目结构
 
@@ -137,9 +133,9 @@ fsd_presentation_website_html/
 
 ### 常见问题
 
-1. **图片无法显示**
-   - 检查图片路径是否正确。所有图片都应位于 `images/` 文件夹中，并在HTML中引用时使用相对路径 `images/your_image.webp`。
-   - 确保图片文件存在于 `fsd_presentation_website_html/images/` 目录中。
+1. **部分幻灯片图片无法显示（已知遗留问题）**
+   - `cover.html`、`background.html`、`perception.html`、`mapping.html`、`simulation_background.html`、`simulation_implementation.html` 中的图片使用的是原开发环境的绝对路径（形如 `/home/ubuntu/fsd_presentation/images/...`），在克隆后的本地环境无法解析。这是站点当前的遗留问题，修复需要修改相应 HTML 文件。
+   - 其中 `background.html` 与 `simulation_implementation.html` 引用的 3 张图片（`competition_scene.webp`、`race_car_close_up.webp`、`simulation_implementation.webp`）在仓库中不存在，即使用相对路径也无法显示，属素材缺失。
 
 2. **样式异常**
    - 检查CDN链接（如Tailwind CSS, Font Awesome, Google Fonts）是否可访问，确保您的网络连接正常。
@@ -160,3 +156,6 @@ fsd_presentation_website_html/
 
 本项目仅供学术交流和教育使用。
 
+---
+
+> 📁 本项目是 [HUAT-kerwin-labwork](https://github.com/zhangjszs/HUAT-kerwin-labwork) 课程作品集的一部分，项目展示页见 [huat-showcase](https://github.com/zhangjszs/huat-showcase)。
