@@ -98,7 +98,7 @@
 | [Java 基础实验](java-web-lab/)       | Java, Servlet      |
 | [Java 课程作业](school-java-homework/) | Java               |
 | [Java 课程设计](java-course-design/)   | Java, Swing        |
-| [JavaWeb 课设](javaweb-course-design/) | Spring Boot, MySQL |
+| [JavaWeb 课设](javaweb-course-design/) | Java, SSM, JSP, MySQL |
 
 ### 系统编程
 

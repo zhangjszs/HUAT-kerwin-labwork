@@ -51,7 +51,7 @@
 
 ## 支撑项目：ForestBlog 博客系统（工程能力）
 
-**技术栈：** Spring Boot, MySQL, Thymeleaf, HTML/CSS/JS
+**技术栈：** Java, SSM（Spring / SpringMVC / MyBatis）, JSP, MySQL, HTML/CSS/JS
 
 **核心实现：** 完整的博客系统，包含用户认证、文章管理、评论系统、标签分类等功能。
 
