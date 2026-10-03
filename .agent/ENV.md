@@ -7,5 +7,5 @@
 - commit 类型：`feat|fix|docs|chore|refactor`；`.agent/` 变更单独 commit，类型 `chore(agent)`。
 - 二进制（`*.doc(x)`、`*.pdf`、`*.ppt(x)`、`*.xls(x)`、`*.jpg`、`*.apk`）必须走 LFS；`*.zip/*.rar/*.7z` 既 LFS 又 gitignore，**永不 `git add -f`**。
 - 永不提交临时/AI 状态文件：`*~`、`*.bak`、`__pycache__/`、`tmp/`、`.omc/`、`.claude/`、`.trae/`、`.zcode/`（#4 会补上 `.zcode/` 的 ignore 规则）。
-- 标签体系：优先级 `P0`–`P3`；状态 `ready-for-agent` / `ready-for-human` / `needs-triage` / `needs-info` / `blocked` / `auto-discovered`（2026-10-02 由规划者创建）。
+- 标签体系（契约 1.3 为唯一权威，2026-10-03 起）：状态 `ready` / `in-progress` / `in-review` / `blocked` / `needs-info`（同一时刻最多一个）；优先级 `P0`–`P4`；来源 `auto-discovered`。旧 triage 词表（`ready-for-agent` / `ready-for-human` / `needs-triage`）已废弃并删除，勿用。
 - 特殊流程输入：`.agent/ISSUE_DRAFTS/`（执行 Agent 的 gh 不可用草稿）、`auto-discovered` 标签 issue、HANDOFF.md 的执行 Agent 留言。
