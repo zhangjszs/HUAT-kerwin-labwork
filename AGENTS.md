@@ -33,6 +33,12 @@ Always work **inside one course directory at a time**; repo-wide builds don't ex
 - **Directory names are English kebab-case** (mapping table in the root README).
   A new course directory needs **both** its own `README.md` **and** an entry in
   the root README index — the PR template checklist enforces this.
+- **Course vs. course-design directories**: when one course topic has both a
+  course directory (class materials/labs, e.g. `microcomputer-principles/`) and a
+  course-design directory (design output, e.g. `microcomputer-course-design/`),
+  the root README index entry for each must state which it is — use the
+  「（课堂实验）」/「（课程资料）」/「（课程设计）」 annotation so readers can tell
+  them apart.
 - **Commits**: `<type>: <description>` with `feat|fix|docs|chore|refactor`.
 - **Git LFS is mandatory for binaries**: `*.doc(x)`, `*.pdf`, `*.ppt(x)`,
   `*.xls(x)`, `*.jpg`, `*.apk` are LFS-tracked in

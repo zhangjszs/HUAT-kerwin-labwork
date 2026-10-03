@@ -33,6 +33,7 @@ git lfs ls-files
 - 新增目录 → 添加 `README.md`
 - 修改目录结构 → 更新对应 `README.md`
 - 新增课程 → 在根目录 `README.md` 索引表中添加条目
+- 课程目录与课程设计目录并列时（如 `microcomputer-principles/` 与 `microcomputer-course-design/`），两条索引须分别注明性质（「（课堂实验）」「（课程资料）」/「（课程设计）」）
 
 ## 📝 提交规范
 

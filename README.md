@@ -68,12 +68,14 @@
 
 ## 📁 目录
 
+> 📝 **「课程」与「课程设计」目录**：同一课程主题可能同时存在两个平级目录——**课程目录**（课堂实验、课程资料与课件，如 `microcomputer-principles/`）与**课程设计目录**（独立完成的课设成果，如 `microcomputer-course-design/`）。本节索引在条目后以「（课堂实验）」「（课程资料）」「（课程设计）」括注标明性质。
+
 ### 计算机基础
 
 | 课程                                           | 目录       | 技术栈 |
 | ---------------------------------------------- | ---------- | ------ |
-| [数据结构](data-structures/)                   | C++        |
-| [数据结构课设](data-structures-course-design/) | Qt, C++    |
+| [数据结构](data-structures/)（课堂实验）                   | C++        |
+| [数据结构课设](data-structures-course-design/)（课程设计） | Qt, C++    |
 | [算法设计与分析](algorithm-design-analysis/)   | C++11      |
 | [操作系统](operating-system/)                  | C          |
 | [计算机组成原理](computer-organization/)       | -          |
@@ -86,8 +88,8 @@
 | 课程                                               | 目录            | 技术栈 |
 | -------------------------------------------------- | --------------- | ------ |
 | [数据采集与预处理](data-collection-preprocessing/) | Python          |
-| [数据分析与可视化](data-analysis-visualization/)   | Python, Jupyter |
-| [数据分析课设](data-analysis-course-design/)       | Python, Pandas  |
+| [数据分析与可视化](data-analysis-visualization/)（课堂实验）   | Python, Jupyter |
+| [数据分析课设](data-analysis-course-design/)（课程设计）       | Python, Pandas  |
 | [机器学习实践](ml-practice/)                       | Python, Sklearn |
 | [SPSS 统计分析](spss/)                             | SPSS            |
 
@@ -95,18 +97,18 @@
 
 | 课程                                   | 目录               | 技术栈 |
 | -------------------------------------- | ------------------ | ------ |
-| [Java 基础实验](java-web-lab/)       | Java, Servlet      |
+| [Java 基础实验](java-web-lab/)（课堂实验）       | Java, Servlet      |
 | [Java 课程作业](school-java-homework/) | Java               |
 | [Java 课程设计](java-course-design/)   | Java, Swing        |
-| [JavaWeb 课设](javaweb-course-design/) | Java, SSM, JSP, MySQL |
+| [JavaWeb 课设](javaweb-course-design/)（课程设计） | Java, SSM, JSP, MySQL |
 
 ### 系统编程
 
 | 课程                                        | 目录     | 技术栈 |
 | ------------------------------------------- | -------- | ------ |
 | [C 语言课设](c-course-design/)              | C, CMake |
-| [微机原理与接口](microcomputer-principles/) | Assembly |
-| [微机原理课设](microcomputer-course-design/) | Assembly |
+| [微机原理与接口](microcomputer-principles/)（课堂实验） | Assembly |
+| [微机原理课设](microcomputer-course-design/)（课程设计） | Assembly |
 | [Linux 系统应用](linux-system-application/) | Shell, C |
 
 ### 专业特色
@@ -114,8 +116,8 @@
 | 课程                                                             | 目录 |
 | ---------------------------------------------------------------- | ---- |
 | [汽车概论A](automotive-introduction/)                            |
-| [智能网联汽车技术](intelligent-connected-vehicle/)               |
-| [智能网联汽车课设](intelligent-connected-vehicle-course-design/) |
+| [智能网联汽车技术](intelligent-connected-vehicle/)（课程资料）               |
+| [智能网联汽车课设](intelligent-connected-vehicle-course-design/)（课程设计） |
 
 ### 其他专业课程
 
