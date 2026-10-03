@@ -35,6 +35,8 @@ Run `gh issue view <number> --comments`.
 
 ## Wayfinding operations
 
+> ⚠️ **Not enabled in this repo.** The `wayfinder:*` labels referenced below do **not exist** in this tracker, and no wayfinding workflow is active. Do not use this section as operating instructions. Issue status labels follow the `.agent/` collaboration contract §1.3 — see [triage-labels.md](triage-labels.md). This section is kept only as a reference for the skill's mechanics, should the capability ever be enabled.
+
 Used by `/wayfinder`. The **map** is a single issue with **child** issues as tickets.
 
 - **Map**: a single issue labelled `wayfinder:map`, holding the Notes / Decisions-so-far / Fog body. `gh issue create --label wayfinder:map`.
