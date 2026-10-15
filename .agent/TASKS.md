@@ -10,7 +10,7 @@
 
 | Issue | 标题 | 状态 | 优先级 | 来源 | Milestone |
 | ----- | ---- | ---- | ---- | ---- | --------- |
-| #13 | FSD 演示站点 11 处图片绝对路径失效 | `ready` | P2 | auto-discovered | M2 |
+| #13 | FSD 演示站点 11 处图片绝对路径失效 | `in-review` | P2 | auto-discovered | M2 |
 | #14 | 对外材料「Spring Boot Web 开发」无项目支撑 | `ready` | P2 | Planner | M2 |
 | #12 | `chaoxing/` 与 `Chaoxing/` 命名大小写统一 | `done` | P3 | Planner | 未挂 |
 
@@ -95,9 +95,46 @@
 - 静态服务实测（Node 或 `python -m http.server` 均可），逐页 + 逐**同源**图片记录状态码。
 - 不得引入新的绝对路径，不得新增外部 CDN 依赖（既有 4 个 CDN 保持原样）。
 
-### 执行报告（Executor 填写，纯本地模式按契约 §1.7 写在此处）
+### 执行报告（#13，2026-10-15）
 
-_未开始_
+- **结论**：完成
+- **歧义处理**：
+  - **`simulation_implementation.html` 选了方案 (a)「移除」而非 (b)「替换为 `images/simulation.webp` 并保留标注层」**。理由：该图承载的 4 组标注（车辆模型 / 锥桶检测 / 规划轨迹 / 赛道地图）是按某一张特定 Rviz 截图的坐标硬编码的，而该截图在仓库中不存在。我无法查看 `simulation.webp` 的实际画面内容（当前环境的图片读取器不支持 webp），若替换图片却保留标注，等于把针对另一张图的定位标签贴到一张我没核实过的图上——这是制造虚假陈述，比不显示更糟。故选 (a)：移除图片 + 标注层 + 容器，只保留右侧图例说明（图例本身是文字，不依赖图片）。
+  - **同时删除了随之失效的 4 条 CSS 规则**（`.simulation-image-container` / `.simulation-image` / `.annotation` / `.annotation-line`）。这些选择器只服务于被删除的标记；Planner 的范围说明只提到「移除标注层与容器」未提 CSS，此处我做了小幅延伸，特此明示，若 Planner 认为超出范围请在验收时指出，我可回退。
+  - `README.md` 第 137 行按「改为已修复说明」处理，而非删除整条——保留历史与 3 张素材的处置记录，便于日后找回素材时重新引用。
+- **变更内容**：
+  - 8 处引用改相对路径：`cover.html`（CSS `background-image`，保持单引号）、`mapping.html`、`perception.html`×2、`simulation_background.html`×4
+  - `background.html`：`competition_scene.webp` → `images/competition.jpg`；整块移除「自动驾驶赛车特写」的 section-title + image-placeholder + img
+  - `simulation_implementation.html`：移除 img + 4 组标注层 + 容器，并删除 4 条失效 CSS
+  - `README.md` 故障排除节改写
+  - 净变更：7 文件，+16 / −63 行；未新增任何二进制文件，未动 `images/` 目录内容，未动 zip 快照
+- **关键提交**：`13376f9` @ `agent/issue-13-fsd-image-paths` → merge `d856ec0` @ `main`（**均未推送**，远程 SSH 不可达）
+- **验证证据**：
+  - `git grep -c "/home/ubuntu" -- .../fsd_presentation_website_html/` → 仅 `README.md:1`（历史说明，刻意保留）；6 个 HTML **0 命中**
+  - 结构检查脚本（标签配平 + 空占位 + 残留标注 + 绝对路径复查）→ 退出码 **0**，`PROBLEMS=0 VERDICT=PASS`
+    - `background.html`：div 13/13 → 11/11（移除 2 开 2 闭，配平）；img 2→1、section-title 4→3、image-placeholder 2→1；剩余 image-placeholder `hasImg=true`
+    - `simulation_implementation.html`：div 42/42 → 33/33（移除 9 开 9 闭，配平）；img 1→0、annotation 4→0、annotation-line 4→0、simulation-image-container 1→0
+    - 其余 4 个文件 div 配平不变、无残留
+  - Node 内置 http 静态服务实测（仅绑 `127.0.0.1` 回环，零外部请求）→ 退出码 **0**，`VERDICT=PASS`
+    - `PAGES_200=15 PAGES_FAIL=0`（15 个 HTML 逐个 200，字节数已记录）
+    - `ASSETS_200=9 ASSETS_FAIL=0`（9 个同源图片逐个 200，字节数与文件大小一致）
+    - `SAME_ORIGIN_UNIQUE=9 STATIC_MISSING=0 EXTERNAL_UNIQUE=3`
+  - `git ls-files --eol` → 全部 `i/lf w/lf`，行尾符合 `.gitattributes`；`git diff --check` 无空白错误
+- **验收标准核对**：
+  - [x] 6 个 HTML 中 `/home/ubuntu` 零命中 —— `git grep -c` 输出仅剩 README:1
+  - [x] 11 处引用全部改为相对路径或干净移除；无指向不存在文件的同源图片路径 —— 静态检查 9/9 FILE_OK + 服务实测 9/9 HTTP200
+  - [x] 15 页 200 + 同源图片 200、0 个 404 —— `PAGES_200=15 ASSETS_200=9`，两者 FAIL 均为 0；外部 CDN 3 项按 Planner 划定不计入、未改动
+  - [x] 无空占位块、无漂浮标注、无破版 —— 结构检查 `image-placeholder hasImg=true`、annotation/annotation-line/simulation-image-container 残留均为 0、div 配平保持
+  - [x] README 第 137 行遗留问题描述已更新 —— 已改为「已修复」+ 3 张素材处置记录
+  - [x] 变更仅限 6 HTML + 1 README —— `git status` 与 `git diff --numstat` 确认，仅 7 个文件、无意外文件
+- **剩余风险与建议**：
+  - `simulation_implementation.html` 现在只有文字图例、没有仿真截图，该页视觉信息量下降。若日后找回原始 Rviz 截图（放回 `images/`），README 已写明重新引用的位置。
+  - `background.html` 现在只有一张赛事场景图，原「赛车特写」位已整体移除。
+  - 站点仍依赖 4 个外部 CDN（Tailwind / D3 / Font Awesome / Chart.js / Google Fonts），离线打开样式会退化——这是既有设计，非本任务引入，建议后续单独立项评估是否本地化。
+- **给 Planner 的建议**：
+  - 上述「外部 CDN 离线退化」可作为新的 `auto-discovered` 候选（本次未自行定级）。
+  - 本任务未触碰任何契约 §1.10 红线。
+
 
 ---
 
