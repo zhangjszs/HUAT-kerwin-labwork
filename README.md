@@ -187,7 +187,7 @@ git lfs pull
 ### 开发工具与框架
 
 - **IDE**: Visual Studio Code, Android Studio, Qt Creator, IDEA
-- **框架**: Spring Boot, Qt Framework
+- **框架**: Spring（SSM）, Qt Framework
 - **数据库**: MySQL, SQLite
 - **版本控制**: Git & GitHub
 
