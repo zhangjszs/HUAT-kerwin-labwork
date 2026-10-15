@@ -118,33 +118,6 @@
         gap: 1.5rem;
       }
       
-      .simulation-image-container {
-        flex: 3;
-        position: relative;
-      }
-      
-      .simulation-image {
-        width: 100%;
-        height: 300px;
-        object-fit: cover;
-        border-radius: 4px;
-      }
-      
-      .annotation {
-        position: absolute;
-        font-size: 14px;
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        border: 1px solid #C8102E;
-      }
-      
-      .annotation-line {
-        position: absolute;
-        border-left: 2px dashed #C8102E;
-        z-index: 1;
-      }
-      
       .simulation-legend {
         flex: 1;
         display: flex;
@@ -212,23 +185,6 @@
             <i class="fas fa-desktop"></i> Rviz仿真可视化
           </div>
           <div class="simulation-content">
-            <div class="simulation-image-container">
-              <img src="/home/ubuntu/fsd_presentation/images/simulation_implementation.webp" alt="Rviz仿真效果" class="simulation-image">
-              
-              <!-- 标注线和标签 -->
-              <div class="annotation" style="top: 50px; left: 100px;">车辆模型</div>
-              <div class="annotation-line" style="top: 70px; left: 110px; height: 30px;"></div>
-              
-              <div class="annotation" style="top: 50px; left: 300px;">锥桶检测</div>
-              <div class="annotation-line" style="top: 70px; left: 310px; height: 50px;"></div>
-              
-              <div class="annotation" style="top: 200px; left: 100px;">规划轨迹</div>
-              <div class="annotation-line" style="top: 150px; left: 110px; height: 50px;"></div>
-              
-              <div class="annotation" style="top: 200px; left: 300px;">赛道地图</div>
-              <div class="annotation-line" style="top: 150px; left: 310px; height: 70px;"></div>
-            </div>
-            
             <div class="simulation-legend">
               <div class="legend-item">
                 <div class="legend-color" style="background-color: #1890FF;"></div>

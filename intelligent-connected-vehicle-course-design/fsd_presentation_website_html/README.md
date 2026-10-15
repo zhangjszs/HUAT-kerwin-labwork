@@ -133,9 +133,13 @@ fsd_presentation_website_html/
 
 ### 常见问题
 
-1. **部分幻灯片图片无法显示（已知遗留问题）**
-   - `cover.html`、`background.html`、`perception.html`、`mapping.html`、`simulation_background.html`、`simulation_implementation.html` 中的图片使用的是原开发环境的绝对路径（形如 `/home/ubuntu/fsd_presentation/images/...`），在克隆后的本地环境无法解析。这是站点当前的遗留问题，修复需要修改相应 HTML 文件。
-   - 其中 `background.html` 与 `simulation_implementation.html` 引用的 3 张图片（`competition_scene.webp`、`race_car_close_up.webp`、`simulation_implementation.webp`）在仓库中不存在，即使用相对路径也无法显示，属素材缺失。
+1. **部分幻灯片图片无法显示**
+   - 早期版本中 `cover.html`、`background.html`、`perception.html`、`mapping.html`、`simulation_background.html`、`simulation_implementation.html` 的图片曾使用原开发环境的绝对路径（形如 `/home/ubuntu/fsd_presentation/images/...`），克隆后无法解析。该问题已修复：所有图片引用均已改为相对路径 `images/<文件名>`。
+   - 但有 3 张原始素材（`competition_scene.webp`、`race_car_close_up.webp`、`simulation_implementation.webp`）在仓库中始终不存在，已按以下方式处理，不会再产生 404：
+     - `background.html` 的「赛事场景预览」改用仓库内已有的 `images/competition.jpg`；
+     - `background.html` 的「自动驾驶赛车特写」整块（标题 + 图片）已移除；
+     - `simulation_implementation.html` 的「Rviz仿真可视化」图片连同其绝对定位标注层已移除，仅保留右侧图例说明。
+   - 若后续找回上述原始素材，放回 `images/` 目录后按上述位置重新引用即可。
 
 2. **样式异常**
    - 检查CDN链接（如Tailwind CSS, Font Awesome, Google Fonts）是否可访问，确保您的网络连接正常。
