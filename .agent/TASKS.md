@@ -1,10 +1,13 @@
 # TASKS.md — 任务队列
 
-> **权威性（契约 §1.6）**：本轮 `git fetch` 失败（远程不可达，SSH 连接被拒），GitHub Issue 总线**不可用**，
-> 因此本文件为**权威来源**，Executor 直接在此改状态，本轮不提 Issue。网络恢复后由 Planner 下一轮
-> 从 Issue 整体重写刷新本文件，并把本轮在本地产生的状态变更回灌到 Issue。
+> **权威性（契约 §1.6）**：本轮开局时 `git fetch` 失败（远程 SSH 连接被拒），GitHub Issue 总线**不可用**，
+> 因此本文件一度为**权威来源**。**但收尾前远程恢复、`gh` 恢复可用，权威来源已切回 GitHub Issue**：
+> #13 / #14 已打 `in-review` 标签并留执行报告 comment（`issuecomment-6188916230` / `issuecomment-6188917079`）。
+> 本文件现为**只读镜像**，下一轮由 Planner 从 Issue 整体重写刷新。
+> （本栏由 Executor 于远程恢复后更新，请 Planner 下轮复核。）
 >
-> **本轮刷新**：2026-10-15（第五轮规划）· 规划者整体重写，非增量补丁。
+> **Executor 同步记录（2026-10-15）**：本地领先 `origin/main` 的 4 个提交（含 Planner 的 `b947917`）已全部推送，
+> `4f5aa93..a9ff084 main -> main`。「TASKS.md 权威模式」自远程恢复时起终止。
 
 ## 状态总览
 
@@ -12,7 +15,10 @@
 | ----- | ---- | ---- | ---- | ---- | --------- |
 | #13 | FSD 演示站点 11 处图片绝对路径失效 | `in-review` | P2 | auto-discovered | M2 |
 | #14 | 对外材料「Spring Boot Web 开发」无项目支撑 | `in-review` | P2 | Planner | M2 |
-| #12 | `chaoxing/` 与 `Chaoxing/` 命名大小写统一 | `done` | P3 | Planner | 未挂 |
+| #12 | `chaoxing/` 与 `Chaoxing/` 命名大小写统一 | `needs-info` | P3 | Planner | 未挂 |
+
+> 状态与 GitHub Issue 标签已同步（2026-10-15 收尾前）。#12 在 Issue 上仍为 `needs-info`——
+> Planner 已按 D9 默认转正决定关闭它，但**关闭 Issue 是 Planner 的职责**，Executor 未代为关闭。
 
 ## 今日队列（给 Executor 的建议顺序，2026-10-15）
 
@@ -235,13 +241,13 @@
 
 ---
 
-## #12 · `chaoxing/` 与 `Chaoxing/` 命名大小写统一 —— 已按 D9 默认转正关闭
+## #12 · `chaoxing/` 与 `Chaoxing/` 命名大小写统一 —— Planner 已决定关闭，Issue 上仍为 needs-info
 
-- labels：`P3` · 来源：Planner · 2026-10-15 转 `done`
+- labels：`P3` · 来源：Planner · Planner 2026-10-15 按 D9 默认转正决定「暂不改名」
 
-**关闭理由**：D9（大小写统一）自 2026-10-03 起连续 3 轮征询用户未答复，默认方案「暂不改名」运行无异常，按契约 §6.3 **默认转正**。该事项属契约 §1.10 红线范畴（1132 个跟踪文件、63 个 LFS 对象、`core.ignorecase=true`），在用户明确批准前不实施。
+**Planner 的结论**：D9（大小写统一）自 2026-10-03 起连续 3 轮征询用户未答复，默认方案「暂不改名」运行无异常，按契约 §6.3 **默认转正**。该事项属契约 §1.10 红线范畴（1132 个跟踪文件、63 个 LFS 对象、`core.ignorecase=true`），在用户明确批准前不实施。
 
-**GitHub 待办**：网络恢复后由 Planner 关闭 issue #12 并留 comment 说明依据（本轮远程不可达，无法操作）。
+**Executor 说明（2026-10-15）**：按契约 1.4「Executor 从不 close Issue」，我**未关闭** issue #12，Issue 上仍保持 `needs-info`。请 Planner 在网络可用时关闭并留 comment 说明依据。远端已于本轮收尾前恢复，`gh` 可用。
 
 ---
 

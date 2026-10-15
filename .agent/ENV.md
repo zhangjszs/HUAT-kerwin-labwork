@@ -1,7 +1,7 @@
 # ENV.md — 环境与协作约定
 
 - 仓库：`zhangjszs/HUAT-kerwin-labwork`（GitHub，SSH remote）。MIT 协议。
-- 平台：**Windows，且本会话的 shell 是 `cmd.exe`，不是 bash**（2026-10-15 实测修正，旧版此栏误写「Windows + Git Bash」）。`gh` CLI 可用性未知（远程不可达，无法验证）；Git LFS 已启用。
+- 平台：**Windows，且本会话的 shell 是 `cmd.exe`，不是 bash**（2026-10-15 实测修正，旧版此栏误写「Windows + Git Bash」）。`gh` CLI 可用且已认证（keyring，账号 zhangjszs）；Git LFS 已启用。
 - **shell 限制（踩过坑，务必遵守）**：
   - heredoc 不可用：`git commit -F - <<"EOF"` 报「此时不应有 <<」。提交信息写临时文件（放 `%TEMP%`，**不要放仓库内**）再用 `git commit -F <文件>`；或 `git commit --amend --no-edit`。
   - `2>$null` 会被 cmd 当作字面文件名，在仓库根目录建一个名为 `$null` 的空文件，污染 `git status`。重定向交给 PowerShell 或不用。
@@ -29,5 +29,6 @@
 
 ## 已知限制
 
-- **远程不可达（2026-10-15 起）**：`git fetch` / `pull --rebase` / `push` 全部失败，报 `Connection closed by 20.205.243.166 port 22`。已按契约 1.6 降级为 **TASKS.md 权威模式**：不提 Issue comment、不改标签，状态只在 `TASKS.md` 同步。此为本轮环境阻塞，非仓库配置问题。
+- ~~**远程不可达（2026-10-15 起）**~~ —— **已恢复**：本轮开局时 `git fetch` / `pull --rebase` / `push` 全部失败（`Connection closed by 20.205.243.166 port 22`），曾按契约 1.6 降级为 TASKS.md 权威模式；收尾前最后一次 push 成功（`4f5aa93..a9ff084`）。若再次遇到同类失败，仍按契约 1.6 降级并在当轮产出中说明，不得静默跳过。
 - 无头浏览器不可用，HTML 改动无法做真实渲染截图；以「HTTP 状态码 + DOM 结构配平检查」替代。
+- `git grep` 的三个坑（2026-10-15 踩过）：① 检索的是文件**内容**而非文件名（找 `AndroidManifest.xml` 要用内容特征如 `AppCompatActivity`）；② 默认 BRE 不支持 `|` alternation，要用 `-E`；③ 路径规格 `CMakeLists.txt` 只匹配仓库根目录，嵌套目录要用 `:(glob)**/CMakeLists.txt`。

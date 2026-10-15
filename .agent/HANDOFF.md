@@ -1,31 +1,36 @@
 # HANDOFF.md — 执行 Agent → 规划者交接
 
-_最近更新：2026-10-15（第四轮执行会话收尾）_
+_最近更新：2026-10-15（第四轮执行会话收尾，含远程恢复后的 Issue 同步）_
 
 ## 本轮概要
 
-按队列顺序串行完成 **#13 → #14**，两者均已转 `in-review` 并在 `TASKS.md` 对应条目下留下完整执行报告。今日队列已清空，无未完成工作、无阻塞。
+按队列顺序串行完成 **#13 → #14**，两者均已转 `in-review` 并留下完整执行报告。今日队列已清空，无未完成工作、无阻塞。
+
+**开局时远程不可达**（SSH 连接被拒），全程按契约 1.6 降级为 TASKS.md 权威模式作业；**收尾前远程恢复**，已把 #13/#14 同步到 GitHub Issue（`in-review` 标签 + 执行报告 comment）并推送全部本地提交。
 
 ## 已完成
 
-- **#13** FSD 演示站点图片绝对路径失效（`13376f9` → merge `d856ec0`）
+- **#13** FSD 演示站点图片绝对路径失效（`13376f9` → merge `d856ec0`，已推送）
   - 8 处引用改相对路径 `images/<文件名>`（含 `cover.html` 的 CSS `background-image`）
   - `competition_scene.webp` → 改用已有的 `images/competition.jpg`
   - `race_car_close_up.webp` → 整块移除（标题 + 占位容器 + 图），不留 200px 灰块
   - `simulation_implementation.webp` → 移除图片 + 4 组绝对定位标注层 + 容器，并删除 4 条随之失效的 CSS
   - README 故障排除节改写为「已修复」+ 素材处置记录
   - 验证：Node 静态服务实测 15 页 + 9 图全 200、0 个 404；结构检查 div 配平保持、无空占位、无残留标注；6 个 HTML `/home/ubuntu` 0 命中
-- **#14** 「Spring Boot」无项目支撑（`16492e7` → merge `9032370`）
+  - Issue 同步：`in-review` 标签 + 执行报告 comment（`issuecomment-6188916230`）
+- **#14** 「Spring Boot」无项目支撑（`16492e7` → merge `9032370`，已推送）
   - `README.md:190`：`Spring Boot` → `Spring（SSM）`
   - `docs/interview-project-statement.md:13`：`Spring Boot Web 开发` → `Java Web 开发（SSM）`
   - 验证：目标文件 0 命中；17/17 项技术断言均有仓库证据（证据表在执行报告内）；全部 `pom.xml`/`*.gradle` 无 `spring-boot` 声明
+  - Issue 同步：`in-review` 标签 + 执行报告 comment（`issuecomment-6188917079`）
 
 Git 纪律：两个任务均走 `agent/issue-<N>-<slug>` 分支 → `main`（`--no-ff` merge）→ 删临时分支；`.agent/` 变更单独 `chore(agent)` commit（`8832b9f` 及收尾提交）；代码与 agent 状态未混提。
 
 ## 未完成 / 进行中（下一棒最优先看这里）
 
 - **无未完成工作。** 下一棒从「验收 #13 / #14」开始。
-- **唯一待办是推送**：本地领先 `origin/main` **4 个提交**，远程 SSH 全程不可达，push 多次重试均失败。网络恢复后第一件事 `git pull --rebase && git push`。
+- **推送已完成**：开局时远程不可达、本地领先 4 个提交；收尾前远程恢复，`4f5aa93..a9ff084 main -> main` 推送成功，含 Planner 的 `b947917`。**无需再补推。**
+- **#12 仍开放在 GitHub 上**（`needs-info`）：Planner 已按 D9 默认转正决定关闭，但按契约 1.4「Executor 从不 close Issue」我未代为关闭。请 Planner 关闭并留 comment。
 
 ## 验证情况
 
@@ -41,18 +46,19 @@ Git 纪律：两个任务均走 `agent/issue-<N>-<slug>` 分支 → `main`（`--
 - **CSS 删除是小幅超范围**：我删除了 4 条只服务于被删标记的 CSS 规则（`.simulation-image-container` 等）。Planner 的范围说明未提 CSS，已在报告中明示，可回退。
 - **`background.html`** 现只剩一张赛事场景图，原「赛车特写」位已整体移除。
 - **站点仍依赖 4 个外部 CDN**（Tailwind / D3 / Font Awesome / Chart.js / Google Fonts），离线打开样式退化——既有设计，非本轮引入。
+- **`TASKS.md` 的权威性栏由我改动过**：远程恢复后我把「TASKS.md 权威」改回了「Issue 权威」，并在栏内标注请 Planner 下轮复核——该栏按归属本是 Planner 的措辞，我不应长期占用。
 - `.agent/LOCK` 不存在，无串行冲突。
 - Mimosa 提交门禁本轮仅提示 medium（`java-web-lab/` 4 处 + vendored `datasets.py` 7 处 low），均为既有课程代码，本轮未触碰，提交未被拦截。
 
 ## 给下一棒的第一步建议
 
-1. 等 Planner 验收 #13 / #14；通过则由 Planner 关闭（GitHub 上的关闭动作同样要等网络恢复）。
-2. 网络恢复后立即推送本地 4 个提交，并把 TASKS.md 状态回灌到 Issue。
-3. 若 #13 被打回，最可能的分歧点是 `simulation_implementation.html` 的方案选择，按 Issue/报告中 Planner 的逐条差距处理。
+1. 等 Planner 验收 #13 / #14；通过则由 Planner 关闭 Issue（`gh` 已可用，可直接操作）。
+2. 若 #13 被打回，最可能的分歧点是 `simulation_implementation.html` 的方案选择，按 Issue comment 中 Planner 的逐条差距处理。
+3. 提醒 Planner 关闭 #12（D9 默认转正，Executor 按契约不代关）。
 
 ## 今日日报
 
-- 已写入 `.agent/DIARY/2026-10-15.md`
+- 已写入 `.agent/DIARY/2026-10-15.md`（含一段「远程恢复后」的追加更正，原文未改动）
 
 ## 给 Planner 的信号
 
