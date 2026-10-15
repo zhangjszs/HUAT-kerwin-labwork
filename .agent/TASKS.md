@@ -11,7 +11,7 @@
 | Issue | 标题 | 状态 | 优先级 | 来源 | Milestone |
 | ----- | ---- | ---- | ---- | ---- | --------- |
 | #13 | FSD 演示站点 11 处图片绝对路径失效 | `in-review` | P2 | auto-discovered | M2 |
-| #14 | 对外材料「Spring Boot Web 开发」无项目支撑 | `ready` | P2 | Planner | M2 |
+| #14 | 对外材料「Spring Boot Web 开发」无项目支撑 | `in-review` | P2 | Planner | M2 |
 | #12 | `chaoxing/` 与 `Chaoxing/` 命名大小写统一 | `done` | P3 | Planner | 未挂 |
 
 ## 今日队列（给 Executor 的建议顺序，2026-10-15）
@@ -186,9 +186,52 @@
 
 - 检索取证：`git grep` 修改前后对比输出写入执行报告。
 
-### 执行报告（Executor 填写，纯本地模式按契约 §1.7 写在此处）
+### 执行报告（#14，2026-10-15）
 
-_未开始_
+- **结论**：完成
+- **歧义处理**：
+  - 具体措辞按 Planner 建议取值：`README.md` 用「Spring（SSM）」保留框架家族名同时标明真实形态；说明书用「Java Web 开发（SSM）」与 ForestBlog 条目的「SSM（Spring / SpringMVC / MyBatis）」口径一致。未新增任何原文档没有的技术主张。
+  - 按范围第 3 条顺带核查了两处上下文的其余技术名，**未发现其他无支撑断言**，故无额外修正（明细见下方抽查表）。
+  - 四个 IDE 名（Visual Studio Code / Android Studio / Qt Creator / IDEA）属编辑器工具、非代码框架，无法从仓库代码取证；已按"不在框架/技术名范畴"处理并在此明示，未作改动。
+- **变更内容**：
+  - `README.md:190`：`- **框架**: Spring Boot, Qt Framework` → `- **框架**: Spring（SSM）, Qt Framework`
+  - `docs/interview-project-statement.md:13`：`工程能力：Qt GUI 开发、Spring Boot Web 开发、Android 开发` → `工程能力：Qt GUI 开发、Java Web 开发（SSM）、Android 开发`
+  - 净变更：2 文件，+2 / −2 行
+- **关键提交**：`16492e7` @ `agent/issue-14-spring-boot-claims` → merge `9032370` @ `main`（**均未推送**，远程 SSH 不可达）
+- **验证证据**：
+  - `git grep -in "spring boot\|spring-boot\|springboot" -- README.md docs/` → **无输出（0 命中）**
+  - 技术栈抽查脚本 → 退出码 **0**，`UNSUPPORTED=0 VERDICT=PASS`，17/17 项均有仓库证据：
+
+    | 技术名 | 证据文件数 | 样例证据 |
+    | ------ | --------- | -------- |
+    | Spring（SSM） | 44 | `ForestBlog/pom.xml`、`.../controller/admin/AdminController.java`（import org.springframework） |
+    | Qt Framework | 1 | `data-structures-course-design/coding/MazeProject/CMakeLists.txt`（`find_package(QT NAMES Qt6 Qt5)`） |
+    | MySQL | 3 | `database/labwork4/mysql.sql` 等 |
+    | SQLite | 2 | `android-mobile-development/chaoxing/sy2/test2_2/.../DBHelper.java` |
+    | Git & GitHub | 65 | `README.md`、`SECURITY.md` |
+    | Python | 26 | `computer-network/Improve_RED/src/*.py` |
+    | C++ | 71 | `algorithm-design-analysis/experiment1/1.cpp` |
+    | Java | 183 | `android-mobile-development/chaoxing/HomeWork_five/.../MainActivity.java` |
+    | pandas / numpy / matplotlib / seaborn | 17 / 18 / 11 / 7 | `data-analysis-course-design/*.ipynb`、`ml-practice/titanic-survival-prediction/titanic_analysis.ipynb` |
+    | scikit-learn | 7 | `data-analysis-visualization/experiment/experiment1/01.ipynb` |
+    | XGBoost | 1 | `titanic_analysis.ipynb`（`import xgboost`） |
+    | Qt GUI 开发 | 2 | `MazeProject/main.cpp`（`QApplication`） |
+    | Java Web 开发（SSM） | 86 | `.../com/kerwin/ssm/blog/controller/admin/*.java` |
+    | Android 开发 | 32 | `HomeWork_five/HomeWork_four/.../MainActivity.java`（`AppCompatActivity` / `setContentView`） |
+
+  - 反向确认：`SPRING_BOOT_BUILD_DECLS=0`——全部 `pom.xml` / `*.gradle` 中无任何 `spring-boot` 依赖声明，佐证仓库确实不存在 Spring Boot 项目
+  - `git ls-files --eol` → 两文件均 `i/lf w/lf`，符合 `.gitattributes`；`git diff --check` 无空白错误
+- **验收标准核对**：
+  - [x] `git grep -in "spring boot\|spring-boot\|springboot" -- README.md docs/` 零命中 —— 命令无输出
+  - [x] 两文件中每个框架/技术名均有仓库证据 —— 17/17 项抽查通过，证据表见上
+  - [x] 改动仅限 `README.md` 与 `docs/interview-project-statement.md` —— `git diff --stat` 确认 2 文件 +2/−2，`git status` 无意外文件
+  - [x] 修改后语句通顺、符合中文人面内容规范 —— 两行均为既有句式内的词组替换，未改动句式
+- **剩余风险与建议**：
+  - 说明书第 3 行仍为占位符 `[你的姓名]`、第 80 行有 `[具体领域]` 占位符——这是待用户填写的个人信息，非技术断言，本任务按"明确不包含：不新增技术主张"未作处理。建议后续单独立项提醒用户填写，或由 Planner 征询是否代为去掉占位符。
+- **给 Planner 的建议**：
+  - 上述「个人信息占位符未填」可作为新的 `auto-discovered` 候选（本次未自行定级）。
+  - 本任务未触碰任何契约 §1.10 红线。
+
 
 ---
 
