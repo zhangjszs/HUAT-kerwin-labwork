@@ -10,7 +10,7 @@
 
 - **核心语言：** Python / C++ / Java
 - **数据科学：** pandas, numpy, matplotlib, seaborn, scikit-learn, XGBoost
-- **工程能力：** Qt GUI 开发、Spring Boot Web 开发、Android 开发
+- **工程能力：** Qt GUI 开发、Java Web 开发（SSM）、Android 开发
 - **方向定位：** 扎实的算法基础 + 数据科学实践能力
 
 ---
