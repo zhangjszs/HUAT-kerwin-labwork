@@ -54,6 +54,9 @@ CMakeLists.txt text eol=lf
 # CatBoost / model artifacts
 catboost_info/** binary
 # ================= Overrides / Special =================
+# 浏览器另存的参考网页（含大量内嵌图片），不计入语言统计
+data-analysis-visualization/Touge/practice/头歌实践教学平台.html linguist-documentation=true
+data-analysis-visualization/experiment/experiment1/推荐.html linguist-documentation=true
 # 如果有不希望被转换的文本文件，可添加：
 # path/to/file.ext -text
 # End of .gitattributes
