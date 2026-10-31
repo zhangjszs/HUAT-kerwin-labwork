@@ -24,9 +24,11 @@ CMakeLists.txt text eol=lf
 *.yaml   text eol=lf
 *.tsv    text eol=lf
 *.csv    text eol=lf
-*.ipynb  text eol=lf
+*.ipynb  text eol=lf filter=nbclean
 # ================= Binary (no EOL conversion) =================
 *.png    binary
+# Notebook 附件导出目录（截图等，按 LFS 存储）
+**/*.assets/* filter=lfs diff=lfs merge=lfs -text
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.jpeg   binary
 *.gif    binary
