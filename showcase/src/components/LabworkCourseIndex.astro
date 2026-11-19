@@ -1,0 +1,307 @@
+---
+type Localized = { zh: string; en: string };
+type CourseKind = 'lab' | 'design' | 'materials';
+type Course = {
+	title: Localized;
+	path: string;
+	kind?: CourseKind;
+};
+
+const courseKinds: Record<CourseKind, Localized> = {
+	lab: { zh: '课堂实验', en: 'Labs' },
+	design: { zh: '课程设计', en: 'Design project' },
+	materials: { zh: '课程资料', en: 'Course materials' },
+};
+
+// 与课程仓库根目录 README 的课程索引对应。
+const groups: { title: Localized; courses: Course[] }[] = [
+	{
+		title: { zh: '计算机基础', en: 'Computer science foundations' },
+		courses: [
+			{ title: { zh: '数据结构', en: 'Data structures' }, path: 'data-structures', kind: 'lab' },
+			{
+				title: { zh: '数据结构课设', en: 'Data structures project' },
+				path: 'data-structures-course-design',
+				kind: 'design',
+			},
+			{ title: { zh: '算法设计与分析', en: 'Algorithm design and analysis' }, path: 'algorithm-design-analysis' },
+			{ title: { zh: '操作系统', en: 'Operating systems' }, path: 'operating-system' },
+			{ title: { zh: '计算机组成原理', en: 'Computer organization' }, path: 'computer-organization' },
+			{ title: { zh: '计算机网络', en: 'Computer networks' }, path: 'computer-network' },
+			{ title: { zh: '编译原理', en: 'Compiler principles' }, path: 'compiler-principles' },
+			{ title: { zh: '数据库', en: 'Databases' }, path: 'database' },
+		],
+	},
+	{
+		title: { zh: '数据科学与分析', en: 'Data science and analysis' },
+		courses: [
+			{
+				title: { zh: '数据采集与预处理', en: 'Data collection and preprocessing' },
+				path: 'data-collection-preprocessing',
+			},
+			{
+				title: { zh: '数据分析与可视化', en: 'Data analysis and visualization' },
+				path: 'data-analysis-visualization',
+				kind: 'lab',
+			},
+			{
+				title: { zh: '数据分析课设', en: 'Data analysis project' },
+				path: 'data-analysis-course-design',
+				kind: 'design',
+			},
+			{ title: { zh: '机器学习实践', en: 'Applied machine learning' }, path: 'ml-practice' },
+			{ title: { zh: 'SPSS 统计分析', en: 'Statistical analysis with SPSS' }, path: 'spss' },
+		],
+	},
+	{
+		title: { zh: '编程语言与开发', en: 'Programming and development' },
+		courses: [
+			{ title: { zh: 'Java 基础实验', en: 'Java programming labs' }, path: 'java-web-lab', kind: 'lab' },
+			{ title: { zh: 'Java 课程作业', en: 'Java assignments' }, path: 'school-java-homework' },
+			{ title: { zh: 'Java 课程设计', en: 'Java course project' }, path: 'java-course-design', kind: 'design' },
+			{ title: { zh: 'Java Web 课设', en: 'Java web project' }, path: 'javaweb-course-design', kind: 'design' },
+		],
+	},
+	{
+		title: { zh: '系统编程', en: 'Systems programming' },
+		courses: [
+			{ title: { zh: 'C 语言课设', en: 'C programming project' }, path: 'c-course-design' },
+			{
+				title: { zh: '微机原理与接口', en: 'Microcomputer principles and interfaces' },
+				path: 'microcomputer-principles',
+				kind: 'lab',
+			},
+			{
+				title: { zh: '微机原理课设', en: 'Microcomputer design project' },
+				path: 'microcomputer-course-design',
+				kind: 'design',
+			},
+			{ title: { zh: 'Linux 系统应用', en: 'Linux system applications' }, path: 'linux-system-application' },
+		],
+	},
+	{
+		title: { zh: '专业特色', en: 'Automotive engineering' },
+		courses: [
+			{ title: { zh: '汽车概论 A', en: 'Introduction to automobiles A' }, path: 'automotive-introduction' },
+			{
+				title: { zh: '智能网联汽车技术', en: 'Intelligent connected vehicles' },
+				path: 'intelligent-connected-vehicle',
+				kind: 'materials',
+			},
+			{
+				title: { zh: '智能网联汽车课设', en: 'Intelligent connected vehicle project' },
+				path: 'intelligent-connected-vehicle-course-design',
+				kind: 'design',
+			},
+		],
+	},
+	{
+		title: { zh: '其他专业课程', en: 'Other courses' },
+		courses: [
+			{ title: { zh: '嵌入式系统', en: 'Embedded systems' }, path: 'embedded-systems' },
+			{ title: { zh: 'Android 开发', en: 'Android development' }, path: 'android-mobile-development' },
+			{ title: { zh: '软件工程', en: 'Software engineering' }, path: 'software-engineering' },
+			{ title: { zh: '项目管理', en: 'Project management' }, path: 'project-management' },
+		],
+	},
+];
+
+const courseCount = groups.reduce((count, group) => count + group.courses.length, 0);
+const treeUrl = 'https://github.com/zhangjszs/HUAT-kerwin-labwork/tree/main';
+---
+
+<section class="course-index" id="courses" aria-labelledby="course-index-title">
+	<header class="course-index-header">
+		<h2 id="course-index-title">
+			<span lang="zh-CN">课程目录</span>
+			<span lang="en">Course directory</span>
+		</h2>
+		<p>
+			<span lang="zh-CN">{courseCount} 个目录 · {groups.length} 个方向 · GitHub</span>
+			<span lang="en">{courseCount} directories · {groups.length} areas · GitHub</span>
+		</p>
+	</header>
+	<div class="course-groups">
+		{
+			groups.map((group, index) => (
+				<details open={index === 0}>
+					<summary>
+						<span class="course-group-name">
+							<span lang="zh-CN">{group.title.zh}</span>
+							<span lang="en">{group.title.en}</span>
+						</span>
+						<span class="course-group-count">
+							<span lang="zh-CN">{group.courses.length} 项</span>
+							<span lang="en">{group.courses.length} entries</span>
+						</span>
+						<span class="course-group-toggle" aria-hidden="true" />
+					</summary>
+					<ul class="courses">
+						{group.courses.map((course) => (
+							<li>
+								<a href={`${treeUrl}/${course.path}`}>
+									<span class="course-link-label">
+										<span lang="zh-CN">{course.title.zh}</span>
+										<span lang="en">{course.title.en}</span>
+										{course.kind && (
+											<small>
+												<span lang="zh-CN">{courseKinds[course.kind].zh}</span>
+												<span lang="en">{courseKinds[course.kind].en}</span>
+											</small>
+										)}
+									</span>
+									<span class="course-arrow" aria-hidden="true">
+										↗
+									</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				</details>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	.course-index {
+		scroll-margin-top: 6rem;
+	}
+
+	:global(html:not([lang='en'])) .course-index [lang='en'],
+	:global(html[lang='en']) .course-index [lang='zh-CN'] {
+		display: none;
+	}
+
+	.course-index-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: end;
+		flex-wrap: wrap;
+		gap: 0.8rem 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.course-index-header h2 {
+		color: var(--gray-0);
+		font-size: clamp(2rem, 5vw, 3.75rem);
+		letter-spacing: -0.045em;
+	}
+
+	.course-index-header p,
+	.course-group-count {
+		color: var(--gray-300);
+		font: 0.8125rem / 1.5 var(--font-mono);
+	}
+
+	.course-groups {
+		border-top: 1px solid var(--gray-700);
+	}
+
+	.course-groups details {
+		border-bottom: 1px solid var(--gray-700);
+	}
+
+	.course-groups summary {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto auto;
+		align-items: center;
+		gap: clamp(0.65rem, 2vw, 1.5rem);
+		min-block-size: 3.625rem;
+		padding: 0.75rem clamp(0.65rem, 2vw, 1.25rem);
+		list-style: none;
+		cursor: pointer;
+	}
+
+	.course-groups summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.course-group-name {
+		color: var(--gray-0);
+		font-size: clamp(1rem, 2vw, 1.2rem);
+		font-weight: 650;
+	}
+
+	.course-group-toggle {
+		display: grid;
+		place-items: center;
+		width: 1.9rem;
+		aspect-ratio: 1;
+		border: 1px solid var(--gray-700);
+		color: var(--accent-regular);
+		font: 1.1rem / 1 var(--font-mono);
+	}
+
+	.course-group-toggle::before {
+		content: '+';
+	}
+
+	.course-groups details[open] .course-group-toggle::before {
+		content: '−';
+	}
+
+	.course-groups summary:hover .course-group-name,
+	.course-groups details[open] .course-group-name {
+		color: var(--accent-regular);
+	}
+
+	.courses {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1px;
+		margin: 0 0 clamp(0.65rem, 2vw, 1.25rem);
+		padding: 0;
+		list-style: none;
+		border: 1px solid var(--gray-700);
+		background: var(--gray-700);
+	}
+
+	.courses a {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		min-height: 3.125rem;
+		height: 100%;
+		padding: 0.65rem clamp(0.65rem, 2vw, 1.25rem);
+		background: var(--gray-900);
+		color: var(--gray-0);
+		line-height: 1.4;
+		text-decoration: none;
+	}
+
+	.courses a:hover {
+		background: var(--gray-999);
+		color: var(--accent-regular);
+	}
+
+	.course-groups summary:focus-visible,
+	.courses a:focus-visible {
+		outline: 2px solid var(--accent-regular);
+		outline-offset: -2px;
+	}
+
+	.course-link-label {
+		display: flex;
+		align-items: baseline;
+		flex-wrap: wrap;
+		gap: 0.2rem 0.75rem;
+		min-width: 0;
+	}
+
+	.courses small {
+		color: var(--gray-300);
+		font-size: 0.8125rem;
+	}
+
+	.course-arrow {
+		color: var(--accent-regular);
+	}
+
+	@media (max-width: 42em) {
+		.courses {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+</style>

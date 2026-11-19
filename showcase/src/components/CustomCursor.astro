@@ -1,0 +1,170 @@
+---
+// Custom Cursor Component - Optimized with idle detection and event delegation
+---
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<script>
+	const cursorDot = document.getElementById('cursor-dot');
+	const cursorRing = document.getElementById('cursor-ring');
+
+	if (!window.matchMedia('(pointer: fine)').matches) {
+		if (cursorDot) cursorDot.style.display = 'none';
+		if (cursorRing) cursorRing.style.display = 'none';
+	} else if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		document.documentElement.classList.add('custom-cursor-loaded');
+
+		let mouseX = 0,
+			mouseY = 0;
+		let ringX = 0,
+			ringY = 0;
+		let isAnimating = true;
+		let lastMoveTime = Date.now();
+		const IDLE_THRESHOLD = 5000;
+
+		window.addEventListener('mousemove', (e) => {
+			mouseX = e.clientX;
+			mouseY = e.clientY;
+			lastMoveTime = Date.now();
+
+			if (cursorDot) {
+				cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+			}
+
+			if (!isAnimating) {
+				isAnimating = true;
+				requestAnimationFrame(animateRing);
+			}
+		});
+
+		const animateRing = () => {
+			ringX += (mouseX - ringX) * 0.15;
+			ringY += (mouseY - ringY) * 0.15;
+
+			if (cursorRing) {
+				cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
+			}
+
+			if (
+				Date.now() - lastMoveTime > IDLE_THRESHOLD &&
+				Math.abs(mouseX - ringX) < 0.5 &&
+				Math.abs(mouseY - ringY) < 0.5
+			) {
+				isAnimating = false;
+				return;
+			}
+
+			requestAnimationFrame(animateRing);
+		};
+
+		animateRing();
+
+		const INTERACTIVE_SELECTOR = 'a, button, input, textarea, [role="button"], .card, .stat-card';
+
+		document.addEventListener('mouseover', (e) => {
+			const target = e.target as HTMLElement;
+			if (target.closest(INTERACTIVE_SELECTOR)) {
+				cursorDot?.classList.add('hovered');
+				cursorRing?.classList.add('hovered');
+			}
+		});
+
+		document.addEventListener('mouseout', (e) => {
+			const target = e.target as HTMLElement;
+			if (target.closest(INTERACTIVE_SELECTOR)) {
+				cursorDot?.classList.remove('hovered');
+				cursorRing?.classList.remove('hovered');
+			}
+		});
+
+		document.addEventListener('mouseleave', () => {
+			if (cursorDot) cursorDot.style.opacity = '0';
+			if (cursorRing) cursorRing.style.opacity = '0';
+		});
+
+		document.addEventListener('mouseenter', () => {
+			if (cursorDot) cursorDot.style.opacity = '1';
+			if (cursorRing) cursorRing.style.opacity = '';
+		});
+	}
+</script>
+
+<style>
+	@media (pointer: fine) {
+		:global(html.custom-cursor-loaded) {
+			cursor: none;
+		}
+
+		.cursor-dot {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 8px;
+			height: 8px;
+			background-color: var(--accent-secondary);
+			border-radius: 50%;
+			pointer-events: none;
+			z-index: 9999;
+			transform: translate(-50%, -50%);
+			transition:
+				width 0.2s,
+				height 0.2s,
+				background-color 0.2s,
+				opacity 0.2s;
+			margin-left: -4px;
+			margin-top: -4px;
+		}
+
+		.cursor-ring {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 36px;
+			height: 36px;
+			border: 2px solid var(--accent-regular);
+			border-radius: 50%;
+			pointer-events: none;
+			z-index: 9998;
+			transform: translate(-50%, -50%);
+			transition:
+				width 0.2s,
+				height 0.2s,
+				border-color 0.2s,
+				opacity 0.2s;
+			margin-left: -18px;
+			margin-top: -18px;
+			opacity: 0.6;
+		}
+
+		.cursor-dot.hovered {
+			background-color: var(--accent-light);
+			width: 12px;
+			height: 12px;
+			margin-left: -6px;
+			margin-top: -6px;
+		}
+
+		.cursor-ring.hovered {
+			width: 56px;
+			height: 56px;
+			margin-left: -28px;
+			margin-top: -28px;
+			border-color: var(--accent-secondary);
+			opacity: 1;
+			background-color: rgba(0, 225, 255, 0.1);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global(body) {
+			cursor: auto !important;
+		}
+
+		.cursor-dot,
+		.cursor-ring {
+			opacity: 0 !important;
+			pointer-events: none !important;
+		}
+	}
+</style>

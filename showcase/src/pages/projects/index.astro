@@ -1,0 +1,131 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import TagFilter from '../../components/TagFilter.astro';
+
+const projects = await getCollection('projects');
+const allTags = projects.flatMap((project) => project.data.tags);
+const allTech = new Set(projects.flatMap((project) => project.data.techStack));
+const stats = [
+	{ label: '项目', i18n: 'stats.projects', count: projects.length },
+	{ label: '技术', i18n: 'stats.technologies', count: allTech.size },
+	{ label: '标签', i18n: 'stats.tags', count: new Set(allTags).size },
+	{ label: '精选', i18n: 'projects.stats.featured', count: projects.filter((project) => project.data.featured).length },
+];
+---
+
+<BaseLayout title="全部项目 | HUAT Labwork" description="浏览湖北汽车工业学院的计科课程设计与实验项目。">
+	<main class="wrapper project-list">
+		<header class="project-list-head">
+			<div>
+				<h1>
+					<span data-i18n="projects.title">全部</span>
+					<span class="title-accent" data-i18n="projects.titleAccent">项目</span>
+				</h1>
+				<p data-i18n="projects.tagline">
+					浏览所有项目，涵盖多个类别。从 Java Web 到机器学习，从 Android 到计算机网络。
+				</p>
+			</div>
+			<dl class="stats-grid">
+				{
+					stats.map(({ label, i18n, count }) => (
+						<div>
+							<dt data-i18n={i18n}>{label}</dt>
+							<dd>{count}</dd>
+						</div>
+					))
+				}
+			</dl>
+		</header>
+		<TagFilter tags={allTags} />
+		<ul class="projects-grid">
+			{
+				projects.map((project) => (
+					<li data-project-tags={JSON.stringify(project.data.tags)}>
+						<ProjectCard project={project} />
+					</li>
+				))
+			}
+		</ul>
+	</main>
+
+	<style>
+		.project-list {
+			padding-block: clamp(2rem, 7vw, 6rem);
+		}
+
+		.project-list-head {
+			display: grid;
+			gap: 2rem;
+			align-items: end;
+			padding-bottom: 2.5rem;
+			border-bottom: 1px solid var(--lab-line);
+			margin-bottom: 2rem;
+		}
+
+		.project-list-head h1 {
+			margin-bottom: 0.9rem;
+			font-size: clamp(2.5rem, 6vw, 5.6rem);
+			font-weight: 850;
+			letter-spacing: -0.05em;
+		}
+
+		.title-accent {
+			color: var(--lab-accent);
+		}
+
+		.project-list-head p {
+			max-width: 50ch;
+			color: var(--lab-muted);
+			line-height: 1.7;
+		}
+
+		.stats-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			border: 1px solid var(--lab-line);
+			gap: 1px;
+			background: var(--lab-line);
+		}
+
+		.stats-grid > div {
+			display: flex;
+			flex-direction: column-reverse;
+			gap: 0.25rem;
+			padding: 0.8rem 1.1rem;
+			background: var(--lab-surface);
+		}
+
+		.stats-grid dt {
+			color: var(--lab-muted);
+			font-size: var(--text-sm);
+		}
+
+		.stats-grid dd {
+			color: var(--lab-text);
+			font-family: var(--font-mono);
+			font-size: clamp(1.25rem, 3vw, 2rem);
+			font-weight: 700;
+			line-height: 1.25;
+		}
+
+		.projects-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+			gap: 1rem;
+			padding: 0;
+			list-style: none;
+		}
+
+		@media (min-width: 53rem) {
+			.project-list-head {
+				grid-template-columns: 1fr auto;
+			}
+
+			.stats-grid {
+				grid-template-columns: repeat(4, minmax(5.25rem, 1fr));
+			}
+		}
+	</style>
+</BaseLayout>

@@ -1,0 +1,66 @@
+---
+import Icon from './Icon.astro';
+---
+
+<button class="back-to-top" aria-label="Back to top" hidden>
+	<Icon icon="arrow-up" size="1.2em" />
+</button>
+
+<script>
+	const btn = document.querySelector('.back-to-top');
+	if (btn) {
+		const toggleVisibility = () => {
+			if (window.scrollY > 400) {
+				btn.removeAttribute('hidden');
+				(btn as HTMLElement).classList.add('visible');
+			} else {
+				(btn as HTMLElement).classList.remove('visible');
+			}
+		};
+
+		window.addEventListener('scroll', toggleVisibility, { passive: true });
+		toggleVisibility();
+
+		btn.addEventListener('click', () => {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		});
+	}
+</script>
+
+<style>
+	.back-to-top {
+		position: fixed;
+		bottom: 2rem;
+		right: 2rem;
+		z-index: 9999;
+		width: 3rem;
+		height: 3rem;
+		border: 1px solid var(--lab-line);
+		background: var(--lab-surface);
+		color: var(--lab-accent);
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition:
+			opacity 0.2s ease,
+			background-color 0.2s ease,
+			color 0.2s ease,
+			border-color 0.2s ease;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+	}
+
+	.back-to-top.visible {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+	}
+
+	.back-to-top:hover {
+		background: var(--lab-accent);
+		color: var(--lab-on-accent);
+		border-color: var(--lab-accent);
+	}
+</style>

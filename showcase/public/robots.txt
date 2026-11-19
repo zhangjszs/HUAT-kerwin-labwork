@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://huat-kerwin-labwork.pages.dev/sitemap-index.xml

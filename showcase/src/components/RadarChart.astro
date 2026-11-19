@@ -1,0 +1,242 @@
+---
+interface SkillCategory {
+	category: string;
+	skills: string[];
+	level: number;
+}
+
+interface Props {
+	categories: SkillCategory[];
+}
+
+const { categories } = Astro.props;
+const numAxes = categories.length;
+const angleStep = (2 * Math.PI) / numAxes;
+const centerX = 200;
+const centerY = 200;
+const maxRadius = 160;
+
+function getPoint(index: number, value: number): { x: number; y: number } {
+	const angle = angleStep * index - Math.PI / 2;
+	const r = (value / 100) * maxRadius;
+	return {
+		x: centerX + r * Math.cos(angle),
+		y: centerY + r * Math.sin(angle),
+	};
+}
+
+const levels = [20, 40, 60, 80, 100];
+
+const dataPoints = categories.map((cat, i) => getPoint(i, cat.level));
+const dataPath = dataPoints.map((p) => `${p.x},${p.y}`).join(' ');
+
+const gridRings = levels.map((level) => {
+	const points = categories.map((_, i) => getPoint(i, level));
+	return points.map((p) => `${p.x},${p.y}`).join(' ');
+});
+
+const axisLines = categories.map((_, i) => {
+	const outer = getPoint(i, 100);
+	return `M${centerX},${centerY} L${outer.x},${outer.y}`;
+});
+
+const labelPositions = categories.map((cat, i) => {
+	const pos = getPoint(i, 115);
+	return { ...pos, category: cat.category, skills: cat.skills };
+});
+---
+
+<div class="radar-chart" data-chart>
+	<svg viewBox="0 0 400 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tech stack radar chart">
+		<defs>
+			<linearGradient id="radarFill" x1="0%" y1="0%" x2="100%" y2="100%">
+				<stop offset="0%" stop-color="var(--accent-regular)" stop-opacity="0.3"></stop>
+				<stop offset="100%" stop-color="var(--accent-secondary)" stop-opacity="0.15"></stop>
+			</linearGradient>
+			<linearGradient id="radarStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+				<stop offset="0%" stop-color="var(--accent-regular)"></stop>
+				<stop offset="100%" stop-color="var(--accent-secondary)"></stop>
+			</linearGradient>
+			<filter id="glow">
+				<feGaussianBlur stdDeviation="3" result="blur"></feGaussianBlur>
+				<feMerge>
+					<feMergeNode in="blur"></feMergeNode>
+					<feMergeNode in="SourceGraphic"></feMergeNode>
+				</feMerge>
+			</filter>
+		</defs>
+
+		{
+			gridRings.map((ring, i) => (
+				<polygon
+					points={ring}
+					fill="none"
+					stroke="var(--gray-700)"
+					stroke-width="0.5"
+					stroke-dasharray={i === 0 ? 'none' : '4,4'}
+					opacity={0.4 + i * 0.1}
+				/>
+			))
+		}
+
+		{axisLines.map((line) => <path d={line} fill="none" stroke="var(--gray-700)" stroke-width="0.5" opacity="0.4" />)}
+
+		<polygon
+			points={dataPath}
+			fill="url(#radarFill)"
+			stroke="url(#radarStroke)"
+			stroke-width="2"
+			filter="url(#glow)"
+			class="radar-data"></polygon>
+
+		{
+			dataPoints.map((point, i) => (
+				<circle
+					cx={point.x}
+					cy={point.y}
+					r="5"
+					fill="var(--accent-regular)"
+					stroke="var(--gray-999)"
+					stroke-width="2"
+					class="radar-dot"
+				>
+					<title>
+						{categories[i].category}: {categories[i].level}%
+					</title>
+				</circle>
+			))
+		}
+
+		{
+			labelPositions.map((pos, i) => (
+				<g class="radar-label">
+					<text
+						x={pos.x}
+						y={pos.y - 8}
+						text-anchor="middle"
+						fill="var(--gray-0)"
+						font-size="13"
+						font-weight="600"
+						font-family="var(--font-brand)"
+					>
+						{pos.category}
+					</text>
+					<text
+						x={pos.x}
+						y={pos.y + 8}
+						text-anchor="middle"
+						fill="var(--gray-400)"
+						font-size="10"
+						font-family="var(--font-body)"
+					>
+						{pos.skills.slice(0, 2).join(', ')}
+					</text>
+				</g>
+			))
+		}
+	</svg>
+
+	<div class="radar-legend">
+		{
+			categories.map((cat) => (
+				<div class="legend-item">
+					<span class="legend-category">{cat.category}</span>
+					<div class="legend-bar">
+						<div class="legend-fill" style={`width: ${cat.level}%`} />
+					</div>
+					<span class="legend-value">{cat.level}%</span>
+				</div>
+			))
+		}
+	</div>
+</div>
+
+<style>
+	.radar-chart {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2rem;
+	}
+
+	svg {
+		width: 100%;
+		max-width: 400px;
+		height: auto;
+	}
+
+	.radar-data {
+		transition: opacity 0.3s ease;
+	}
+
+	.radar-dot {
+		transition: r 0.2s ease;
+	}
+
+	.radar-dot:hover {
+		r: 8;
+	}
+
+	.radar-label text {
+		transition: fill 0.2s ease;
+	}
+
+	.radar-legend {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.75rem;
+		width: 100%;
+		max-width: 400px;
+	}
+
+	.legend-item {
+		display: grid;
+		grid-template-columns: 100px 1fr 40px;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.legend-category {
+		font-size: var(--text-sm);
+		color: var(--gray-200);
+		font-weight: 500;
+	}
+
+	.legend-bar {
+		height: 6px;
+		background: var(--gray-800);
+		border-radius: 999px;
+		overflow: hidden;
+	}
+
+	.legend-fill {
+		height: 100%;
+		background: var(--gradient-accent);
+		border-radius: 999px;
+		transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.legend-value {
+		font-size: var(--text-sm);
+		color: var(--gray-400);
+		text-align: right;
+		font-family: var(--font-brand);
+		font-weight: 600;
+	}
+
+	@media (min-width: 50em) {
+		.radar-chart {
+			flex-direction: row;
+			align-items: flex-start;
+			justify-content: center;
+		}
+
+		svg {
+			max-width: 380px;
+		}
+
+		.radar-legend {
+			max-width: 300px;
+		}
+	}
+</style>

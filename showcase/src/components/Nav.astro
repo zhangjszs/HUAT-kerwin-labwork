@@ -1,0 +1,245 @@
+---
+import Icon from './Icon.astro';
+import LangSwitcher from './LangSwitcher.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+const links = [
+	{ label: '首页', href: '/', i18n: 'nav.home' },
+	{ label: '项目', href: '/projects/', i18n: 'nav.projects' },
+	{ label: '深入解析', href: '/deep-dives/', i18n: 'nav.deepDives' },
+	{ label: '关于我', href: '/about/', i18n: 'nav.about' },
+];
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') + '/';
+const isCurrentPage = (href: string) => pathname === href || (href !== '/' && pathname.startsWith(href));
+---
+
+<header class="site-header">
+	<nav class="wrapper masthead" id="main-nav" aria-label="主导航">
+		<a href="/" class="site-title" aria-label="HUAT Labwork">
+			<span class="site-mark" aria-hidden="true">kz.</span>
+			<span class="site-name" aria-hidden="true">HUAT<br />LABWORK</span>
+		</a>
+		<button class="menu-button" type="button" aria-controls="menu-content" aria-expanded="false" hidden>
+			<span class="sr-only">菜单 / Menu</span>
+			<Icon icon="list" size="1.35em" />
+		</button>
+		<div id="menu-content" class="menu-content">
+			<ul class="nav-items">
+				{
+					links.map(({ label, href, i18n }) => (
+						<li>
+							<a aria-current={isCurrentPage(href) ? 'page' : undefined} href={href} data-i18n={i18n}>
+								{label}
+							</a>
+						</li>
+					))
+				}
+				<li>
+					<a href="https://zhangjszs.github.io/" class="portfolio-link">
+						<span data-i18n="nav.personal">个人主页</span>
+						<span aria-hidden="true">↗</span>
+					</a>
+				</li>
+			</ul>
+			<div class="nav-controls">
+				<a
+					class="github-link"
+					href="https://github.com/zhangjszs/HUAT-kerwin-labwork"
+					aria-label="GitHub"
+					title="GitHub"
+				>
+					<Icon icon="github-logo" size="1.2em" />
+				</a>
+				<LangSwitcher />
+				<ThemeToggle />
+			</div>
+		</div>
+	</nav>
+</header>
+
+<script>
+	const button = document.querySelector<HTMLButtonElement>('#main-nav .menu-button');
+	const menu = document.getElementById('menu-content');
+
+	if (button && menu) {
+		const desktop = window.matchMedia('(min-width: 62rem)');
+		const setExpanded = (expanded: boolean) => {
+			button.setAttribute('aria-expanded', String(expanded));
+			menu.hidden = !expanded;
+		};
+		const syncMenu = () => {
+			button.hidden = desktop.matches;
+			setExpanded(desktop.matches);
+		};
+
+		syncMenu();
+		desktop.addEventListener('change', syncMenu);
+		button.addEventListener('click', () => setExpanded(menu.hidden));
+		menu.closest('nav')?.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape' && !desktop.matches && !menu.hidden) {
+				setExpanded(false);
+				button.focus();
+			}
+		});
+	}
+</script>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		border-bottom: 1px solid var(--lab-line);
+		background: var(--lab-bg);
+	}
+
+	@supports (backdrop-filter: blur(12px)) {
+		.site-header {
+			background: color-mix(in srgb, var(--lab-bg) 93%, transparent);
+			backdrop-filter: blur(12px);
+		}
+	}
+
+	.masthead {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+		min-height: 4.25rem;
+		column-gap: 1.5rem;
+	}
+
+	.site-title {
+		display: inline-flex;
+		align-items: center;
+		justify-self: start;
+		gap: 0.65rem;
+		min-height: 2.75rem;
+		color: var(--lab-text);
+		text-decoration: none;
+	}
+
+	.site-mark {
+		color: var(--lab-accent);
+		font-family: var(--font-brand);
+		font-size: 2.75rem;
+		font-weight: 900;
+		line-height: 0.8;
+		letter-spacing: -0.12em;
+	}
+
+	.site-name {
+		font-family: var(--font-brand);
+		font-size: 0.7rem;
+		font-weight: 800;
+		letter-spacing: 0.09em;
+		line-height: 1.1;
+	}
+
+	.menu-button {
+		justify-self: end;
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		color: var(--lab-text);
+		background: var(--lab-surface);
+		border: 1px solid var(--lab-line);
+		cursor: pointer;
+	}
+
+	.menu-button[hidden],
+	.menu-content[hidden] {
+		display: none;
+	}
+
+	.menu-content {
+		grid-column: 1 / -1;
+		padding-block: 0.75rem 1rem;
+	}
+
+	.nav-items {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.2rem 1.15rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.nav-items a {
+		display: flex;
+		align-items: center;
+		gap: 0.25em;
+		min-height: 2.75rem;
+		color: var(--lab-muted);
+		border-bottom: 2px solid transparent;
+		font-size: 0.875rem;
+		font-weight: 650;
+		text-decoration: none;
+		white-space: nowrap;
+	}
+
+	.nav-items a:hover,
+	.nav-items a:focus-visible,
+	.nav-items a[aria-current] {
+		color: var(--lab-accent);
+	}
+
+	.nav-items a[aria-current] {
+		border-bottom-color: var(--lab-accent);
+	}
+
+	.portfolio-link span:last-child {
+		color: var(--lab-accent);
+	}
+
+	.nav-controls {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.65rem;
+		padding-top: 0.75rem;
+	}
+
+	.github-link {
+		display: grid;
+		width: 2.75rem;
+		height: 2.75rem;
+		place-items: center;
+		color: var(--lab-muted);
+	}
+
+	.github-link:hover,
+	.github-link:focus-visible {
+		color: var(--lab-accent);
+	}
+
+	@media (min-width: 62rem) {
+		.masthead {
+			min-height: 4.75rem;
+		}
+
+		.menu-button {
+			display: none;
+		}
+
+		.menu-content {
+			grid-column: 2;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+			gap: clamp(1.5rem, 4vw, 3.5rem);
+			padding: 0;
+		}
+
+		.nav-items {
+			gap: 1.5rem;
+		}
+
+		.nav-controls {
+			flex: none;
+			padding-top: 0;
+		}
+	}
+</style>

@@ -1,0 +1,139 @@
+---
+// Learn about using Astro layouts:
+// https://docs.astro.build/en/basics/layouts/
+
+import BackToTop from '../components/BackToTop.astro';
+import Footer from '../components/Footer.astro';
+// Component Imports
+import MainHead from '../components/MainHead.astro';
+import Nav from '../components/Nav.astro';
+import RevealObserver from '../components/RevealObserver.astro';
+import ScrollProgress from '../components/ScrollProgress.astro';
+
+interface Props {
+	title?: string | undefined;
+	description?: string | undefined;
+}
+
+const { title, description } = Astro.props;
+---
+
+<html lang="zh-CN" class="theme-dark">
+	<head>
+		<MainHead title={title} description={description} />
+	</head>
+	<body>
+		<ScrollProgress />
+		<a href="#page-content" class="skip-link">跳到正文 / Skip to content</a>
+		<div class="stack site-shell">
+			<Nav />
+			<div id="page-content" tabindex="-1"><slot /></div>
+			<Footer />
+		</div>
+		<noscript>
+			<style is:inline>
+				.reveal,
+				.reveal .grid > *,
+				.reveal .gallery > *,
+				.reveal .challenges-list > *,
+				.reveal .lessons-list > *,
+				.reveal .skills-grid > *,
+				.reveal .timeline > * {
+					opacity: 1;
+					transform: none;
+				}
+			</style>
+		</noscript>
+		<BackToTop />
+		<RevealObserver />
+
+		<script>
+			// Code block copy buttons
+			const addCopyButtons = () => {
+				document.querySelectorAll('pre').forEach((pre) => {
+					if (pre.querySelector('.copy-code-btn')) return;
+					const code = pre.querySelector('code');
+					if (!code) return;
+
+					const btn = document.createElement('button');
+					btn.className = 'copy-code-btn';
+					btn.setAttribute('aria-label', '复制代码 / Copy code');
+					btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+
+					btn.addEventListener('click', async () => {
+						try {
+							await navigator.clipboard.writeText(code.textContent || '');
+							btn.classList.add('copied');
+							btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+							setTimeout(() => {
+								btn.classList.remove('copied');
+								btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+							}, 2000);
+						} catch (err) {
+							console.error('Failed to copy:', err);
+						}
+					});
+
+					pre.style.position = 'relative';
+					pre.appendChild(btn);
+				});
+			};
+
+			// Image fade-in on load
+			const observeImages = () => {
+				document
+					.querySelectorAll('img:not(.img-fade):not([src^="data:"]):not([fetchpriority="high"])')
+					.forEach((img) => {
+						img.classList.add('img-fade');
+						if ((img as HTMLImageElement).complete) {
+							img.classList.add('loaded');
+						} else {
+							img.addEventListener('load', () => img.classList.add('loaded'));
+							img.addEventListener('error', () => img.classList.add('loaded'));
+						}
+					});
+			};
+
+			// Run after DOM is ready and after any dynamic content loads
+			addCopyButtons();
+			observeImages();
+			const observer = new MutationObserver((mutations) => {
+				const hasNewContent = mutations.some((m) => Array.from(m.addedNodes).some((n) => n instanceof Element));
+				if (hasNewContent) {
+					addCopyButtons();
+					observeImages();
+				}
+			});
+			observer.observe(document.body, { childList: true, subtree: true });
+		</script>
+
+		<style>
+			.site-shell {
+				min-height: 100vh;
+			}
+
+			.skip-link {
+				position: fixed;
+				top: 0.75rem;
+				left: 0.75rem;
+				z-index: 10001;
+				padding: 0.7rem 1rem;
+				background: var(--lab-accent);
+				color: var(--lab-on-accent);
+				transform: translateY(-140%);
+			}
+
+			.skip-link:focus {
+				transform: none;
+			}
+
+			#page-content {
+				flex: 1;
+			}
+
+			#page-content:focus {
+				outline: none;
+			}
+		</style>
+	</body>
+</html>

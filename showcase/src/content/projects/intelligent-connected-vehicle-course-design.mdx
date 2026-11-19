@@ -1,0 +1,129 @@
+---
+title: 'YOLOv7 License Plate Recognition'
+description: '基于 YOLOv7-lite + LPRNet 的智能车牌识别系统，支持多类型车牌检测与字符识别，PyQt5 深色科技风 GUI，含实时摄像头/视频/图片三种输入模式。'
+repoPath: 'intelligent-connected-vehicle-course-design'
+tags: ['Python', 'Deep Learning', 'Computer Vision', 'YOLO', 'PyQt5']
+keywords: ['YOLOv7', 'LPRNet', 'License Plate Recognition', 'Object Detection', 'PyTorch', 'GUI', 'Real-time']
+techStack: ['Python', 'PyTorch', 'YOLOv7', 'LPRNet', 'PyQt5', 'OpenCV', 'NumPy']
+screenshotsDir: 'intelligent-connected-vehicle-course-design'
+codeSnippets: ['intelligent-connected-vehicle-course-design/detect_rec_plate.py']
+featured: true
+date: '2024-06'
+difficulty: '深度'
+status: 'Completed'
+architecture: '两阶段检测-识别流水线：YOLOv7-lite 负责车牌区域检测和四关键点定位，LPRNet 对透视矫正后的车牌图像进行字符识别。PyQt5 构建 GUI 层，支持图片/视频/摄像头三种输入源。'
+challenges:
+  [
+    'YOLOv7-lite 模型的轻量化部署与推理速度优化',
+    '多类型车牌（蓝牌/绿牌/黄牌/港澳牌/警用牌）的字符识别适配',
+    '四关键点透视变换实现车牌图像矫正',
+    'PyQt5 多线程架构避免 GUI 卡顿',
+  ]
+lessons:
+  [
+    '掌握了目标检测模型从训练到部署的完整流程',
+    '理解了两阶段检测-识别架构的设计思想',
+    '学会了 PyQt5 多线程编程和信号槽机制',
+  ]
+---
+
+## 项目背景
+
+智能网联汽车课程设计要求完成一个与自动驾驶感知相关的完整系统。选择车牌识别是因为它综合运用了目标检测、图像处理和 GUI 开发技能，是计算机视觉领域的经典应用场景。
+
+本项目同时包含一个 **Formula Student Driverless 演示网站**（`fsd_presentation_website_html/`），使用纯 HTML/CSS/JS + Chart.js/D3.js 展示无人驾驶赛车的感知、SLAM、规划、控制和仿真技术栈。
+
+## 核心功能
+
+- **车牌检测**：YOLOv7-lite 检测车牌区域 + 4 关键点定位
+- **车牌识别**：LPRNet 字符级识别
+- **多类型支持**：蓝牌、绿牌（新能源）、黄牌、港澳牌、警用牌（单层/双层）
+- **多输入源**：图片文件、视频文件、摄像头实时画面
+- **GUI 界面**：PyQt5 深色科技风主题
+- **辅助功能**：置信度显示、截图保存、识别历史记录
+
+## 系统架构
+
+<MermaidDiagram
+	chart={`
+graph LR
+    A[Input Source] --> B[Frame Capture]
+    B --> C[YOLOv7-lite Detection]
+    C --> D[Plate Region]
+    D --> E[4-Point Perspective Transform]
+    E --> F[Plate Correction]
+    F --> G[LPRNet Recognition]
+    G --> H[Result Display]
+    C --> I[Bounding Box + Confidence]
+    I --> H
+`}
+	caption="License Plate Recognition Pipeline"
+/>
+
+## 项目结构
+
+<FileTree
+	tree={`
+intelligent-connected-vehicle-course-design/
+├── yolov7_plate_UI_camera/
+│   ├── detect_ui.py           # UI 主程序入口
+│   ├── detect_rec_plate.py    # 检测 + 识别核心逻辑
+│   ├── detect.py              # 命令行检测脚本
+│   ├── yolov7_LPR.py          # UI 布局定义
+│   ├── train.py               # 模型训练脚本
+│   ├── test.py                # 模型测试脚本
+│   ├── models/                # YOLOv7 网络结构
+│   ├── plate_recognition/     # LPRNet 识别模块
+│   ├── weights/               # 预训练权重
+│   ├── imgs/                  # 测试图片
+│   └── requirements.txt
+└── fsd_presentation_website_html/   # FSD 演示网站
+    ├── index.html
+    ├── css/
+    └── js/
+`}
+	caption="Project Directory Structure"
+/>
+
+## 核心代码
+
+### 车牌检测与识别
+
+<CodePreview
+	src="/code-snippets/intelligent-connected-vehicle-course-design/detect_rec_plate.py"
+	lang="python"
+	caption="detect_rec_plate.py - Plate Detection & Recognition Pipeline"
+/>
+
+## 技术要点
+
+### YOLOv7-lite 检测
+
+- 轻量化 backbone，适合边缘部署
+- 同时输出 bounding box 和 4 个关键点坐标
+- 关键点用于透视变换矫正倾斜车牌
+
+### LPRNet 识别
+
+- 轻量级端到端车牌识别网络
+- 支持变长字符序列识别
+- 对蓝牌/绿牌/黄牌等多种车牌格式适配
+
+### 透视矫正
+
+```
+关键点排序 → 仿射变换 → 统一尺寸 → 灰度化 → 二值化
+```
+
+通过 4 个角点将倾斜车牌矫正为正面视角，显著提升识别准确率。
+
+### FSD 演示网站
+
+- 纯前端实现，14 页幻灯片式展示
+- 覆盖感知、SLAM、规划、控制、仿真五大模块
+- Chart.js/D3.js 数据可视化
+- 键盘快捷键导航
+
+## 效果展示
+
+<ScreenshotGallery dir="intelligent-connected-vehicle-course-design" />

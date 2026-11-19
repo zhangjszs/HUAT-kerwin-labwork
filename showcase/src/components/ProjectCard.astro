@@ -1,0 +1,144 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, description, tags, techStack, featured, difficulty } = project.data;
+---
+
+<a class="card" href={`/projects/${project.id}/`}>
+	<div class="card-cover">
+		<div class="card-labels">
+			{
+				featured && (
+					<span class="featured-label" data-i18n="projects.stats.featured">
+						精选
+					</span>
+				)
+			}
+			{difficulty && <span lang="zh-CN">{difficulty}</span>}
+		</div>
+		<span class="card-slug" aria-hidden="true">{project.id}</span>
+	</div>
+	<div class="card-content">
+		<h3 class="card-title">{title}</h3>
+		<p class="card-description">{description}</p>
+		<ul class="card-tags">
+			{tags.slice(0, 3).map((tag) => <li>{tag}</li>)}
+			{tags.length > 3 && <li>+{tags.length - 3}</li>}
+		</ul>
+		<ul class="card-tech">
+			{techStack.slice(0, 4).map((tech) => <li>{tech}</li>)}
+		</ul>
+	</div>
+</a>
+
+<style>
+	.card {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		color: var(--lab-text);
+		background: var(--lab-surface);
+		border: 1px solid var(--lab-line);
+		text-decoration: none;
+	}
+
+	.card:hover,
+	.card:focus-visible {
+		border-color: var(--lab-accent);
+	}
+
+	.card-cover {
+		display: grid;
+		align-content: space-between;
+		gap: 0.75rem;
+		min-height: 5.75rem;
+		padding: 0.85rem 1rem;
+		background:
+			linear-gradient(to right, transparent, var(--lab-raised)),
+			repeating-linear-gradient(0deg, var(--lab-line) 0 1px, transparent 1px 1rem),
+			repeating-linear-gradient(90deg, var(--lab-line) 0 1px, transparent 1px 1rem), var(--lab-raised);
+		border-bottom: 1px solid var(--lab-line);
+	}
+
+	.card-labels {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: end;
+		gap: 0.35rem;
+		font-size: var(--text-xs);
+	}
+
+	.card-labels span,
+	.card-slug {
+		width: fit-content;
+		padding: 0.18rem 0.4rem;
+		color: var(--lab-text);
+		background: var(--lab-surface);
+		border: 1px solid var(--lab-line);
+	}
+
+	.card-labels .featured-label {
+		color: var(--lab-on-accent);
+		background: var(--lab-accent);
+		border-color: var(--lab-accent);
+		font-weight: 700;
+	}
+
+	.card-slug {
+		max-width: 100%;
+		font-family: var(--font-mono);
+		font-size: var(--text-xs);
+		overflow-wrap: anywhere;
+	}
+
+	.card-content {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 0.85rem;
+		padding: 1.25rem;
+	}
+
+	.card-title {
+		font-size: var(--text-lg);
+		line-height: 1.3;
+	}
+
+	.card:hover .card-title,
+	.card:focus-visible .card-title {
+		color: var(--lab-accent);
+	}
+
+	.card-description {
+		flex: 1;
+		color: var(--lab-muted);
+		font-size: var(--text-sm);
+		line-height: 1.6;
+	}
+
+	.card-tags,
+	.card-tech {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem 0.65rem;
+		padding: 0;
+		list-style: none;
+		font-size: var(--text-xs);
+	}
+
+	.card-tags {
+		color: var(--lab-accent);
+	}
+
+	.card-tech {
+		padding-top: 0.6rem;
+		color: var(--lab-muted);
+		border-top: 1px solid var(--lab-line);
+		font-family: var(--font-mono);
+	}
+</style>

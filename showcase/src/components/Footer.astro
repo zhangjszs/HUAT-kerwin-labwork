@@ -1,0 +1,139 @@
+---
+const currentYear = new Date().getFullYear();
+
+const groups = [
+	{
+		title: '站内导航',
+		i18n: 'footer.navigate',
+		links: [
+			{ label: '首页', href: '/', i18n: 'footer.navigate.home' },
+			{ label: '项目', href: '/projects/', i18n: 'footer.navigate.projects' },
+			{ label: '深入解析', href: '/deep-dives/', i18n: 'footer.navigate.deepdives' },
+			{ label: '关于我', href: '/about/', i18n: 'footer.navigate.about' },
+		],
+	},
+	{
+		title: '联系',
+		i18n: 'footer.connect',
+		links: [
+			{ label: '个人主页', href: 'https://zhangjszs.github.io/', i18n: 'nav.personal' },
+			{ label: 'GitHub', href: 'https://github.com/zhangjszs/HUAT-kerwin-labwork', i18n: 'footer.connect.github' },
+			{ label: 'X / Twitter', href: 'https://x.com/jszs15', i18n: 'footer.connect.xtwitter' },
+			{ label: '邮件', href: 'mailto:zhangjszs@foxmail.com', i18n: 'footer.connect.email' },
+		],
+	},
+];
+---
+
+<footer class="site-footer">
+	<div class="wrapper">
+		<div class="footer-top">
+			<div>
+				<a href="/" class="brand-link"><span aria-hidden="true">kz.</span> HUAT Labwork</a>
+				<p data-i18n="footer.brandDesc">湖北汽车工业学院计科课程设计、实验与学习笔记。</p>
+			</div>
+			<div class="footer-links">
+				{
+					groups.map(({ title, i18n, links }) => (
+						<div>
+							<h2 data-i18n={i18n}>{title}</h2>
+							<ul>
+								{links.map((link) => (
+									<li>
+										<a href={link.href} data-i18n={link.i18n}>
+											{link.label}
+										</a>
+									</li>
+								))}
+							</ul>
+						</div>
+					))
+				}
+			</div>
+		</div>
+		<p class="copyright">
+			© {currentYear} Kerwin Zhang. <span data-i18n="footer.builtWith">构建工具</span>
+			<a href="https://astro.build/">Astro</a>
+		</p>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		background: var(--lab-surface);
+		border-top: 1px solid var(--lab-line);
+	}
+
+	.footer-top {
+		display: grid;
+		gap: 2rem;
+		padding-block: 2.5rem 2rem;
+	}
+
+	.brand-link {
+		display: inline-flex;
+		gap: 0.7rem;
+		align-items: baseline;
+		color: var(--lab-text);
+		font-size: var(--text-lg);
+		font-weight: 800;
+		text-decoration: none;
+	}
+
+	.brand-link span {
+		color: var(--lab-accent);
+		font-size: var(--text-2xl);
+		font-weight: 900;
+		letter-spacing: -0.12em;
+	}
+
+	.footer-top p {
+		margin-top: 0.5rem;
+		color: var(--lab-muted);
+		font-size: var(--text-sm);
+	}
+
+	.footer-links {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1.5rem;
+	}
+
+	.footer-links h2 {
+		margin-bottom: 0.7rem;
+		color: var(--lab-text);
+		font-size: var(--text-sm);
+	}
+
+	.footer-links ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	.footer-links a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 2rem;
+		color: var(--lab-muted);
+		font-size: var(--text-sm);
+		text-decoration: none;
+	}
+
+	.footer-links a:hover,
+	.footer-links a:focus-visible {
+		color: var(--lab-accent);
+	}
+
+	.copyright {
+		padding-block: 1.2rem;
+		color: var(--lab-muted);
+		border-top: 1px solid var(--lab-line);
+		font-size: var(--text-xs);
+	}
+
+	@media (min-width: 48rem) {
+		.footer-top {
+			grid-template-columns: 1fr minmax(17rem, 0.5fr);
+		}
+	}
+</style>

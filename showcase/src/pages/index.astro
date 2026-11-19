@@ -1,0 +1,379 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LabworkCourseIndex from '../components/LabworkCourseIndex.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { dictionary } from '../i18n/dictionary';
+
+const allProjects = await getCollection('projects');
+const maze = allProjects.find((project) => project.id === 'data-structures-course-design');
+const highlights = [maze, ...allProjects.filter((project) => project.data.featured && project !== maze)]
+	.filter((project) => project !== undefined)
+	.slice(0, 3);
+const zh = dictionary.zh;
+---
+
+<BaseLayout title="HUAT Labwork · 计科课程档案" description={zh['archive.intro']}>
+	<main class="lab-main">
+		<section class="lab-hero" aria-labelledby="lab-title">
+			<div class="hero-copy">
+				<p class="hero-context" data-i18n="archive.context">{zh['archive.context']}</p>
+				<h1 id="lab-title" lang="en"><span>HUAT</span> <span class="hero-accent">LABWORK<span>.</span></span></h1>
+				<p class="hero-subtitle" data-i18n="archive.subtitle">{zh['archive.subtitle']}</p>
+				<p class="hero-description" data-i18n="archive.intro">{zh['archive.intro']}</p>
+				<div class="hero-actions">
+					<a href="#courses" class="primary-link" data-i18n="archive.browseCourses">{zh['archive.browseCourses']}</a>
+					<a href="/projects/" class="secondary-link" data-i18n="section.cta.viewAll">{zh['section.cta.viewAll']}</a>
+				</div>
+			</div>
+			<figure class="hero-cover">
+				<img
+					src="/assets/labwork-cover.jpeg"
+					alt={zh['archive.imageAlt']}
+					data-i18n="archive.imageAlt"
+					data-i18n-attr="alt"
+					width="1440"
+					height="810"
+					fetchpriority="high"
+				/>
+				<figcaption data-i18n="archive.coverCaption">{zh['archive.coverCaption']}</figcaption>
+			</figure>
+		</section>
+
+		<div class="archive-quick-links">
+			<a href="/projects/">
+				<strong>{allProjects.length}</strong>
+				<span data-i18n="archive.projectNotes">{zh['archive.projectNotes']}</span>
+			</a>
+			<a href="/deep-dives/">
+				<span data-i18n="nav.deepDives">{zh['nav.deepDives']}</span>
+			</a>
+			<a href="https://github.com/zhangjszs/HUAT-kerwin-labwork">
+				<span data-i18n="archive.source">{zh['archive.source']}</span>
+			</a>
+		</div>
+
+		<section class="lab-section" aria-labelledby="highlights-title">
+			<header class="section-heading">
+				<h2 id="highlights-title" data-i18n="archive.highlights">{zh['archive.highlights']}</h2>
+				<a href="/projects/" data-i18n="section.cta.viewAll">{zh['section.cta.viewAll']}</a>
+			</header>
+			<ul class="highlights">
+				{
+					highlights.map((project) => (
+						<li>
+							<ProjectCard project={project} />
+						</li>
+					))
+				}
+			</ul>
+		</section>
+
+		<div class="lab-section">
+			<LabworkCourseIndex />
+		</div>
+
+		<section class="lab-section lab-crossover" aria-labelledby="crossover-title">
+			<h2 id="crossover-title" data-i18n="archive.crossover">{zh['archive.crossover']}</h2>
+			<div>
+				<p data-i18n="archive.crossoverText">{zh['archive.crossoverText']}</p>
+				<a href="https://zhangjszs.github.io/" data-i18n="archive.personalSite">{zh['archive.personalSite']}</a>
+			</div>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.lab-main {
+		width: min(93.6%, 91rem);
+		margin: clamp(1rem, 3vw, 2.5rem) auto 0;
+	}
+
+	.lab-hero {
+		--hero-base: #141710;
+		--hero-text: #efefdf;
+		--hero-accent: #ceff56;
+		position: relative;
+		isolation: isolate;
+		display: grid;
+		align-items: center;
+		min-height: clamp(31rem, 45vw, 45rem);
+		border: 1px solid var(--lab-line);
+		background: var(--hero-base);
+	}
+
+	.hero-copy {
+		position: relative;
+		z-index: 1;
+		width: fit-content;
+		max-width: 100%;
+		padding: clamp(2rem, 4.6vw, 5rem);
+	}
+
+	.hero-context {
+		margin: 0 0 clamp(1.25rem, 3vw, 2.5rem);
+		color: var(--hero-accent);
+		font: 0.875rem/1.5 var(--font-mono);
+	}
+
+	.hero-copy h1 {
+		margin: 0;
+		color: var(--hero-text);
+		font: 870 clamp(4.1rem, 9vw, 9rem)/0.86 var(--font-brand);
+		letter-spacing: -0.09em;
+	}
+
+	.hero-copy h1 > span {
+		display: block;
+	}
+
+	.hero-accent {
+		color: var(--hero-accent);
+	}
+
+	.hero-accent span {
+		color: var(--hero-text);
+	}
+
+	.hero-subtitle {
+		margin: clamp(1.4rem, 3vw, 2.5rem) 0 0;
+		color: var(--hero-text);
+		font-size: clamp(1.35rem, 2.3vw, 1.95rem);
+		font-weight: 700;
+	}
+
+	.hero-description {
+		max-width: 23em;
+		margin: 0.65rem 0 0;
+		color: #c3c7b8;
+		font-size: 1rem;
+		line-height: 1.75;
+	}
+
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-top: 1.65rem;
+	}
+
+	.hero-actions a {
+		display: inline-flex;
+		min-height: 2.95rem;
+		align-items: center;
+		padding: 0.55rem 1rem;
+		border: 1px solid transparent;
+		font-size: 0.875rem;
+		font-weight: 700;
+		text-decoration: none;
+		transition:
+			background 0.2s,
+			border-color 0.2s;
+	}
+
+	.hero-actions a:focus-visible {
+		outline-color: var(--hero-accent);
+	}
+
+	.hero-actions .primary-link {
+		color: var(--hero-base);
+		background: var(--hero-accent);
+	}
+
+	.hero-actions .primary-link:hover {
+		background: #dfff8c;
+	}
+
+	.hero-actions .secondary-link {
+		border-color: #7a836d;
+		background: var(--hero-base);
+		color: var(--hero-text);
+	}
+
+	.hero-actions .secondary-link:hover {
+		border-color: var(--hero-accent);
+	}
+
+	.hero-cover {
+		position: absolute;
+		inset: 0 0 0 28%;
+		margin: 0;
+		overflow: hidden;
+	}
+
+	.hero-cover img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: 66% center;
+	}
+
+	.hero-cover::after,
+	.hero-cover::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+	}
+
+	.hero-cover::after {
+		background:
+			linear-gradient(90deg, var(--hero-base), rgb(20 23 16 / 60%) 18%, transparent 49%),
+			linear-gradient(0deg, rgb(11 13 9 / 75%), transparent 28%);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.hero-cover::before {
+			background: linear-gradient(0deg, transparent 42%, rgb(206 255 86 / 17%) 48%, transparent 52%);
+			mix-blend-mode: screen;
+			animation: scan-cover 2.2s 0.3s ease-out both;
+		}
+	}
+
+	@keyframes scan-cover {
+		from {
+			transform: translateY(-65%);
+		}
+		to {
+			transform: translateY(65%);
+		}
+	}
+
+	.hero-cover figcaption {
+		position: absolute;
+		z-index: 1;
+		inset: auto 1rem 0.8rem auto;
+		color: var(--hero-text);
+		font: 0.75rem/1.4 var(--font-mono);
+	}
+
+	.archive-quick-links {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		border: solid var(--lab-line);
+		border-width: 0 1px 1px;
+		background: var(--lab-surface);
+	}
+
+	.archive-quick-links a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 0.25rem 0.55rem;
+		padding: 0.9rem 0.5rem;
+		color: var(--lab-text);
+		text-align: center;
+		text-decoration: underline;
+		text-decoration-color: transparent;
+		text-underline-offset: 0.2em;
+	}
+
+	.archive-quick-links a + a {
+		border-inline-start: 1px solid var(--lab-line);
+	}
+
+	.archive-quick-links a:hover {
+		text-decoration-color: var(--lab-accent);
+	}
+
+	.archive-quick-links strong {
+		font: 700 1rem/1 var(--font-mono);
+		color: var(--lab-accent);
+	}
+
+	.lab-section {
+		padding-top: clamp(3.5rem, 7vw, 6rem);
+	}
+
+	.section-heading {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.75rem 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.section-heading h2,
+	.lab-crossover h2 {
+		margin: 0;
+		color: var(--lab-text);
+		font-size: clamp(2rem, 4.6vw, 3.5rem);
+		letter-spacing: -0.04em;
+	}
+
+	.section-heading a,
+	.lab-crossover a {
+		color: var(--lab-accent);
+		text-underline-offset: 0.25em;
+	}
+
+	.highlights {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.lab-crossover {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem 2rem;
+		padding-bottom: clamp(3.5rem, 7vw, 6rem);
+	}
+
+	.lab-crossover p {
+		max-width: 38em;
+		margin-bottom: 1rem;
+		color: var(--lab-muted);
+		line-height: 1.8;
+	}
+
+	@media (max-width: 64rem) {
+		.highlights {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 47rem) {
+		.lab-main {
+			width: calc(100% - 2rem);
+		}
+
+		.lab-hero {
+			min-height: auto;
+		}
+
+		.hero-copy {
+			padding: clamp(1.05rem, 5vw, 2rem);
+		}
+
+		.hero-copy h1 {
+			font-size: clamp(2.25rem, 11.4vw, 5.5rem);
+		}
+
+		.hero-cover {
+			position: relative;
+			inset: auto;
+			aspect-ratio: 16 / 10;
+			border-top: 1px solid var(--lab-line);
+		}
+
+		.hero-cover::after {
+			background: linear-gradient(0deg, rgb(11 13 9 / 85%), transparent 45%);
+		}
+
+		.highlights,
+		.lab-crossover {
+			grid-template-columns: 1fr;
+		}
+
+		.archive-quick-links a {
+			font-size: 0.875rem;
+		}
+	}
+</style>
